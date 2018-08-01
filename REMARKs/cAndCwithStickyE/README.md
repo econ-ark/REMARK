@@ -2,3 +2,9 @@ Please make sure you have installed the required files as listed in the requirem
 
     pip install -r requirements.txt
 
+The following files will execute different levels of the code: 
+
+    do_min.py -- low resources required to run code (RAM and time) 
+    do_mid.py -- medium resources required to run code (RAM and time) 
+    do_all.py -- high resources required to run all code (RAM and time) 
+
