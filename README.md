@@ -1,5 +1,45 @@
 # REMARK: Replications and Explorations Made using the ARK
 
+This is the resting place for self-contained and complete projects written using the Econ-ARK.
+
+Each of these resides in its own subdirectory in the `REMARKs` directory
+
+
+## This repo contains:
+1. Explorations
+   * Use the Econ-ARK/HARK toolkit to demonstrate some set of modeling ideas 
+1. Replications
+   * Attempts to replicate the results of published papers written using other tools
+1. Reproductions
+   * Code that reproduces the results of some paper that was originally written using the toolkit
+
+## `do_[].py`
+
+A common feature of all of the content here is that the root level of each directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. Canonically:
+
+* `do_min.py` should produce the minimal set of results that might be useful
+   * The most important definition of _minimal_ is that `do_min.py` files should execute in at most a minute or two on a mid-range laptop computer
+   * Given that constraint, the `do_min.py` file should illustrate as much as possible of the content of the codebase
+* `do_mid.py` should produce a representative range of the most interesting and important results
+   * When executed, it should:
+      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
+	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
+	  * Get the user's permission before proceeding 
+* `do_all.py` should produce all of the results that the tool is capable of generating
+   * For example, ideally for a reproduction or replication, it should produce all of the tables and figures of the associated paper 
+   * When executed, it should:
+      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
+	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
+	  * Get the user's permission before proceeding 
+
+# Explorations
+
+This is an unstructured category, designed to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
+
+1. Illustrations of the uses 
+
+## Replications and Reproductions
+
 The [ballpark](http://github.com/econ-ark/ballpark) contains a set of papers that we would be delighted to have replicated in the Econ-ARK. 
 
 This REMARK repo is where we intend to store such replications (as well as the code for papers whose codebase was originally written using the Econ-ARK).
