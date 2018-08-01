@@ -1,0 +1,1 @@
+NumPeopleToSimDSGE = 1

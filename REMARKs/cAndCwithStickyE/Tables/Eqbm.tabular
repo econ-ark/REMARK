@@ -1,0 +1,31 @@
+\newcommand{\EqDir}{\TablesDir/Eqbm}
+\begin{tabular}{lllcccc}
+   &&& \multicolumn{2}{c|}{PE/SOE Economy} & \multicolumn{2}{c}{DSGE Economy} 
+\\ %\cline{4-5} 
+   &&& \multicolumn{1}{c|}{Frictionless} & \multicolumn{1}{c|}{Sticky} & \multicolumn{1}{c|}{Frictionless} & \multicolumn{1}{c}{Sticky}
+\\ \hline 
+  \multicolumn{3}{l}{Means}
+%\\  & & $M$
+%\\  & & $K$
+\\  & & $A$ & $\input \EqDir/AAggRatFLessMeanTime.txt $ & $\input \EqDir/AAggRatStBelMeanTime.txt $ & $\input \EqDir/AAggRatFLessMeanDSGE.txt $ & $\input \EqDir/AAggRatStBelMeanDSGE.txt $ 
+\\  & & $C$ & $\input \EqDir/CAggRatFLessMeanTime.txt $ & $\input \EqDir/CAggRatStickMeanTime.txt $ & $\input \EqDir/CAggRatFLessMeanDSGE.txt $ & $\input \EqDir/CAggRatStickMeanDSGE.txt $ 
+\\ \hline
+\multicolumn{3}{l}{Standard Deviations}
+\\ &    \multicolumn{4}{l}{Aggregate Time Series (`Macro')}
+%\\  & & $\Delta \log \mathbf{M}$ 
+\\ & & $\log \mathbf{A}$          & \input \EqDir/lAAggLevFLessStdTime.txt     & \input \EqDir/lAAggLevStickStdTime.txt    & \input \EqDir/lAAggLevFLessStdDSGE.txt     & \input \EqDir/lAAggLevStickStdDSGE.txt    
+\\ & & $\Delta \log \mathbf{C}$   & \input \EqDir/lCAggFacFLessExpStdTime.txt  & \input \EqDir/lCAggFacStickExpStdTime.txt & \input \EqDir/lCAggFacFLessExpStdDSGE.txt  & \input \EqDir/lCAggFacStickExpStdDSGE.txt 
+\\ & & $\Delta \log \mathbf{Y}$   & \input \EqDir/dlYAggLevFLessStdTime.txt    & \input \EqDir/dlYAggLevStBelStdTime.txt   & \input \EqDir/dlYAggLevFLessStdDSGE.txt    & \input \EqDir/dlYAggLevStBelStdDSGE.txt   
+\\ 
+ &   \multicolumn{3}{l}{Individual Cross Sectional (`Micro')}
+%\\  & & $\log \mathbf{m}$
+%\\  & & $\log \mathbf{k}$
+\\  & & $\log \mathbf{a}$                & $\input \EqDir/lAIndLevFLessStdCross.txt     $& $\input \EqDir/lAIndLevStickStdCross.txt     $
+\\  & & $\log \mathbf{c}$                & $\input \EqDir/lCIndLevFLessStdCross.txt     $& $\input \EqDir/lCIndLevStickStdCross.txt     $
+\\  & & $\log \mathbf{p}$                & $\input \EqDir/lpFLessStdCross.txt           $& $\input \EqDir/lpStBelStdCross.txt           $
+\\  & & $\log \mathbf{y}|\mathbf{y}>0$   & $\input \EqDir/lyFLesstPosStdCross.txt $     &  $\input \EqDir/lyStBeltPosStdCross.txt       $
+\\  & & $\Delta \log \mathbf{c}$         & $\input \EqDir/dlCIndFacFLessActStdCross.txt $& $\input \EqDir/dlCIndFacStickActStdCross.txt $
+\\ \hline \multicolumn{3}{l}{Cost Of Stickiness}
+ & \multicolumn{2}{c}{$\input \EqDir/CostStickCompPPESOE $}
+ & \multicolumn{2}{c}{$\input \EqDir/CostStickCompPDSGE $}
+\end{tabular}

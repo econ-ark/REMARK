@@ -1,0 +1,23 @@
+\\  \multicolumn{7}{c}{} 
+\\ \hline \multicolumn{7}{c}{} %NotOnSlide 
+\\ \multicolumn{1}{c}{} & \multicolumn{3}{c}{Sticky} \\ %NotOnSlide
+\multicolumn{1}{l|}{} & \multicolumn{1}{c}{$             \Delta \log {\bar{\mathbf{C}}}_{t}  $}
+& \multicolumn{1}{c}{$             \Delta \log \bar{\mathbf{Y}}_{t+1}  $} & \multicolumn{1}{c|}{$             \bar{A}_{t}  $}
+\\  \multicolumn{1}{l|}{} & \multicolumn{3}{c|}{}
+\\        &  0.741   &        &         & OLS & 0.543 &   %NotOnSlide
+\\        & (0.055)  &      &       &     &  &   %NotOnSlide
+\\ %NotOnSlide
+\\ & \multicolumn{1}{c}{$ \Delta \log \tilde{\bar{\mathbf{C}}}_{t} $}%NotOnSlide
+\\ %NotOnSlide
+\\        &  0.328   &        &         & OLS & 0.089 &   
+\\        & (0.082)  &      &       &     &  &   
+\\      &  0.795  &        &         & IV        & 0.325 & 0.000    
+\\      & (0.118) &      &       &                    &  & 0.510             
+\\      &        &  1.222  &         & IV        & 0.332 & 0.000    
+\\      &      & (0.126) &       &                    &  & 0.391             
+\\        &         &        &  0.0153  & OLS & 0.042 &   %NotOnSlide
+\\        &       &      & (0.0055) &     &  &   %NotOnSlide
+\\      &  0.360  &  0.739  &  -0.0029  & IV        & 0.330 &         
+\\      & (0.282) & (0.425) & (0.0048) &                    &  & 0.334             
+\\ \cline{2-7}  & \multicolumn{4}{c}{Memo: For instruments $\mathbf{Z}_{t}$,  $\Delta \log \mathbf{C}_{t+1} = \mathbf{Z}_{t} \zeta,~~\bar{R}^{2}=$ } &0.329
+\\ \multicolumn{7}{c}{}

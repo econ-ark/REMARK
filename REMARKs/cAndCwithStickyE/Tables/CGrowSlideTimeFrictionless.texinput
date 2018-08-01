@@ -1,0 +1,13 @@
+\begin{tabular}{c|d{4}d{4}d{5}|ccc}
+\multicolumn{1}{l}{Model/}  & & & & Method &                       & IV $F~p$-val
+\\ $n$ in $\mathbf{E}_{t-n}$ & \multicolumn{1}{c}{$ \chi $} & \multicolumn{1}{c}{$ \eta $} & \multicolumn{1}{c|}{$ \alpha $}
+ & OLS/IV & $\bar{R}^{2}_{2} $ & IV OID 
+\\ \hline \multicolumn{2}{l}{Frictionless}  
+\\ $n=$ 0 &  0.008  &        &         & OLS & 0.004 &    
+\\             & (0.032) &      &       &     &  &    
+\\ $n=$ 0 &        &  -0.179  &         & IV & 0.006 & 0.000     
+\\             &      & (0.111) &       &    &  & 0.982              
+\\ $n=$ 0 &        &        &  0.0087  & OLS & 0.006 &    
+\\             &      &      & (0.0075) &     &  &    
+\\ \hline
+\end{tabular}

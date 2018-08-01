@@ -1,0 +1,1 @@
+NumPeriodsForSetupDSGE = 100

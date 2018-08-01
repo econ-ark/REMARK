@@ -1,0 +1,10 @@
+\begin{tabular}{c|d{4}d{4}d{5}|ccc}
+Model of     &                                &                                &                                 &                                       &                 & \\
+Expectations & \multicolumn{1}{c}{$ \chi $} & \multicolumn{1}{c}{$ \eta $} & \multicolumn{1}{c|}{$ \alpha $} & \multicolumn{1}{c}{$\bar{R}^{2}$} &                 & nobs 
+\\ \hline \multicolumn{2}{l}{Frictionless}
+\\ &  0.013  &  0.008  &  -0.113  & 0.012 & & 30411  
+\\ & (0.004) & (0.002) & (0.007) &  & &   
+\\ \hline \multicolumn{2}{l}{Sticky}
+\\ &  0.019  &  0.008  &  -0.091  & 0.010 & & 30411  
+\\ & (0.004) & (0.001) & (0.006) &  & &   
+\end{tabular}

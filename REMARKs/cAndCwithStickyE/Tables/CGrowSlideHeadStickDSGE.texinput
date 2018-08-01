@@ -1,0 +1,3 @@
+\begin{tabular}{cd{5}d{6}d{5}ccc}
+%\multicolumn{1}{c|}{}     & \multicolumn{3}{c|}{Expectations:Dep Var}                                                    & OLS &  2nd Stage         & IV $F~p$-val %No
+%\\ \multicolumn{1}{c|}{} & \multicolumn{3}{c|}{Independent Variables}                                                       & or IV & $ \bar{R}^{2} $    & IV OID

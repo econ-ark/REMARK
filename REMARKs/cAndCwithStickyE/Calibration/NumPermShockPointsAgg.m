@@ -1,0 +1,1 @@
+NumPermShockPointsAgg = 3

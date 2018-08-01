@@ -1,0 +1,3 @@
+\begin{tabular}{c|d{4}d{4}d{5}|ccc}
+Model of     &                                &                                &                                 &                                       &                 & \\
+Expectations & \multicolumn{1}{c}{$ \chi $} & \multicolumn{1}{c}{$ \eta $} & \multicolumn{1}{c|}{$ \alpha $} & \multicolumn{1}{c}{$\bar{R}^{2}$} &                 & nobs 

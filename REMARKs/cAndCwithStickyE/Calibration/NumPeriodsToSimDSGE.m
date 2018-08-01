@@ -1,0 +1,1 @@
+NumPeriodsToSimDSGE = 100

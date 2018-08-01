@@ -1,0 +1,94 @@
+
+\documentclass[11pt,oneside,reqno]{amsart}
+
+\usepackage{amsmath,amssymb,latexsym,amsfonts,graphicx,url,natbib,rotating,multirow,bigstrut,dcolumn}
+\usepackage[mathscr]{eucal}
+\textheight=630pt % 595pt
+\textwidth=400pt   %360pt
+\hoffset=-20pt
+
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\ex}{\ensuremath{\mathbf{E}}}
+\newcommand{\pb}{\ensuremath{\mathbf{P}}}
+\newcommand{\mse}{\ensuremath{\mathrm{MSE}}}
+\newcommand{\sd}{\ensuremath{\mathrm{sd}}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\qm}[1]{``#1''}
+\newcommand{\trans}{\ensuremath{^{^{{}_\top}}}}
+\newcommand{\var}{\ensuremath{\mathrm{var}}}
+\newcommand{\cov}{\ensuremath{\mathrm{cov}}}
+\newcommand{\fs}{\footnotesize}
+\newcommand{\df}{\ensuremath{\mathrm{d}}}
+
+\newcommand{\mpskip}{5.4}
+\newcommand{\orgurl}{}
+\let\orgurl\url
+\defcitealias{cm}{Campbell--Mankiw}
+\defcitealias{dm}{Diebold--Mariano}
+\defcitealias{cmc02a}{Clark--McCracken}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bmm}[1]{\begin{minipage}[t]{#1 cm}}
+\newcommand{\emm}{\end{minipage}}
+\newcommand{\tblhdr}{\rule{0pt}{4mm}}
+\newcommand{\tblcapsep}{\rule[-4mm]{0pt}{4mm}}
+
+\newcommand{\Ex}{\mathbb{E}}
+\providecommand{\perc}[1]{\widetilde{#1}}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+
+% Fuzz -------------------------------------------------------------------
+\hfuzz2pt % Don't bother to report over-full boxes if over-edge is < 2pt
+% Line spacing -----------------------------------------------------------
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+\newcommand{\setlinespacing}[1]%
+           {\setlength{\baselineskip}{#1 \defbaselineskip}}
+\newcommand{\doublespacing}{\setlength{\baselineskip}%
+                           {2.0 \defbaselineskip}}
+\newcommand{\singlespacing}{\setlength{\baselineskip}{\defbaselineskip}}
+\newcommand{\lllskip}{1.2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+%  Main body
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\thispagestyle{empty}
+\setlinespacing{\lllskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title[Sticky Expectations and C Dynamics]{Sticky Expectations and C Dynamics\\
+Empirical Results Template}
+%\dedicatory{\emph{Note Nr.\ 1}}
+\date{\today}
+\maketitle
+
+
+
+
+\begin{table} \caption{Aggregate Consumption Dynamics in US Data}
+\centering
+$\Delta\log\mathbf{C}_{t+1}=\varsigma+\chi\Delta\log\mathbf{C}_t+\eta\Ex_t[\Delta\log\mathbf{Y}_{t+1}]+\alpha A_t+\epsilon_{t+1}$\\
+\begin{tabular}{d{4}d{4}d{5}cd{4}d{5}}
+\toprule
+\multicolumn{3}{c}{Measure of Consumption} & OLS &  \multicolumn{1}{c}{2${}^\text{nd}$ Stage}  &  \multicolumn{1}{c}{KP $p$-val}
+\\ \multicolumn{3}{c}{Independent Variables} & or IV & \multicolumn{1}{c}{$ \bar{R}^{2} $} & \multicolumn{1}{c}{Hansen J $p$ val}
+\\ \midrule
+\multicolumn{6}{l}{Nondurables and Services }
+\\ \multicolumn{1}{c}{$\Delta \log \mathbf{C}_{t} $} & \multicolumn{1}{c}{$\Delta \log \mathbf{Y}_{t+1}$}& \multicolumn{1}{c}{$ A_{t}  $} & & & \\
+\input ./tabCons.tex
+ \multicolumn{6}{p{0.8\textwidth}}{\footnotesize
+   \textbf{Notes:} \textbf{Notes:}  Data source is NIPA, 1960Q1--2016Q.  Robust standard errors are in parentheses.  Instruments $\textbf{Z}_t = \{\Delta \log \mathbf{C}_{t-2}, \Delta \log \mathbf{C}_{t-3}, \Delta \log \mathbf{Y}_{t-2}, \Delta \log \mathbf{Y}_{t-3}, A_{t-2}, A_{t-3}, \Delta_8 \log \mathbf{C}_{t-2}$, $\Delta_8 \log \mathbf{Y}_{t-2}$, lags 2 and 3 of differenced Fed funds rate, lags 2 and 3 of the Michigan Index of Consumer Sentiment Expectations$\}$.  The penultimate column reports the $\bar{R}^2$ from a regression of the dependent variable on the RHS variables (instrumented, when indicated); the final column reports two tests of instrument validity: The $p$-value from the Kleibergen--Paap Wald $rk$ F statistic of first-stage instrument validity (top), and the $p$-value from the Hansen--Sargan overidentification test (bottom). $\{{}^*,{}^{**},{}^{***}\}={}$Statistical significance at $\{10,5,1\}$ percent.
+      }
+\end{tabular}
+\end{table}
+
+
+\end{document}

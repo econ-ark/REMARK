@@ -1,0 +1,24 @@
+\frametitle{Micro Evidence}
+
+\begin{eqnarray}
+\ifnumSw  \Delta \log \mathbf{c}_{t+1} & \approx & \varsigma + \alpha a_{t} + \eta \Ex[\Delta \log \mathbf{y}_{t+1}]  +\chi \Ex[ \Delta \log \mathbf{c}_{t}] +\epsilon_{t+1} \nonumber
+\end{eqnarray}
+
+Separable Theory:
+\begin{itemize}
+\item  $\alpha < 0$
+\item  $0 < \eta < 1$
+\item  $\chi \approx 0$
+\end{itemize}
+
+Micro Evidence on Habits: $\chi^{\text{Micro}}$ roughly zero (see EER paper)
+
+\begin{comment} % No longer need these cites; point is now made by citing EER paper
+  hi
+% \begin{itemize}
+% \item  No: \cite{mwHabits}; \cite{dynanHabits}; \cite{fnHousingHabits}
+% \item  Maybe a little:
+% \cite{cll:habits}
+% \end{itemize}
+\end{comment}
+

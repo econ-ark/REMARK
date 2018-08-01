@@ -1,0 +1,7 @@
+\begin{eqnarray*}
+        \wAllLev_{t+1} & = & \overbrace{\wAllLev_{t}}^{=\,(\wAllLev_{t}-\cLevBF_{t})\Rfree}+\zeta_{t+1}  \\
+        \wAllLev_{t+2} & = & \wAllLev_{t+1}+\zeta_{t+2}=\wAllLev_{t}+\zeta_{t+1}\Rfree + \zeta_{t+2}
+%        \wAllLev_{t+3} & = & \wAllLev_{t}+\Rfree^{2} \epsilon_{t+1} + \Rfree \epsilon_{t+2}
+\\ \vdots       &   & \vdots \nonumber
+\\  \wAllLev_{t+n} & = & \wAllLev_{t}+\underbrace{\sum_{s=1}^{n} \Rfree^{n-s}\zeta_{t+s}}_{\equiv\,\Delta^{n} \wAllLev_{t+n}},
+\end{eqnarray*}

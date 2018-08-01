@@ -1,0 +1,1 @@
+PeriodsToSolveStickDSGE =100

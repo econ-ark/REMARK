@@ -1,0 +1,108 @@
+******************************************************************************
+*
+*  Stata scheme to match the ECB style guide for ECB publications
+*
+*  Version of the style guide 2015
+*
+*  (c) SPD 
+*
+*  Version 1.0 - 2015/11/26 initial version
+*
+*
+******************************************************************************
+*
+*  How to use: 
+*    Copy this file to your PERSONAL folder of Stata which you can determine
+*    by issuing the command "adopath". After that simply run "set scheme ecb2015"
+*    or even "set scheme ecb2015, permanently" if you really like the colors
+*
+******************************************************************************
+
+* we start from the Stata default
+#include s2color
+
+label "ECB 2015 style guide"
+
+* sizes in inches corresponding to the sizes in the ECB style guide
+
+graphsize x           3.1907
+* for wide chart
+* graphsize x 	4.898
+* for extra wide chart
+* graphsize x   6.628
+
+* the graphsize y does not vary by size
+graphsize y           2.3008
+
+gsize                 tiny
+gsize text            medsmall
+gsize label           medsmall
+gsize axis_title      medsmall
+gsize label           medsmall 
+
+color heading         black
+
+color background  white
+
+color             "217 217 217"
+
+* grid lines
+color p  "217 217 217" 
+color axisline     "217 217 217" 
+color tick         "217 217 217"
+color minortick    "217 217 217"
+
+color p1 "0 56 148"
+color p2 "0 177 234"
+color p3 "255 180 0"
+color p4 "255 75 0"
+color p5 "0 120 22"
+color p6 "101 184 0"
+color p7 "129 57 198"
+color p8 "92 92 92"
+color p9 "152 161 208"
+color p10 "253 221 167"
+color p11 "246 177 131"
+color p12 "206 225 175"
+color p13 "215 238 248"
+color p14 "141 184 141"
+color p15 "174 151 199"
+color p16 "169 169 169"
+
+color legend_line        white
+
+* intensity for area plots and others
+intensity p          inten100
+
+color histogram      "0 56 148"*0.8
+color histback       "255 180 0"
+color histogram_line "0 56 148"
+
+linestyle p1line     p1
+linestyle p2line     p2
+linestyle p3line     p3
+linestyle p4line     p4
+linestyle p5line     p5
+linestyle p6line     p6
+linestyle p7line     p7
+
+symbol p1     diamond
+symbol p2     circle
+symbol p3     circle_hollow
+symbol p4     triangle
+symbol p5     x
+symbol p6     triangle
+symbol p7     square
+
+linestyle p1mark     p1
+linestyle p2mark     p2
+linestyle p3mark     p3
+linestyle p4mark     p4
+linestyle p5mark     p5
+
+linewidth p          thick
+linewidth axisline   medium  
+
+clockdir legend_position     12
+
+margin axis_title        top

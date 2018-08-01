@@ -1,0 +1,13 @@
+% Change these in Calibration/makeParameters.command
+\ifthenelse{\boolean{Slides}}{\\}{\\ } \\ \hline \multicolumn{4}{c}{Partial Equilibrium/Small Open Economy (PE/SOE) Model Parameters} 
+\\ \hline
+   \multicolumn{4}{l}{Calibrated Parameters} \\
+\\ & $\sigma_{\vec{\psi}}^{2}$      & \input \ParmDir/varlpShkIndAnn.tex     & Variance Annual Perm Idiosyncratic Shocks (PSID)
+\\ & $\sigma_{\vec{\theta}}^{2}$    & \input \ParmDir/varltShkIndAnn.tex     & Variance Annual Tran Idiosyncratic Shocks (PSID)
+\\ & $\wp$                    & \input \ParmDir/zeroProb.tex           & Quarterly Probability of Unemployment Spell
+\\ & $\Pi$                    & \input \ParmDir/Pi.tex                 & Quarterly Probability of Updating Expectations
+\\ & $(1-\Omega)$             & \input \ParmDir/CapitalOmegaCancel.tex & Quarterly Probability of Mortality
+\\ \\ \multicolumn{4}{l}{Calculated Parameters} \\
+\\ & $\beta = \input \ParmDir/ImpatienceScaleFactor.tex \Omega / E[(\pmb{\psi})^{-\rho}]\RBet$ & \input \ParmDir/BetaPESOE.tex & Satisfies Impatience Condition: $\beta < \Omega / E[(\Psi \psi)^{-\rho}]\RBet$
+\\ & $\sigma_{\psi}^{2}$      & \input \ParmDir/varlpShkIndQtr.tex     & Variance Qtrly Perm Idiosyncratic Shocks (=$\sigma_{\vec{\psi}}/4$)
+\\ & $\sigma_{\theta}^{2}$    & \input \ParmDir/varltShkIndQtr.tex     & Variance Qtrly Tran Idiosyncratic Shocks (=$4 \sigma_{\vec{\theta}}$)

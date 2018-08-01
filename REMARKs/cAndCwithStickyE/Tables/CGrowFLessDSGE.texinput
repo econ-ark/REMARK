@@ -1,0 +1,12 @@
+\\ \hline \multicolumn{1}{c}{} & \multicolumn{3}{c}{Frictionless: $\Delta \log \mathbf{C}_{t+1}$} \\ 
+\\  \multicolumn{1}{r|}{} & \multicolumn{1}{c}{$             \Delta \log \mathbf{C}_{t} $} 
+& \multicolumn{1}{c}{$             \Delta \log \mathbf{Y}_{t+1}  $}& \multicolumn{1}{c|}{$             A_{t}  $}
+\\ & \multicolumn{3}{c|}{} & 
+\\        &  0.010   &        &         & OLS & -0.001 &   
+\\        & (0.032)  &      &       &     &  &   
+\\      &        &  0.184  &         & IV        & 0.007 & 0.000    
+\\      &      & (0.050) &       &                    &  & 0.001             
+\\        &         &        &  -0.0002  & OLS & 0.010 &   
+\\        &       &      & (0.0001) &     &  &   
+\\      &  -0.019  &  0.152  &  -0.0002  & IV        & 0.007 &         
+\\      & (0.027) & (0.052) & (0.0001) &                    &  &                  
