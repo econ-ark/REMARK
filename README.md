@@ -4,8 +4,8 @@ This is the resting place for self-contained and complete projects written using
 
 Each of these resides in its own subdirectory in the `REMARKs` directory
 
+Types of content include (see below for elaboration):
 
-## This repo contains:
 1. Explorations
    * Use the Econ-ARK/HARK toolkit to demonstrate some set of modeling ideas 
 1. Replications
@@ -36,7 +36,11 @@ A common feature of all of the content here is that the root level of each direc
 
 This is an unstructured category, designed to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
 
-1. Illustrations of the uses 
+1. Illustrations of the uses of a particular model
+1. Examples of how to use a particular technique (e.g., indirect inference)
+1. Comparisons of the results of different models to each other 
+
+and pretty much anything else that uses the toolkit but does not fall into the category of replications or reproductions of a paper
 
 ## Replications and Reproductions
 
