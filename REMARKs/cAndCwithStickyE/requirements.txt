@@ -1,0 +1,8 @@
+econ-ark
+numpy
+matplotlib
+Sphinx
+numpydoc
+future
+joblib
+dill
