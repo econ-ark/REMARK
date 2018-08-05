@@ -15,7 +15,7 @@ Types of content include (see below for elaboration):
 
 ## `do_[].py`
 
-A common feature of all of the content here is that the root level of each directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. Canonically:
+A common feature of all of the content here is that the root level of each directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. The only such file that is absolutely required is `do_all.py.` If executing everything in the code takes more than a few minutes, there should also be a `do_min.py.` Other files that are intermediate between `do_min` and `do_all` are optional.
 
 * `do_min.py` should produce the minimal set of results that might be useful
    * The most important definition of _minimal_ is that `do_min.py` files should execute in at most a minute or two on a mid-range laptop computer
@@ -44,7 +44,7 @@ and pretty much anything else that uses the toolkit but does not fall into the c
 
 ## Replications and Reproductions
 
-The [ballpark](http://github.com/econ-ark/ballpark) contains a set of papers that we would be delighted to have replicated in the Econ-ARK. 
+The [ballpark](http://github.com/econ-ark/ballpark) is a place for the set of papers that we would be delighted to have replicated in the Econ-ARK. 
 
 This REMARK repo is where we intend to store such replications (as well as the code for papers whose codebase was originally written using the Econ-ARK).
 
