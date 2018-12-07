@@ -552,7 +552,7 @@ def assignRdistribution(type_list,R_list):
 ###################################################################################################
 # Returns to Wealth Heterogeneity 
 def main():
-    print("The execution takes about two hours with a RAM of 32GB")
+    print("The execution takes about two hours with a RAM of 32GB and a processor of 3.6 GHz on macOS Sierra")
     # Set targets for K/Y and the Lorenz curve based on the data
     lorenz_target = getLorenzShares(Params.SCF_wealth,weights=Params.SCF_weights,percentiles=Params.percentiles_to_match)
     lorenz_long_data = np.hstack((np.array(0.0),getLorenzShares(Params.SCF_wealth,weights=Params.SCF_weights,percentiles=np.arange(0.01,1.0,0.01).tolist()),np.array(1.0)))

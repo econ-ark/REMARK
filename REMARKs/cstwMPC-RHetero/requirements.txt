@@ -4,4 +4,4 @@ matplotlib
 numpydoc
 scipy
 future
-
+dill
