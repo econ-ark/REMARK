@@ -68,3 +68,7 @@ Jupyter notebook(s) should:
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
    
 
+## Jupytext
+
+To deal with the well-known problem that normal jupyter notebooks do not "play nicely" with github version control, we will require interactions on jupyter notebooks to be conducted after the installation of the [jupytext](https://towardsdatascience.com/introducing-jupytext-9234fdff6c57) tool.  Specifically, you will need to follow the instructions at the link for installing jupytext on your computer, and then need to configure it to use the "percent" format. Over time, we intend to add the necessary metadata to all our jupyter notebooks to make them automatically invoke jupytext when compiled.
+
