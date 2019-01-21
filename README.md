@@ -72,3 +72,21 @@ Jupyter notebook(s) should:
 
 To deal with the well-known problem that normal jupyter notebooks do not "play nicely" with github version control, we will require interactions on jupyter notebooks to be conducted after the installation of the [jupytext](https://towardsdatascience.com/introducing-jupytext-9234fdff6c57) tool.  Specifically, you will need to follow the instructions at the link for installing jupytext on your computer, and then need to configure it to use the "percent" format. Over time, we intend to add the necessary metadata to all our jupyter notebooks to make them automatically invoke jupytext when compiled.
 
+# Jupyter Installation
+
+1. [Install jupyter](https://jupyter.org/install).
+2. Clone `REMAKE` to the folder of your choice
+3. Run `pip install -r binder/requirements.txt` to install dependencies
+4. Enable notebook extensions.
+
+   **On Linux/macOS:**
+
+   Run `binder/postBuild` in your terminal (at a shell in the binder directory, `./postBuild`)
+
+   **On Windows:**
+
+   Run `binder/postBuild.bat`
+
+5. Run `jupyter notebook` from the `REMAKE` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
+6. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
+
