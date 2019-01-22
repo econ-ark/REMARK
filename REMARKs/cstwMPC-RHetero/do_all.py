@@ -24,6 +24,11 @@ import pylab                                    # Python reproductions of some M
 
 mystr = lambda number : "{:.3f}".format(number)
 
+np.seterr(invalid='ignore')
+
+#Econ-ark version
+print('This code is tested with the latest version of econ-ark (January 22, 2019)')
+
 # Import module to check RAM size:
 import warnings
 import psutil
