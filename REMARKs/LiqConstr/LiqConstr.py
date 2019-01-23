@@ -48,17 +48,19 @@
 
 # # Liquidity Constraints and Precautionary Saving
 #
-# This notebook generates the figures for the paper [Liquidity Constraints and Precautionary Saving](https://econ.jhu.edu/people/ccarroll/papers/LiqConstr) by 
+# This notebook generates the figures for the paper [Liquidity Constraints and Precautionary Saving](https://econ.jhu.edu/people/ccarroll/papers/LiqConstr) by Carroll, Holm, and Kimball.
 #
 # The file structure is as follows:
 #
-# | Directory | Content | 
+# | Path | Content | 
 # | --- | --- |
-# |./Figures/       | Figures created by the main code | 
+# |./Figures/       | Figures created by the code |
+# | do_all.py | iPython-runnable |
+# | LiqConstr.tex | LaTeX to create the paper |
 #
 #
 
-# + {"code_folding": [9]}
+# + {"code_folding": [0, 9]}
 # This cell does some setup and imports generic tools used to produce the figures
 
 # Import related generic python packages
@@ -103,7 +105,7 @@ import sys
 import os
 
 # Find pathname to this file:
-my_file_path = os.path.dirname(os.path.abspath("liqConstr.ipynb"))
+my_file_path = os.path.dirname(os.path.abspath("LiqConstr.ipynb"))
 figures_dir = os.path.join(my_file_path, "Figures") # Relative directory for primitive parameter files
 
 sys.path.insert(0, figures_dir)
