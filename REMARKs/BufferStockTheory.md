@@ -1,8 +1,4 @@
-# BufferStockTheory is a Reproduction of the Figures from [BufferStockTheory](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory)
+# Theoretical Foundations of Buffer Stock Saving
 
-The paper itself is also available in the form of a GitHub repo at 
-
-http://github.com/llorracc/BufferStockTheory
-
-which includes the Mathematica and python code that produces all of the figures
-
+This is a Reproduction of the numerical results 
+of the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/)
