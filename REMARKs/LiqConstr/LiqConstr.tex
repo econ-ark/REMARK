@@ -1,6 +1,7 @@
 \input{./econtexRoot.tex}\input{./econtexPaths.tex}
 \documentclass[titlepage]{\econtex}
 \providecommand{\texname}{LiqConstr}% Keyname for the bibtex entry corresponding to this paper
+\usepackage{vmargin}
 \usepackage{\econtexSetup}\usepackage{\econtexShortcuts}
 
 \provideboolean{ifWeb} 
@@ -85,12 +86,13 @@
 \begin{tabbing}
   \texttt{Econ-ARK:~} \= \= \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr.pdf} \kill \\  % This line establishes the locations of the tabs, but is not printed because of the \kill directive
 \texttt{~~~~Repo:~} \= \= \url{https://github.com/llorracc/LiqConstr}  \\
-\texttt{~~~~~PDF:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr.pdf} \\
+%\texttt{~~~~~PDF:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr.pdf} \\
 \texttt{~~~~~Web:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr/} \\
 %\texttt{~BibTeX:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr.bib} \\
 %\texttt{Archive:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr.zip} \\
 \texttt{~~Slides:~} \> \> \url{http://econ.jhu.edu/people/ccarroll/papers/LiqConstr-Slides.pdf} \\
-\texttt{Econ-ARK:} \> \> \url{http://github.com/Econ-ARK/REMARK/tree/master/REMARKs/LiqConstr.md} \\
+\texttt{Econ-ARK:~} \> \> \url{http://github.com/Econ-ARK/REMARK/tree/master/REMARKs/LiqConstr.md} \\
+\texttt{~Jupyter:~} \> \> \href{https://mybinder.org/v2/gh/econ-ark/REMARK/LiqConstr?filepath=REMARKs\%2FLiqConstr\%2FLiqConstr.ipynb}{Live MyBinder.org Jupyter notebook producing the figures} \\
 \end{tabbing}
 \end{center}
 }
@@ -105,12 +107,12 @@
             }
 
 \begin{authorsinfo}
-\name{Carroll: Department of Economics, Johns Hopkins University, \url{http://econ.jhu.edu/people/ccarroll/}, \href{mailto:ccarroll@jhu.edu}{\texttt{ccarroll@jhu.edu}}}
-\name{Holm: Department of Economics, University of Oslo, \url{https://sites.google.com/site/martinblomhoffholm/}, \href{mailto:martin.b.holm@outlook.com}{\texttt{martin.b.holm@outlook.com}}}
-\name{Kimball: \url{https://www.colorado.edu/economics/people/faculty/miles-spencer-kimball}, \href{mailto:miles.kimball@colorado.edu}{\texttt{miles.kimball@colorado.edu}}}
+\name{Carroll: Department of Economics, Johns Hopkins University, \href{http://econ.jhu.edu/people/ccarroll/}{website}, \href{mailto:ccarroll@jhu.edu}{\texttt{ccarroll@jhu.edu}}}
+\name{Holm: Department of Economics, University of Oslo, \href{https://sites.google.com/site/martinblomhoffholm/}{website}, \href{mailto:martin.b.holm@outlook.com}{\texttt{martin.b.holm@outlook.com}}}
+\name{Kimball: \href{https://www.colorado.edu/economics/people/faculty/miles-spencer-kimball}{website}, \href{mailto:miles.kimball@colorado.edu}{\texttt{miles.kimball@colorado.edu}}}
 \end{authorsinfo}
 
-\thanks{This paper supersedes NBER working paper no.\ 8496 from 2001. We are grateful to Luigi Pistaferri, Misuka Otsuka, and to conference participants in the conferences ``Macroeconomics and Household Borrowing'' sponsored by the Finance and Consumption program and the European University in May 2005 and ``Household Choice of Consumption, Housing, and Portfolio'' at CAM in Copenhagen in June 2005. Kimball is grateful to the National Institute on Aging for research support via grant P01-AG10179.
+\thanks{This paper supercedes NBER working paper no.\ 8496 from 2001. We are grateful to Luigi Pistaferri, Misuka Otsuka, and to conference participants in the conferences ``Macroeconomics and Household Borrowing'' sponsored by the Finance and Consumption program and the European University in May 2005 and ``Household Choice of Consumption, Housing, and Portfolio'' at CAM in Copenhagen in June 2005. Kimball is grateful to the National Institute on Aging for research support via grant P01-AG10179.
   \\ 
 We are grateful to Mark Huggett for suggesting the current proof one of our lemmas, which was a substantial improvement over our original proof, to Luigi Pistaferri for an insightful discussion of the paper, to conference participants at the ``International Savings and Pensions Conference'' in Venice in 1999; to Misuzu Otsuka for meticulous proofreading and mathematical checking; and to participants in the conferences ``Macroeconomics and Household Borrowing'' sponsored by the Finance and Consumption program and the European University in May 2005, and ``Household Choice of Consumption, Housing, and Portfolio'' at CAM in Copenhagen in June 2005.  Kimball is grateful to the National Institute on Aging for research support via grant P01-AG10179.}
 
@@ -540,7 +542,7 @@ The central message of this paper is that the effects of precautionary saving an
 
 In addition, we provide an explanation of the apparently contradictory results that have emerged from simulation studies, which have sometimes seemed to indicate that constraints intensify precautionary saving motives, and sometimes have found constraints and precautionary behavior to be substitutes. The insight here is that the outcome depends on whether the introduction of a constraint or risk hides any previous constraints or risks. If the new constraint or risks does not hide existing constraints or risks, it intensifies the precautionary saving motive. If it hides any existing constraints or risks, it might weaken the precautionary saving motive.  
 
-\bibliography{LiqConstr,economics}
+\bibliography{LiqConstr,LiqConstr-add,economics}
 
 \vfill\eject
 \appendix
