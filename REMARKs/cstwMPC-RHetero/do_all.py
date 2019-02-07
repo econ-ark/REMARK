@@ -366,7 +366,7 @@ class cstwMPCmarket(EstimationMarketClass):
         plt.legend(('Actual','Simulated'),loc=2,fontsize=12)
         plt.ylim([-0.02,1.0])
         pylab.savefig(os.path.join(figures_dir, 'LorenzCurvesRandBetaHetero.pdf'))
-        plt.show()
+        plt.show(block=False)
 
         # Make a string of results to display
         results_string = 'Estimate is center=' + str(self.center_estimate) + ', spread=' + str(self.spread_estimate) + '\n'
