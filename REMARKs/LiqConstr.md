@@ -1,6 +1,6 @@
 # Liquidity Constraints and Precautionary Saving
 
-This directory contains code to reproduce the figures of the paper [Liquidity Constraints and Precautionary Saving](http://econ.jhu.edu/people/ccarroll/papers/LiqConstr/) by Carroll, Holm, and Kimball,
+The LiqConstr directory contains code to reproduce the figures of the paper [Liquidity Constraints and Precautionary Saving](http://econ.jhu.edu/people/ccarroll/papers/LiqConstr/) by Carroll, Holm, and Kimball,
 and the LaTeX source to produce the paper once the figures have been created.
 
 ## Code 
