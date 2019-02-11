@@ -1,8 +1,10 @@
 # REMARK: Replications and Explorations Made using the ARK
 
 This is the resting place for self-contained and complete projects written using the Econ-ARK.
+The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
+in this directory).
 
-Each of these resides in its own subdirectory in the `REMARKs` directory
+Each project lives in its own subdirectory in the `REMARKs` directory
 
 Types of content include (see below for elaboration):
 
@@ -44,9 +46,11 @@ and pretty much anything else that uses the toolkit but does not fall into the c
 
 ## Replications and Reproductions
 
+<!--
 The [ballpark](http://github.com/econ-ark/ballpark) is a place for the set of papers that we would be delighted to have replicated in the Econ-ARK. 
 
 This REMARK repo is where we intend to store such replications (as well as the code for papers whose codebase was originally written using the Econ-ARK).
+--> 
 
 In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests with minimal review.
 
@@ -67,26 +71,4 @@ Jupyter notebook(s) should:
    * Explain their own content ("This notebook uses the associated replication archive to demonstrate three central results from the paper of [original author]: The consumption function and the distribution of wealth)
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
    
-
-## Jupytext
-
-To deal with the well-known problem that normal jupyter notebooks do not "play nicely" with github version control, we will require interactions on jupyter notebooks to be conducted after the installation of the [jupytext](https://towardsdatascience.com/introducing-jupytext-9234fdff6c57) tool.  Specifically, you will need to follow the instructions at the link for installing jupytext on your computer, and then need to configure it to use the "percent" format. Over time, we intend to add the necessary metadata to all our jupyter notebooks to make them automatically invoke jupytext when compiled.
-
-# Jupyter Installation
-
-1. [Install jupyter](https://jupyter.org/install).
-2. Clone `REMAKE` to the folder of your choice
-3. Run `pip install -r binder/requirements.txt` to install dependencies
-4. Enable notebook extensions.
-
-   **On Linux/macOS:**
-
-   Run `binder/postBuild` in your terminal (at a shell in the binder directory, `./postBuild`)
-
-   **On Windows:**
-
-   Run `binder/postBuild.bat`
-
-5. Run `jupyter notebook` from the `REMAKE` root folder. You will be prompted to open a page in your web browser. From there, you will be able to run the notebooks.
-6. Run the notebook by clicking the `▶▶` button or choosing `Kernel → Restart & Run All`
 
