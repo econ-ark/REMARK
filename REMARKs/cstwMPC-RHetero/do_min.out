@@ -1,0 +1,107 @@
+ipython do_min.py
+The execution takes about a minute with a RAM of 32GB
+---------------------------------------------------------------------------
+_RemoteTraceback                          Traceback (most recent call last)
+_RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/externals/loky/process_executor.py", line 337, in _sendback_result
+    exception=exception))
+  File "/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/externals/loky/backend/queues.py", line 233, in put
+    obj = CustomizableLokyPickler.dumps(obj, reducers=self._reducers)
+  File "/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/externals/loky/backend/reduction.py", line 145, in dumps
+    p.dump(obj)
+_pickle.PicklingError: Can't pickle <class '__main__.cstwMPCagent'>: attribute lookup cstwMPCagent on __main__ failed
+"""
+
+The above exception was the direct cause of the following exception:
+
+PicklingError                             Traceback (most recent call last)
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/HARK/core.py in solveAgents(self)
+    953         try:
+--> 954             multiThreadCommands(self.agents,['solve()'])
+    955         except Exception as err:
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/HARK/parallel.py in multiThreadCommands(agent_list, command_list, num_jobs)
+     92     # Send each command in command_list to each of the types in agent_list to be run
+---> 93     agent_list_out = Parallel(n_jobs=num_jobs)(delayed(runCommands)(*args) for args in zip(agent_list, len(agent_list)*[command_list]))
+     94 
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/parallel.py in __call__(self, iterable)
+    961             with self._backend.retrieval_context():
+--> 962                 self.retrieve()
+    963             # Make sure that we get a last message telling us we are done
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/parallel.py in retrieve(self)
+    864                 if getattr(self._backend, 'supports_timeout', False):
+--> 865                     self._output.extend(job.get(timeout=self.timeout))
+    866                 else:
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/_parallel_backends.py in wrap_future_result(future, timeout)
+    514         try:
+--> 515             return future.result(timeout=timeout)
+    516         except LokyTimeoutError:
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/externals/loky/_base.py in result(self, timeout)
+    430             elif self._state == FINISHED:
+--> 431                 return self.__get_result()
+    432             else:
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/joblib/externals/loky/_base.py in __get_result(self)
+    381         if self._exception:
+--> 382             raise self._exception
+    383         else:
+
+PicklingError: Can't pickle <class '__main__.cstwMPCagent'>: attribute lookup cstwMPCagent on __main__ failed
+
+During handling of the above exception, another exception occurred:
+
+AttributeError                            Traceback (most recent call last)
+/Volumes/Data/Code/ARK/REMARKive/REMARK/REMARKs/cstwMPC-RHetero/do_min.py in <module>
+    616     EstimationEconomy.showManyStats(spec_name)
+    617 if __name__ == '__main__':
+--> 618     main()
+
+/Volumes/Data/Code/ARK/REMARKive/REMARK/REMARKs/cstwMPC-RHetero/do_min.py in main()
+    601                                         dist_type = dist_type)
+    602     t_start = clock()
+--> 603     center_estimate = brentq(paramPointObjective,param_range[0],param_range[1],xtol=1e-6)
+    604     spread_estimate = 0.0
+    605     t_end = clock()
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/scipy/optimize/zeros.py in brentq(f, a, b, args, xtol, rtol, maxiter, full_output, disp)
+    517     if rtol < _rtol:
+    518         raise ValueError("rtol too small (%g < %g)" % (rtol, _rtol))
+--> 519     r = _zeros._brentq(f,a,b,xtol,rtol,maxiter,args,full_output,disp)
+    520     return results_c(full_output, r)
+    521 
+
+/Volumes/Data/Code/ARK/REMARKive/REMARK/REMARKs/cstwMPC-RHetero/do_min.py in <lambda>(center)
+    599                                         center = center,
+    600                                         spread = 0.0,
+--> 601                                         dist_type = dist_type)
+    602     t_start = clock()
+    603     center_estimate = brentq(paramPointObjective,param_range[0],param_range[1],xtol=1e-6)
+
+/Volumes/Data/Code/ARK/REMARKive/REMARK/REMARKs/cstwMPC-RHetero/do_min.py in getKYratioDifference(Economy, param_name, param_count, center, spread, dist_type)
+    429     Economy(LorenzBool = False, ManyStatsBool = False) # Make sure we're not wasting time calculating stuff
+    430     Economy.distributeParams(param_name,param_count,center,spread,dist_type) # Distribute parameters
+--> 431     Economy.solve()
+    432     diff = Economy.calcKYratioDifference()
+    433     print('getKYratioDifference tried center = ' + str(center) + ' and got ' + str(diff))
+
+/Volumes/Data/Code/ARK/REMARKive/REMARK/REMARKs/cstwMPC-RHetero/do_min.py in solve(self)
+    123             Market.solve(self)
+    124         else:
+--> 125             self.solveAgents()
+    126             self.makeHistory()
+    127 
+
+/Volumes/Sync/Sys/OSX/linked/root/usr/local/bin/anaconda/lib/python3.6/site-packages/HARK/core.py in solveAgents(self)
+    954             multiThreadCommands(self.agents,['solve()'])
+    955         except Exception as err:
+--> 956             if self.print_parallel_error_once:
+    957                 # Set flag to False so this is only printed once.
+    958                 self.print_parallel_error_once = False
+
+AttributeError: 'cstwMPCmarket' object has no attribute 'print_parallel_error_once'
