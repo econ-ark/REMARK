@@ -52,7 +52,7 @@
 
 # %% [markdown]
 # # Theoretical Foundations of Buffer Stock Saving
-# <p style="text-align: center;"><small><small>Generator: REMARK-make/REMARKs/BufferStockTheory.sh</small></small></p>
+# <p style="text-align: center;"><small><small>Generator: REMARK-make/notebooks_byname</small></small></p>
 
 # %% [markdown]
 # [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FBufferStockTheory%2FBufferStockTheory.ipynb)
