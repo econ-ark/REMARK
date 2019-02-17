@@ -12,10 +12,10 @@
 #         - family: Carroll
 #           given: Christopher
 #         container-title: Manuscript, Department of Economics, Johns Hopkins University
+#         id: 6202365/8AH9AXN2
 #         issued:
-#           date-parts:
-#           - - '2019'
-#             - 2
+#           month: 2
+#           year: 2019
 #         note: "Available at http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory\
 #           \ \nCitation Key: carrollBufferStockTheory \nbibtex*[extra=bibtex:carrollBufferStockTheory]"
 #         title: Theoretical Foundations of Buffer Stock Saving
@@ -94,13 +94,13 @@
 # ---
 
 # %% [markdown]
-# <cite data-cite="6202365/8AH9AXN2"></cite># Theoretical Foundations of Buffer Stock Saving
+# # Theoretical Foundations of Buffer Stock Saving
 # <p style="text-align: center;"><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></p>
 
 # %% [markdown]
 # [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FBufferStockTheory%2FBufferStockTheory.ipynb)
 #
-# [This notebook](https://github.com/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb) uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory).
+# [This notebook](https://github.com/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb) uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory): <cite data-cite="6202365/8AH9AXN2"></cite>
 #
 #
 # If you are not familiar with the HARK toolkit, you may wish to browse the ["Gentle Introduction to HARK"](https://mybinder.org/v2/gh/econ-ark/DemARK/master?filepath=Gentle-Intro-To-HARK.ipynb) before continuing (since you are viewing this document, you presumably know a bit about [Jupyter Notebooks](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/)).
