@@ -265,6 +265,10 @@ base_params['T_cycle']      = 1       # No 'seasonal' cycles
 base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 # %% {"code_folding": [0]}
 # from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
+# The code below is what you get if you exeute the command on the prior line
+# from a location where HARK is accessible.  It is included here because the
+# latest pip-installable version of HARK does not include the impatience conditions
+# (though the online one does)
 
 from __future__ import division
 from __future__ import print_function
@@ -2736,7 +2740,7 @@ else:
 # %% [markdown]
 # ## Factors and Conditions
 #
-# ### The Finite Human Wealth Condition
+# ### [The Finite Human Wealth Condition](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Human-Wealth)
 #
 # Human wealth for a perfect foresight consumer is defined as the present discounted value of future income:
 #
@@ -2748,7 +2752,7 @@ else:
 # $0 \leq (\Gamma/R) \leq 1$.
 
 # %% [markdown]
-# ### Absolute Patience and the AIC
+# ### [Absolute Patience and the AIC](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AIC)
 #
 # The paper defines an object which it calls the Absolute Patience Factor, equal to the ratio of $C_{t+1}/C_{t}$ for a perfect foresight consumer.  The Old English character <span style="font-size:larger;">"&#222;"</span> is used for this object in the paper, but <span style="font-size:larger;">"&#222;"</span> cannot currently be rendered conveniently in Jupyter notebooks, so we will substitute $\Phi$ here:
 #
@@ -2761,7 +2765,7 @@ else:
 #
 
 # %% [markdown]
-# ### Growth Patience and the GIC
+# ### [Growth Patience and the GIC](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#GIC)
 #
 # For a [perfect foresight consumer](http://econ.jhu.edu/people/ccarroll/public/lecturenotes/consumption/PerfForesightCRRA), whether the ratio of consumption to the permanent component of income $P$ is rising, constant, or falling depends on the relative growth rates of consumption and permanent income, which is measured by the "Perfect Foresight Growth Patience Factor":
 #
@@ -2776,7 +2780,7 @@ else:
 # \end{eqnarray}
 
 # %% [markdown]
-# ### The Finite Value of Autarky Condition (FVAC)
+# ### [The Finite Value of Autarky Condition (FVAC)](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Autarky-Value)
 
 
 # %% [markdown]
@@ -2793,7 +2797,7 @@ else:
 # \end{equation}
 
 # %% [markdown]
-# ### The Weak Return Impatience Condition (WRIC)
+# ### [The Weak Return Impatience Condition (WRIC)](http://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/#WRIC)
 #
 # The 'Return Impatience Condition' $\Phi/R < 1$ has long been understood to be required for the perfect foresight model to have a nondegenerate solution (when $\rho=1$, this reduces to $\beta < R$).  If the RIC does not hold, the consumer is so patient that the optimal consumption function approaches zero as the horizon extends.
 #
@@ -2806,14 +2810,12 @@ else:
 # %% [markdown]
 # # Key Results
 #
-# ## Nondegenerate Solution Requires FVAC and WRIC
+# ## [Nondegenerate Solution Requires FVAC and WRIC](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Sufficient-Conditions-For-Nondegenerate-Solution)
 #
-# The central result of the paper is that the conditions required for the model to have a nondegenerate solution ($0 < c(m) < \infty$ for feasible $m$) are that the Finite Value of Autarky (FVAC) and Weak Return Impatience Condition (WRAC) hold.
-#
-# A [table](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Sufficient-Conditions-For-Nondegenerate-Solution) puts this result in the context of implications of other conditions and restrictions.
+# A main result of the paper is that the conditions required for the model to have a nondegenerate solution ($0 < c(m) < \infty$ for feasible $m$) are that the Finite Value of Autarky (FVAC) and Weak Return Impatience Condition (WRAC) hold.
 
 # %% [markdown]
-# ## Natural versus Artificial Borrowing Constraints
+# ## [Natural Borrowing Constraint limits to Artificial Borrowing Constraint](http://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Liquidity-Constrained-Solution-as-a-Limit)
 
 # %% [markdown]
 # Defining $\chi(\wp)$ as the consumption function associated with any particular value of $\wp$, and defining $\hat{\chi}$ as the consumption function that would apply in the absence of the zero-income shocks but in the presence of an 'artificial' borrowing constraint requiring $a \geq 0$, a la Deaton (1991), the paper shows that 
@@ -2825,18 +2827,23 @@ else:
 # That is, as $\wp$ approaches zero the problem with uncertainty becomes identical to the problem that instead has constraints.  (See [Precautionary Saving and Liquidity Constraints](http://econ.jhu.edu/people/ccarroll/papers/LiqConstr) for a full treatment of the relationship between precautionary saving and liquidity constraints).
 
 # %% [markdown]
-# ## $c(m)$ is Finite Even When Human Wealth Is Infinite
+# ## [$c(m)$ is Finite Even When Human Wealth Is Infinite](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#When-The-GIC-Fails)
 #
-# In the perfect foresight model, if $R < \Gamma$ the present discounted value of future labor income is infinite and so the limiting consumption function is $c(m) = \infty$ for all $m$.
+# In the perfect foresight model, if $R < \Gamma$ the present discounted value of future labor income is infinite and so the limiting consumption function is $c(m) = \infty$ for all $m$.  Many models have no well-defined solution in this case.
 #
 # The presence of uncertainty changes this: The limiting consumption function is finite for all values of $m$.  
 #
 # This is because uncertainty imposes a "natural borrowing constraint" that deters the consumer from borrowing against their unbounded future labor income.
 
 # %% [markdown]
-# ## If the GIC Holds, $\exists$ a finite 'target' $m$
+# A [table](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Sufficient-Conditions-For-Nondegenerate-Solution) puts this result in the context of implications of other conditions and restrictions.
 #
-# Section [There Is Exactly One Target $m$ Ratio, Which Is Stable]() shows that, under parameter values for which the limiting consumption function exists, if the GIC holds then there will be a value $\check{m}$ such that:
+#
+
+# %% [markdown]
+# ## [If the GIC Holds, $\exists$ a finite 'target' $m$](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#onetarget)
+#
+# Section [There Is Exactly One Target $m$ Ratio, Which Is Stable](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#onetarget) shows that, under parameter values for which the limiting consumption function exists, if the GIC holds then there will be a value $\check{m}$ such that:
 #
 # \begin{eqnarray}
 # \mathbb{E}[m_{t+1}] & > & m_{t}~\text{if $m_{t} < \check{m}$} \\
@@ -2845,9 +2852,9 @@ else:
 # \end{eqnarray} 
 
 # %% [markdown]
-# ## Target Wealth is Infinite if the GIC Fails
+# ## [If the GIC Fails, Target Wealth is Infinite ](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-GIC)
 #
-# The section [The GIC](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-GIC) depicts a solution when the **FVAC** (Finite Value of Autarky Condition) and **WRIC** hold (so that the model has a solution) but the **GIC** (Growth Impatience Condition) fails.  In this case the target wealth ratio is infinity.  
+# [A figure](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#FVACnotGIC) depicts a solution when the **FVAC** (Finite Value of Autarky Condition) and **WRIC** hold (so that the model has a solution) but the **GIC** (Growth Impatience Condition) fails.  In this case the target wealth ratio is infinity.  
 #
 # The parameter values in this specific example are:
 #
@@ -2937,11 +2944,10 @@ baseEx_inf.solve()
 baseEx_inf.unpackcFunc()
 
 # %% [markdown]
-# ### Target $m$, Expected Consumption Growth, and Permanent Income Growth
+# ### [Target $m$, Expected Consumption Growth, and Permanent Income Growth](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AnalysisoftheConvergedConsumptionFunction)
 #
-# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Analysis-of-the-Converged-Consumption-Function), which shows the expected consumption growth factor $\mathrm{\mathbb{E}}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
+# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\mathbb{E}}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
 #
-# The first step of the figure's construction is to calculate the t+1 period expected consumption. We define an auxiliary function to calculate the expectation of t+1 period consumption given t end-of-period assets.
 
 # %% {"code_folding": [0]}
 # Define a function to calculate expected consumption 
@@ -3127,9 +3133,9 @@ else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
 # %% [markdown] {"code_folding": []}
-# ### The Consumption Function Bounds
-#
-# The next figure is also shown in [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Analysis-of-the-Converged-Consumption-Function), and illustrates theoretical bounds for the consumption function.
+# ### [Consumption Function Bounds](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AnalysisOfTheConvergedConsumptionFunction)
+# [The next figure](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cFuncBounds)
+# illustrates theoretical bounds for the consumption function.
 #
 # We define two useful variables: lower bound of $\kappa$ (marginal propensity to consume) and limit of $h$ (Human wealth), along with some functions such as limiting perfect foresight consumption functions ($\bar{c}(m)$), $\bar{\bar c}(m)$ and $\underline{c}(m)$.
 
@@ -3188,13 +3194,14 @@ if not in_ipynb:
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
-# %% [markdown] {"heading_collapsed": true}
-# ### The Consumption Function and Target $m$
+# %% [markdown]
+# ### [The Consumption Function and Target $m$](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cFuncBounds)
 #
 # This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
-# %% {"code_folding": [], "hidden": true}
+# %% {"code_folding": [0]}
 # This just plots objects that have already been constructed
+
 m1 = np.linspace(0,4,1000)
 cfunc_m = baseEx_inf.cFunc[0](m1)
 mSSfunc = lambda m:(baseEx_inf.PermGroFac[0]/baseEx_inf.Rfree)+(1.0-baseEx_inf.PermGroFac[0]/baseEx_inf.Rfree)*m
@@ -3220,7 +3227,7 @@ if Generator:
     plt.savefig(os.path.join(Figures_HARK_dir, 'cRatTargetFig.svg'))
 
 # %% [markdown]
-# ### Upper and Lower Limits of the Marginal Propensity to Consume
+# ### [Upper and Lower Limits of the Marginal Propensity to Consume](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#MPCLimits)
 #
 # The paper shows that as $m_{t}~\uparrow~\infty$ the consumption function in the presence of risk gets arbitrarily close to the perfect foresight consumption function.  Defining $\underline{\kappa}$ as the perfect foresight model's MPC, this implies that $\lim_{m_{t}~\uparrow~\infty} c^{\prime}(m) = \underline{\kappa}$.  
 #
@@ -3262,3 +3269,10 @@ if not in_ipynb:
     plt.show(block=False) 
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
+
+# %% [markdown]
+# # Summary
+#
+# [Two tables in the paper](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Sufficient-Conditions-For-Nondegenerate-Solution) summarize the various definitions, and then articulate conditions required for the problem to have a nondegenerate solution.
+#
+# The main other contribution of the paper is to show that, under parametric combinations where the solution is nondegenerate, if the Growth Impatience Condition holds there will be a target level of wealth.
