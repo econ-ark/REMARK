@@ -1,1 +1,0 @@
-MonteCarloSubsampleSize = 16

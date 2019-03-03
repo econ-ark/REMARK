@@ -1,1 +1,0 @@
-PeriodsForSetupCross = 40

@@ -1,1 +1,0 @@
-NumPeriodsToSimTime = 20

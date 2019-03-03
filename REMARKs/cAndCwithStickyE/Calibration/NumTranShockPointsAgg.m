@@ -1,1 +1,0 @@
-NumTranShockPointsAgg = 3

@@ -1,1 +1,0 @@
-NumPeriodsForSetupTime = 100

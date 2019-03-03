@@ -1,1 +1,0 @@
-NumKoppa = 11

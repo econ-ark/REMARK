@@ -1,1 +1,0 @@
-NumPeriodsToSimCross = 30

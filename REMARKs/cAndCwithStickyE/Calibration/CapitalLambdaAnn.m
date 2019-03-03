@@ -1,1 +1,0 @@
-\[CapitalLambda]Ann = 1

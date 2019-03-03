@@ -1,1 +1,0 @@
-\[CapitalPsi]Ann = 1

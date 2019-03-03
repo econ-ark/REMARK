@@ -1,1 +1,0 @@
-NumPeriodsToKeepInMemTime = 6

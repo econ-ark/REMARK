@@ -1,1 +1,0 @@
-NumTranShockPointsMerged = 3

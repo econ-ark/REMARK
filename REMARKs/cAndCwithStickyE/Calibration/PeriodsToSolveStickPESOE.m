@@ -1,1 +1,0 @@
-PeriodsToSolveStickPESOE =100

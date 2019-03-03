@@ -1,1 +1,0 @@
-NumPShockAggPoints = 3

@@ -1,1 +1,0 @@
-NumPermShockPointsInd = 3

@@ -1,7 +1,0 @@
-matplotlib
-numpy
-pandas==0.19.2
-scipy
-dill
-statsmodels
-future

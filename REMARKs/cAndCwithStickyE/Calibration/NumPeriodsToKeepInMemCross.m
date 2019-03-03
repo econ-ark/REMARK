@@ -1,1 +1,0 @@
-NumPeriodsToKeepInMemCross = 6
