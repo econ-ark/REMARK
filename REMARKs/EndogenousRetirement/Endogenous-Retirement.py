@@ -1,32 +1,19 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
-#   '@webio':
-#     lastCommId: 118bed827bcf401ca21aebd4c5894f04
-#     lastKernelId: 88c10b8d-7da3-4bed-ae86-91befe860a0a
 #   jupytext:
+#     cell_metadata_filter: collapsed
 #     formats: ipynb,py:light
-#     metadata_filter:
-#       cells: collapsed
+#     rst2md: false
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.3'
-#       jupytext_version: 0.8.3
+#       jupytext_version: 1.0.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.8
 # ---
 
 import numpy as np
@@ -326,10 +313,10 @@ def calcExtraSaves(saveCommon, rs, ws, par, mGrid):
     if saveCommon:
         # To save the pre-discrete choice expected consumption and value function,
         # we need to interpolate onto the same grid between the two. We know that
-        # ws.C and ws.V_T are on the ws.Coh grid, so we use that to interpolate.
-        
-        Crs = LinearInterp(rs.Coh, rs.C)(mGrid)
-        V_Trs = LinearInterp(rs.Coh, rs.V_T)(mGrid)
+        # ws.C and ws.V_T are on the ws.m grid, so we use that to interpolate.
+
+        Crs = LinearInterp(rs.m, rs.C)(mGrid)
+        V_Trs = LinearInterp(rs.m, rs.V_T)(mGrid)
 
         V_Tws = ws.V_T
         Cws = ws.C
@@ -347,15 +334,15 @@ RetiringDeatonParameters = namedtuple('RetiringDeatonParamters',
 
 class RetiringDeatonSolution(Solution):
     def __init__(self, ChoiceSols, M, C, V_T, P):
-        self.Coh = M
+        self.m = M
         self.C = C
         self.V_T = V_T
         self.P = P
         self.ChoiceSols = ChoiceSols
 
 class ChoiceSpecificSolution(Solution):
-    def __init__(self, Coh, C, CFunc, V_T, V_TFunc):
-        self.Coh = Coh
+    def __init__(self, m, C, CFunc, V_T, V_TFunc):
+        self.m = m
         self.C = C
         self.CFunc = CFunc
         self.V_T = V_T
@@ -392,12 +379,12 @@ class RetiringDeaton(IndShockConsumerType):
         -------
         None
         """
-        
+
         self.mGrid = (self.aXtraGrid-self.aXtraGrid[0])*1.5
         self.EGMVector = numpy.zeros(self.EGMCount)
 
         ChoiceSols = tuple(self.solveLastChoiceSpecific(choice) for choice in (1, 2))
-        
+
         C, V_T, P = calcExtraSaves(self.saveCommon, ChoiceSols[0], ChoiceSols[1], self.par, self.mGrid)
 
         self.solution_terminal = RetiringDeatonSolution(ChoiceSols, self.mGrid.copy(), C, V_T, P)
@@ -415,15 +402,15 @@ class RetiringDeaton(IndShockConsumerType):
         none
         """
 
-        Coh, C = self.mGrid.copy(), self.mGrid.copy() # consume everything
+        m, C = self.mGrid.copy(), self.mGrid.copy() # consume everything
 
         V_T = numpy.divide(-1.0, self.Util(self.mGrid, curChoice))
 
         # Interpolants
-        CFunc = lambda coh: LinearInterp(Coh, C)(coh)
-        V_TFunc = lambda coh: LinearInterp(Coh, V_T)(coh)
+        CFunc = lambda coh: LinearInterp(m, C)(coh)
+        V_TFunc = lambda coh: LinearInterp(m, V_T)(coh)
 
-        return ChoiceSpecificSolution(Coh, C, CFunc, V_T, V_TFunc)
+        return ChoiceSpecificSolution(m, C, CFunc, V_T, V_TFunc)
 
     # Plotting methods for RetiringDeaton
     def plotV(self, t, d, plot_range = None):
@@ -431,7 +418,7 @@ class RetiringDeaton(IndShockConsumerType):
         if t == self.T:
             sol = self.solution_terminal
         else:
-            sol = self.solution[self.T-1-t]
+            sol = self.solution[t]
 
         if d == 1:
             sol = sol.ChoiceSols[0]
@@ -441,13 +428,13 @@ class RetiringDeaton(IndShockConsumerType):
             choice_str = "working"
 
         if plot_range == None:
-            plot_range = range(len(sol.Coh))
+            plot_range = range(len(sol.m))
         else:
             plot_range = range(plot_range[0], plot_range[1])
-        plt.plot(sol.Coh[plot_range], numpy.divide(-1.0, sol.V_T[plot_range]), label="{} (t = {})".format(choice_str, t))
+        plt.plot(sol.m[plot_range], numpy.divide(-1.0, sol.V_T[plot_range]), label="{} (t = {})".format(choice_str, t))
         plt.legend()
-        plt.xlabel("Coh")
-        plt.ylabel("V(Coh)")
+        plt.xlabel("m")
+        plt.ylabel("V(m)")
         plt.title('Choice specific value functions')
 
 
@@ -456,7 +443,7 @@ class RetiringDeaton(IndShockConsumerType):
         if t == self.T:
             sol = self.solution_terminal
         else:
-            sol = self.solution[self.T-1-t]
+            sol = self.solution[t]
 
         if d == 1:
             sol = sol.ChoiceSols[0]
@@ -466,13 +453,13 @@ class RetiringDeaton(IndShockConsumerType):
             choice_str = "working"
 
         if plot_range == None:
-            plot_range = range(len(sol.Coh))
+            plot_range = range(len(sol.m))
         else:
             plot_range = range(plot_range[0], plot_range[1])
-        plt.plot(sol.Coh[plot_range], sol.C[plot_range], label="{} (t = {})".format(choice_str, t), **kwds)
+        plt.plot(sol.m[plot_range], sol.C[plot_range], label="{} (t = {})".format(choice_str, t), **kwds)
         plt.legend()
-        plt.xlabel("Coh")
-        plt.ylabel("C(Coh)")
+        plt.xlabel("m")
+        plt.ylabel("C(m)")
         plt.title('Choice specific consumption functions')
 
 
@@ -512,9 +499,9 @@ def solveRetiredDeaton(solution_next, aXtraGrid, EGMVector, par, Util, UtilP, Ut
     EV_tp1 = numpy.divide(-1.0, EV_T_tp1)
 
     EUtilP_tp1 = par.Rfree*UtilP(EC_tp1, choice)
-    
+
     m_t, C_t, Ev = calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice)
-    
+
     V_T = numpy.divide(-1.0, Util(C_t, choice) + par.DiscFac*Ev)
 
     CFunc = LinearInterp(m_t, C_t)
@@ -522,15 +509,15 @@ def solveRetiredDeaton(solution_next, aXtraGrid, EGMVector, par, Util, UtilP, Ut
 
     return ChoiceSpecificSolution(m_t, C_t, CFunc, V_T, V_TFunc)
 
-    
-def calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice):    
-    
+
+def calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice):
+
     # Allocate arrays
     m_t = numpy.copy(EGMVector)
     C_t = numpy.copy(EGMVector)
     Ev_t = numpy.copy(EGMVector)
-    
-    # Calculate length of constrained region 
+
+    # Calculate length of constrained region
     conLen = len(m_t)-len(aXtraGrid)
 
     # Calculate the expected marginal utility and expected value function
@@ -556,29 +543,29 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
     choice = 2
 
     choiceCount = len(solution_next.ChoiceSols)
-    
+
     # Next-period initial wealth given exogenous aXtraGrid
     # This needs to be made more general like the rest of the code
-    Cohrs_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YRet*np.ones(TranInc.T.shape)
-    Cohws_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YWork*TranInc.T
-    m_tp1s = (Cohrs_tp1, Cohws_tp1)
+    mrs_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YRet*np.ones(TranInc.T.shape)
+    mws_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YWork*TranInc.T
+    m_tp1s = (mrs_tp1, mws_tp1)
 
     # Prepare variables for EGM step
     C_tp1s = tuple(solution_next.ChoiceSols[d].CFunc(m_tp1s[d]) for d in range(choiceCount))
-    V_Ts = tuple(solution_next.ChoiceSols[d].V_TFunc(m_tp1s[d]) for d in range(choiceCount))
+    Vs = tuple(numpy.divide(-1.0, solution_next.ChoiceSols[d].V_TFunc(m_tp1s[d])) for d in range(choiceCount))
 
     # Due to the transformation on V being monotonic increasing, we can just as
     # well use the transformed values to do this discrete envelope step.
-    V_T, ChoiceProb_tp1 = calcLogSumChoiceProbs(numpy.stack(V_Ts), par.sigma)
+    V, ChoiceProb_tp1 = calcLogSumChoiceProbs(numpy.stack(Vs), par.sigma)
 
     # Calculate the expected marginal utility and expected value function
     PUtilPsum = sum(ChoiceProb_tp1[i, :]*UtilP(C_tp1s[i], i+1) for i in range(choiceCount))
     EUtilP_tp1 =  par.Rfree*numpy.dot(PUtilPsum, TranIncWeights.T)
-    EV_tp1 = numpy.squeeze(numpy.divide(-1.0, numpy.dot(numpy.expand_dims(V_T, axis=1), TranIncWeights.T)))
+    EV_tp1 = numpy.squeeze(numpy.dot(numpy.expand_dims(V, axis=1), TranIncWeights.T))
 
     # EGM step
     m_t, C_t, Ev = calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice)
-    
+
     V_T = numpy.divide(-1.0, Util(C_t, choice) + par.DiscFac*Ev)
 
     # We do the envelope step in transformed value space for accuracy. The values
@@ -592,7 +579,10 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
     V_TFunc = LinearInterp(m_t, V_T, lower_extrap=True)
     return ChoiceSpecificSolution(m_t, C_t, CFunc, V_T, V_TFunc)
 
+
+
 # -
+
 
 # # A Gentle Introduction to DCEGM
 # This notebook introduces the DCEGM method introduced in [1]. The paper generalizes
@@ -709,14 +699,15 @@ model.solve()
 
 # After having `solve`d the model, the `model` object will hold the usual fields
 # such as `solution_terminal`, and a list called `solution` that holds each period
-# $t$'s solution in `method.solution[T-1-t]`. Let us start from the end, and look
+# $t$'s solution in `method.solution[T-t-1]`. Let us start from the end, and look
 # at the terminal solution
 
 # +
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
-model.timeRev()
+#model.timeRev()
 t=19
+Tmtm1 = T
 plt.subplot(1,2,1)
 model.plotC(t, 1)
 model.plotC(t, 2)
@@ -747,20 +738,19 @@ plt.ylim((-20, -5))
 # +
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
-model.timeRev()
 
-Tmt = 1
+t = 19
 plt.subplot(1,2,1)
-plt.plot(model.mGrid, model.solution[Tmt].C)
-plt.xlabel("Coh")
-plt.ylabel("C(Coh)")
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
 plt.xlim((0, 100))
 plt.ylim((0, 60))
 
 plt.subplot(1,2,2)
-plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[Tmt].V_T))
-plt.xlabel("Coh")
-plt.ylabel("V(M)")
+plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[t].V_T))
+plt.xlabel("m")
+plt.ylabel("V(m)")
 plt.ylim((-20, -5))
 # -
 
@@ -806,17 +796,18 @@ f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
 plt.subplot(1,2,1)
-plt.plot(model.mGrid, model.solution[model.T-1-t].C)
-plt.xlabel("Coh")
-plt.ylabel("C(Coh)")
-plt.xlim((0, 100))
-plt.ylim((0, 50))
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
+plt.xlim((-1, 200))
+plt.ylim((0, 70))
 
 plt.subplot(1,2,2)
-plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[model.T-1-t].V_T))
-plt.xlabel("Coh")
-plt.ylabel("V(M)")
-plt.ylim((-20, -5))
+plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[t].V_T))
+plt.xlabel("m")
+plt.ylabel("V(m)")
+plt.ylim((-30, -5))
+plt.xlim((-1, 200))
 # -
 
 # We once again see a primary kink and discontinuity, but we also see the the
@@ -825,15 +816,11 @@ plt.ylim((-20, -5))
 # will propogate back through the recursion and become secondary kinks in earlier
 # periods. Let's finish off by looking at $t=1$
 
-model.solution
-
 # +
-model.timeFwd()
-
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
-t=5
+t=1
 plt.subplot(1,2,1)
 model.plotC(t, 1)
 model.plotC(t, 2)
@@ -844,7 +831,7 @@ plt.subplot(1,2,2)
 model.plotV(t, 1)
 model.plotV(t, 2)
 plt.xlim((0, 500))
-plt.ylim((-150, -100))
+plt.ylim((-250, -100))
 # -
 
 # and
@@ -855,17 +842,18 @@ f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
 plt.subplot(1,2,1)
-plt.plot(model.mGrid, model.solution[model.T-1-t].C)
-plt.xlabel("Coh")
-plt.ylabel("C(Coh)")
-plt.xlim((0, 200))
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
+plt.xlim((0, 500))
 plt.ylim((0, 40))
 
 plt.subplot(1,2,2)
-plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[model.T-1-t].V_T))
-plt.xlabel("Coh")
-plt.ylabel("V(M)")
-#plt.ylim((-120, -50))
+plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[t].V_T))
+plt.xlabel("m")
+plt.ylabel("V(m)")
+plt.xlim((-5, 500))
+
 # -
 
 # # Income uncertainty
@@ -880,13 +868,13 @@ plt.ylabel("V(M)")
 #modelTranInc = dcegm.RetiringDeaton(saveCommon = True)
 incshk_params = copy.deepcopy(retiring_params)
 incshk_params['TranShkCount'] = 100
-incshk_params['TranShkStd'] = [0.075]*incshk_params['T']
+incshk_params['TranShkStd'] = [0.05]*incshk_params['T']
 modelTranInc = RetiringDeaton(**incshk_params)
 modelTranInc.solve()
 
 # +
 modelTranInc.timeRev()
-t = 15
+t = 10
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -895,15 +883,15 @@ modelTranInc.plotC(t, 2)
 plt.xlim((0,150))
 plt.ylim((0,35))
 plt.subplot(1,2,2)
-plt.plot(modelTranInc.mGrid, numpy.divide(-1.0, modelTranInc.solution[t-1].V_T))
-plt.xlabel("Coh")
-plt.ylabel("V(M)")
+plt.plot(modelTranInc.mGrid, numpy.divide(-1.0, modelTranInc.solution[t].V_T))
+plt.xlabel("m")
+plt.ylabel("V(m)")
 #plt.ylim((-120, -50))
 # -
 
 # We see that way back in period 1, the consumption function is now almost flat. We can control the level of smoothing by increasing or decreasing the variance. Below is an example with a middle ground between the previous two model specifications.
 
-plt.plot(model.solution[1].ChoiceSols[1].Coh, model.solution[1].ChoiceSols[1].V_TFunc(model.solution[1].ChoiceSols[1].Coh))
+plt.plot(model.solution[1].ChoiceSols[1].m, model.solution[1].ChoiceSols[1].V_TFunc(model.solution[1].ChoiceSols[1].m))
 
 # We see it's the secondary kinks from retirement decisions in the near future that gets smoothed out, but the primary kink is obviously still present as it comes from retirement in the current period. The smoothing of secondary kinks from the near future comes from the fact that the consumer does quite know what the income is tomorrow, so the posibility of exact timing of retirement is no longer present.
 
@@ -960,7 +948,3 @@ plt.ylim((0,40))
 # [1] Iskhakov, F. , Jørgensen, T. H., Rust, J. and Schjerning, B. (2017), The endogenous grid method for discrete‐continuous dynamic choice models with (or without) taste shocks. Quantitative Economics, 8: 317-365. doi:10.3982/QE643
 #
 # [2] Carroll, C. D. (2006). The method of endogenous gridpoints for solving dynamic stochastic optimization problems. Economics letters, 91(3), 312-320.
-
-
-
-
