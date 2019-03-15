@@ -316,17 +316,17 @@ def calcExtraSaves(saveCommon, rs, ws, par, mGrid):
         # ws.C and ws.V_T are on the ws.m grid, so we use that to interpolate.
 
         Crs = LinearInterp(rs.m, rs.C)(mGrid)
-        V_Trs = LinearInterp(rs.m, rs.V_T)(mGrid)
+        V_rs = numpy.divide(-1, LinearInterp(rs.m, rs.V_T)(mGrid))
 
-        V_Tws = ws.V_T
         Cws = ws.C
+        V_ws = numpy.divide(-1, ws.V_T)
 
-        V_T, P = calcLogSumChoiceProbs(numpy.stack((V_Trs, V_Tws)), par.sigma)
+        V, P = calcLogSumChoiceProbs(numpy.stack((V_rs, V_ws)), par.sigma)
 
         C = (P*numpy.stack((Crs, Cws))).sum(axis=0)
     else:
         C, V_T, P = None, None, None
-    return C, V_T, P
+    return C, numpy.divide(-1.0, V), P
 
 
 RetiringDeatonParameters = namedtuple('RetiringDeatonParamters',
@@ -486,28 +486,7 @@ def solveRetiringDeaton(solution_next, LivPrb, PermGroFac, IncomeDstn, PermShkDs
 
     return RetiringDeatonSolution((rs, ws), mGrid, C, V_T, P)
 
-def solveRetiredDeaton(solution_next, aXtraGrid, EGMVector, par, Util, UtilP, UtilP_inv):
-    choice = 1
-    rs_tp1 = solution_next.ChoiceSols[0]
 
-    # Next-period initial wealth given exogenous aXtraGrid
-    m_tp1 = par.Rfree*aXtraGrid + par.YRet
-
-    # Prepare variables for EGM step
-    EC_tp1 = rs_tp1.CFunc(m_tp1)
-    EV_T_tp1 = rs_tp1.V_TFunc(m_tp1)
-    EV_tp1 = numpy.divide(-1.0, EV_T_tp1)
-
-    EUtilP_tp1 = par.Rfree*UtilP(EC_tp1, choice)
-
-    m_t, C_t, Ev = calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice)
-
-    V_T = numpy.divide(-1.0, Util(C_t, choice) + par.DiscFac*Ev)
-
-    CFunc = LinearInterp(m_t, C_t)
-    V_TFunc = LinearInterp(m_t, V_T)
-
-    return ChoiceSpecificSolution(m_t, C_t, CFunc, V_T, V_TFunc)
 
 
 def calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice):
@@ -538,6 +517,30 @@ def calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, Util
 
     return m_t, C_t, Ev_t
 
+def solveRetiredDeaton(solution_next, aXtraGrid, EGMVector, par, Util, UtilP, UtilP_inv):
+    choice = 1
+    rs_tp1 = solution_next.ChoiceSols[0]
+
+    # Next-period initial wealth given exogenous aXtraGrid
+    m_tp1 = par.Rfree*aXtraGrid + par.YRet
+
+    # Prepare variables for EGM step
+    EC_tp1 = rs_tp1.CFunc(m_tp1)
+    EV_T_tp1 = rs_tp1.V_TFunc(m_tp1)
+    EV_tp1 = numpy.divide(-1.0, EV_T_tp1)
+
+    EUtilP_tp1 = par.Rfree*UtilP(EC_tp1, choice)
+
+    m_t, C_t, Ev = calcEGMStep(EGMVector, aXtraGrid, EV_tp1, EUtilP_tp1, par, Util, UtilP, UtilP_inv, choice)
+
+    V_T = numpy.divide(-1.0, Util(C_t, choice) + par.DiscFac*Ev)
+
+    CFunc = LinearInterp(m_t, C_t)
+    V_TFunc = LinearInterp(m_t, V_T)
+
+    return ChoiceSpecificSolution(m_t, C_t, CFunc, V_T, V_TFunc)
+
+
 
 def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, UtilP, UtilP_inv, TranInc, TranIncWeights):
     choice = 2
@@ -546,7 +549,7 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 
     # Next-period initial wealth given exogenous aXtraGrid
     # This needs to be made more general like the rest of the code
-    mrs_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YRet*np.ones(TranInc.T.shape)
+    mrs_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YWork*TranInc.T
     mws_tp1 = par.Rfree*numpy.expand_dims(aXtraGrid, axis=1) + par.YWork*TranInc.T
     m_tp1s = (mrs_tp1, mws_tp1)
 
@@ -557,7 +560,6 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
     # Due to the transformation on V being monotonic increasing, we can just as
     # well use the transformed values to do this discrete envelope step.
     V, ChoiceProb_tp1 = calcLogSumChoiceProbs(numpy.stack(Vs), par.sigma)
-
     # Calculate the expected marginal utility and expected value function
     PUtilPsum = sum(ChoiceProb_tp1[i, :]*UtilP(C_tp1s[i], i+1) for i in range(choiceCount))
     EUtilP_tp1 =  par.Rfree*numpy.dot(PUtilPsum, TranIncWeights.T)
@@ -625,14 +627,14 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 # +
 CRRA = 1.0
 DiscFac = 0.98
-Rfree = 1/DiscFac
+Rfree = 1.0
 DisUtil = 1.0
 T = 20
 sigma = 0.0
 
 aXtraMin = 1e-6
-aXtraMax = 1000.0
-aXtraCount = 2000
+aXtraMax = 400.0
+aXtraCount = 6000
 aXtraExtra = () # this is additional points to add (for precision around know problematic areas)
 aXtraNestFac = 1 # this is the times to nest
 
@@ -642,7 +644,7 @@ TranShkStd = [0.000]*T
 TranShkCount = 1
 PermShkStd = [0.0]*T
 PermShkCount = 1
-EGMCount=3000
+EGMCount=7000
 saveCommon=True
 T_retire = 0 # not applicable, it's endogenous
 T_cycle = T
@@ -690,10 +692,6 @@ model = RetiringDeaton(**retiring_params)
 
 # And then we can solve the problem as usual for `AgentType` objects by using
 # the `solve` method
-
-# +
-#model.update()
-# -
 
 model.solve()
 
@@ -820,7 +818,7 @@ plt.xlim((-1, 200))
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
-t=1
+t=18
 plt.subplot(1,2,1)
 model.plotC(t, 1)
 model.plotC(t, 2)
@@ -831,13 +829,13 @@ plt.subplot(1,2,2)
 model.plotV(t, 1)
 model.plotV(t, 2)
 plt.xlim((0, 500))
-plt.ylim((-250, -100))
+plt.ylim((-250, -10))
 # -
 
 # and
 
 # +
-t = 1
+t = 18
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -856,6 +854,8 @@ plt.xlim((-5, 500))
 
 # -
 
+
+
 # # Income uncertainty
 # Above we saw that the optimal consumption is very jagged: individuals can completely predict their future income given the current and future choices, so they can precisely time their optimal retirement already from "birth". We will now see how adding income uncertainty can smooth out some of these discontinuities: Note, the behavior is certainly rational and optimal, the model just doesn't represent many realistic scenarios we have in mind.
 #
@@ -867,14 +867,15 @@ plt.xlim((-5, 500))
 
 #modelTranInc = dcegm.RetiringDeaton(saveCommon = True)
 incshk_params = copy.deepcopy(retiring_params)
+incshk_params['Rfree'] = 1.00
 incshk_params['TranShkCount'] = 100
-incshk_params['TranShkStd'] = [0.05]*incshk_params['T']
+incshk_params['TranShkStd'] = [sqrt(0.005)]*incshk_params['T']
 modelTranInc = RetiringDeaton(**incshk_params)
 modelTranInc.solve()
 
 # +
-modelTranInc.timeRev()
-t = 10
+
+t = 15
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -909,6 +910,17 @@ t = 10
 model_fig2.plotC(t, 2)
 t = 1
 model_fig2.plotC(t, 2)
+
+plt.xlim((0,400))
+plt.ylim((0,40))
+# -
+
+t = 18
+model_fig2.plotC(t, 2)
+t = 10
+model_fig2.plotC(t, 2)
+t = 1
+model_fig2.plotC(t, 2)
 t = 18
 model_fig2.plotC(t, 1, color= 'k')
 t = 10
@@ -916,15 +928,14 @@ model_fig2.plotC(t, 1, color= 'k')
 t = 1
 model_fig2.plotC(t, 1, color= 'k')
 
-plt.xlim((0,400))
-plt.ylim((0,40))
-# -
 
 # # Figure 3
 
 # +
 #modelTranIncLight = dcegm.RetiringDeaton(saveCommon = True, TranIncNodes = 20, TranIncVar = 0.001)
 fig3_params = retiring_params.copy()
+fig3_params['Rfree'] = 1.01
+fig3_params['DiscFac'] = 1/fig3_params['Rfree']
 model_fig3 = RetiringDeaton(**fig3_params)
 model_fig3.solve()
 t = 18
@@ -948,3 +959,82 @@ plt.ylim((0,40))
 # [1] Iskhakov, F. , Jørgensen, T. H., Rust, J. and Schjerning, B. (2017), The endogenous grid method for discrete‐continuous dynamic choice models with (or without) taste shocks. Quantitative Economics, 8: 317-365. doi:10.3982/QE643
 #
 # [2] Carroll, C. D. (2006). The method of endogenous gridpoints for solving dynamic stochastic optimization problems. Economics letters, 91(3), 312-320.
+
+
+
+
+
+# +
+#modelTranInc = dcegm.RetiringDeaton(saveCommon = True)
+incshk_params = copy.deepcopy(retiring_params)
+incshk_params['Rfree'] = 1.00
+incshk_params['DiscFac'] = 0.98
+incshk_params['TranShkCount'] = 1
+incshk_params['TranShkStd'] = [sqrt(0.000)]*incshk_params['T']
+model_fig2 = RetiringDeaton(**incshk_params)
+model_fig2.solve()
+t = 18
+model_fig2.plotC(t, 2)
+t = 10
+model_fig2.plotC(t, 2)
+t = 1
+model_fig2.plotC(t, 2)
+t = 18
+model_fig2.plotC(t, 1, color= 'k')
+t = 10
+model_fig2.plotC(t, 1, color= 'k')
+t = 1
+model_fig2.plotC(t, 1, color= 'k')
+
+plt.xlim((0,400))
+plt.ylim((0,40))
+
+# +
+t = 19
+gird = model_fig2.mGrid
+
+Cret = model_fig2.solution[t].ChoiceSols[0].CFunc(gird)
+Cwork = model_fig2.solution[t].ChoiceSols[1].CFunc(gird)
+
+Vret = numpy.divide(-1.0, model_fig2.solution[t].ChoiceSols[0].V_TFunc(gird))
+Vwork = numpy.divide(-1.0, model_fig2.solution[t].ChoiceSols[1].V_TFunc(gird))
+# -
+
+plt.plot(gird, Cret)
+plt.plot(gird, Cwork)
+
+plt.plot(gird, Vret)
+plt.plot(gird, Vwork)
+plt.ylim((-30,0))
+
+# +
+
+plt.plot(gird, Vwork)
+plt.ylim((-50,0))
+# -
+
+Vwork
+
+Vret
+
+V,P = calcLogSumChoiceProbs(numpy.stack((Vret, Vwork)), 0.0)
+
+gird
+
+plt.plot(gird,  Vret<Vwork)
+plt.xlim((0,100))
+
+model_fig2.Util(600, 1)
+
+# +
+t = 20
+gird = model_fig2.mGrid
+
+Cret = model_fig2.solution_terminal.ChoiceSols[0].CFunc(gird)
+Cwork = model_fig2.solution_terminal.ChoiceSols[1].CFunc(gird)
+
+Vret = numpy.divide(-1.0, model_fig2.solution_terminal.ChoiceSols[0].V_TFunc(gird))
+Vwork = numpy.divide(-1.0, model_fig2.solution_terminal.ChoiceSols[1].V_TFunc(gird))
+# -
+
+Vret
