@@ -704,7 +704,7 @@ model.solve()
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 #model.timeRev()
-t=19
+t=20
 Tmtm1 = T
 plt.subplot(1,2,1)
 model.plotC(t, 1)
@@ -719,51 +719,60 @@ plt.xlim((0, 200))
 plt.ylim((-20, -5))
 # -
 
-# We immediately notice two things: the two grids over $m_t$ are different as
-# the EGM step produces different endogenous grids depending on the discrete
-# grids (even if the exogenous grids over the post-decision states are the same),
-# and there are regions where it is optimal to retire (for high $m_t$) and work
-# (low $M_t$). The intuition should be straight forward. The value function is
-# the upper envelope of the two choice specific value functions, so it's clear
-# that it will not be differentiable at that point, and that the resulting
-# consumption function has a discontinuity at the threshold value of $M_t$.
-# The authors call these primary kinks.
-#
-# Since we chose to set the `saveCommon` keyword to `True`, the `solveOnePeriod`
-# method will also save the consumption function and value function on the common
-# grid (`model.mGrid`). We can plot this
+# Since work is paid at the beginning of the period after it takes place, it is never optimal to work in the last period. The wage would be lost (as the agent dies after this ultimate period), there is disutility of work in the model, and there is no bequest motive. 
+
+# Let us now consider the second to last period.
 
 # +
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
+t=19
+plt.subplot(1,2,1)
+model.plotC(t, 1)
+model.plotC(t, 2)
+plt.xlim((0,200))
+plt.ylim((0,100))
+plt.subplot(1,2,2)
+model.plotV(t, 1)
+model.plotV(t, 2)
+plt.xlim((0,200))
+plt.ylim((-30,-10))
+# -
+
+# The panel on the left shows the consumption functions conditional on working or retiring givne the beginning of period resources $m$. We recognize the usual solutions from standard consumption savings models. The worker has a segment (for low $m$) where they consume everything, and the retiree smoothes consumption over current and next period. The two functions are different because retired agents don't earn *any* income in this model, and the workers are constrained for low $m$ because they would prefer to borrow money today if they could because they *do* earn an income (of 20) between two periods.
+
+# In the second-to-last period, we begin to see where problems might arise. Since the agent will want to work for low values of $m$ and retire for high values of $m$, the consumption function will have *kinks*, or discontinuities. This will happen where the two choice specific value functions cross. A crossing like that will create a point of nondifferentiability in the value function. Discontinuities and non-differentiable points are unwanted quite generally, because local optima are no longer global optima. In other words, the first order conditions are necessary for interior solutions, but no longer sufficient. 
+#
+# Below, we see the result of calculating the upper envelope of the value functions and the consumption function that follows.
+
+# +
 t = 19
+f, axs = plt.subplots(1,2,figsize=(10,5))
+plt.subplots_adjust(wspace=0.6)
+
 plt.subplot(1,2,1)
 plt.plot(model.mGrid, model.solution[t].C)
 plt.xlabel("m")
 plt.ylabel("C(m)")
-plt.xlim((0, 100))
-plt.ylim((0, 60))
+plt.xlim((-1, 200))
+plt.ylim((0, 70))
 
 plt.subplot(1,2,2)
 plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[t].V_T))
 plt.xlabel("m")
 plt.ylabel("V(m)")
-plt.ylim((-20, -5))
+plt.ylim((-30, -5))
+plt.xlim((-1, 200))
 # -
 
-
-# The "kink" refers to the nondifferentiability in the value function, and we
-# see the effect quite clearly in the consumption function, where it translates
-# into a discountinuity. Discontinuities and nondifferentiable points are bad for
-# any numeric solution method, and this is exactly why we need DCEGM to solve
-# this model quickly.
+# It should now be clear that simply applying an EGM step at $t=18$ will be problematic, as it is now possible that the value function has the same derivate for different values of $m$.
 
 # Let's go back one period.
 # It's important to keep in mind that seen from period $t=18$, we have to take
 # into consideration that varying consumption today may change the wealth tomorrow
 # in such a way that the optimal decision flips from retirement to work (and the
-# other way around). Let's plot it.
+# other way around). Let's plot it the panels for t=18.
 
 # +
 f, axs = plt.subplots(2,2,figsize=(10,5))
@@ -785,8 +794,7 @@ plt.ylim((-30,-10))
 # This time we see a discontinuity already in the choice specific consumption
 # function and kinks in the choice specific value functions for the workers!
 # This is *not* the discontinuity from the retirement threshold in period $t=18$,
-# but from the "future" discontinuity in $t=19$. We'll first look at the final
-# consumption function $C_{18}(M)$, and then we'll return to these to these.
+# but from the "future" switch in discrete choice from work to retire in $t=19$. Let's take a look at the upper envelope and the consumption function it implies.
 
 # +
 t = 18
@@ -804,13 +812,13 @@ plt.subplot(1,2,2)
 plt.plot(model.mGrid, numpy.divide(-1.0, model.solution[t].V_T))
 plt.xlabel("m")
 plt.ylabel("V(m)")
-plt.ylim((-30, -5))
+plt.ylim((-30, -15))
 plt.xlim((-1, 200))
 # -
 
 # We once again see a primary kink and discontinuity, but we also see the the
 # effect of the retirement behavior at period $t=19$. These are called secondary
-# kinks. As is maybe clear by now, each period will introduce a new primary kink,
+# kinks. As is maybe clear by now, each period will introduce a new primary kink, that
 # will propogate back through the recursion and become secondary kinks in earlier
 # periods. Let's finish off by looking at $t=1$
 
@@ -818,24 +826,24 @@ plt.xlim((-1, 200))
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
-t=18
+t=1
 plt.subplot(1,2,1)
 model.plotC(t, 1)
 model.plotC(t, 2)
-plt.xlim((0, 500))
+plt.xlim((0, 400))
 plt.ylim((0, 60))
 
 plt.subplot(1,2,2)
 model.plotV(t, 1)
 model.plotV(t, 2)
-plt.xlim((0, 500))
-plt.ylim((-250, -10))
+plt.xlim((0, 400))
+plt.ylim((-250, -100))
 # -
 
 # and
 
 # +
-t = 18
+t = 1
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -853,81 +861,70 @@ plt.ylabel("V(m)")
 plt.xlim((-5, 500))
 
 # -
-
+# Hopefully, it's clear that a specialized method is necessary to produce such accurate solutions, and that is exactly what the DCEGM algorithm that is implemented in HARK is an example of.
 
 
 # # Income uncertainty
-# Above we saw that the optimal consumption is very jagged: individuals can completely predict their future income given the current and future choices, so they can precisely time their optimal retirement already from "birth". We will now see how adding income uncertainty can smooth out some of these discontinuities: Note, the behavior is certainly rational and optimal, the model just doesn't represent many realistic scenarios we have in mind.
+# Above we saw that the optimal consumption is very jagged: individuals can completely predict their future income given the current and future choices, so they can precisely time their optimal retirement already from "birth". We will now see how adding income uncertainty can smooth out some of these discontinuities: Note, the behavior above certainly was rational and optimal, the model just wasn't too realistic. Most modern consumption/saving models will include at least transitory shocks, permanent shocks, or both.
 #
-# Instead of simply having a constant income given the lagged work/retire decision, we introduce a transitory income shock that is lognormally distributed, and has mean 1. As such, the mean income, conditional on last period's labor decision, is the same in the two model specifications.
+# Instead of simply having a constant income given the lagged work/retire decision, we introduce a multiplicative, transitory income shock that is lognormally distributed, and has mean 1. This means that the mean income for a worker is still 20.
 #
-# ..math..
-#
-# To set a positive variance we specify $\sigma^2$ and the number of nodes used to do quadrature.
+# To set a positive variance we specify the standard deviation, $\sigma$, and the number of nodes used to do evaluate the expectations. We set $\sigma=\sqrt{0.005}$ to replicate the results in Figure 4 in the paper.
 
-#modelTranInc = dcegm.RetiringDeaton(saveCommon = True)
 incshk_params = copy.deepcopy(retiring_params)
-incshk_params['Rfree'] = 1.00
+incshk_params['Rfree'] = 1.0
+incshk_params['DiscFac'] = 0.98
 incshk_params['TranShkCount'] = 100
 incshk_params['TranShkStd'] = [sqrt(0.005)]*incshk_params['T']
 modelTranInc = RetiringDeaton(**incshk_params)
 modelTranInc.solve()
 
 # +
-
 t = 15
-f, axs = plt.subplots(1,2,figsize=(10,5))
-plt.subplots_adjust(wspace=0.6)
 
-plt.subplot(1,2,1)
 modelTranInc.plotC(t, 2)
-plt.xlim((0,150))
-plt.ylim((0,35))
-plt.subplot(1,2,2)
-plt.plot(modelTranInc.mGrid, numpy.divide(-1.0, modelTranInc.solution[t].V_T))
-plt.xlabel("m")
-plt.ylabel("V(m)")
-#plt.ylim((-120, -50))
+plt.xlim((14,120))
+plt.ylim((15,25))
+
 # -
 
-# We see that way back in period 1, the consumption function is now almost flat. We can control the level of smoothing by increasing or decreasing the variance. Below is an example with a middle ground between the previous two model specifications.
+# From this, we see that the secondary kinks, that is the kinks that come from expected future retirement choices, are smoothed out, because the agent cannot completely foresee and plan the retirement. A small transitory shock might delay retirement, and a big transitory shock might advance retirement. However, the primary kinks will still be "hard" discontinuities as we have not yet introduced taste shocks. The "ex ante" consumption function is plotted below.
 
-plt.plot(model.solution[1].ChoiceSols[1].m, model.solution[1].ChoiceSols[1].V_TFunc(model.solution[1].ChoiceSols[1].m))
+# +
+t = 15
 
-# We see it's the secondary kinks from retirement decisions in the near future that gets smoothed out, but the primary kink is obviously still present as it comes from retirement in the current period. The smoothing of secondary kinks from the near future comes from the fact that the consumer does quite know what the income is tomorrow, so the posibility of exact timing of retirement is no longer present.
+plt.plot(modelTranInc.mGrid, modelTranInc.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
+plt.xlim((0, 140))
+plt.ylim((0, 40))
+
+# -
 
 # # Figure 2
 
-# +
 #modelTranIncLight = dcegm.RetiringDeaton(saveCommon = True, TranIncNodes = 20, TranIncVar = 0.001)
-retiring_incshk_params = copy.deepcopy(retiring_params)
-retiring_incshk_params['Rfree'] = 1.0
+fig2_params = copy.deepcopy(retiring_params)
+fig2_params['Rfree'] = 1.0
+fig2_params['DiscFac'] = 0.98
 model_fig2 = RetiringDeaton(**retiring_incshk_params)
 model_fig2.solve()
 t = 18
-model_fig2.plotC(t, 2)
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
 t = 10
-model_fig2.plotC(t, 2)
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
+plt.xlim((0, 500))
+plt.ylim((0, 40))
 t = 1
-model_fig2.plotC(t, 2)
-
-plt.xlim((0,400))
-plt.ylim((0,40))
-# -
-
-t = 18
-model_fig2.plotC(t, 2)
-t = 10
-model_fig2.plotC(t, 2)
-t = 1
-model_fig2.plotC(t, 2)
-t = 18
-model_fig2.plotC(t, 1, color= 'k')
-t = 10
-model_fig2.plotC(t, 1, color= 'k')
-t = 1
-model_fig2.plotC(t, 1, color= 'k')
-
+plt.plot(model.mGrid, model.solution[t].C)
+plt.xlabel("m")
+plt.ylabel("C(m)")
+plt.xlim((0, 500))
+plt.ylim((0, 40))
 
 # # Figure 3
 
@@ -944,12 +941,7 @@ t = 10
 model_fig3.plotC(t, 2)
 t = 1
 model_fig3.plotC(t, 2)
-t = 18
-model_fig3.plotC(t, 1, color= 'k')
-t = 10
-model_fig3.plotC(t, 1, color= 'k')
-t = 1
-model_fig3.plotC(t, 1, color= 'k')
+
 
 plt.xlim((0,400))
 plt.ylim((0,40))
@@ -959,82 +951,3 @@ plt.ylim((0,40))
 # [1] Iskhakov, F. , Jørgensen, T. H., Rust, J. and Schjerning, B. (2017), The endogenous grid method for discrete‐continuous dynamic choice models with (or without) taste shocks. Quantitative Economics, 8: 317-365. doi:10.3982/QE643
 #
 # [2] Carroll, C. D. (2006). The method of endogenous gridpoints for solving dynamic stochastic optimization problems. Economics letters, 91(3), 312-320.
-
-
-
-
-
-# +
-#modelTranInc = dcegm.RetiringDeaton(saveCommon = True)
-incshk_params = copy.deepcopy(retiring_params)
-incshk_params['Rfree'] = 1.00
-incshk_params['DiscFac'] = 0.98
-incshk_params['TranShkCount'] = 1
-incshk_params['TranShkStd'] = [sqrt(0.000)]*incshk_params['T']
-model_fig2 = RetiringDeaton(**incshk_params)
-model_fig2.solve()
-t = 18
-model_fig2.plotC(t, 2)
-t = 10
-model_fig2.plotC(t, 2)
-t = 1
-model_fig2.plotC(t, 2)
-t = 18
-model_fig2.plotC(t, 1, color= 'k')
-t = 10
-model_fig2.plotC(t, 1, color= 'k')
-t = 1
-model_fig2.plotC(t, 1, color= 'k')
-
-plt.xlim((0,400))
-plt.ylim((0,40))
-
-# +
-t = 19
-gird = model_fig2.mGrid
-
-Cret = model_fig2.solution[t].ChoiceSols[0].CFunc(gird)
-Cwork = model_fig2.solution[t].ChoiceSols[1].CFunc(gird)
-
-Vret = numpy.divide(-1.0, model_fig2.solution[t].ChoiceSols[0].V_TFunc(gird))
-Vwork = numpy.divide(-1.0, model_fig2.solution[t].ChoiceSols[1].V_TFunc(gird))
-# -
-
-plt.plot(gird, Cret)
-plt.plot(gird, Cwork)
-
-plt.plot(gird, Vret)
-plt.plot(gird, Vwork)
-plt.ylim((-30,0))
-
-# +
-
-plt.plot(gird, Vwork)
-plt.ylim((-50,0))
-# -
-
-Vwork
-
-Vret
-
-V,P = calcLogSumChoiceProbs(numpy.stack((Vret, Vwork)), 0.0)
-
-gird
-
-plt.plot(gird,  Vret<Vwork)
-plt.xlim((0,100))
-
-model_fig2.Util(600, 1)
-
-# +
-t = 20
-gird = model_fig2.mGrid
-
-Cret = model_fig2.solution_terminal.ChoiceSols[0].CFunc(gird)
-Cwork = model_fig2.solution_terminal.ChoiceSols[1].CFunc(gird)
-
-Vret = numpy.divide(-1.0, model_fig2.solution_terminal.ChoiceSols[0].V_TFunc(gird))
-Vwork = numpy.divide(-1.0, model_fig2.solution_terminal.ChoiceSols[1].V_TFunc(gird))
-# -
-
-Vret
