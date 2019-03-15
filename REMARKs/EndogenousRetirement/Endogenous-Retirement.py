@@ -252,7 +252,8 @@ def calcChoiceProbs(Vals, sigma):
             Probs[i][Pflat==i] = 1
         return Probs
 
-    Probs = np.divide(np.exp((Vals-Vals[0])/sigma), np.sum(np.exp((Vals-Vals[0])/sigma), axis=0))
+    maxV = Vals[0]
+    Probs = np.divide(np.exp((Vals-maxV)/sigma), np.sum(np.exp((Vals-maxV)/sigma), axis=0))
     return Probs
 
 
@@ -719,7 +720,7 @@ plt.xlim((0, 200))
 plt.ylim((-20, -5))
 # -
 
-# Since work is paid at the beginning of the period after it takes place, it is never optimal to work in the last period. The wage would be lost (as the agent dies after this ultimate period), there is disutility of work in the model, and there is no bequest motive. 
+# Since work is paid at the beginning of the period after it takes place, it is never optimal to work in the last period. The wage would be lost (as the agent dies after this ultimate period), there is disutility of work in the model, and there is no bequest motive.
 
 # Let us now consider the second to last period.
 
@@ -742,7 +743,7 @@ plt.ylim((-30,-10))
 
 # The panel on the left shows the consumption functions conditional on working or retiring givne the beginning of period resources $m$. We recognize the usual solutions from standard consumption savings models. The worker has a segment (for low $m$) where they consume everything, and the retiree smoothes consumption over current and next period. The two functions are different because retired agents don't earn *any* income in this model, and the workers are constrained for low $m$ because they would prefer to borrow money today if they could because they *do* earn an income (of 20) between two periods.
 
-# In the second-to-last period, we begin to see where problems might arise. Since the agent will want to work for low values of $m$ and retire for high values of $m$, the consumption function will have *kinks*, or discontinuities. This will happen where the two choice specific value functions cross. A crossing like that will create a point of nondifferentiability in the value function. Discontinuities and non-differentiable points are unwanted quite generally, because local optima are no longer global optima. In other words, the first order conditions are necessary for interior solutions, but no longer sufficient. 
+# In the second-to-last period, we begin to see where problems might arise. Since the agent will want to work for low values of $m$ and retire for high values of $m$, the consumption function will have *kinks*, or discontinuities. This will happen where the two choice specific value functions cross. A crossing like that will create a point of nondifferentiability in the value function. Discontinuities and non-differentiable points are unwanted quite generally, because local optima are no longer global optima. In other words, the first order conditions are necessary for interior solutions, but no longer sufficient.
 #
 # Below, we see the result of calculating the upper envelope of the value functions and the consumption function that follows.
 
@@ -907,7 +908,7 @@ plt.ylim((0, 40))
 fig2_params = copy.deepcopy(retiring_params)
 fig2_params['Rfree'] = 1.0
 fig2_params['DiscFac'] = 0.98
-model_fig2 = RetiringDeaton(**retiring_incshk_params)
+model_fig2 = RetiringDeaton(**retiring_params)
 model_fig2.solve()
 t = 18
 plt.plot(model.mGrid, model.solution[t].C)
@@ -945,6 +946,49 @@ model_fig3.plotC(t, 2)
 
 plt.xlim((0,400))
 plt.ylim((0,40))
+# -
+
+# # Figure 4
+
+# +
+fig4_1_params = copy.deepcopy(retiring_params)
+fig4_1_params['Rfree'] = 1.0
+fig4_1_params['DiscFac'] = 0.98
+fig4_1_params['TranShkCount'] = 1
+fig4_1_params['TranShkStd'] = [sqrt(0.0000)]*fig4_1_params['T']
+modelfig4_1 = RetiringDeaton(**fig4_1_params)
+modelfig4_1.solve()
+
+fig4_2_params = copy.deepcopy(fig4_1_params)
+fig4_2_params['sigma'] = 0.01
+modelfig4_2 = RetiringDeaton(**fig4_2_params)
+modelfig4_2.solve()
+
+fig4_3_params = copy.deepcopy(fig4_1_params)
+fig4_3_params['sigma'] = 0.05
+modelfig4_3 = RetiringDeaton(**fig4_3_params)
+modelfig4_3.solve()
+
+fig4_4_params = copy.deepcopy(fig4_1_params)
+fig4_4_params['sigma'] = 0.1
+modelfig4_4 = RetiringDeaton(**fig4_4_params)
+modelfig4_4.solve()
+
+fig4_5_params = copy.deepcopy(fig4_1_params)
+fig4_5_params['sigma'] = 0.15
+modelfig4_5 = RetiringDeaton(**fig4_5_params)
+modelfig4_5.solve()
+
+
+t = 15
+modelfig4_1.plotC(t, 2)
+#modelfig4_2.plotC(t, 2)
+modelfig4_3.plotC(t, 2)
+modelfig4_4.plotC(t, 2)
+modelfig4_5.plotC(t, 2)
+plt.xlim((14,120))
+plt.ylim((15,25))
+
 # -
 
 # # References
