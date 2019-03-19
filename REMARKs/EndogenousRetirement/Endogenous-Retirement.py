@@ -224,8 +224,29 @@ def calcLogSumChoiceProbs(Vals, sigma):
     P : [numpy.array]
         A numpy.array that holds the discrete choice probabilities
     '''
+    # Assumes that NaNs have been replaced by -numpy.inf or similar
+    if sigma == 0.0:
+        # We could construct a linear index here and use unravel_index.
+        Pflat = np.argmax(Vals, axis=0)
+        
+        V = np.zeros(Vals[0].shape)
+        Probs = np.zeros(Vals.shape)
+        for i in range(Vals.shape[0]):
+            optimalIndices = Pflat == i
+            V[optimalIndices] = Vals[i][optimalIndices]
+            Probs[i][optimalIndices] = 1
+        return V, Probs
 
-    return calcLogSum(Vals, sigma), calcChoiceProbs(Vals, sigma)
+    # else we have a taste shock
+    maxV = np.max(Vals, axis=0)
+
+    # calculate maxV+sigma*log(sum_i=1^J exp((V[i]-maxV))/sigma)
+    sumexp = np.sum(np.exp((Vals-maxV)/sigma), axis=0)
+    LogSumV = np.log(sumexp)
+    LogSumV = maxV + sigma*LogSumV
+
+    Probs = np.exp((Vals-LogSumV)/sigma)
+    return LogSumV, Probs
 
 def calcChoiceProbs(Vals, sigma):
     '''
