@@ -252,7 +252,7 @@ def calcChoiceProbs(Vals, sigma):
             Probs[i][Pflat==i] = 1
         return Probs
 
-    maxV = Vals[0]
+    maxV = np.max(Vals, axis=0)
     Probs = np.divide(np.exp((Vals-maxV)/sigma), np.sum(np.exp((Vals-maxV)/sigma), axis=0))
     return Probs
 
@@ -279,7 +279,7 @@ def calcLogSum(Vals, sigma):
         return V
 
     # else we have a taste shock
-    maxV = Vals.max()
+    maxV = np.max(Vals, axis=0)
 
     # calculate maxV+sigma*log(sum_i=1^J exp((V[i]-maxV))/sigma)
     sumexp = np.sum(np.exp((Vals-maxV)/sigma), axis=0)
@@ -439,7 +439,7 @@ class RetiringDeaton(IndShockConsumerType):
         plt.title('Choice specific value functions')
 
 
-    def plotC(self, t, d, plot_range = None, **kwds):
+    def plotC(self, t, d, plot_range = None, label=None, **kwds):
 
         if t == self.T:
             sol = self.solution_terminal
@@ -457,11 +457,18 @@ class RetiringDeaton(IndShockConsumerType):
             plot_range = range(len(sol.m))
         else:
             plot_range = range(plot_range[0], plot_range[1])
-        plt.plot(sol.m[plot_range], sol.C[plot_range], label="{} (t = {})".format(choice_str, t), **kwds)
+
+        if label==None:
+            kwds['label'] = "{} (t = {})".format(choice_str, t)
+        else:
+            kwds['label'] = label
+        plot, = plt.plot(sol.m[plot_range], sol.C[plot_range], **kwds)
+
         plt.legend()
         plt.xlabel("m")
         plt.ylabel("C(m)")
         plt.title('Choice specific consumption functions')
+        return plot
 
 
 
@@ -981,14 +988,10 @@ modelfig4_5.solve()
 
 
 t = 15
-modelfig4_1.plotC(t, 2)
-#modelfig4_2.plotC(t, 2)
-modelfig4_3.plotC(t, 2)
-modelfig4_4.plotC(t, 2)
-modelfig4_5.plotC(t, 2)
+for mfig in (modelfig4_1, modelfig4_2, modelfig4_3, modelfig4_4, modelfig4_5):
+    mfig.plotC(t, 2, label="sigma = {}".format(mfig.sigma))
 plt.xlim((14,120))
 plt.ylim((15,25))
-
 # -
 
 # # References
