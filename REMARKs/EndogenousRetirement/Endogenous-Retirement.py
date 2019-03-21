@@ -616,8 +616,8 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 
 
 # # A Gentle Introduction to DCEGM
-# This notebook introduces the DCEGM method introduced in [1]. The paper generalizes
-# the method of Endogenous Grid Points (EGM) in [2] to mixed choice models with
+# This notebook introduces the DCEGM method introduced in <cite data-cite="6202365/4F64GG8F"></cite>. The paper generalizes
+# the method of Endogenous Grid Points (EGM) in <cite data-cite="6202365/HQ6H9JEI"></cite> to mixed choice models with
 # both Discrete and Continuous (DC) choices. Usually, the models solved by EGM
 # have first order conditions (FOCs) that are necessary and sufficient. When we
 # introduce the discrete choice, the FOCs can be shown to only be necessecary.
@@ -632,20 +632,19 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 # \max_{\{c_t,d_t\}^T_{t=1}} \sum^T_{t=1}\beta^t(\log(c_t)-\delta (2-d_t))
 # $$
 #
-# where we follow Rust et al in defining $d_t=1$ means that the agent is retired, and $d_t=2$ means that the agent
-# works. Then, $\delta$ can be interpreted as the disutility of work, and we
-# see that we have the limiting utility function of a CRRA with $\gamma \downarrow 1$.
+# where we follow Rust et al in defining $d_t=1$ as the agent's decision to wkr, and $d_t=2$ as the agent's decision to retire. Then, $\delta$ can be interpreted as the disutility of work, and we
+# see that we have the limiting utility function of a CRRA with $\gamma \downarrow 1$. It is further assumed that the retirement is an absorbing state.
 #
 # We solve the problem under a no-borrowing constraint, so $c_t\leq m_t$ where $m_t$
-# is the ressources at the beginning of each period that can be consumed or saved
-# for next period. The ressource state $m_t$ is given by
+# is the resources at the beginning of each period that can be consumed or saved
+# for next period. The resource state $m_t$ is given by
 #
 # $$
 # m_t = R(m_{t-1}-c_{t-1}) + y\cdot d_{t-1}
 # $$
 #
 # where $R$ is a fixed interest factor and $y$ is (possibly stochastic) labour income.
-# We follow standard timing such that at the very start of period $t$ last period's
+# We follow standard timing such that at the very start of period $t$, last period's
 # labour income is transferred to the agent, then the agent makes their choices,
 # and just as the period is about to end, interest is paid on whatever resources
 # are left.
@@ -769,9 +768,9 @@ plt.xlim((0,200))
 plt.ylim((-30,-10))
 # -
 
-# The panel on the left shows the consumption functions conditional on working or retiring givne the beginning of period resources $m$. We recognize the usual solutions from standard consumption savings models. The worker has a segment (for low $m$) where they consume everything, and the retiree smoothes consumption over current and next period. The two functions are different because retired agents don't earn *any* income in this model, and the workers are constrained for low $m$ because they would prefer to borrow money today if they could because they *do* earn an income (of 20) between two periods.
+# The panel on the left shows the consumption functions conditional on working or retiring given the beginning of period resources $m$. We recognize the usual solutions from standard consumption savings models. The worker has a segment (for low $m$) where they consume everything, and the retiree smoothes consumption over current and next period. The two functions are different because retired agents don't earn *any* income in this model, and the workers are constrained for low $m$ because they would prefer to borrow money today if they could because they *do* earn an income (of 20) between two periods.
 
-# In the second-to-last period, we begin to see where problems might arise. Since the agent will want to work for low values of $m$ and retire for high values of $m$, the consumption function will have *kinks*, or discontinuities. This will happen where the two choice specific value functions cross. A crossing like that will create a point of nondifferentiability in the value function. Discontinuities and non-differentiable points are unwanted quite generally, because local optima are no longer global optima. In other words, the first order conditions are necessary for interior solutions, but no longer sufficient.
+# In the second-to-last period, we begin to see where problems might arise. Since the agent will want to work for low values of $m$ and retire for high values of $m$, the value function will have *kinks* and the consumption function will have discontinuities. This will happen where the two choice specific value functions cross. A crossing like that will create a point of nondifferentiability in the value function. Discontinuities and non-differentiable points are unwanted quite generally, because local optima are no longer global optima. In other words, the first order conditions are necessary for interior solutions, but no longer sufficient.
 #
 # Below, we see the result of calculating the upper envelope of the value functions and the consumption function that follows.
 
@@ -795,7 +794,7 @@ plt.ylim((-30, -5))
 plt.xlim((-1, 200))
 # -
 
-# It should now be clear that simply applying an EGM step at $t=18$ will be problematic, as it is now possible that the value function has the same derivate for different values of $m$.
+# It should now be clear that simply applying an EGM step at $t=18$ will be problematic, as it is now possible that the value function has the same derivative for different values of $m$.
 
 # Let's go back one period.
 # It's important to keep in mind that seen from period $t=18$, we have to take
@@ -896,7 +895,7 @@ plt.xlim((-5, 500))
 # # Income uncertainty
 # Above we saw that the optimal consumption is very jagged: individuals can completely predict their future income given the current and future choices, so they can precisely time their optimal retirement already from "birth". We will now see how adding income uncertainty can smooth out some of these discontinuities: Note, the behavior above certainly was rational and optimal, the model just wasn't too realistic. Most modern consumption/saving models will include at least transitory shocks, permanent shocks, or both.
 #
-# Instead of simply having a constant income given the lagged work/retire decision, we introduce a multiplicative, transitory income shock that is lognormally distributed, and has mean 1. This means that the mean income for a worker is still 20.
+# Instead of simply having a constant income, given the lagged work/retire decision, we introduce a multiplicative, transitory income shock that is lognormally distributed, and has mean 1. This means that the mean income for a worker is still 20.
 #
 # To set a positive variance we specify the standard deviation, $\sigma$, and the number of nodes used to do evaluate the expectations. We set $\sigma=\sqrt{0.005}$ to replicate the results in Figure 4 in the paper.
 
@@ -927,12 +926,18 @@ plt.xlabel("m")
 plt.ylabel("C(m)")
 plt.xlim((0, 140))
 plt.ylim((0, 40))
-
 # -
 
-# # Figure 2
+# # Replication of figures from <cite data-cite="6202365/4F64GG8F"></cite>
 
-#modelTranIncLight = dcegm.RetiringDeaton(saveCommon = True, TranIncNodes = 20, TranIncVar = 0.001)
+# Below, we present figures that replicate some of the results in the paper we're replicating. Note, that there are some typos in the original paper that we're taking into consideration. We thank Thomas Jørgensen for providing us with the scripts to produce the figures in the text to verify these issues. We'll point out the issues as we present the figures.
+
+# ## Figure 2
+
+# Figure 2 in the paper shows the quality of the solution against a closed form solution of the model. We have not implemented the closed form solution here, but we present the solution for the same time periods regardless. It should be clear by comparing the two, that the solutions are indeed identical.
+#
+# Note, that the figure text in the paper says that these are the consumption choice conditional on the choice of working, but this is *not* the case. This is instead the "ex ante" consumption function, or the function that answers the question: "If we've *just* entered the period with $m$ resources, what is the consumption when we take the optimal discrete choice into consideration?". For example, the consumption function for the workers in period 18 does *not* have two discontinuities. It has one. The second discontinuity shown here is represents the current period threshold of switching from working to retiring.
+
 fig2_params = copy.deepcopy(retiring_params)
 fig2_params['Rfree'] = 1.0
 fig2_params['DiscFac'] = 0.98
@@ -955,10 +960,12 @@ plt.ylabel("C(m)")
 plt.xlim((0, 500))
 plt.ylim((0, 40))
 
-# # Figure 3
+# ## Figure 3
+# Figure 3 in the paper shows how the agent attempts to smooth its consumption over the life time, while taking into consideration the retirement age. The perfect smoothing results because we have a parameterization of $DiscFac=1/Rfree$. There are no shocks of any kind, so this can be perfectly planned.
+#
+# The paper mentiones a risk-free discount factor of $Rfree=1.02$, but actually, it is $Rfree=1.01$ as evident in the scripts that's been provided for us. 
 
 # +
-#modelTranIncLight = dcegm.RetiringDeaton(saveCommon = True, TranIncNodes = 20, TranIncVar = 0.001)
 fig3_params = retiring_params.copy()
 fig3_params['Rfree'] = 1.01
 fig3_params['DiscFac'] = 1/fig3_params['Rfree']
@@ -976,7 +983,8 @@ plt.xlim((0,400))
 plt.ylim((0,40))
 # -
 
-# # Figure 4
+# ## Figure 4
+# Figure 4 shows how adding a taste shock can significantly smoothen the model. The positive take-away is that we can get away with smoothing very little if we just want to avoid actual discontinuities, and turn them into sharp drops. The negative take-away is of course that as the scale factor $\sigma$ increases, the model starts to resemble the original model less and less.
 
 # +
 fig4_1_params = copy.deepcopy(retiring_params)
@@ -1016,6 +1024,6 @@ plt.ylim((15,25))
 # -
 
 # # References
-# [1] Iskhakov, F. , Jørgensen, T. H., Rust, J. and Schjerning, B. (2017), The endogenous grid method for discrete‐continuous dynamic choice models with (or without) taste shocks. Quantitative Economics, 8: 317-365. doi:10.3982/QE643
-#
-# [2] Carroll, C. D. (2006). The method of endogenous gridpoints for solving dynamic stochastic optimization problems. Economics letters, 91(3), 312-320.
+# <div class="cite2c-biblio"></div>
+
+
