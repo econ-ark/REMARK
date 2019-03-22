@@ -1,3 +1,7 @@
 [submodule "REMARKs/cAndCwithStickyE"]
 	path = REMARKs/cAndCwithStickyE
 	url = https://github.com/llorracc/cAndCwithStickyE.git
+[submodule "REMARKs/ctDiscrete"]
+	path = REMARKs/ctDiscrete
+	url = https://github.com/llorracc/ctDiscrete.git
+	branch = master
