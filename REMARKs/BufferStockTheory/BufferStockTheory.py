@@ -67,7 +67,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.6
+#     version: 3.6.7
 #   varInspector:
 #     cols:
 #       lenName: 16
@@ -111,7 +111,7 @@
 #
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This cell does some setup and imports generic tools used to produce the figures
 
 Generator=False # Is this notebook the master or is it generated?
@@ -162,6 +162,9 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
     
+params = {'text.latex.preamble' : [r'\usepackage{amsmath}']}
+plt.rcParams.update(params)
+
 plt.rc('font', family='serif')
 plt.rc('text', usetex=iflatexExists)
 
