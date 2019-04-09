@@ -111,7 +111,7 @@
 #
 #
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This cell does some setup and imports generic tools used to produce the figures
 
 Generator=False # Is this notebook the master or is it generated?
