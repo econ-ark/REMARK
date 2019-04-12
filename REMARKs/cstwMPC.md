@@ -1,15 +1,16 @@
 # cstwMPC is a Replication of the results in 
 ## [The Distribution of Wealth and the Marginal Propensity to Consume](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)
+### Christopher Carroll, Jiri Slacalek, Kiichi Tokuoka, Matthew N. White
 
 The main results in that paper were generated using the Mathematica code in 
 
-./Code/Matheamtica 
+`./Code/Matheamtica` 
 
 by running the `DoAll.m` file from the command line
 
 The results have been replicated using the HARK toolkit.
 
-The three replication files are as follows:
+The replication files are in the root directory:
 
 ### `ipython do_min.py`: 
 Takes 3-5 minutes to reproduce a few results from the small open economy version of the model
