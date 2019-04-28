@@ -1,4 +1,4 @@
-# REMARK: Replications and Explorations Made using the ARK
+# Replications and Explorations Made using the ARK
 
 This is the resting place for self-contained and complete projects written using the Econ-ARK.
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
