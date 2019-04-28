@@ -118,41 +118,39 @@
 # %% {"code_folding": []}
 # This cell does some setup and imports generic tools
 
-# Install libraries
-
-# Next steps depend on platform
+# Determine the platform
 import platform
 pform = ''
 pform = platform.platform().lower()
 if 'darwin' in pform:
     pf = 'darwin' # MacOS
 if 'ubuntu'in pform:
-    pf = 'ubuntu'
+    pf = 'ubuntu' # Probably cloud (MyBinder, CoLab, ...)
 if 'win' in pform:
     pf = 'win'
-    
-# If running on Mac or Win, error messages will explain 
-# how to load necessary packages
+
+# If running on Mac or Win, user can be assumed to be able to install
+# any missing packages in response to error messages; but not on cloud
+# so load LaTeX by hand (painfully slowly)
 if 'ubuntu' in pf: # CoLab and MyBinder are both ubuntu
     from IPython.utils import io
     
     with io.capture_output() as captured:
-        !pip install econ-ark==0.10.0.dev2
-        !pip install matplotlib
-        !pip install numpy
-        !pip install scipy
-        !pip install ipywidgets
-        !pip install jupyter_contrib_nbextensions
-        !jupyter contrib nbextension install
-        !jupyter nbextension enable codefolding/main
-        !pip install cite2c
-        !python -m cite2c.install
-
-        !python -c "import matplotlib as mpl; mpl.use('TkAgg'); import pylab as plt; fig, ax = plt.subplots(); fig.savefig('test.png')"
-        !test -e test.png && rm test.png
         !apt-get update
         !apt-get install texlive texlive-latex-extra texlive-xetex dvipng
-        
+
+# Now install stuff aside from LaTeX (if not already installed)
+!pip install econ-ark==0.10.0.dev2
+!pip install matplotlib
+!pip install numpy
+!pip install scipy
+!pip install ipywidgets
+!pip install jupyter_contrib_nbextensions
+!jupyter contrib nbextension install
+!jupyter nbextension enable codefolding/main
+!pip install cite2c
+!python -m cite2c.install
+   
 # Import related generic python packages
 import numpy as np
 from time import clock
@@ -164,6 +162,8 @@ mystr = lambda number : "{:.4f}".format(number)
 # Google "how can I check if code is executed in the ipython notebook"
 
 from IPython import get_ipython # In case it was run from python instead of ipython
+
+# If the ipython process contains 'terminal' assume not in a notebook
 def in_ipynb():
     try:
         if 'terminal' in str(type(get_ipython())):
