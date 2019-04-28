@@ -131,11 +131,13 @@ if 'win' in pform:
 
 # Test whether latex is installed (some of the figures require it)
 from distutils.spawn import find_executable
+
 iflatexExists=False
+
 if find_executable('latex'):
     iflatexExists=True
 
-if latexExists==False:
+if not iflatexExists:
     print('Some of the figures below require a full installation of LaTeX')
     
     # If running on Mac or Win, user can be assumed to be able to install
