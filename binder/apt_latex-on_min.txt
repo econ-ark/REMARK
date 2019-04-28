@@ -1,0 +1,6 @@
+texlive
+texlive-latex-extra
+texlive-xetex
+dvipng
+ghostscript
+

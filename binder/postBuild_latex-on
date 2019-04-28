@@ -9,10 +9,7 @@ cm.update('cite2c', {'zotero':{"user_id": "5043554","username": "econ-ark","acce
 EOF
       )
 # run matplotlib once to generate the font cache
-python -c "import matplotlib as mpl; mpl.use('Agg'); import pylab as plt; fig, ax = plt.subplots(); fig.savefig('test.png')"
+python -c "import matplotlib as mpl; mpl.use('TkAgg'); import pylab as plt; fig, ax = plt.subplots(); fig.savefig('test.png')"
 	
 test -e test.png && rm test.png
-
-jupyter labextension install @jupyterlab/latex
-jupyter lab build
 
