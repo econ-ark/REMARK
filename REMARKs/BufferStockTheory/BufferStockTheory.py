@@ -116,9 +116,9 @@
 #
 
 # %% {"code_folding": []}
-# This cell does some setup and imports generic tools
+# This cell does some setup; please be patient, it may take 3-5 minutes
 
-# Determine the platform
+# Determine the platform so we can do things specific to each 
 import platform
 pform = ''
 pform = platform.platform().lower()
@@ -129,16 +129,30 @@ if 'ubuntu'in pform:
 if 'win' in pform:
     pf = 'win'
 
-# If running on Mac or Win, user can be assumed to be able to install
-# any missing packages in response to error messages; but not on cloud
-# so load LaTeX by hand (painfully slowly)
-if 'ubuntu' in pf: # CoLab and MyBinder are both ubuntu
-    from IPython.utils import io
-    
-    with io.capture_output() as captured:
-        !apt-get update
-        !apt-get install texlive texlive-latex-extra texlive-xetex dvipng
+# Test whether latex is installed (some of the figures require it)
+from distutils.spawn import find_executable
+iflatexExists=False
+if find_executable('latex'):
+    iflatexExists=True
 
+if latexexists==False:
+    print('Some of the figures below require a full installation of LaTeX')
+    
+    # If running on Mac or Win, user can be assumed to be able to install
+    # any missing packages in response to error messages; but not on cloud
+    # so load LaTeX by hand (painfully slowly)
+    if 'ubuntu' in pf: # CoLab and MyBinder are both ubuntu
+        print('Installing LaTeX now; please wait 3-5 minutes')
+        from IPython.utils import io
+        
+        with io.capture_output() as captured: # Hide hideously long output 
+            !apt-get update
+            !apt-get install texlive texlive-latex-extra texlive-xetex dvipng
+    else:
+        print('Please install a full distributon of LaTeX on your computer then rerun.')
+        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+        quit()
+    
 # Now install stuff aside from LaTeX (if not already installed)
 !pip install econ-ark==0.10.0.dev2
 !pip install matplotlib
@@ -181,13 +195,6 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 plt.rc('font', family='serif')
 
-# LaTeX is huge and takes forever to install on a cloud VM
-# so if it is not installed then do not use it 
-from distutils.spawn import find_executable
-iflatexExists=False
-if find_executable('latex'):
-    iflatexExists=True
-    
 plt.rc('font', family='serif')
 plt.rc('text', usetex=iflatexExists)
 
@@ -774,7 +781,7 @@ intersect_m = ((h_inf-1)* k_lower)/((1 - baseEx_inf.UnempPrb
             **(1.0/baseEx_inf.CRRA)*(baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)/baseEx_inf.Rfree)-k_lower)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the consumption function and its bounds
 x1 = np.linspace(0,25,1000)
 x3 = np.linspace(0,intersect_m,300)
@@ -798,9 +805,9 @@ plt.ylim(0,1.12*conFunc_PF(25))
 plt.text(0,1.12*conFunc_PF(25)+0.05,"$c$",fontsize = 22)
 plt.text(25+0.1,0,"$m$",fontsize = 22)
 plt.text(2.5,1,r'$c(m)$',fontsize = 22,fontweight='bold')
-plt.text(6,5,r'$\overline{\overline c}(m)= \overline{\kappa}m = (1-\wp^{1/\rho}\Phi_{R})m$',fontsize = 22,fontweight='bold')
+plt.text(6,5,r'$\overline{\overline{c}}(m)= \overline{\kappa}m = (1-\wp^{1/\rho}\Phi_{R})m$',fontsize = 22,fontweight='bold')
 plt.text(2.2,3.8, r'$\overline{c}(m) = (m-1+h)\underline{\kappa}$',fontsize = 22,fontweight='bold')
-plt.text(9,4.1,r'Upper Bound $ = $ Min $[\overline{\overline c}(m),\overline{c}(m)]$',fontsize = 22,fontweight='bold')
+plt.text(9,4.1,r'Upper Bound $ = $ Min $[\overline{\overline{c}}(m),\overline{c}(m)]$',fontsize = 22,fontweight='bold')
 plt.text(7,0.7,r'$\underline{c}(m)= (1-\Phi_{R})m = \underline{\kappa}m$',fontsize = 22,fontweight='bold')
 plt.arrow(2.45,1.05,-0.5,0.02,head_width= 0.05,width=0.001,facecolor='black',length_includes_head='True')
 plt.arrow(2.15,3.88,-0.5,0.1,head_width= 0.05,width=0.001,facecolor='black',length_includes_head='True')
