@@ -100,7 +100,9 @@
 # %% [markdown]
 # <p style="text-align: center;"><small><small><small>For the following badges: GitHub does not allow click-through redirects; from GitHub, right-click to get the link</small></small></small></p>
 #
+# <!-- Disabling binder because it is excruciatingly slow
 # [![Open in Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FBufferStockTheory%2FBufferStockTheory.ipynb)
+# -->
 #
 # [![Open in CoLab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb)
 #
@@ -117,6 +119,10 @@
 
 # %% {"code_folding": []}
 # This cell does some setup; please be patient, it may take 3-5 minutes
+
+# The tools for navigating the filesystem
+import sys
+import os
 
 # Determine the platform so we can do things specific to each 
 import platform
@@ -148,29 +154,12 @@ if not iflatexExists:
         from IPython.utils import io
         
         with io.capture_output() as captured: # Hide hideously long output 
-            !apt-get update
-            !apt-get install texlive texlive-latex-extra texlive-xetex dvipng
+            os.system('apt-get update')
+            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
     else:
         print('Please install a full distributon of LaTeX on your computer then rerun.')
         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
-        quit()
-    
-# Now install stuff aside from LaTeX (if not already installed)
-!pip install econ-ark==0.10.0.dev2
-!pip install matplotlib
-!pip install numpy
-!pip install scipy
-!pip install ipywidgets
-!pip install jupyter_contrib_nbextensions
-!jupyter contrib nbextension install
-!jupyter nbextension enable codefolding/main
-!pip install cite2c
-!python -m cite2c.install
-   
-# Import related generic python packages
-import numpy as np
-from time import clock
-mystr = lambda number : "{:.4f}".format(number)
+        sys.exit()
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
@@ -189,13 +178,33 @@ def in_ipynb():
     except NameError:
         return False
 
+if in_ipynb():
+    # Now install stuff aside from LaTeX (if not already installed)
+    os.system('pip install econ-ark==0.10.0.dev2')
+    os.system('pip install matplotlib')
+    os.system('pip install numpy')
+    os.system('pip install scipy')
+    os.system('pip install ipywidgets')
+    os.system('pip install jupyter_contrib_nbextensions')
+    os.system('jupyter contrib nbextension install --user')
+    os.system('jupyter nbextension enable codefolding/main')
+    os.system('pip install cite2c')
+    os.system('python -m cite2c.install')
+else:
+    print('In batch mode')
+    
+# Import related generic python packages
+import numpy as np
+from time import clock
+mystr = lambda number : "{:.4f}".format(number)
+
 import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import plot, draw, show
 
 # In order to use LaTeX to manage all text layout in our figures, 
 # we import rc settings from matplotlib.
 from matplotlib import rc
-plt.rc('font', family='serif')
 
 plt.rc('font', family='serif')
 plt.rc('text', usetex=iflatexExists)
@@ -203,10 +212,6 @@ plt.rc('text', usetex=iflatexExists)
 # The warnings package allows us to ignore some harmless but alarming warning messages
 import warnings
 warnings.filterwarnings("ignore")
-
-# The tools for navigating the filesystem
-import sys
-import os
 
 from copy import copy, deepcopy
 
@@ -218,9 +223,6 @@ if in_ipynb():
     get_ipython().run_line_magic('matplotlib', 'inline')
 else:
     get_ipython().run_line_magic('matplotlib', 'auto')
-    print('You appear to be running from a terminal')
-    print('By default, figures will appear one by one')
-    print('Close the visible figure in order to see the next one')
 
 # Code to allow a master "Generator" and derived "Generated" versions
 Generator=False # Is this notebook the master or is it generated?
@@ -232,6 +234,10 @@ if Generator:
     Figures_HARK_dir = os.path.join(my_file_path,"/tmp/Figures/") # Uncomment to make figures outside of git path
     if not os.path.exists(Figures_HARK_dir):
         os.makedirs(Figures_HARK_dir)
+        
+if not in_ipynb(): # running in batch mode
+    print('You appear to be running from a terminal')
+    print('By default, figures will appear one by one')
 
 # %%
 # Import HARK tools needed
@@ -257,8 +263,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 #
 # For a microeconomic consumer with 'Market Resources' (net worth plus current income) $M_{t}$, end-of-period assets $A_{t}$ will be the amount remaining after consumption of $C_{t}$.  <!-- Next period's 'Balances' $B_{t+1}$ reflect this period's $A_{t}$ augmented by return factor $R$:-->
 # \begin{eqnarray}
-# A_{t}   &=&M_{t}-C_{t}  \label{eq:DBCparts} \\
-# %B_{t+1}   & = & A_{t} R \notag \\
+# A_{t}   &=&M_{t}-C_{t}
 # \end{eqnarray}
 #
 # The consumer's permanent noncapital income $P$ grows by a predictable factor $\PermGroFac$ and is subject to an unpredictable lognormally distributed multiplicative shock $\mathbb{E}_{t}[\psi_{t+1}]=1$, 
@@ -316,12 +321,12 @@ base_params['LivPrb']       = [1.0]   # 100 percent probability of living to nex
 base_params['CubicBool']    = True    # Use cubic spline interpolation
 base_params['T_cycle']      = 1       # No 'seasonal' cycles
 base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
-# %% [markdown] {"heading_collapsed": true}
+# %% [markdown]
 # ## Convergence of the Consumption Rules
 #
 # [The paper's first figure](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Convergence-of-the-Consumption-Rules) depicts the successive consumption rules that apply in the last period of life $(c_{T}(m))$, the second-to-last period, and earlier periods under the baseline parameter values given above.
 
-# %% {"code_folding": [0], "hidden": true}
+# %% {"code_folding": [0]}
 # Create a buffer stock consumer instance by passing the dictionary to the class.
 baseEx = IndShockConsumerType(**base_params)
 baseEx.cycles = 100   # Make this type have a finite horizon (Set T = 100)
@@ -330,7 +335,9 @@ baseEx.solve()        # Solve the model
 baseEx.unpackcFunc()  # Make the consumption function easily accessible
 
 
-# %% {"code_folding": [0], "hidden": true}
+
+
+# %% {"code_folding": []}
 # Plot the different periods' consumption rules.
 
 m1 = np.linspace(0,9.5,1000) # Set the plot range of m
@@ -363,10 +370,15 @@ if Generator:
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncsConverge.jpg'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncsConverge.pdf'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncsConverge.svg'))
-if not in_ipynb:
-    plt.show(block=False) 
+if not in_ipynb():
+    plt.ioff()
+    plt.draw()
+#    plt.show(block=False) 
+    plt.pause(1)
 else:
-    plt.show(block=True) # Change to False if you want to run uninterrupted
+     plt.show(block=True) # Change to False if you want to run uninterrupted
+    
+
 
 
 # %% [markdown]
@@ -532,7 +544,7 @@ Er = ER - 1
 mSSfunc = lambda m : 1 + (m-1)*(Er/ER)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot GICFailExample consumption function against the sustainable level of consumption
 GICFailExample.solve() # Above, we set up the problem but did not solve it 
 GICFailExample.unpackcFunc()  # Make the consumption function easily accessible for plotting
@@ -559,8 +571,9 @@ if Generator:
 
 # This figure reproduces the figure shown in the paper.  
 # The gap between the two functions actually increases with $m$ in the limit.
-if not in_ipynb:
+if not in_ipynb():
     plt.show(block=False) 
+    plt.pause(1)
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
@@ -720,7 +733,7 @@ def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
                 arrowprops=dict( headwidth=hw, frac=1., ec=c, fc=c))
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot consumption growth as a function of market resources
 # Calculate Absolute Patience Factor Phi = lower bound of consumption growth factor
 AbsPatientFac = (baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)
@@ -759,8 +772,9 @@ if Generator:
     fig.savefig(os.path.join(Figures_HARK_dir, 'cGroTargetFig.jpg'))
     fig.savefig(os.path.join(Figures_HARK_dir, 'cGroTargetFig.pdf'))
     fig.savefig(os.path.join(Figures_HARK_dir, 'cGroTargetFig.svg'))
-if not in_ipynb:
+if not in_ipynb():
     plt.show(block=False) 
+    plt.pause(1)
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
@@ -785,6 +799,7 @@ intersect_m = ((h_inf-1)* k_lower)/((1 - baseEx_inf.UnempPrb
 
 # %% {"code_folding": []}
 # Plot the consumption function and its bounds
+
 x1 = np.linspace(0,25,1000)
 x3 = np.linspace(0,intersect_m,300)
 x4 = np.linspace(intersect_m,25,700)
@@ -821,8 +836,9 @@ if Generator:
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncBounds.jpg'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncBounds.pdf'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cFuncBounds.svg'))
-if not in_ipynb:
+if not in_ipynb():
     plt.show(block=False) 
+    plt.pause(1)
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
@@ -831,7 +847,7 @@ else:
 #
 # This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This just plots objects that have already been constructed
 
 m1 = np.linspace(0,4,1000)
@@ -857,6 +873,11 @@ if Generator:
     plt.savefig(os.path.join(Figures_HARK_dir, 'cRatTargetFig.jpg'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cRatTargetFig.pdf'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'cRatTargetFig.svg'))
+if not in_ipynb():
+    plt.show(block=False)
+    plt.pause(1)
+else:
+    plt.show(block=True)
 
 # %% [markdown]
 # ### [Upper and Lower Limits of the Marginal Propensity to Consume](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#MPCLimits)
@@ -865,7 +886,7 @@ if Generator:
 #
 # The paper also derives an analytical limit $\bar{\kappa}$ for the MPC as $m$ approaches 0., its bounding value.  Strict concavity of the consumption function implies that the consumption function will be everywhere below a function $\bar{\kappa}m$, and strictly declining everywhere.  The last figure plots the MPC between these two limits.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # The last figure shows the upper and lower limits of the MPC
 plt.figure(figsize = (12,8))
 # Set the plot range of m
@@ -897,8 +918,9 @@ if Generator:
     plt.savefig(os.path.join(Figures_HARK_dir, 'MPCLimits.jpg'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'MPCLimits.pdf'))
     plt.savefig(os.path.join(Figures_HARK_dir, 'MPCLimits.svg'))
-if not in_ipynb:
+if not in_ipynb():
     plt.show(block=False) 
+    plt.pause(1)
 else:
     plt.show(block=True) # Change to False if you want to run uninterrupted
 
