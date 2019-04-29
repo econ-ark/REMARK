@@ -130,8 +130,10 @@ pform = ''
 pform = platform.platform().lower()
 if 'darwin' in pform:
     pf = 'darwin' # MacOS
+if 'debian'in pform:
+    pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
 if 'ubuntu'in pform:
-    pf = 'ubuntu' # Probably cloud (MyBinder, CoLab, ...)
+    pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
 if 'win' in pform:
     pf = 'win'
 
