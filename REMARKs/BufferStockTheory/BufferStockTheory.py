@@ -156,6 +156,7 @@ if not iflatexExists:
         with io.capture_output() as captured: # Hide hideously long output 
             os.system('apt-get update')
             os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+            iflatexExists=True
     else:
         print('Please install a full distributon of LaTeX on your computer then rerun.')
         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
