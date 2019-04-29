@@ -151,7 +151,7 @@ if not iflatexExists:
     # If running on Mac or Win, user can be assumed to be able to install
     # any missing packages in response to error messages; but not on cloud
     # so load LaTeX by hand (painfully slowly)
-    if 'ubuntu' in pf: # CoLab and MyBinder are both ubuntu
+    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
         print('Installing LaTeX now; please wait 3-5 minutes')
         from IPython.utils import io
         
