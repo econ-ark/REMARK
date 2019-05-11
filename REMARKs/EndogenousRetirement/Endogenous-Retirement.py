@@ -1,6 +1,61 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
+#   cite2c:
+#     citations:
+#       6202365/4F64GG8F:
+#         DOI: 10.3982/QE643
+#         URL: https://onlinelibrary.wiley.com/doi/abs/10.3982/QE643
+#         abstract: "We present a fast and accurate computational method for solving\
+#           \ and estimating a class of dynamic programming models with discrete and\
+#           \ continuous choice variables. The solution method we develop for structural\
+#           \ estimation extends the endogenous grid-point method (EGM) to discrete-continuous\
+#           \ (DC) problems. Discrete choices can lead to kinks in the value functions\
+#           \ and discontinuities in the optimal policy rules, greatly complicating\
+#           \ the solution of the model. We show how these problems are ameliorated\
+#           \ in the presence of additive choice-specific independent and identically\
+#           \ distributed extreme value taste shocks that are typically interpreted\
+#           \ as \u201Cunobserved state variables\u201D in structural econometric applications,\
+#           \ or serve as \u201Crandom noise\u201D to smooth out kinks in the value\
+#           \ functions in numerical applications. We present Monte Carlo experiments\
+#           \ that demonstrate the reliability and efficiency of the DC-EGM algorithm\
+#           \ and the associated maximum likelihood estimator for structural estimation\
+#           \ of a life-cycle model of consumption with discrete retirement decisions."
+#         accessed:
+#           day: 21
+#           month: 3
+#           year: 2019
+#         author:
+#         - family: Iskhakov
+#           given: Fedor
+#         - family: "J\xF8rgensen"
+#           given: Thomas H.
+#         - family: Rust
+#           given: John
+#         - family: Schjerning
+#           given: Bertel
+#         container-title: Quantitative Economics
+#         id: 6202365/4F64GG8F
+#         issue: '2'
+#         issued:
+#           year: 2017
+#         language: en
+#         note: 'bibtex:ijrsDCEGM2017
+#
+#
+#           https://github.com/econ-ark/REMARK/blob/master/remarks
+#
+#
+#           https://github.com/econ-ark/DemARK/blob/master/notebooks
+#
+#
+#           from HARK import DCEGM'
+#         page: 317-365
+#         page-first: '317'
+#         title: The endogenous grid method for discrete-continuous dynamic choice models
+#           with (or without) taste shocks
+#         type: article-journal
+#         volume: '8'
 #   jupytext:
 #     cell_metadata_filter: collapsed
 #     formats: ipynb,py:light
@@ -9,12 +64,53 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.3'
-#       jupytext_version: 1.0.2
+#       jupytext_version: 0.8.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.6.7
+#   varInspector:
+#     cols:
+#       lenName: 16
+#       lenType: 16
+#       lenVar: 40
+#     kernels_config:
+#       python:
+#         delete_cmd_postfix: ''
+#         delete_cmd_prefix: 'del '
+#         library: var_list.py
+#         varRefreshCmd: print(var_dic_list())
+#       r:
+#         delete_cmd_postfix: ') '
+#         delete_cmd_prefix: rm(
+#         library: var_list.r
+#         varRefreshCmd: 'cat(var_dic_list()) '
+#     types_to_exclude:
+#     - module
+#     - function
+#     - builtin_function_or_method
+#     - instance
+#     - _Feature
+#     window_display: false
 # ---
+
+# # Endogenous Retirement: A Canonical Discrete-Continuous Problem
+#
+# This notebook demonstrates a solution to the difficult problem of solving for the optimal retirement date given that consumption and asset choices are continuous.  <cite data-cite="6202365/4F64GG8F"></cite>
+#
+# The chief complication here is that having more assets might make you consume less, because having more assets increases the probability that you might be able to retire earlier, which would increase your utility but make you poorer.  The upshot is that your optimal consumption can _decrease_ as assets increase (because you get closer to the point at which you are going to choose to retire a year earlier, and thus to the point at which you will choose to be poorer).
+#
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=notebooks%2FEndogenousRetirement.ipynb)
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,7 +118,7 @@ import copy
 
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
-# +
+# + {"code_folding": [0]}
 # stuff that should be in HARK proper
 
 def dcegmSegments(x, v):
@@ -308,8 +404,7 @@ def calcLogSum(Vals, sigma):
     V = maxV + sigma*V
     return V
 
-# +
-# here for now, should be
+# + {"code_folding": [0]}
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
 
@@ -493,8 +588,10 @@ class RetiringDeaton(IndShockConsumerType):
 
 
 
-# +
+
+# + {"code_folding": [0]}
 # Functions used to solve each period
+
 def solveRetiringDeaton(solution_next, LivPrb, PermGroFac, IncomeDstn, PermShkDstn, TranShkDstn, aXtraGrid, mGrid, EGMVector, par, Util, UtilP, UtilP_inv, saveCommon):
     """
     Solves a period of problem defined by the RetiringDeaton AgentType. It uses
@@ -616,13 +713,9 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 
 
 # # A Gentle Introduction to DCEGM
-# This notebook introduces the DCEGM method introduced in <cite data-cite="6202365/4F64GG8F"></cite>. The paper generalizes
-# the method of Endogenous Grid Points (EGM) in <cite data-cite="6202365/HQ6H9JEI"></cite> to mixed choice models with
-# both Discrete and Continuous (DC) choices. Usually, the models solved by EGM
-# have first order conditions (FOCs) that are necessary and sufficient. When we
-# introduce the discrete choice, the FOCs can be shown to only be necessecary.
-# The generalization consists for a practical method to weed out solutions to
-# the FOCs actual solutions to the optimization problem.
+# This notebook introduces the DCEGM method (see reference below) <cite data-cite="6202365/4F64GG8F"></cite> The paper generalizes the method of Endogenous Grid Points (EGM) in <cite data-cite="6202365/HQ6H9JEI"></cite> to mixed choice models with both Discrete and Continuous (DC) choices. Usually, the models solved by EGM have first order conditions (FOCs) that are necessary and sufficient. When we introduce the discrete choice, the FOCs can be shown to only be necessecary.
+#
+# The generalization consists for a practical method to weed out solutions to the FOCs actual solutions to the optimization problem.
 
 # # The model
 # Let us start by motivating the solution method by a problem. The problem is
@@ -652,7 +745,9 @@ def solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, Ut
 # To construct an instance of an agent who solves the problem above, we initialize
 # `dcegm`'s `RetiringDeaton` object:
 
-# +
+# + {"code_folding": [0]}
+# Set up parameters and other features of the problem
+
 CRRA = 1.0
 DiscFac = 0.98
 Rfree = 1.0
@@ -716,8 +811,6 @@ retiring_params = {'CRRA' : CRRA,
 #model = dcegm.RetiringDeaton(saveCommon = True)
 model = RetiringDeaton(**retiring_params)
 
-
-
 # And then we can solve the problem as usual for `AgentType` objects by using
 # the `solve` method
 
@@ -728,7 +821,9 @@ model.solve()
 # $t$'s solution in `method.solution[T-t-1]`. Let us start from the end, and look
 # at the terminal solution
 
-# +
+# + {"code_folding": [0]}
+# Terminal solution
+
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 #model.timeRev()
@@ -751,7 +846,9 @@ plt.ylim((-20, -5))
 
 # Let us now consider the second to last period.
 
-# +
+# + {"code_folding": [0]}
+# Time T-1
+
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -774,7 +871,9 @@ plt.ylim((-30,-10))
 #
 # Below, we see the result of calculating the upper envelope of the value functions and the consumption function that follows.
 
-# +
+# + {"code_folding": [0]}
+# Upper Envelope and consumption functions
+
 t = 19
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
@@ -802,7 +901,9 @@ plt.xlim((-1, 200))
 # in such a way that the optimal decision flips from retirement to work (and the
 # other way around). Let's plot it the panels for t=18.
 
-# +
+# + {"code_folding": [0]}
+# One more period
+
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -824,7 +925,9 @@ plt.ylim((-30,-10))
 # This is *not* the discontinuity from the retirement threshold in period $t=18$,
 # but from the "future" switch in discrete choice from work to retire in $t=19$. Let's take a look at the upper envelope and the consumption function it implies.
 
-# +
+# + {"code_folding": [0]}
+# Discontinuity propagating
+
 t = 18
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
@@ -850,7 +953,9 @@ plt.xlim((-1, 200))
 # will propogate back through the recursion and become secondary kinks in earlier
 # periods. Let's finish off by looking at $t=1$
 
-# +
+# + {"code_folding": [0]}
+# Recursion hurts
+
 f, axs = plt.subplots(2,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
 
@@ -870,7 +975,9 @@ plt.ylim((-250, -100))
 
 # and
 
-# +
+# + {"code_folding": [0]}
+# All the way back
+
 t = 1
 f, axs = plt.subplots(1,2,figsize=(10,5))
 plt.subplots_adjust(wspace=0.6)
@@ -899,6 +1006,9 @@ plt.xlim((-5, 500))
 #
 # To set a positive variance we specify the standard deviation, $\sigma$, and the number of nodes used to do evaluate the expectations. We set $\sigma=\sqrt{0.005}$ to replicate the results in Figure 4 in the paper.
 
+# + {"code_folding": [0]}
+# Define shocks
+
 incshk_params = copy.deepcopy(retiring_params)
 incshk_params['Rfree'] = 1.0
 incshk_params['DiscFac'] = 0.98
@@ -907,7 +1017,9 @@ incshk_params['TranShkStd'] = [sqrt(0.005)]*incshk_params['T']
 modelTranInc = RetiringDeaton(**incshk_params)
 modelTranInc.solve()
 
-# +
+# + {"code_folding": [0]}
+# Five periods before end
+
 t = 15
 
 modelTranInc.plotC(t, 2)
@@ -918,7 +1030,9 @@ plt.ylim((15,25))
 
 # From this, we see that the secondary kinks, that is the kinks that come from expected future retirement choices, are smoothed out, because the agent cannot completely foresee and plan the retirement. A small transitory shock might delay retirement, and a big transitory shock might advance retirement. However, the primary kinks will still be "hard" discontinuities as we have not yet introduced taste shocks. The "ex ante" consumption function is plotted below.
 
-# +
+# + {"code_folding": [0]}
+# Ex-ante consumption function
+
 t = 15
 
 plt.plot(modelTranInc.mGrid, modelTranInc.solution[t].C)
@@ -937,6 +1051,9 @@ plt.ylim((0, 40))
 # Figure 2 in the paper shows the quality of the solution against a closed form solution of the model. We have not implemented the closed form solution here, but we present the solution for the same time periods regardless. It should be clear by comparing the two, that the solutions are indeed identical.
 #
 # Note, that the figure text in the paper says that these are the consumption choice conditional on the choice of working, but this is *not* the case. This is instead the "ex ante" consumption function, or the function that answers the question: "If we've *just* entered the period with $m$ resources, what is the consumption when we take the optimal discrete choice into consideration?". For example, the consumption function for the workers in period 18 does *not* have two discontinuities. It has one. The second discontinuity shown here is represents the current period threshold of switching from working to retiring.
+
+# + {"code_folding": [0]}
+# Figures from the paper
 
 fig2_params = copy.deepcopy(retiring_params)
 fig2_params['Rfree'] = 1.0
@@ -959,13 +1076,16 @@ plt.xlabel("m")
 plt.ylabel("C(m)")
 plt.xlim((0, 500))
 plt.ylim((0, 40))
+# -
 
 # ## Figure 3
 # Figure 3 in the paper shows how the agent attempts to smooth its consumption over the life time, while taking into consideration the retirement age. The perfect smoothing results because we have a parameterization of $DiscFac=1/Rfree$. There are no shocks of any kind, so this can be perfectly planned.
 #
 # The paper mentiones a risk-free discount factor of $Rfree=1.02$, but actually, it is $Rfree=1.01$ as evident in the scripts that's been provided for us. 
 
-# +
+# + {"code_folding": [0]}
+# Smoothing is not very smooth
+
 fig3_params = retiring_params.copy()
 fig3_params['Rfree'] = 1.01
 fig3_params['DiscFac'] = 1/fig3_params['Rfree']
@@ -986,7 +1106,9 @@ plt.ylim((0,40))
 # ## Figure 4
 # Figure 4 shows how adding a taste shock can significantly smoothen the model. The positive take-away is that we can get away with smoothing very little if we just want to avoid actual discontinuities, and turn them into sharp drops. The negative take-away is of course that as the scale factor $\sigma$ increases, the model starts to resemble the original model less and less.
 
-# +
+# + {"code_folding": [0]}
+# Adding "taste shocks"
+
 fig4_1_params = copy.deepcopy(retiring_params)
 fig4_1_params['Rfree'] = 1.0
 fig4_1_params['DiscFac'] = 0.98
@@ -1025,5 +1147,4 @@ plt.ylim((15,25))
 
 # # References
 # <div class="cite2c-biblio"></div>
-
-
+# <cite data-cite="6202365/4F64GG8F"></cite>
