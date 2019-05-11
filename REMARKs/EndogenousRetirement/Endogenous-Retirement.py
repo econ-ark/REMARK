@@ -1,61 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
-#   cite2c:
-#     citations:
-#       6202365/4F64GG8F:
-#         DOI: 10.3982/QE643
-#         URL: https://onlinelibrary.wiley.com/doi/abs/10.3982/QE643
-#         abstract: "We present a fast and accurate computational method for solving\
-#           \ and estimating a class of dynamic programming models with discrete and\
-#           \ continuous choice variables. The solution method we develop for structural\
-#           \ estimation extends the endogenous grid-point method (EGM) to discrete-continuous\
-#           \ (DC) problems. Discrete choices can lead to kinks in the value functions\
-#           \ and discontinuities in the optimal policy rules, greatly complicating\
-#           \ the solution of the model. We show how these problems are ameliorated\
-#           \ in the presence of additive choice-specific independent and identically\
-#           \ distributed extreme value taste shocks that are typically interpreted\
-#           \ as \u201Cunobserved state variables\u201D in structural econometric applications,\
-#           \ or serve as \u201Crandom noise\u201D to smooth out kinks in the value\
-#           \ functions in numerical applications. We present Monte Carlo experiments\
-#           \ that demonstrate the reliability and efficiency of the DC-EGM algorithm\
-#           \ and the associated maximum likelihood estimator for structural estimation\
-#           \ of a life-cycle model of consumption with discrete retirement decisions."
-#         accessed:
-#           day: 21
-#           month: 3
-#           year: 2019
-#         author:
-#         - family: Iskhakov
-#           given: Fedor
-#         - family: "J\xF8rgensen"
-#           given: Thomas H.
-#         - family: Rust
-#           given: John
-#         - family: Schjerning
-#           given: Bertel
-#         container-title: Quantitative Economics
-#         id: 6202365/4F64GG8F
-#         issue: '2'
-#         issued:
-#           year: 2017
-#         language: en
-#         note: 'bibtex:ijrsDCEGM2017
-#
-#
-#           https://github.com/econ-ark/REMARK/blob/master/remarks
-#
-#
-#           https://github.com/econ-ark/DemARK/blob/master/notebooks
-#
-#
-#           from HARK import DCEGM'
-#         page: 317-365
-#         page-first: '317'
-#         title: The endogenous grid method for discrete-continuous dynamic choice models
-#           with (or without) taste shocks
-#         type: article-journal
-#         volume: '8'
 #   jupytext:
 #     cell_metadata_filter: collapsed
 #     formats: ipynb,py:light
@@ -64,55 +9,12 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.3'
-#       jupytext_version: 0.8.3
+#       jupytext_version: 1.0.2
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
-
-# # Endogenous Retirement is a Canonical Discrete-Continuous Problem
-#
-# This notebook reproduces the results of <cite data-cite="6202365/4F64GG8F"></cite> who tackle the difficult problem of solving for the optimal retirement date given that consumption and asset choices are continuous. 
-#
-# The chief complication here is that having more assets might make you consume less, because having more assets increases the probability that you might be able to retire earlier, which would increase your utility but make you poorer.  The upshot is that your optimal consumption can _decrease_ as assets increase (because you get closer to the point at which you are going to choose to retire a year earlier, and thus to the point at which you will choose to be poorer).
-#
-# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=notebooks%2FEndogenousRetirement.ipynb)
-#
-#
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -120,7 +22,7 @@ import copy
 
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
-# + {"code_folding": [0]}
+# +
 # stuff that should be in HARK proper
 
 def dcegmSegments(x, v):
@@ -406,7 +308,7 @@ def calcLogSum(Vals, sigma):
     V = maxV + sigma*V
     return V
 
-# + {"code_folding": [0]}
+# +
 # here for now, should be
 # from HARK import discontools or whatever name is chosen
 from HARK.interpolation import LinearInterp
@@ -591,8 +493,7 @@ class RetiringDeaton(IndShockConsumerType):
 
 
 
-
-# + {"code_folding": [0]}
+# +
 # Functions used to solve each period
 def solveRetiringDeaton(solution_next, LivPrb, PermGroFac, IncomeDstn, PermShkDstn, TranShkDstn, aXtraGrid, mGrid, EGMVector, par, Util, UtilP, UtilP_inv, saveCommon):
     """
@@ -814,6 +715,8 @@ retiring_params = {'CRRA' : CRRA,
 
 #model = dcegm.RetiringDeaton(saveCommon = True)
 model = RetiringDeaton(**retiring_params)
+
+
 
 # And then we can solve the problem as usual for `AgentType` objects by using
 # the `solve` method
@@ -1083,9 +986,7 @@ plt.ylim((0,40))
 # ## Figure 4
 # Figure 4 shows how adding a taste shock can significantly smoothen the model. The positive take-away is that we can get away with smoothing very little if we just want to avoid actual discontinuities, and turn them into sharp drops. The negative take-away is of course that as the scale factor $\sigma$ increases, the model starts to resemble the original model less and less.
 
-# + {"code_folding": [0]}
-# Figure showing usefulness of taste shocks
-
+# +
 fig4_1_params = copy.deepcopy(retiring_params)
 fig4_1_params['Rfree'] = 1.0
 fig4_1_params['DiscFac'] = 0.98
@@ -1124,4 +1025,5 @@ plt.ylim((15,25))
 
 # # References
 # <div class="cite2c-biblio"></div>
-# <cite data-cite="6202365/4F64GG8F"></cite>
+
+
