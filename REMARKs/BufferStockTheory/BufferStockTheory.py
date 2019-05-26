@@ -1,100 +1,22 @@
 # -*- coding: utf-8 -*-
 # ---
 # jupyter:
-#   '@webio':
-#     lastCommId: a8ab2762cccf499696a7ef0a86be4d18
-#     lastKernelId: 261999dd-7ee7-4ad4-9a26-99a84a77979b
-#   cite2c:
-#     citations:
-#       6202365/8AH9AXN2:
-#         URL: http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory.pdf
-#         author:
-#         - family: Carroll
-#           given: Christopher
-#         container-title: Manuscript, Department of Economics, Johns Hopkins University
-#         id: 6202365/8AH9AXN2
-#         issued:
-#           month: 2
-#           year: 2019
-#         note: "Available at http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory\
-#           \ \nCitation Key: carrollBufferStockTheory \nbibtex*[extra=bibtex:carrollBufferStockTheory]"
-#         title: Theoretical Foundations of Buffer Stock Saving
-#         type: article-journal
-#       6202365/TGG4U7J4:
-#         author:
-#         - family: Clarida
-#           given: Richard H.
-#         container-title: International Economic Review
-#         issued:
-#           date-parts:
-#           - - 1987
-#         page: "339\u2013351"
-#         title: Consumption, Liquidity Constraints, and Asset Accumulation in the Face
-#           of Random Fluctuations in Income
-#         type: article-journal
-#         volume: XXVIII
-#       undefined:
-#         URL: http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory.pdf
-#         author:
-#         - family: Carroll
-#           given: Christopher
-#         container-title: Manuscript, Department of Economics, Johns Hopkins University
-#         issued:
-#           date-parts:
-#           - - '2019'
-#             - 2
-#         note: "Available at http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory\
-#           \ \nCitation Key: carrollBufferStockTheory \nbibtex*[extra=bibtex:carrollBufferStockTheory]"
-#         title: Theoretical Foundations of Buffer Stock Saving
-#         type: article-journal
 #   jupytext:
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.1'
-#       jupytext_version: 0.8.3
+#       format_version: '1.2'
+#       jupytext_version: 1.1.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
-#   language_info:
-#     codemirror_mode:
-#       name: ipython
-#       version: 3
-#     file_extension: .py
-#     mimetype: text/x-python
-#     name: python
-#     nbconvert_exporter: python
-#     pygments_lexer: ipython3
-#     version: 3.6.7
-#   varInspector:
-#     cols:
-#       lenName: 16
-#       lenType: 16
-#       lenVar: 40
-#     kernels_config:
-#       python:
-#         delete_cmd_postfix: ''
-#         delete_cmd_prefix: 'del '
-#         library: var_list.py
-#         varRefreshCmd: print(var_dic_list())
-#       r:
-#         delete_cmd_postfix: ') '
-#         delete_cmd_prefix: rm(
-#         library: var_list.r
-#         varRefreshCmd: 'cat(var_dic_list()) '
-#     types_to_exclude:
-#     - module
-#     - function
-#     - builtin_function_or_method
-#     - instance
-#     - _Feature
-#     window_display: false
 # ---
 
 # %% [markdown]
 # # Theoretical Foundations of Buffer Stock Saving
+# <div class="cite2c-biblio"></div>
 # <p style="text-align: center;"><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></p>
 
 # %% [markdown]
@@ -145,24 +67,24 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
 
-if not iflatexExists:
-    print('Some of the figures below require a full installation of LaTeX')
+# if not iflatexExists:
+#     print('Some of the figures below require a full installation of LaTeX')
     
-    # If running on Mac or Win, user can be assumed to be able to install
-    # any missing packages in response to error messages; but not on cloud
-    # so load LaTeX by hand (painfully slowly)
-    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
-        print('Installing LaTeX now; please wait 3-5 minutes')
-        from IPython.utils import io
+#     # If running on Mac or Win, user can be assumed to be able to install
+#     # any missing packages in response to error messages; but not on cloud
+#     # so load LaTeX by hand (painfully slowly)
+#     if 'debian' in pf: # CoLab and MyBinder are both ubuntu
+#         print('Installing LaTeX now; please wait 3-5 minutes')
+#         from IPython.utils import io
         
-        with io.capture_output() as captured: # Hide hideously long output 
-            os.system('apt-get update')
-            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
-            iflatexExists=True
-    else:
-        print('Please install a full distributon of LaTeX on your computer then rerun.')
-        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
-        sys.exit()
+#         with io.capture_output() as captured: # Hide hideously long output 
+#             os.system('apt-get update')
+#             os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+#             iflatexExists=True
+#     else:
+#         print('Please install a full distributon of LaTeX on your computer then rerun.')
+#         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+#         sys.exit()
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
