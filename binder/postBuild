@@ -1,6 +1,10 @@
 #!/bin/sh
 jupyter contrib nbextension install --user
 jupyter nbextension enable codefolding/main
+jupyter nbextension enable codefolding/edit
+jupyter nbextension enable latex_envs
+jupyter nbextension enable load_tex_macros
+jupyter nbextension enable navigation-hotkeys
 python -m cite2c.install
 result=$(python <<EOF
 from notebook.services.config.manager import ConfigManager
