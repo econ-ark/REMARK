@@ -40,7 +40,7 @@
 #
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This cell does some setup; please be patient, it may take 3-5 minutes
 
 # The tools for navigating the filesystem
@@ -68,24 +68,24 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
 
-if not iflatexExists:
-    print('Some of the figures below require a full installation of LaTeX')
+# if not iflatexExists:
+#     print('Some of the figures below require a full installation of LaTeX')
     
-    # If running on Mac or Win, user can be assumed to be able to install
-    # any missing packages in response to error messages; but not on cloud
-    # so load LaTeX by hand (painfully slowly)
-    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
-        print('Installing LaTeX now; please wait 3-5 minutes')
-        from IPython.utils import io
+#     # If running on Mac or Win, user can be assumed to be able to install
+#     # any missing packages in response to error messages; but not on cloud
+#     # so load LaTeX by hand (painfully slowly)
+#     if 'debian' in pf: # CoLab and MyBinder are both ubuntu
+#         print('Installing LaTeX now; please wait 3-5 minutes')
+#         from IPython.utils import io
         
-        with io.capture_output() as captured: # Hide hideously long output 
-            os.system('apt-get update')
-            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
-            iflatexExists=True
-    else:
-        print('Please install a full distributon of LaTeX on your computer then rerun.')
-        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
-        sys.exit()
+#         with io.capture_output() as captured: # Hide hideously long output 
+#             os.system('apt-get update')
+#             os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+#             iflatexExists=True
+#     else:
+#         print('Please install a full distributon of LaTeX on your computer then rerun.')
+#         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+#         sys.exit()
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
@@ -173,7 +173,7 @@ if not in_ipynb(): # running in batch mode
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 from HARK.utilities import plotFuncsDer, plotFuncs
 
-# %% [markdown] {"heading_collapsed": true}
+# %% [markdown]
 # ## [The Problem](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Problem) 
 #
 # The paper defines and calibrates a small set of parameters: <!-- defined in latexdefs.tex -->
@@ -215,7 +215,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # \end{eqnarray*}
 #
 
-# %% {"code_folding": [0], "hidden": true}
+# %% {"code_folding": [0]}
 # Define a parameter dictionary with baseline parameter values
 
 # Set the baseline parameter values 
