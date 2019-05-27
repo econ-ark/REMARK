@@ -173,13 +173,13 @@ if not in_ipynb(): # running in batch mode
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 from HARK.utilities import plotFuncsDer, plotFuncs
 
-# %% [markdown]
+# %% [markdown] {"heading_collapsed": true}
 # ## [The Problem](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Problem) 
 #
 # The paper defines and calibrates a small set of parameters: <!-- defined in latexdefs.tex -->
 #
 # | Parameter | Description | Code | Value |
-# | :---: | ---         | ---  | :---: |
+# |:---:| ---         | ---  | :---: |
 # | $\Gamma$ | Permanent Income Growth Factor | $\texttt{PermGroFac}$ | 1.03 |
 # | $\mathsf{R}$ | Interest Factor | $\texttt{Rfree}$ | 1.04 |
 # | $\beta$ | Time Preference Factor | $\texttt{DiscFac}$ | 0.96 |
@@ -215,7 +215,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # \end{eqnarray*}
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [0], "hidden": true}
 # Define a parameter dictionary with baseline parameter values
 
 # Set the baseline parameter values 
@@ -444,6 +444,7 @@ else:
 
 # %% {"code_folding": [0]}
 # Construct the "GIC fails" example.
+
 GIC_fail_dictionary = dict(base_params)
 GIC_fail_dictionary['Rfree']      = 1.08
 GIC_fail_dictionary['PermGroFac'] = [1.00]
@@ -477,8 +478,9 @@ Er = ER - 1
 mSSfunc = lambda m : 1 + (m-1)*(Er/ER)
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot GICFailExample consumption function against the sustainable level of consumption
+
 GICFailExample.solve() # Above, we set up the problem but did not solve it 
 GICFailExample.unpackcFunc()  # Make the consumption function easily accessible for plotting
 m = np.linspace(0,5,1000)
