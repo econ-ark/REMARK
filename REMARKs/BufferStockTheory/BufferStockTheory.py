@@ -16,11 +16,13 @@
 
 # %% [markdown]
 # # Theoretical Foundations of Buffer Stock Saving
-# <div class="cite2c-biblio"></div>
+#
+# <cite data-cite="6202365/8AH9AXN2"></cite>
+#
 # <p style="text-align: center;"><small><small>Generator: BufferStockTheory-make/notebooks_byname</small></small></p>
 
 # %% [markdown]
-# <p style="text-align: center;"><small><small><small>For the following badges: GitHub does not allow click-through redirects; from GitHub, right-click to get the link</small></small></small></p>
+# <p style="text-align: center;"><small><small><small>For the following badges: GitHub does not allow click-through redirects; right-click to get the link, then paste into navigation bar</small></small></small></p>
 #
 # <!-- Disabling binder because it is excruciatingly slow
 # [![Open in Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FBufferStockTheory%2FBufferStockTheory.ipynb)
@@ -28,8 +30,7 @@
 #
 # [![Open in CoLab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb)
 #
-# [This notebook](https://github.com/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb) uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory) <cite data-cite="6202365/8AH9AXN2"></cite>
-#
+# [This notebook](https://github.com/econ-ark/REMARK/blob/master/REMARKs/BufferStockTheory/BufferStockTheory.ipynb) uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory) 
 #
 # If you are not familiar with the HARK toolkit, you may wish to browse the ["Gentle Introduction to HARK"](https://mybinder.org/v2/gh/econ-ark/DemARK/master?filepath=Gentle-Intro-To-HARK.ipynb) before continuing (since you are viewing this document, you presumably know a bit about [Jupyter Notebooks](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/)).
 #
@@ -39,7 +40,7 @@
 #
 #
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This cell does some setup; please be patient, it may take 3-5 minutes
 
 # The tools for navigating the filesystem
@@ -67,24 +68,24 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
 
-# if not iflatexExists:
-#     print('Some of the figures below require a full installation of LaTeX')
+if not iflatexExists:
+    print('Some of the figures below require a full installation of LaTeX')
     
-#     # If running on Mac or Win, user can be assumed to be able to install
-#     # any missing packages in response to error messages; but not on cloud
-#     # so load LaTeX by hand (painfully slowly)
-#     if 'debian' in pf: # CoLab and MyBinder are both ubuntu
-#         print('Installing LaTeX now; please wait 3-5 minutes')
-#         from IPython.utils import io
+    # If running on Mac or Win, user can be assumed to be able to install
+    # any missing packages in response to error messages; but not on cloud
+    # so load LaTeX by hand (painfully slowly)
+    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
+        print('Installing LaTeX now; please wait 3-5 minutes')
+        from IPython.utils import io
         
-#         with io.capture_output() as captured: # Hide hideously long output 
-#             os.system('apt-get update')
-#             os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
-#             iflatexExists=True
-#     else:
-#         print('Please install a full distributon of LaTeX on your computer then rerun.')
-#         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
-#         sys.exit()
+        with io.capture_output() as captured: # Hide hideously long output 
+            os.system('apt-get update')
+            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+            iflatexExists=True
+    else:
+        print('Please install a full distributon of LaTeX on your computer then rerun.')
+        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+        sys.exit()
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
@@ -105,7 +106,7 @@ def in_ipynb():
 
 if in_ipynb():
     # Now install stuff aside from LaTeX (if not already installed)
-    os.system('pip install econ-ark==0.10.0.dev2')
+    os.system('pip install econ-ark==0.10.0.dev3')
     os.system('pip install matplotlib')
     os.system('pip install numpy')
     os.system('pip install scipy')
@@ -113,6 +114,8 @@ if in_ipynb():
     os.system('pip install jupyter_contrib_nbextensions')
     os.system('jupyter contrib nbextension install --user')
     os.system('jupyter nbextension enable codefolding/main')
+    os.system('jupyter nbextension enable latex_envs/latex_envs')
+    os.system('jupyter nbextension enable navigation-hotkeys')
     os.system('pip install cite2c')
     os.system('python -m cite2c.install')
 else:
@@ -173,33 +176,33 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # %% [markdown]
 # ## [The Problem](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Problem) 
 #
-# The paper defines and calibrates a small set of parameters:
+# The paper defines and calibrates a small set of parameters: <!-- defined in latexdefs.tex -->
 #
 # | Parameter | Description | Code | Value |
 # | :---: | ---         | ---  | :---: |
-# | $\newcommand{\PermGroFac}{\Gamma}\PermGroFac$ | Permanent Income Growth Factor | $\texttt{PermGroFac}$ | 1.03 |
-# | $\newcommand{\Rfree}{\mathrm{\mathsf{R}}}\Rfree$ | Interest Factor | $\texttt{Rfree}$ | 1.04 |
-# | $\newcommand{\DiscFac}{\beta}\DiscFac$ | Time Preference Factor | $\texttt{DiscFac}$ | 0.96 |
-# | $\newcommand{\CRRA}{\rho}\CRRA$ | Coeﬃcient of Relative Risk Aversion| $\texttt{CRRA}$ | 2 |
-# | $\newcommand{\UnempPrb}{\wp}\UnempPrb$ | Probability of Unemployment | $\texttt{UnempPrb}$ | 0.005 |
-# | $\newcommand{\IncUnemp}{\mu}\IncUnemp$ | Income when Unemployed | $\texttt{IncUnemp}$ | 0. |
-# | $\newcommand{\PermShkStd}{\sigma_\psi}\PermShkStd$ | Std Dev of Log Permanent Shock| $\texttt{PermShkStd}$ | 0.1 |
-# | $\newcommand{\TranShkStd}{\sigma_\theta}\TranShkStd$ | Std Dev of Log Transitory Shock| $\texttt{TranShkStd}$ | 0.1 |
+# | $\Gamma$ | Permanent Income Growth Factor | $\texttt{PermGroFac}$ | 1.03 |
+# | $\mathsf{R}$ | Interest Factor | $\texttt{Rfree}$ | 1.04 |
+# | $\beta$ | Time Preference Factor | $\texttt{DiscFac}$ | 0.96 |
+# | $\rho$ | Coeﬃcient of Relative Risk Aversion| $\texttt{CRRA}$ | 2 |
+# | $\wp$ | Probability of Unemployment | $\texttt{UnempPrb}$ | 0.005 |
+# | $\mu$ | Income when Unemployed | $\texttt{IncUnemp}$ | 0. |
+# | $\sigma_\psi$ | Std Dev of Log Permanent Shock| $\texttt{PermShkStd}$ | 0.1 |
+# | $\sigma_\theta$ | Std Dev of Log Transitory Shock| $\texttt{TranShkStd}$ | 0.1 |
 #
 # For a microeconomic consumer with 'Market Resources' (net worth plus current income) $M_{t}$, end-of-period assets $A_{t}$ will be the amount remaining after consumption of $C_{t}$.  <!-- Next period's 'Balances' $B_{t+1}$ reflect this period's $A_{t}$ augmented by return factor $R$:-->
 # \begin{eqnarray}
 # A_{t}   &=&M_{t}-C_{t}
 # \end{eqnarray}
 #
-# The consumer's permanent noncapital income $P$ grows by a predictable factor $\PermGroFac$ and is subject to an unpredictable lognormally distributed multiplicative shock $\mathbb{E}_{t}[\psi_{t+1}]=1$, 
+# The consumer's permanent noncapital income $P$ grows by a predictable factor $\Gamma$ and is subject to an unpredictable lognormally distributed multiplicative shock $\mathbb{E}_{t}[\psi_{t+1}]=1$, 
 # \begin{eqnarray}
-# P_{t+1} & = & P_{t} \PermGroFac \psi_{t+1}
+# P_{t+1} & = & P_{t} \Gamma \psi_{t+1}
 # \end{eqnarray}
 #
 # and actual income is permanent income multiplied by a logormal multiplicative transitory shock, $\mathbb{E}_{t}[\theta_{t+1}]=1$, so that next period's market resources are
 # \begin{eqnarray}
 # %M_{t+1} &=& B_{t+1} +P_{t+1}\theta_{t+1},  \notag
-# M_{t+1} &=& A_{t}R +P_{t+1}\theta_{t+1}.  \notag
+# M_{t+1} &=& A_{t}\mathsf{R} +P_{t+1}\theta_{t+1}.  \notag
 # \end{eqnarray}
 #
 # When the consumer has a CRRA utility function $u(c)=\frac{c^{1-\rho}}{1-\rho}$, the paper shows that the problem can be written in terms of ratios of money variables to permanent income, e.g. $m_{t} \equiv M_{t}/P_{t}$, and the Bellman form of [the problem reduces to](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Related-Problem):
@@ -249,7 +252,12 @@ base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 # %% [markdown]
 # ## Convergence of the Consumption Rules
 #
-# [The paper's first figure](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Convergence-of-the-Consumption-Rules) depicts the successive consumption rules that apply in the last period of life $(c_{T}(m))$, the second-to-last period, and earlier periods under the baseline parameter values given above.
+# Under the given parameter values, [the paper's first figure](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Convergence-of-the-Consumption-Rules) depicts the successive consumption rules that apply in the last period of life $(c_{T}(m))$, the second-to-last period, and earlier periods $(c_{T-n})$.  $c(m)$ is the consumption function to which these converge as 
+#
+# \[
+# c(m) = \lim_{n \uparrow \infty} c_{T-n}(m)
+# \]
+#
 
 # %% {"code_folding": [0]}
 # Create a buffer stock consumer instance by passing the dictionary to the class.
@@ -262,7 +270,7 @@ baseEx.unpackcFunc()  # Make the consumption function easily accessible
 
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot the different periods' consumption rules.
 
 m1 = np.linspace(0,9.5,1000) # Set the plot range of m
@@ -314,19 +322,19 @@ else:
 # Human wealth for a perfect foresight consumer is defined as the present discounted value of future income:
 #
 # \begin{eqnarray}
-# H_{t} & = & \mathbb{E}[P_{t} + R^{-1} P_{t+1} + R^{2} P_{t+2} ... ] \\ 
-#       & = & P_{t}\mathbb{E}[P_{t} + (\Gamma/R) + (\Gamma/R)^{2} ... ]
+# H_{t} & = & \mathbb{E}_{t}[P_{t} + \mathsf{R}^{-1} P_{t+1} + \mathsf{R}^{2} P_{t+2} ... ] \\ 
+#       & = & P_{t} \left(1 + (\Gamma/\mathsf{R}) + (\Gamma/\mathsf{R})^{2} ... \right)
 # \end{eqnarray}
-# which is an infinite number if $\Gamma/R \geq 1$.  We say that the 'Finite Human Wealth Condition' (FHWC) holds if 
-# $0 \leq (\Gamma/R) \leq 1$.
+# which is an infinite number if $\Gamma/\mathsf{R} \geq 1$.  We say that the 'Finite Human Wealth Condition' (FHWC) holds if 
+# $0 \leq (\Gamma/\mathsf{R}) < 1$.
 
 # %% [markdown]
 # ### [Absolute Patience and the AIC](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AIC)
 #
-# The paper defines an object which it calls the Absolute Patience Factor, equal to the ratio of $C_{t+1}/C_{t}$ for a perfect foresight consumer.  The Old English character <span style="font-size:larger;">"&#222;"</span> is used for this object in the paper, but <span style="font-size:larger;">"&#222;"</span> cannot currently be rendered conveniently in equations in Jupyter notebooks, so we will substitute $\Phi$ here:
+# The paper defines the Absolute Patience Factor as being equal to the ratio of $C_{t+1}/C_{t}$ for a perfect foresight consumer.  The Old English character <span style="font-size:larger;">"&#222;"</span> is used for this object in the paper, but <span style="font-size:larger;">"&#222;"</span> cannot currently be rendered conveniently in Jupyter notebooks, so we will substitute $\Phi$ here:
 #
 # \begin{equation}
-# \Phi = (R \beta)^{1/\rho} 
+# \Phi = (\mathsf{R} \beta)^{1/\rho} 
 # \end{equation}
 #
 # If $\Phi = 1$, a perfect foresight consumer will spend exactly the amount that can be sustained perpetually (given their current and future resources).  If $\Phi < 1$ (the consumer is 'absolutely impatient'; or, 'the absolute impatience condition holds'), the consumer is consuming more than the sustainable amount, so consumption will fall, and if the consumer is 'absolutely patient' with $\Phi > 1$ consumption will grow over time.
@@ -368,12 +376,12 @@ else:
 # %% [markdown]
 # ### [The Weak Return Impatience Condition (WRIC)](http://www.econ2.jhu.edu/people/ccarroll/papers/BufferStockTheory/#WRIC)
 #
-# The 'Return Impatience Condition' $\Phi/R < 1$ has long been understood to be required for the perfect foresight model to have a nondegenerate solution (when $\rho=1$, this reduces to $\beta < R$).  If the RIC does not hold, the consumer is so patient that the optimal consumption function approaches zero as the horizon extends.
+# The 'Return Impatience Condition' $\Phi/\mathsf{R} < 1$ has long been understood to be required for the perfect foresight model to have a nondegenerate solution (when $\rho=1$, this reduces to $\beta < R$).  If the RIC does not hold, the consumer is so patient that the optimal consumption function approaches zero as the horizon extends.
 #
 # When the probability of unemployment is $\wp$, the paper articulates an analogous (but weaker) condition:
 #
 # \begin{eqnarray}
-#  \wp^{1/\rho} \Phi/R & < & 1
+#  \wp^{1/\rho} \Phi/\mathsf{R} & < & 1
 # \end{eqnarray}
 
 # %% [markdown]
@@ -398,7 +406,7 @@ else:
 # %% [markdown]
 # ## [$c(m)$ is Finite Even When Human Wealth Is Infinite](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#When-The-GIC-Fails)
 #
-# In the perfect foresight model, if $R < \Gamma$ the present discounted value of future labor income is infinite and so the limiting consumption function is $c(m) = \infty$ for all $m$.  Many models have no well-defined solution in this case.
+# In the perfect foresight model, if $\mathsf{R} < \Gamma$ the present discounted value of future labor income is infinite and so the limiting consumption function is $c(m) = \infty$ for all $m$.  Many models have no well-defined solution in this case.
 #
 # The presence of uncertainty changes this: The limiting consumption function is finite for all values of $m$.  
 #
@@ -485,7 +493,7 @@ plt.text(0,1.63,"$c$",fontsize = 26)
 plt.text(5.55,0,"$m$",fontsize = 26)
 plt.tick_params(labelbottom=False, labelleft=False,left='off',right='off',bottom='off',top='off')
 plt.text(1,0.6,"$c(m_{t})$",fontsize = 18)
-plt.text(1.5,1.2,"$\mathrm{\mathsf{E}}_{t}[\Delta m_{t+1}] = 0$",fontsize = 18)
+plt.text(1.5,1.2,"$\mathsf{E}_{t}[\Delta m_{t+1}] = 0$",fontsize = 18)
 plt.arrow(0.98,0.62,-0.2,0,head_width= 0.02,width=0.001,facecolor='black',length_includes_head='True')
 plt.arrow(2.2,1.2,0.3,-0.05,head_width= 0.02,width=0.001,facecolor='black',length_includes_head='True')
 if Generator:
@@ -658,7 +666,7 @@ def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
                 arrowprops=dict( headwidth=hw, frac=1., ec=c, fc=c))
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot consumption growth as a function of market resources
 # Calculate Absolute Patience Factor Phi = lower bound of consumption growth factor
 AbsPatientFac = (baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)
@@ -687,7 +695,7 @@ ax.set_xlim(1,2.05)
 ax.set_ylim(0.98,1.08)
 ax.text(1,1.082,"Growth Rate",fontsize = 26,fontweight='bold')
 ax.text(2.055,0.98,"$m_{t}$",fontsize = 26,fontweight='bold')
-ax.text(1.9,1.01,"$\mathrm{\mathsf{E}}_{t}[c_{t+1}/c_{t}]$",fontsize = 22,fontweight='bold')
+ax.text(1.9,1.01,"$\mathsf{E}_{t}[c_{t+1}/c_{t}]$",fontsize = 22,fontweight='bold')
 ax.text(baseEx_inf.solution[0].mNrmSS,0.975, r'$\check{m}$', fontsize = 26,fontweight='bold')
 ax.tick_params(labelbottom=False, labelleft=False,left='off',right='off',bottom='off',top='off')
 ax.text(1.9,0.998,r'$\Phi = (\mathrm{\mathsf{R}}\beta)^{1/\rho}$',fontsize = 22,fontweight='bold')
@@ -722,7 +730,7 @@ intersect_m = ((h_inf-1)* k_lower)/((1 - baseEx_inf.UnempPrb
             **(1.0/baseEx_inf.CRRA)*(baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)/baseEx_inf.Rfree)-k_lower)
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Plot the consumption function and its bounds
 
 x1 = np.linspace(0,25,1000)
@@ -772,7 +780,7 @@ else:
 #
 # This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # This just plots objects that have already been constructed
 
 m1 = np.linspace(0,4,1000)
@@ -788,7 +796,7 @@ plt.plot([baseEx_inf.solution[0].mNrmSS, baseEx_inf.solution[0].mNrmSS],[0,2.5],
 plt.tick_params(labelbottom=False, labelleft=False,left='off',right='off',bottom='off',top='off')
 plt.text(0,1.47,r"$c$",fontsize = 26)
 plt.text(3.02,0,r"$m$",fontsize = 26)
-plt.text(2.3,0.95,r'$\mathrm{\mathsf{E}}[\Delta m_{t+1}] = 0$',fontsize = 22,fontweight='bold')
+plt.text(2.3,0.95,r'$\mathsf{E}[\Delta m_{t+1}] = 0$',fontsize = 22,fontweight='bold')
 plt.text(2.3,1.1,r"$c(m_{t})$",fontsize = 22,fontweight='bold')
 plt.text(baseEx_inf.solution[0].mNrmSS,-0.05, r"$\check{m}$",fontsize = 26)
 plt.arrow(2.28,1.12,-0.1,0.03,head_width= 0.02,width=0.001,facecolor='black',length_includes_head='True')
@@ -811,7 +819,7 @@ else:
 #
 # The paper also derives an analytical limit $\bar{\kappa}$ for the MPC as $m$ approaches 0., its bounding value.  Strict concavity of the consumption function implies that the consumption function will be everywhere below a function $\bar{\kappa}m$, and strictly declining everywhere.  The last figure plots the MPC between these two limits.
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # The last figure shows the upper and lower limits of the MPC
 plt.figure(figsize = (12,8))
 # Set the plot range of m
