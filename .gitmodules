@@ -11,3 +11,6 @@
 [submodule "LiqConstr"]
 	path = LiqConstr
 	url = https://github.com/llorracc/LiqConstr
+[submodule "REMARKs/LiqConstr"]
+	path = REMARKs/LiqConstr
+	url = https://github.com/llorracc/LiqConstr
