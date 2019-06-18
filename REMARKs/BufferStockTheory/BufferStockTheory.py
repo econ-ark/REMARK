@@ -53,9 +53,9 @@ pform = ''
 pform = platform.platform().lower()
 if 'darwin' in pform:
     pf = 'darwin' # MacOS
-if 'debian'in pform:
+if 'debian' in pform:
     pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
-if 'ubuntu'in pform:
+if 'ubuntu' in pform:
     pf = 'debian' # Probably cloud (MyBinder, CoLab, ...)
 if 'win' in pform:
     pf = 'win'
@@ -68,24 +68,24 @@ iflatexExists=False
 if find_executable('latex'):
     iflatexExists=True
 
-# if not iflatexExists:
-#     print('Some of the figures below require a full installation of LaTeX')
+if not iflatexExists:
+    print('Some of the figures below require a full installation of LaTeX')
     
-#     # If running on Mac or Win, user can be assumed to be able to install
-#     # any missing packages in response to error messages; but not on cloud
-#     # so load LaTeX by hand (painfully slowly)
-#     if 'debian' in pf: # CoLab and MyBinder are both ubuntu
-#         print('Installing LaTeX now; please wait 3-5 minutes')
-#         from IPython.utils import io
+    # If running on Mac or Win, user can be assumed to be able to install
+    # any missing packages in response to error messages; but not on cloud
+    # so load LaTeX by hand (painfully slowly)
+    if 'debian' in pf: # CoLab and MyBinder are both ubuntu
+        print('Installing LaTeX now; please wait 3-5 minutes')
+        from IPython.utils import io
         
-#         with io.capture_output() as captured: # Hide hideously long output 
-#             os.system('apt-get update')
-#             os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
-#             iflatexExists=True
-#     else:
-#         print('Please install a full distributon of LaTeX on your computer then rerun.')
-#         print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
-#         sys.exit()
+        with io.capture_output() as captured: # Hide hideously long output 
+            os.system('apt-get update')
+            os.system('apt-get install texlive texlive-latex-extra texlive-xetex dvipng')
+            iflatexExists=True
+    else:
+        print('Please install a full distributon of LaTeX on your computer then rerun.')
+        print('A full distribution means textlive, texlive-latex-extras, texlive-xetex, dvipng, and ghostscript')
+        sys.exit()
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
@@ -194,12 +194,12 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # A_{t}   &=&M_{t}-C_{t}
 # \end{eqnarray}
 #
-# The consumer's permanent noncapital income $P$ grows by a predictable factor $\Gamma$ and is subject to an unpredictable lognormally distributed multiplicative shock $\mathbb{E}_{t}[\psi_{t+1}]=1$, 
+# The consumer's permanent noncapital income $P$ grows by a predictable factor $\Gamma$ and is subject to an unpredictable lognormally distributed multiplicative shock $\bbE_{t}[\psi_{t+1}]=1$, 
 # \begin{eqnarray}
 # P_{t+1} & = & P_{t} \Gamma \psi_{t+1}
 # \end{eqnarray}
 #
-# and actual income is permanent income multiplied by a logormal multiplicative transitory shock, $\mathbb{E}_{t}[\theta_{t+1}]=1$, so that next period's market resources are
+# and actual income is permanent income multiplied by a logormal multiplicative transitory shock, $\bbE_{t}[\theta_{t+1}]=1$, so that next period's market resources are
 # \begin{eqnarray}
 # %M_{t+1} &=& B_{t+1} +P_{t+1}\theta_{t+1},  \notag
 # M_{t+1} &=& A_{t}\mathsf{R} +P_{t+1}\theta_{t+1}.  \notag
@@ -208,7 +208,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # When the consumer has a CRRA utility function $u(c)=\frac{c^{1-\rho}}{1-\rho}$, the paper shows that the problem can be written in terms of ratios of money variables to permanent income, e.g. $m_{t} \equiv M_{t}/P_{t}$, and the Bellman form of [the problem reduces to](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Related-Problem):
 #
 # \begin{eqnarray*}
-# v_t(m_t) &=& \max_{c_t}~~ u(c_t) + \beta~\mathbb{E}_{t} [(\Gamma\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ] \\
+# v_t(m_t) &=& \max_{c_t}~~ u(c_t) + \beta~\bbE_{t} [(\Gamma\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ] \\
 # & s.t. & \\
 # a_t &=& m_t - c_t \\
 # m_{t+1} &=& R/(\Gamma \psi_{t+1}) a_t + \theta_{t+1} \\
@@ -322,7 +322,7 @@ else:
 # Human wealth for a perfect foresight consumer is defined as the present discounted value of future income:
 #
 # \begin{eqnarray}
-# H_{t} & = & \mathbb{E}_{t}[P_{t} + \mathsf{R}^{-1} P_{t+1} + \mathsf{R}^{2} P_{t+2} ... ] \\ 
+# H_{t} & = & \bbE_{t}[P_{t} + \mathsf{R}^{-1} P_{t+1} + \mathsf{R}^{2} P_{t+2} ... ] \\ 
 #       & = & P_{t} \left(1 + (\Gamma/\mathsf{R}) + (\Gamma/\mathsf{R})^{2} ... \right)
 # \end{eqnarray}
 # which is an infinite number if $\Gamma/\mathsf{R} \geq 1$.  We say that the 'Finite Human Wealth Condition' (FHWC) holds if 
@@ -351,7 +351,7 @@ else:
 # \end{eqnarray}
 # and whether the ratio is falling or rising over time depends on whether $\Phi_{\Gamma}$ is below or above 1.
 #
-# An analogous condition can be defined when there is uncertainty about permanent income.  Defining $\tilde{\Gamma} = (\mathbb{E}[\psi^{-1}])^{-1}\Gamma$, the 'Growth Impatience Condition' (GIC) is that 
+# An analogous condition can be defined when there is uncertainty about permanent income.  Defining $\tilde{\Gamma} = (\bbE[\psi^{-1}])^{-1}\Gamma$, the 'Growth Impatience Condition' (GIC) is that 
 # \begin{eqnarray}
 #   \Phi/\tilde{\Gamma} & < & 1
 # \end{eqnarray}
@@ -364,13 +364,13 @@ else:
 # The paper [shows](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Autarky-Value) that a consumer who planned to spend his permanent income $\{ p_{t}, p_{t+1}, ...\} $ in every period would have value defined by
 #
 # \begin{equation}
-# v_{t}^{\text{autarky}} = u(p_{t})\left(\frac{1}{1-\beta \Gamma^{1-\rho} \mathbb{E}[\psi^{1-\rho}]}\right)
+# v_{t}^{\text{autarky}} = u(p_{t})\left(\frac{1}{1-\beta \Gamma^{1-\rho} \bbE[\psi^{1-\rho}]}\right)
 # \end{equation}
 #
 # and defines the 'Finite Value of Autarky Condition' as the requirement that the denominator of this expression be a positive finite number:
 #
 # \begin{equation}
-# \beta \Gamma^{1-\rho} \mathbb{E}[\psi^{1-\rho}] < 1
+# \beta \Gamma^{1-\rho} \bbE[\psi^{1-\rho}] < 1
 # \end{equation}
 
 # %% [markdown]
@@ -423,9 +423,9 @@ else:
 # Section [There Is Exactly One Target $m$ Ratio, Which Is Stable](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#onetarget) shows that, under parameter values for which the limiting consumption function exists, if the GIC holds then there will be a value $\check{m}$ such that:
 #
 # \begin{eqnarray}
-# \mathbb{E}[m_{t+1}] & > & m_{t}~\text{if $m_{t} < \check{m}$} \\
-# \mathbb{E}[m_{t+1}] & < & m_{t}~\text{if $m_{t} > \check{m}$} \\
-# \mathbb{E}[m_{t+1}] & = & m_{t}~\text{if $m_{t} = \check{m}$}
+# \bbE[m_{t+1}] & > & m_{t}~\text{if $m_{t} < \check{m}$} \\
+# \bbE[m_{t+1}] & < & m_{t}~\text{if $m_{t} > \check{m}$} \\
+# \bbE[m_{t+1}] & = & m_{t}~\text{if $m_{t} = \check{m}$}
 # \end{eqnarray} 
 
 # %% [markdown]
@@ -464,7 +464,7 @@ GICFailExample = IndShockConsumerType(
 GICFailExample.checkConditions(verbose=True)
 
 # %% [markdown]
-# Next we define the function $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ that shows the ‘sustainable’ level of spending at which $m$ is expected to remain unchanged.
+# Next we define the function $\mathrm{\bbE}_{t}[\Delta m_{t+1}]$ that shows the ‘sustainable’ level of spending at which $m$ is expected to remain unchanged.
 
 # %% {"code_folding": [0]}
 # Calculate "Sustainable" consumption that leaves expected m unchanged
@@ -526,7 +526,7 @@ baseEx_inf.unpackcFunc()
 # %% [markdown]
 # ### [Target $m$, Expected Consumption Growth, and Permanent Income Growth](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AnalysisoftheConvergedConsumptionFunction)
 #
-# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\mathbb{E}}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
+# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\bbE}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
 #
 
 # %% {"code_folding": [0]}
@@ -732,9 +732,15 @@ intersect_m = ((h_inf-1)* k_lower)/((1 - baseEx_inf.UnempPrb
             **(1.0/baseEx_inf.CRRA)*(baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)/baseEx_inf.Rfree)-k_lower)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the consumption function and its bounds
 
+cMaxLabel=r'$\overline{c}(m) = (m-1+h)\underline{\kappa}$'
+cMinLabel=r'$\underline{c}(m)= (1-\Phi_{R})m = \underline{\kappa}m$'
+if not iflatexExists:
+    cMaxLabel=r'$\overline{c}(m) = (m-1+h)$κ̲' # Use unicode kludge
+    cMinLabel=r'c̲$(m)= (1-\Phi_{R})m = $κ̲$ m$' 
+    
 x1 = np.linspace(0,25,1000)
 x3 = np.linspace(0,intersect_m,300)
 x4 = np.linspace(intersect_m,25,700)
@@ -758,9 +764,9 @@ plt.text(0,1.12*conFunc_PF(25)+0.05,"$c$",fontsize = 22)
 plt.text(25+0.1,0,"$m$",fontsize = 22)
 plt.text(2.5,1,r'$c(m)$',fontsize = 22,fontweight='bold')
 plt.text(6,5,r'$\overline{\overline{c}}(m)= \overline{\kappa}m = (1-\wp^{1/\rho}\Phi_{R})m$',fontsize = 22,fontweight='bold')
-plt.text(2.2,3.8, r'$\overline{c}(m) = (m-1+h)\underline{\kappa}$',fontsize = 22,fontweight='bold')
+plt.text(2.2,3.8, cMaxLabel,fontsize = 22,fontweight='bold')
 plt.text(9,4.1,r'Upper Bound $ = $ Min $[\overline{\overline{c}}(m),\overline{c}(m)]$',fontsize = 22,fontweight='bold')
-plt.text(7,0.7,r'$\underline{c}(m)= (1-\Phi_{R})m = \underline{\kappa}m$',fontsize = 22,fontweight='bold')
+plt.text(7,0.7,cMinLabel,fontsize = 22,fontweight='bold')
 plt.arrow(2.45,1.05,-0.5,0.02,head_width= 0.05,width=0.001,facecolor='black',length_includes_head='True')
 plt.arrow(2.15,3.88,-0.5,0.1,head_width= 0.05,width=0.001,facecolor='black',length_includes_head='True')
 plt.arrow(8.95,4.15,-0.8,0.05,head_width= 0.05,width=0.001,facecolor='black',length_includes_head='True')
@@ -780,7 +786,7 @@ else:
 # %% [markdown]
 # ### [The Consumption Function and Target $m$](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cFuncBounds)
 #
-# This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
+# This figure shows the $\mathrm{\bbE}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
 # %% {"code_folding": [0]}
 # This just plots objects that have already been constructed
@@ -821,7 +827,7 @@ else:
 #
 # The paper also derives an analytical limit $\bar{\kappa}$ for the MPC as $m$ approaches 0., its bounding value.  Strict concavity of the consumption function implies that the consumption function will be everywhere below a function $\bar{\kappa}m$, and strictly declining everywhere.  The last figure plots the MPC between these two limits.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # The last figure shows the upper and lower limits of the MPC
 plt.figure(figsize = (12,8))
 # Set the plot range of m
@@ -836,6 +842,10 @@ MPCUpper = (1 - baseEx_inf.UnempPrb ** (1.0/baseEx_inf.CRRA)*(baseEx_inf.Rfree*b
 # Define the lower bound of MPC
 MPCLower = k_lower
 
+kappaDef=r'$\underline{\kappa}\equiv(1-\Phi_{R})$'
+if not iflatexExists:
+    kappaDef=r'κ̲$\equiv(1-\Phi_{R})$'
+
 plt.plot(m,MPC,color = 'black')
 plt.plot([0,8],[MPCUpper,MPCUpper],color = 'black')
 plt.plot([0,8],[MPCLower,MPCLower],color = 'black')
@@ -843,7 +853,7 @@ plt.xlim(0,8)
 plt.ylim(0,1)
 plt.text(1.5,0.6,r'$\kappa(m) \equiv c^{\prime}(m)$',fontsize = 26,fontweight='bold')
 plt.text(6,0.87,r'$(1-\wp^{1/\rho}\Phi_{R})\equiv \overline{\kappa}$',fontsize = 26,fontweight='bold')
-plt.text(0.5,0.07,r'$\underline{\kappa}\equiv(1-\Phi_{R})$',fontsize = 26,fontweight='bold')
+plt.text(0.5,0.07,kappaDef,fontsize = 26,fontweight='bold')
 plt.text(8.05,0,"$m$",fontsize = 26)
 plt.arrow(1.45,0.61,-0.4,0,head_width= 0.02,width=0.001,facecolor='black',length_includes_head='True')
 plt.arrow(1.7,0.07,0.2,-0.01,head_width= 0.02,width=0.001,facecolor='black',length_includes_head='True')
