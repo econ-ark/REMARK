@@ -193,12 +193,12 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # A_{t}   &=&M_{t}-C_{t}
 # \end{eqnarray}
 #
-# The consumer's permanent noncapital income $P$ grows by a predictable factor $\Gamma$ and is subject to an unpredictable lognormally distributed multiplicative shock $\bbE_{t}[\psi_{t+1}]=1$, 
+# The consumer's permanent noncapital income $P$ grows by a predictable factor $\Gamma$ and is subject to an unpredictable lognormally distributed multiplicative shock $\mathbb{E}_{t}[\psi_{t+1}]=1$, 
 # \begin{eqnarray}
 # P_{t+1} & = & P_{t} \Gamma \psi_{t+1}
 # \end{eqnarray}
 #
-# and actual income is permanent income multiplied by a logormal multiplicative transitory shock, $\bbE_{t}[\theta_{t+1}]=1$, so that next period's market resources are
+# and actual income is permanent income multiplied by a logormal multiplicative transitory shock, $\mathbb{E}_{t}[\theta_{t+1}]=1$, so that next period's market resources are
 # \begin{eqnarray}
 # %M_{t+1} &=& B_{t+1} +P_{t+1}\theta_{t+1},  \notag
 # M_{t+1} &=& A_{t}\mathsf{R} +P_{t+1}\theta_{t+1}.  \notag
@@ -207,7 +207,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # When the consumer has a CRRA utility function $u(c)=\frac{c^{1-\rho}}{1-\rho}$, the paper shows that the problem can be written in terms of ratios of money variables to permanent income, e.g. $m_{t} \equiv M_{t}/P_{t}$, and the Bellman form of [the problem reduces to](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#The-Related-Problem):
 #
 # \begin{eqnarray*}
-# v_t(m_t) &=& \max_{c_t}~~ u(c_t) + \beta~\bbE_{t} [(\Gamma\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ] \\
+# v_t(m_t) &=& \max_{c_t}~~ u(c_t) + \beta~\mathbb{E}_{t} [(\Gamma\psi_{t+1})^{1-\rho} v_{t+1}(m_{t+1}) ] \\
 # & s.t. & \\
 # a_t &=& m_t - c_t \\
 # m_{t+1} &=& R/(\Gamma \psi_{t+1}) a_t + \theta_{t+1} \\
@@ -321,7 +321,7 @@ else:
 # Human wealth for a perfect foresight consumer is defined as the present discounted value of future income:
 #
 # \begin{eqnarray}
-# H_{t} & = & \bbE_{t}[P_{t} + \mathsf{R}^{-1} P_{t+1} + \mathsf{R}^{2} P_{t+2} ... ] \\ 
+# H_{t} & = & \mathbb{E}_{t}[P_{t} + \mathsf{R}^{-1} P_{t+1} + \mathsf{R}^{2} P_{t+2} ... ] \\ 
 #       & = & P_{t} \left(1 + (\Gamma/\mathsf{R}) + (\Gamma/\mathsf{R})^{2} ... \right)
 # \end{eqnarray}
 # which is an infinite number if $\Gamma/\mathsf{R} \geq 1$.  We say that the 'Finite Human Wealth Condition' (FHWC) holds if 
@@ -350,7 +350,7 @@ else:
 # \end{eqnarray}
 # and whether the ratio is falling or rising over time depends on whether $\Phi_{\Gamma}$ is below or above 1.
 #
-# An analogous condition can be defined when there is uncertainty about permanent income.  Defining $\tilde{\Gamma} = (\bbE[\psi^{-1}])^{-1}\Gamma$, the 'Growth Impatience Condition' (GIC) is that 
+# An analogous condition can be defined when there is uncertainty about permanent income.  Defining $\tilde{\Gamma} = (\mathbb{E}[\psi^{-1}])^{-1}\Gamma$, the 'Growth Impatience Condition' (GIC) is that 
 # \begin{eqnarray}
 #   \Phi/\tilde{\Gamma} & < & 1
 # \end{eqnarray}
@@ -363,13 +363,13 @@ else:
 # The paper [shows](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#Autarky-Value) that a consumer who planned to spend his permanent income $\{ p_{t}, p_{t+1}, ...\} $ in every period would have value defined by
 #
 # \begin{equation}
-# v_{t}^{\text{autarky}} = u(p_{t})\left(\frac{1}{1-\beta \Gamma^{1-\rho} \bbE[\psi^{1-\rho}]}\right)
+# v_{t}^{\text{autarky}} = u(p_{t})\left(\frac{1}{1-\beta \Gamma^{1-\rho} \mathbb{E}[\psi^{1-\rho}]}\right)
 # \end{equation}
 #
 # and defines the 'Finite Value of Autarky Condition' as the requirement that the denominator of this expression be a positive finite number:
 #
 # \begin{equation}
-# \beta \Gamma^{1-\rho} \bbE[\psi^{1-\rho}] < 1
+# \beta \Gamma^{1-\rho} \mathbb{E}[\psi^{1-\rho}] < 1
 # \end{equation}
 
 # %% [markdown]
@@ -422,9 +422,9 @@ else:
 # Section [There Is Exactly One Target $m$ Ratio, Which Is Stable](http://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#onetarget) shows that, under parameter values for which the limiting consumption function exists, if the GIC holds then there will be a value $\check{m}$ such that:
 #
 # \begin{eqnarray}
-# \bbE[m_{t+1}] & > & m_{t}~\text{if $m_{t} < \check{m}$} \\
-# \bbE[m_{t+1}] & < & m_{t}~\text{if $m_{t} > \check{m}$} \\
-# \bbE[m_{t+1}] & = & m_{t}~\text{if $m_{t} = \check{m}$}
+# \mathbb{E}[m_{t+1}] & > & m_{t}~\text{if $m_{t} < \check{m}$} \\
+# \mathbb{E}[m_{t+1}] & < & m_{t}~\text{if $m_{t} > \check{m}$} \\
+# \mathbb{E}[m_{t+1}] & = & m_{t}~\text{if $m_{t} = \check{m}$}
 # \end{eqnarray} 
 
 # %% [markdown]
@@ -463,7 +463,7 @@ GICFailExample = IndShockConsumerType(
 GICFailExample.checkConditions(verbose=True)
 
 # %% [markdown]
-# Next we define the function $\mathrm{\bbE}_{t}[\Delta m_{t+1}]$ that shows the ‘sustainable’ level of spending at which $m$ is expected to remain unchanged.
+# Next we define the function $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ that shows the ‘sustainable’ level of spending at which $m$ is expected to remain unchanged.
 
 # %% {"code_folding": [0]}
 # Calculate "Sustainable" consumption that leaves expected m unchanged
@@ -525,7 +525,7 @@ baseEx_inf.unpackcFunc()
 # %% [markdown]
 # ### [Target $m$, Expected Consumption Growth, and Permanent Income Growth](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#AnalysisoftheConvergedConsumptionFunction)
 #
-# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\bbE}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
+# The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\mathbb{E}}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
 #
 
 # %% {"code_folding": [0]}
@@ -785,7 +785,7 @@ else:
 # %% [markdown]
 # ### [The Consumption Function and Target $m$](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cFuncBounds)
 #
-# This figure shows the $\mathrm{\bbE}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
+# This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
 # %% {"code_folding": [0]}
 # This just plots objects that have already been constructed
