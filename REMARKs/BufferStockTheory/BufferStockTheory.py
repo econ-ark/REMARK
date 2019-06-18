@@ -36,8 +36,7 @@
 #
 # For instructions on how to install the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit on your computer, please refer to the [QUICK START GUIDE](https://github.com/econ-ark/HARK/blob/master/README.md). 
 #
-# The main HARK tool used here is $\texttt{ConsIndShockModel.py}$, in which agents have CRRA utility and face idiosyncratic shocks to permanent and transitory income.  For an introduction to this module, see the [ConsIndShockModel.ipynb](https://econ-ark.org/notebooks) notebook at the [Econ-ARK](https://econ-ark.org) website.
-#
+# The main HARK tool used here is $\texttt{IndShockConsumerType}$ class, in which agents have CRRA utility and face idiosyncratic shocks to permanent and transitory income.  For an introduction to this module, see the [IndShockConsumerType.ipynb](https://github.com/econ-ark/DemARK/blob/master/notebooks/IndShockConsumerType.ipynb) notebook.
 #
 
 # %% {"code_folding": []}
@@ -106,7 +105,7 @@ def in_ipynb():
 
 if in_ipynb():
     # Now install stuff aside from LaTeX (if not already installed)
-    os.system('pip install econ-ark==0.10.0.dev3')
+    os.system('pip install econ-ark==0.10.1')
     os.system('pip install matplotlib')
     os.system('pip install numpy')
     os.system('pip install scipy')
@@ -115,7 +114,7 @@ if in_ipynb():
     os.system('jupyter contrib nbextension install --user')
     os.system('jupyter nbextension enable codefolding/main')
     os.system('jupyter nbextension enable latex_envs/latex_envs')
-    os.system('jupyter nbextension enable navigation-hotkeys')
+#    os.system('jupyter nbextension enable load_tex_macros/main')
     os.system('pip install cite2c')
     os.system('python -m cite2c.install')
 else:
