@@ -67,7 +67,6 @@ Readings:
     -   Compact and well written discussion of the state and progress of HA macro.
 -   [Carroll and Crawley](#XakmwwInequality-Discuss) ([2017](#XakmwwInequality-Discuss)), [Sections 1, 2, and 4](http://econ.jhu.edu/people/ccarroll/discuss/2017-04_NBER_Macro-Annual/akmwwInequality/)
     -   This discussion of that paper puts the relationship of HA to RA models in context.
-    -   [This discussion](http://econ.jhu.edu/people/ccarroll/discuss/2017-04_NBER_Macro-Annual/akmwwInequality/) of that paper puts the relationship of HA to RA models in context.
 
 ### 3  Micro Models
 
@@ -88,6 +87,10 @@ Notes:
 ##### 3.1.3  The Special Case of Rate-Of-Return Uncertainty
 
 Notes:
+
+[Consumption out of Risky Assets](http://econ.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/CRRA-RateRisk/)
+
+[Consumption With Portfolio Choice](http://econ.jhu.edu/people/ccarroll/public/LectureNotes/AssetPricing/C-With-Optimal-Portfolio/)
 
 Origins: [Merton](#Xmerton:restat) ([1969](#Xmerton:restat)), [Samuelson](#Xsamuelson:portfolio) ([1969](#Xsamuelson:portfolio))
 
@@ -111,7 +114,7 @@ Here we will explain how to begin using the [Econ-ARK](http://econ-ark.org) tool
 
 This section builds our first simple models using the toolkit
 
-We introduce, then build on, the ‘AgentType‘ class
+-   Python: Packages, instances, objects, plotting
 
 ##### 5.1.1  Perfect Foresight
 
