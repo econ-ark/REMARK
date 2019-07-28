@@ -1,6 +1,7 @@
 [submodule "REMARKs/cAndCwithStickyE"]
 	path = REMARKs/cAndCwithStickyE
 	url = https://github.com/llorracc/cAndCwithStickyE.git
+	branch = master
 [submodule "REMARKs/ctDiscrete"]
 	path = REMARKs/ctDiscrete
 	url = https://github.com/llorracc/ctDiscrete.git
@@ -8,11 +9,8 @@
 [submodule "REMARKs/cstwMPC"]
 	path = REMARKs/cstwMPC
 	url = https://github.com/llorracc/cstwMPC.git
-[submodule "LiqConstr"]
-	path = LiqConstr
-	url = https://github.com/llorracc/LiqConstr
+	branch = master
 [submodule "REMARKs/LiqConstr"]
 	path = REMARKs/LiqConstr
 	url = https://github.com/llorracc/LiqConstr
-[submodule "cstwMPC"]
-	branch = .
+	branch = master
