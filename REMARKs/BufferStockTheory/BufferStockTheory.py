@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -215,7 +215,7 @@ from HARK.utilities import plotFuncsDer, plotFuncs
 # \end{eqnarray*}
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define a parameter dictionary with baseline parameter values
 
 # Set the baseline parameter values 
@@ -259,7 +259,7 @@ base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 # \]
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Create a buffer stock consumer instance by passing the dictionary to the class.
 baseEx = IndShockConsumerType(**base_params)
 baseEx.cycles = 100   # Make this type have a finite horizon (Set T = 100)
@@ -270,7 +270,7 @@ baseEx.unpackcFunc()  # Make the consumption function easily accessible
 
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot the different periods' consumption rules.
 
 m1 = np.linspace(0,9.5,1000) # Set the plot range of m
@@ -442,7 +442,7 @@ else:
 #
 # The figure is reproduced below.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Construct the "GIC fails" example.
 
 GIC_fail_dictionary = dict(base_params)
@@ -459,14 +459,14 @@ GICFailExample = IndShockConsumerType(
 #
 # We can also directly check the conditions, in which case results will be a little more verbose by default.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # The checkConditions method does what it sounds like it would
 GICFailExample.checkConditions(verbose=True)
 
 # %% [markdown]
 # Next we define the function $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ that shows the ‘sustainable’ level of spending at which $m$ is expected to remain unchanged.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Calculate "Sustainable" consumption that leaves expected m unchanged
 # In the perfect foresight case, this is just permanent income plus interest income
 # A small adjustment is required to take account of the consequences of uncertainty
@@ -478,7 +478,7 @@ Er = ER - 1
 mSSfunc = lambda m : 1 + (m-1)*(Er/ER)
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot GICFailExample consumption function against the sustainable level of consumption
 
 GICFailExample.solve() # Above, we set up the problem but did not solve it 
@@ -516,7 +516,7 @@ else:
 # As a foundation for the remaining figures, we define another instance of the class $\texttt{IndShockConsumerType}$, which has the same parameter values as the instance $\texttt{baseEx}$ defined previously but is solved to convergence (our definition of an infinite horizon agent type)
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # cycles=0 tells the solver to find the infinite horizon solution
 baseEx_inf = IndShockConsumerType(cycles=0,**base_params)
 
@@ -529,7 +529,7 @@ baseEx_inf.unpackcFunc()
 # The next figure is shown in  [Analysis of the Converged Consumption Function](https://econ.jhu.edu/people/ccarroll/papers/BufferStockTheory/#cGroTargetFig), which shows the expected consumption growth factor $\mathrm{\mathbb{E}}_{t}[c_{t+1}/c_{t}]$ for a consumer behaving according to the converged consumption rule.
 #
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define a function to calculate expected consumption 
 def exp_consumption(a):
     '''
@@ -557,13 +557,13 @@ def exp_consumption(a):
     return expconsumption
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Calculate the expected consumption growth factor
 m1 = np.linspace(1,baseEx_inf.solution[0].mNrmSS,50) # m1 defines the plot range on the left of target m value (e.g. m <= target m)
 c_m1 = baseEx_inf.cFunc[0](m1)
 a1 = m1-c_m1
-exp_consumption_l1 = [exp_consumption(i) for i in a1]
 
+exp_consumption_l1 = [exp_consumption(i) for i in a1]
 # growth1 defines the values of expected consumption growth factor when m is less than target m
 growth1 = np.array(exp_consumption_l1)/c_m1
 
@@ -578,7 +578,7 @@ exp_consumption_l2 = [exp_consumption(i) for i in a2]
 growth2 = np.array(exp_consumption_l2)/c_m2
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define a function to construct the arrows on the consumption growth rate function
 def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
               hl=0.01, hw=3, c='black'):
@@ -662,7 +662,7 @@ def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
                 arrowprops=dict( headwidth=hw, frac=1., ec=c, fc=c))
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Plot consumption growth as a function of market resources
 # Calculate Absolute Patience Factor Phi = lower bound of consumption growth factor
 AbsPatientFac = (baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)
@@ -714,7 +714,7 @@ else:
 #
 # We define two useful variables: lower bound of $\kappa$ (marginal propensity to consume) and limit of $h$ (Human wealth), along with some functions such as limiting perfect foresight consumption functions ($\bar{c}(m)$), $\bar{\bar c}(m)$ and $\underline{c}(m)$.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Define k_lower, h_inf and perfect foresight consumption function, upper bound of consumption function and lower
 # bound of consumption function.
 k_lower = 1.0-(baseEx_inf.Rfree**(-1.0))*(baseEx_inf.Rfree*baseEx_inf.DiscFac)**(1.0/baseEx_inf.CRRA)
@@ -782,7 +782,7 @@ else:
 #
 # This figure shows the $\mathrm{\mathbb{E}}_{t}[\Delta m_{t+1}]$ and consumption function $c(m_{t})$, along with the intrsection of these two functions, which defines the target value of $m$
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # This just plots objects that have already been constructed
 
 m1 = np.linspace(0,4,1000)
