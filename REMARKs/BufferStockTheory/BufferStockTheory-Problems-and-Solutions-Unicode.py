@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -108,6 +108,7 @@ if in_ipynb():
     os.system('pip install matplotlib')
     os.system('pip install numpy')
     os.system('pip install scipy')
+    os.system('pip install pillow') # needed to save .jpg figures
     os.system('pip install ipywidgets')
     os.system('pip install jupyter_contrib_nbextensions')
     os.system('jupyter contrib nbextension install --user')
@@ -355,15 +356,13 @@ cFuncList.append(TwoPer.cFunc[-2])
 # Now for three other values of unemployment probability
 UnempPrbList = [0.001,0.0001,0.00001]
 
-i=0
-while i < len(UnempPrbList):
+for UnempPrb in UnempPrbList:
     TwoPerNow=deepcopy(TwoPer)
-    TwoPerNow.UnempPrb=UnempPrbList[i]
+    TwoPerNow.UnempPrb=UnempPrb
     TwoPerNow.updateIncomeProcess()
     TwoPerNow.solve()
     TwoPerNow.unpackcFunc()
     cFuncList.append(TwoPerNow.cFunc[-2])
-    i += 1
 
 plotFuncs(cFuncList,0.5,1.5)
 if not in_ipynb():
@@ -581,9 +580,9 @@ discRteGap = np.log(baseEx.DiscFac/DiscFacLim)
 
 ldiscRteList = np.linspace(np.log(-discRteGap),np.log(-discRteGap/50),20)
 discRteList = -np.exp(ldiscRteList)
-DiscFacList = []
-mTargList = []
-for discRteLoop in np.nditer(discRteList):
+DiscFacList = list()
+mTargList = list()
+for discRteLoop in discRteList:
     DiscFacNow=np.exp(discRteLoop)
     discEx=deepcopy(baseEx)
     discEx.DiscFac=DiscFacNow
@@ -684,10 +683,7 @@ def exp_consumption(a):
 m1 = np.linspace(1,baseEx_inf.solution[0].mNrmSS,50) # m1 defines the plot range on the left of target m value (e.g. m <= target m)
 c_m1 = baseEx_inf.cFunc[0](m1)
 a1 = m1-c_m1
-exp_consumption_l1 = []
-for i in range(len(a1)):
-    exp_consumption_tp1 = exp_consumption(a1[i])
-    exp_consumption_l1.append(exp_consumption_tp1)
+exp_consumption_l1 = [exp_consumption(i) for i in a1]
 
 # growth1 defines the values of expected consumption growth factor when m is less than target m
 growth1 = np.array(exp_consumption_l1)/c_m1
@@ -697,10 +693,8 @@ m2 = np.linspace(baseEx_inf.solution[0].mNrmSS,1.9,50)
 
 c_m2 = baseEx_inf.cFunc[0](m2)
 a2 = m2-c_m2
-exp_consumption_l2 = []
-for i in range(len(a2)):
-    exp_consumption_tp1 = exp_consumption(a2[i])
-    exp_consumption_l2.append(exp_consumption_tp1)
+exp_consumption_l2 = [exp_consumption(i) for i in a2]
+
 
 # growth 2 defines the values of expected consumption growth factor when m is bigger than target m
 growth2 = np.array(exp_consumption_l2)/c_m2
