@@ -1,0 +1,1122 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     40080,       1114]
+NotebookOptionsPosition[     39591,       1094]
+NotebookOutlinePosition[     39946,       1110]
+CellTagsIndexPosition[     39903,       1107]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", "\"\<Running doApndxLiqConstr\>\"", "]"}], ";"}], 
+  "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "This", " ", "cell", " ", "contains", " ", "generic", " ", "setup", " ", 
+    "stuff", " ", "to", " ", "prepare", " ", "for", " ", "execution", " ", 
+    "of", " ", "the", " ", "programs"}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";", " ", 
+  RowBox[{"ParamsAreSet", " ", "=", " ", "False"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"$VersionNumber", " ", "<", " ", "6"}], ",", 
+     RowBox[{"(*", "then", "*)"}], " ", 
+     RowBox[{
+      RowBox[{
+      "Print", "[", 
+       "\"\<These programs require Mathematica version 6 or greater.\>\"", 
+       "]"}], ";", " ", 
+      RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "If", " ", "running", " ", "from", " ", "Notebook", " ", "front", " ", 
+     "end"}], ",", " ", 
+    RowBox[{"set", " ", "directory", " ", "to", " ", 
+     RowBox[{"Notebook", "'"}], "s", " ", "directory"}]}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Length", "[", "$FrontEnd", "]"}], " ", ">", " ", "0"}], ",", 
+     " ", 
+     RowBox[{"NBDir", " ", "=", " ", 
+      RowBox[{"SetDirectory", "[", 
+       RowBox[{"NotebookDirectory", "[", "]"}], "]"}]}]}], "]"}], ";"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "If", " ", "not", " ", "running", " ", "from", " ", "Notebook", " ", 
+     "front", " ", "end"}], ",", " ", 
+    RowBox[{"set", " ", "directory", " ", "manually"}]}], " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Length", "[", "$FrontEnd", "]"}], " ", "==", " ", "0"}], ",", 
+    RowBox[{
+    "SetDirectory", "[", 
+     "\"\</Volumes/Data/Work/BufferStock/BufferStockTheory/Latest/Code/\
+Mathematica/Results/BufferStockTheory\>\"", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SaveFigs", " ", "=", " ", "True"}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"HomeDir", " ", "=", " ", 
+   RowBox[{"Directory", "[", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"CodeDir", " ", "=", " ", 
+   RowBox[{"HomeDir", "<>", "\"\</../../CoreCode\>\""}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"CDToHomeDir", " ", ":=", " ", 
+   RowBox[{"SetDirectory", "[", "HomeDir", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"CDToCodeDir", " ", ":=", " ", 
+   RowBox[{"SetDirectory", "[", 
+    RowBox[{"HomeDir", "<>", "\"\</../../CoreCode\>\""}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{"CDToCodeDir", ";"}], "\n", 
+ RowBox[{
+  RowBox[{"<<", " ", "SetupModelSolutionRoutines.m"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"<<", " ", "SetParamsToBaselineVals.m"}], ";"}], "\n", 
+ RowBox[{"CDToHomeDir", ";"}]}], "Code",
+ CellChangeTimes->{{3.698233980799548*^9, 3.698234001164507*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Example", " ", "where", " ", "PF"}], "-", 
+    RowBox[{"GIC", " ", "fails", " ", "but", " ", "RIC", " ", "holds"}]}], 
+   " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Clear", "[", 
+     RowBox[{
+     "R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]", ",", 
+      "m\[Sharp]", ",", "\[ScriptC]\[EmptySmallCircle]"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"R", "=", "1.02"}], ",", 
+        RowBox[{"\[Beta]", "=", 
+         RowBox[{"1", "/", "1.02"}]}], ",", 
+        RowBox[{"\[CapitalGamma]", "=", "0.98"}], ",", 
+        RowBox[{"\[Rho]", "=", "2"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<PF-GIC fails (\[CapitalGamma] < \[CapitalThorn]):\>\"", " ", ",", 
+      RowBox[{"\[CapitalGamma]", " ", "<", " ", "\[CapitalThorn]"}]}], "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<{\[CapitalGamma] , \[CapitalThorn]=(R\!\(\*SuperscriptBox[\()\), \
+\(1/\[Rho]\)]\) \!\(\*SuperscriptBox[\(\[Beta]\), \(1/\[Rho]\)]\) , \
+(R)}=\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{"\[CapitalGamma]", " ", ",", " ", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", "R", ")"}], 
+          RowBox[{"1", "/", "\[Rho]"}]], " ", 
+         SuperscriptBox["\[Beta]", 
+          RowBox[{"1", "/", "\[Rho]"}]]}], " ", ",", " ", 
+        RowBox[{"(", "R", ")"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<\[CapitalGamma] <((R) \[Beta]\!\(\*SuperscriptBox[\()\), \(\(1/\
+\[Rho]\)\(\\\ \)\)]\)< R:\>\"", ",", 
+      RowBox[{"\[CapitalGamma]", " ", "<", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", "R", ")"}], " ", "\[Beta]"}], ")"}], 
+        RowBox[{"1", "/", "\[Rho]", " "}]], "<", " ", "R"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<RIC holds (\[CapitalThorn] < R):\>\"", ",", "  ", 
+      RowBox[{"\[CapitalThorn]", " ", "<", 
+       RowBox[{"(", "R", ")"}]}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\< \[Implies] FHWC holds (\[CapitalGamma] < R):\>\"", ",", 
+      RowBox[{"\[CapitalGamma]", " ", "<", " ", "R"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"m\[Sharp]", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"\[HBar]Inf", "-", "1"}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"\[Kappa]MinInf", "/", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", "\[Kappa]MinInf"}], ")"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", "\[ScriptM]_", "]"}], " ", 
+     ":=", " ", 
+     RowBox[{"Min", "[", 
+      RowBox[{"\[ScriptM]", ",", 
+       RowBox[{"m\[Sharp]", " ", "+", " ", 
+        RowBox[{"\[Kappa]MinInf", " ", 
+         RowBox[{"(", 
+          RowBox[{"\[ScriptM]", "-", "m\[Sharp]"}], ")"}]}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"mMinPlot", ",", "mMaxPlot"}], "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "2"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"cMinPlot", ",", "cMaxPlot"}], "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"mMinPlot", ",", "mMaxPlot"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PFGICFailsRICHoldsPlot", " ", "=", " ", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+         "\[ScriptC]SuchThat\[DoubleStruckCapitalE]mtp1Equalsmt", "[", "m", 
+          "]"}], ",", "m", ",", 
+         RowBox[{"\[ScriptC]\[Digamma]Inf", "[", "m", "]"}], ",", 
+         RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", "m", "]"}]}], "}"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"m", ",", "mMinPlot", ",", "mMaxPlot"}], "}"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}], "\[IndentingNewLine]", ",", 
+       RowBox[{"PlotStyle", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"Red", ",", "Green", ",", "Blue", ",", "Black"}], "}"}]}], 
+       "\[IndentingNewLine]", ",", 
+       RowBox[{"AxesLabel", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<\[ScriptM]\>\"", ",", "\"\<\[ScriptC]\>\""}], "}"}]}]}],
+       "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"PFGICFailsRICHolds", "=", 
+      RowBox[{"Show", "[", 
+       RowBox[{"PFGICFailsRICHoldsPlot", "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\[LowerLeftArrow] \!\(\*OverscriptBox[\(\[ScriptC]\), \
+\(_\)]\)(\[ScriptM])\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.1", "mMaxPlot"}], ",", 
+             RowBox[{"\[ScriptC]\[Digamma]Inf", "[", 
+              RowBox[{"0.1", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\[ScriptC](\[ScriptM])=\[ScriptM]\[RightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.9", "mMaxPlot"}], ",", 
+             RowBox[{"0.9", " ", "mMaxPlot"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", "0"}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\!\(\*SubscriptBox[\(\[DoubleStruckCapitalE]\), \(t\)]\)[\
+\[CapitalDelta] \!\(\*SubscriptBox[\(\[ScriptM]\), \(t + 1\)]\)]=0 \
+\[LowerRightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.4", "mMaxPlot"}], ",", 
+             RowBox[{
+             "\[ScriptC]SuchThat\[DoubleStruckCapitalE]mtp1Equalsmt", "[", 
+              RowBox[{"0.4", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\!\(\*OverscriptBox[\(\[ScriptC]\), \
+\(\[EmptySmallCircle]\)]\)(\[ScriptM]) \[LowerRightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.8", " ", "mMaxPlot"}], ",", 
+             RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", 
+              RowBox[{"0.8", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}]}], 
+       "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}], 
+    ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.665569485199502*^9, 3.665569513177652*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Example", " ", "where", " ", "PF"}], "-", "GIC"}], ",", " ", 
+    "RIC", ",", " ", 
+    RowBox[{"and", " ", "FHWC", " ", "all", " ", "hold"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Clear", "[", 
+     RowBox[{
+     "R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]", ",", 
+      "m\[Sharp]", ",", "\[ScriptC]\[EmptySmallCircle]"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"R", "=", "1.04"}], ",", 
+        RowBox[{"\[Beta]", "=", 
+         RowBox[{"1", "/", "1.02"}]}], ",", 
+        RowBox[{"\[CapitalGamma]", "=", "1.02"}], ",", 
+        RowBox[{"\[Rho]", "=", "2"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<{\[CapitalThorn]=(R\!\(\*SuperscriptBox[\()\), \(1/\[Rho]\)]\) \!\(\
+\*SuperscriptBox[\(\[Beta]\), \(1/\[Rho]\)]\) , \[CapitalGamma] , (R)}=\>\"", 
+      ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{"(", "R", ")"}], 
+          RowBox[{"1", "/", "\[Rho]"}]], " ", 
+         SuperscriptBox["\[Beta]", 
+          RowBox[{"1", "/", "\[Rho]"}]]}], " ", ",", " ", "\[CapitalGamma]", 
+        " ", ",", " ", 
+        RowBox[{"(", "R", ")"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\[CapitalThorn] < \[CapitalGamma] < R:\>\"", ",", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", "R", ")"}], " ", "\[Beta]"}], ")"}], 
+        RowBox[{"1", "/", "\[Rho]", " "}]], "<", " ", "\[CapitalGamma]", " ", 
+       "<", " ", "R"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<PF-GIC Holds (\[CapitalThorn] < \[CapitalGamma]):\>\"", " ", ",", 
+      " ", 
+      RowBox[{"\[CapitalThorn]", "<", " ", "\[CapitalGamma]"}]}], "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<RIC holds (\[CapitalThorn] < R):\>\"", ",", "  ", 
+      RowBox[{"\[CapitalThorn]", " ", "<", 
+       RowBox[{"(", "R", ")"}]}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<FHWC holds (\[CapitalGamma] < R):\>\"", ",", 
+      RowBox[{"\[CapitalGamma]", " ", "<", " ", "R"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"m\[Sharp]", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"\[HBar]Inf", "-", "1"}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"\[Kappa]MinInf", "/", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", "\[Kappa]MinInf"}], ")"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", "\[ScriptM]_", "]"}], " ", 
+     ":=", " ", 
+     RowBox[{"Min", "[", 
+      RowBox[{"\[ScriptM]", ",", 
+       RowBox[{"m\[Sharp]", " ", "+", " ", 
+        RowBox[{"\[Kappa]MinInf", " ", 
+         RowBox[{"(", 
+          RowBox[{"\[ScriptM]", "-", "m\[Sharp]"}], ")"}]}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"mMinPlot", ",", "mMaxPlot"}], "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "2"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"cMinPlot", ",", "cMaxPlot"}], "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"mMinPlot", ",", "mMaxPlot"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"PFGICHoldsRICHoldsPlot", " ", "=", " ", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+         "\[ScriptC]SuchThat\[DoubleStruckCapitalE]mtp1Equalsmt", "[", "m", 
+          "]"}], ",", "m", ",", 
+         RowBox[{"\[ScriptC]\[Digamma]Inf", "[", "m", "]"}], ",", 
+         RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", "m", "]"}]}], "}"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"m", ",", "mMinPlot", ",", "mMaxPlot"}], "}"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}], "\[IndentingNewLine]", ",", 
+       RowBox[{"PlotStyle", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"Red", ",", "Green", ",", "Blue", ",", "Black"}], "}"}]}], 
+       "\[IndentingNewLine]", ",", 
+       RowBox[{"AxesLabel", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"\"\<\[ScriptM]\>\"", ",", "\"\<\[ScriptC]\>\""}], "}"}]}]}],
+       "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"PFGICHoldsRICHolds", "=", 
+      RowBox[{"Show", "[", 
+       RowBox[{"PFGICHoldsRICHoldsPlot", "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\[LowerLeftArrow] \!\(\*OverscriptBox[\(\[ScriptC]\), \
+\(_\)]\)(\[ScriptM])\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.1", "mMaxPlot"}], ",", 
+             RowBox[{"\[ScriptC]\[Digamma]Inf", "[", 
+              RowBox[{"0.1", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\[ScriptC](\[ScriptM])=\[ScriptM]\[RightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.9", "mMaxPlot"}], ",", 
+             RowBox[{"0.9", " ", "mMaxPlot"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", "0"}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\!\(\*SubscriptBox[\(\[DoubleStruckCapitalE]\), \(t\)]\)[\
+\[CapitalDelta] \!\(\*SubscriptBox[\(\[ScriptM]\), \(t + 1\)]\)]=0 \
+\[LowerRightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.4", "mMaxPlot"}], ",", 
+             RowBox[{
+             "\[ScriptC]SuchThat\[DoubleStruckCapitalE]mtp1Equalsmt", "[", 
+              RowBox[{"0.4", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}], 
+        "\[IndentingNewLine]", ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Text", "[", 
+          RowBox[{
+          "\"\<\!\(\*OverscriptBox[\(\[ScriptC]\), \
+\(\[EmptySmallCircle]\)]\)(\[ScriptM]) \[LowerRightArrow]\>\"", ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"0.95", "mMaxPlot"}], ",", 
+             RowBox[{"\[ScriptC]\[EmptySmallCircle]", "[", 
+              RowBox[{"0.95", " ", "mMaxPlot"}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}]}], "]"}], "]"}]}], 
+       "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}], 
+    ";"}]}]}]], "Input",
+ InitializationCell->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Example", " ", "where", " ", "PF"}], "-", 
+     RowBox[{"GIC", " ", "holds"}]}], ",", " ", 
+    RowBox[{"FHWC", " ", "fails"}], ",", " ", 
+    RowBox[{"RIC", " ", "holds"}], ",", " ", 
+    RowBox[{"PF", "-", 
+     RowBox[{"FVAC", " ", "holds"}]}]}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Show", " ", "MPC", " ", "asymptotes", " ", "to", " ", "\[Kappa]MinInf"}], 
+   " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Clear", "[", 
+     RowBox[{
+     "R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]", ",", 
+      "\[ScriptC]From\[ScriptB]", ",", "\[ScriptN]Approx", ",", 
+      "\[ScriptN]Exact"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"\[ScriptB]", "+", 
+         RowBox[{"(", 
+          RowBox[{"1", "/", 
+           RowBox[{"(", 
+            RowBox[{"1", "-", 
+             SuperscriptBox["\[ScriptCapitalR]", 
+              RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "<=", "0"}], ",", "1", 
+       ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"Log", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", "\[CapitalThorn]Rtn"}], "/", 
+              RowBox[{"(", 
+               RowBox[{"1", "-", "\[CapitalThorn]Rtn"}], ")"}]}], ")"}], "+", 
+            
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"-", 
+               SuperscriptBox["\[ScriptCapitalR]", 
+                RowBox[{"-", "1"}]]}], "/", 
+              RowBox[{"(", 
+               RowBox[{"1", "-", 
+                SuperscriptBox["\[ScriptCapitalR]", 
+                 RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}], "-", " ", 
+          RowBox[{"Log", "[", 
+           RowBox[{"\[ScriptB]", "+", 
+            RowBox[{"(", 
+             RowBox[{"1", "/", 
+              RowBox[{"(", 
+               RowBox[{"1", "-", 
+                SuperscriptBox["\[ScriptCapitalR]", 
+                 RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}]}], ")"}], "/", 
+        RowBox[{"Log", "[", "\[ScriptCapitalR]", "]"}]}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+     RowBox[{"nSeek", " ", "/.", " ", 
+      RowBox[{"FindRoot", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"b\[Sharp]", "[", "nSeek", "]"}], " ", "\[Equal]", 
+         "\[ScriptB]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"nSeek", ",", 
+          RowBox[{"Max", "[", 
+           RowBox[{"1", ",", 
+            RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]", "]"}]}], "]"}]}], 
+         "}"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]_", "]"}], " ", ":=",
+      " ", 
+     SuperscriptBox["\[CapitalThorn]\[CapitalGamma]PF", 
+      RowBox[{"-", 
+       RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]", "]"}]}]]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"R", "=", " ", "1.01"}], ",", 
+        RowBox[{"\[Beta]", " ", "=", " ", "0.97"}], ",", 
+        RowBox[{"\[CapitalGamma]", "=", "1.02"}], ",", 
+        RowBox[{"\[Rho]", "=", "2"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<\[CapitalThorn]=(R\!\(\*SuperscriptBox[\()\), \(1/\[Rho]\)]\) \
+\!\(\*SuperscriptBox[\(\[Beta]\), \(1/\[Rho]\)]\)=\>\"", ",", 
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", "R", ")"}], 
+        RowBox[{"1", "/", "\[Rho]"}]], " ", 
+       SuperscriptBox["\[Beta]", 
+        RowBox[{"1", "/", "\[Rho]"}]]}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<PF-GIC holds (\[CapitalThorn] < \[CapitalGamma]):\>\"", " ", ",", 
+      " ", 
+      RowBox[{"\[CapitalThorn]", "<", " ", "\[CapitalGamma]"}]}], "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<RIC holds (\[CapitalThorn] < R):\>\"", ",", "  ", 
+      RowBox[{"\[CapitalThorn]", " ", "<", 
+       RowBox[{"(", "R", ")"}]}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<FHWC fails (R < \[CapitalGamma]):\>\"", ",", " ", 
+      RowBox[{"R", "<", " ", "\[CapitalGamma]"}]}], "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<PF-FVAC holds \[CapitalThorn]/\[CapitalGamma] < \
+(R/\[CapitalGamma]\!\(\*SuperscriptBox[\()\), \(1/\[Rho]\)]\):\>\"", ",", 
+      RowBox[{
+       RowBox[{"\[CapitalThorn]", "/", "\[CapitalGamma]"}], "<", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"R", "/", "\[CapitalGamma]"}], ")"}], "^", 
+        RowBox[{"(", 
+         RowBox[{"1", "/", "\[Rho]"}], ")"}]}]}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"nMin", ",", "nMax"}], "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"300", ",", "500"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"KinkPoints", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"b\[Sharp]", "[", "n", "]"}], ",", 
+         RowBox[{"c\[Sharp]", "[", "n", "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "nMin", ",", "nMax"}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"KinkPointsFunc", "=", 
+     RowBox[{"Interpolation", "[", 
+      RowBox[{"KinkPoints", ",", 
+       RowBox[{"InterpolationOrder", "\[Rule]", "2"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"KinkPointsPlot", "=", 
+     RowBox[{"ListPlot", "[", 
+      RowBox[{"KinkPoints", ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ComparePlots", "=", 
+     RowBox[{"Show", "[", 
+      RowBox[{"KinkPointsPlot", ",", 
+       RowBox[{"Plot", "[", 
+        RowBox[{
+         RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]", "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"\[ScriptB]", ",", 
+           RowBox[{"b\[Sharp]", "[", "nMin", "]"}], ",", 
+           RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}]}], "]"}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"KinkPointsFunc", "'"}], "[", "\[ScriptB]", "]"}], ",", 
+         "\[Kappa]MinInf"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\[ScriptB]", ",", 
+         RowBox[{"b\[Sharp]", "[", "nMin", "]"}], ",", 
+         RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "]"}], 
+    ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.665569705670476*^9, 3.6655697066785727`*^9}, {
+  3.665569948612688*^9, 3.665569951537335*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Example where PF-GIC holds, FHWC fails, RIC fails, PF-FVAC Fails\>\"",
+    "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]", ",", 
+    "\[ScriptC]From\[ScriptB]", ",", "\[ScriptN]Approx", ",", 
+    "\[ScriptN]Exact"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[ScriptB]", "+", 
+       RowBox[{"(", 
+        RowBox[{"1", "/", 
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           SuperscriptBox["\[ScriptCapitalR]", 
+            RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "<=", "0"}], ",", "1", 
+     ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Log", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "\[CapitalThorn]Rtn"}], "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", "\[CapitalThorn]Rtn"}], ")"}]}], ")"}], "+", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", 
+             SuperscriptBox["\[ScriptCapitalR]", 
+              RowBox[{"-", "1"}]]}], "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[ScriptCapitalR]", 
+               RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}], "-", " ", 
+        RowBox[{"Log", "[", 
+         RowBox[{"\[ScriptB]", "+", 
+          RowBox[{"(", 
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[ScriptCapitalR]", 
+               RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}]}], ")"}], "/", 
+      RowBox[{"Log", "[", "\[ScriptCapitalR]", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   RowBox[{"nSeek", " ", "/.", " ", 
+    RowBox[{"FindRoot", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"b\[Sharp]", "[", "nSeek", "]"}], " ", "\[Equal]", 
+       "\[ScriptB]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"nSeek", ",", 
+        RowBox[{"Max", "[", 
+         RowBox[{"1", ",", 
+          RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]", "]"}]}], "]"}]}], 
+       "}"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   " ", 
+   SuperscriptBox["\[CapitalThorn]\[CapitalGamma]PF", 
+    RowBox[{"-", 
+     RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]", "]"}]}]]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"R", "=", "0.98"}], ",", 
+      RowBox[{"\[Beta]", " ", "=", " ", "0.99"}], ",", 
+      RowBox[{"\[CapitalGamma]", "=", "1.0"}], ",", 
+      RowBox[{"\[Rho]", "=", "2"}]}], "}"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]"}], 
+      "}"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"0.98", ",", "1.00", ",", "0.99", ",", "2"}], "}"}]}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<{\[CapitalThorn]=(R\!\(\*SuperscriptBox[\()\), \(1/\[Rho]\)]\) \
+\!\(\*SuperscriptBox[\(\[Beta]\), \(1/\[Rho]\)]\) , \[CapitalGamma] , (R)}=\>\
+\"", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", "R", ")"}], 
+        RowBox[{"1", "/", "\[Rho]"}]], " ", 
+       SuperscriptBox["\[Beta]", 
+        RowBox[{"1", "/", "\[Rho]"}]]}], " ", ",", " ", "\[CapitalGamma]", 
+      " ", ",", " ", 
+      RowBox[{"(", "R", ")"}]}], "}"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<PF-GIC holds (\[CapitalThorn] < \[CapitalGamma]):\>\"", " ", ",", " ", 
+    RowBox[{"\[CapitalThorn]", "<", " ", "\[CapitalGamma]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<RIC fails (R < \[CapitalThorn]):\>\"", ",", "  ", 
+    RowBox[{
+     RowBox[{"(", "R", ")"}], " ", "<", "\[CapitalThorn]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<FHWC fails (R < \[CapitalGamma]):\>\"", ",", " ", 
+    RowBox[{"R", "<", " ", "\[CapitalGamma]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<PF-FVAC fails (R/\[CapitalGamma]\!\(\*SuperscriptBox[\()\), \
+\(1/\[Rho]\)]\) < \[CapitalThorn]/\[CapitalGamma] (same as 1 < \[Beta] \
+\!\(\*SuperscriptBox[\(\[CapitalGamma]\), \(1 - \[Rho]\)]\)):\>\"", ",", 
+    RowBox[{"1", " ", "<", 
+     RowBox[{"\[Beta]", " ", 
+      SuperscriptBox["\[CapitalGamma]", 
+       RowBox[{"1", "-", "\[Rho]"}]]}]}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"nMin", ",", "nMax"}], "}"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "300"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPoints", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"b\[Sharp]", "[", "n", "]"}], ",", 
+       RowBox[{"c\[Sharp]", "[", "n", "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "nMin", ",", "nMax"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPointsFunc", "=", 
+   RowBox[{"Interpolation", "[", 
+    RowBox[{"KinkPoints", ",", 
+     RowBox[{"InterpolationOrder", "\[Rule]", "2"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPointsPlot", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{"KinkPoints", ",", 
+     RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cfbPlot", "=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]", "]"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"\[ScriptB]", ",", 
+       RowBox[{"b\[Sharp]", "[", "nMin", "]"}], ",", 
+       RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PFGICHoldsFHWCFailsRICFails", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{"KinkPointsPlot", ",", "cfbPlot", "\[IndentingNewLine]", ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[ScriptM]\>\"", ",", "\"\<\[ScriptC]\>\""}], "}"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CDToHomeDir", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ExportFigs", "[", "\"\<PFGICHoldsFHWCFailsRICFails\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"KinkPointsFunc", "'"}], "[", "\[ScriptB]", "]"}], "}"}], ",", 
+     
+     RowBox[{"{", 
+      RowBox[{"\[ScriptB]", ",", 
+       RowBox[{"b\[Sharp]", "[", 
+        RowBox[{"nMax", "-", "200"}], "]"}], ",", 
+       RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "]"}], ";"}]}], "Code",\
+
+ CellChangeTimes->{{3.665569769638692*^9, 3.665569775103675*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Example where PF-GIC holds, FHWC fails, RIC fails, PF-FVAC holds\>\"",
+    "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Clear", "[", 
+   RowBox[{
+   "R", ",", "\[Beta]", ",", "\[CapitalGamma]", ",", "\[Rho]", ",", 
+    "\[ScriptC]From\[ScriptB]", ",", "\[ScriptN]Approx", ",", 
+    "\[ScriptN]Exact"}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[ScriptB]", "+", 
+       RowBox[{"(", 
+        RowBox[{"1", "/", 
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           SuperscriptBox["\[ScriptCapitalR]", 
+            RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "<=", "0"}], ",", "1", 
+     ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Log", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", "\[CapitalThorn]Rtn"}], "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", "\[CapitalThorn]Rtn"}], ")"}]}], ")"}], "+", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"-", 
+             SuperscriptBox["\[ScriptCapitalR]", 
+              RowBox[{"-", "1"}]]}], "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[ScriptCapitalR]", 
+               RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}], "-", " ", 
+        RowBox[{"Log", "[", 
+         RowBox[{"\[ScriptB]", "+", 
+          RowBox[{"(", 
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              SuperscriptBox["\[ScriptCapitalR]", 
+               RowBox[{"-", "1"}]]}], ")"}]}], ")"}]}], "]"}]}], ")"}], "/", 
+      RowBox[{"Log", "[", "\[ScriptCapitalR]", "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   RowBox[{"nSeek", " ", "/.", " ", 
+    RowBox[{"FindRoot", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"b\[Sharp]", "[", "nSeek", "]"}], " ", "\[Equal]", 
+       "\[ScriptB]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"nSeek", ",", 
+        RowBox[{"Max", "[", 
+         RowBox[{"1", ",", 
+          RowBox[{"\[ScriptN]Approx", "[", "\[ScriptB]", "]"}]}], "]"}]}], 
+       "}"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]_", "]"}], " ", ":=", 
+   " ", 
+   SuperscriptBox["\[CapitalThorn]\[CapitalGamma]PF", 
+    RowBox[{"-", 
+     RowBox[{"\[ScriptN]Exact", "[", "\[ScriptB]", "]"}]}]]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<{R,\[Beta],\[CapitalGamma],\[Rho]}=\>\"", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"R", "=", "0.98"}], ",", 
+      RowBox[{"\[Beta]", " ", "=", " ", "0.99"}], ",", 
+      RowBox[{"\[CapitalGamma]", "=", "1.0"}], ",", 
+      RowBox[{"\[Rho]", "=", "2"}]}], "}"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<{\[CapitalThorn]=(R\!\(\*SuperscriptBox[\()\), \(1/\[Rho]\)]\) \
+\!\(\*SuperscriptBox[\(\[Beta]\), \(1/\[Rho]\)]\) , \[CapitalGamma] , (R)}=\>\
+\"", ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"(", "R", ")"}], 
+        RowBox[{"1", "/", "\[Rho]"}]], " ", 
+       SuperscriptBox["\[Beta]", 
+        RowBox[{"1", "/", "\[Rho]"}]]}], " ", ",", " ", "\[CapitalGamma]", 
+      " ", ",", " ", 
+      RowBox[{"(", "R", ")"}]}], "}"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<PF-GIC holds (\[CapitalThorn] < \[CapitalGamma]):\>\"", " ", ",", " ", 
+    RowBox[{"\[CapitalThorn]", "<", " ", "\[CapitalGamma]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<RIC fails (R < \[CapitalThorn]):\>\"", ",", "  ", 
+    RowBox[{
+     RowBox[{"(", "R", ")"}], " ", "<", "\[CapitalThorn]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<FHWC fails (R < \[CapitalGamma]):\>\"", ",", " ", 
+    RowBox[{"R", "<", " ", "\[CapitalGamma]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<PF-FVAC holds  \[CapitalThorn]/\[CapitalGamma] < \
+(R/\[CapitalGamma])^(1/\[Rho])):\>\"", ",", 
+    RowBox[{
+     RowBox[{"\[Beta]", " ", 
+      SuperscriptBox["\[CapitalGamma]", 
+       RowBox[{"1", "-", "\[Rho]"}]]}], "<", "1"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"nMin", ",", "nMax"}], "}"}], "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "300"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPoints", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"b\[Sharp]", "[", "n", "]"}], ",", 
+       RowBox[{"c\[Sharp]", "[", "n", "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "nMin", ",", "nMax"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPointsFunc", "=", 
+   RowBox[{"Interpolation", "[", 
+    RowBox[{"KinkPoints", ",", 
+     RowBox[{"InterpolationOrder", "\[Rule]", "2"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"KinkPointsPlot", "=", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{"KinkPoints", ",", 
+     RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"cfbPlot", "=", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"\[ScriptC]From\[ScriptB]", "[", "\[ScriptB]", "]"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"\[ScriptB]", ",", 
+       RowBox[{"b\[Sharp]", "[", "nMin", "]"}], ",", 
+       RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"PFGICHoldsFHWCFailsRICFailsPFVACHolds", "=", 
+   RowBox[{"Show", "[", 
+    RowBox[{"KinkPointsPlot", ",", "cfbPlot", "\[IndentingNewLine]", ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<\[ScriptM]\>\"", ",", "\"\<\[ScriptC]\>\""}], "}"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CDToHomeDir", ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "ExportFigs", "[", "\"\<PFGICHoldsFHWCFailsRICPFVACHoldsFails\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"KinkPointsFunc", "'"}], "[", "\[ScriptB]", "]"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"\[ScriptB]", ",", 
+        RowBox[{"b\[Sharp]", "[", 
+         RowBox[{"nMax", "-", "200"}], "]"}], ",", 
+        RowBox[{"b\[Sharp]", "[", "nMax", "]"}]}], "}"}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], "]"}], ";"}], "\n", 
+  "\n"}], "\n"}], "Code",
+ CellChangeTimes->{3.665569806752431*^9}]
+},
+WindowSize->{1452, 962},
+WindowMargins->{{Automatic, 172}, {Automatic, 0}},
+FrontEndVersion->"11.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (July 28, \
+2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2936, 81, 376, "Code"],
+Cell[3497, 103, 7212, 187, 489, "Code"],
+Cell[10712, 292, 7188, 189, 522, "Input",
+ InitializationCell->True],
+Cell[17903, 483, 7251, 197, 405, "Code"],
+Cell[25157, 682, 7433, 209, 481, "Code"],
+Cell[32593, 893, 6994, 199, 519, "Code"]
+}
+]
+*)
+

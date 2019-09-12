@@ -1,0 +1,113 @@
+\documentclass[../BufferStockTheory.tex]{subfiles}
+\input{./econtexRoot} % Switch root to subdirectory 
+
+
+\begin{document}
+
+\hypertarget{The-Limiting-MPCs}{}
+\section{The Limiting MPC's}
+\label{sec:MPCLimits}
+For $\mRat_{t}>0$ we can define $\eFunc_{t}(\mRat_{t})=\cFunc_{t}(\mRat_{t})/\mRat_{t}$
+and $\aFunc_{t}(\mRat_{t})=\mRat_{t}-\cFunc_{t}(\mRat_{t})$
+and the Euler equation \eqref{eq:scaledeuler} can be rewritten
+\begin{eqnarray}
+ \eFunc_{t}(\mRat_{t})^{-\CRRA} & = & \DiscFac \Rfree \Ex_{t}\left[\left(\eFunc_{t+1}({\mRat}_{t+1})\left(\frac{\overbrace{\Rfree \aFunc_{t}(\mRat_{t})+{\PGro}_{t+1}{\tShkAll}_{t+1}}^{=\mRat_{t+1}\PGro_{t+1}}}{\mRat_{t}}\right)\right)^{-\CRRA }\right] \label{eq:eFuncEuler}
+\\ & = & \phantom{ + }\pNotZero \DiscFac \Rfree \mRat_{t}^{\CRRA} \Ex_{t}\left[ \left(\eFunc_{t+1}(\mRat_{t+1}) \mRat_{t+1}\PGro_{t+1}\right)^{-\CRRA} |~ \tShkAll_{t+1}>0 \right] \notag
+\\ &  & + \pZero  \DiscFac \Rfree^{1-\CRRA} \Ex_{t}\left[\left(\eFunc_{t+1}(\mathcal{R}_{t+1}\aFunc_{t}(\mRat_{t}))\frac{\mRat_t-\cFunc_{t}(\mRat_{t})}{\mRat_{t}}\right)^{-\CRRA} |~ \tShkAll_{t+1} = 0 \right]  \label{eq:eRho}.
+\end{eqnarray}
+
+% \begin{Private}
+% % Jiaxiong: Below is an example of a place of what to do when you find some text
+% % that perhaps can be left out of the paper (even though there is nothing wrong with it)
+% % Things should be left out if (a) they are not necessary to the argument of the paper and
+% % (b) they do not do enough to make the paper easier to read
+% It is worthwhile to point out here that, although $\eFunc_{t}(\mRat_{t})$ by definition refers to average propensity to consume (`APC'), when $\mRat\to0$ and $\mRat\to\infty$, the two APCs are also MPCs. This is due to L'H\^opital's Rule, because both the denominator and the numerator will go to $0$ as $\mRat_{t}\to0$ and to $\infty$ as $\mRat_{t}\to\infty$ (e.g. $\lim_{\mRat_{t}\to0}\frac{\cFunc_{t}(\mRat_{t})}{\mRat_{t}} = \lim_{\mRat_{t}\to0}\frac{\cFunc_{t}^{\prime}(\mRat_{t})}{1} = \lim_{\mRat_{t}\to0}\cFunc_{t}^{\prime}(\mRat_{t})$).
+% \end{Private}
+
+
+Consider the first conditional expectation in \eqref{eq:eRho},
+recalling that if $\tShkAll_{t+1}>0$ then $\tShkAll_{t+1} \equiv
+\tShkEmp_{t+1}/\pNotZero$.  Since $\lim_{m \downarrow 0}
+\aFunc_{t}(\mRat) = 0$,
+$\Ex_{t}[(\eFunc_{t+1}(\mRat_{t+1})\mRat_{t+1}\PGro_{t+1})^{-\CRRA}~|~\tShkAll_{t+1}>0]$
+is contained within bounds defined by
+$(\eFunc_{t+1}(\ushort{\tShkEmp}/\pNotZero) \PGro\ushort{\pShk}
+\ushort{\tShkEmp}/\pNotZero)^{-\CRRA}$ and
+$(\eFunc_{t+1}(\bar{\tShkEmp}/\pNotZero) \PGro\bar{\pShk}
+\bar{\tShkEmp}/\pNotZero)^{-\CRRA}$ both of which are finite numbers,
+implying that the whole term multiplied by $\pNotZero$ goes to zero as
+$\mRat_{t}^{\CRRA}$ goes to zero.  As $\mRat_{t} \downarrow 0$ the
+expectation in the other term goes to $\MaxMPC _{t+1}^{-\CRRA
+}(1-\MaxMPC _{t})^{-\CRRA }.$ (This follows from the strict concavity
+and differentiability of the consumption function.) It follows that
+the limiting $\MaxMPC_{t}$ satisfies $\MaxMPC_{t}^{-\CRRA }=\DiscFac
+\pZero\Rfree^{1-\CRRA }\MaxMPC_{t+1}^{-\CRRA }(1-\MaxMPC
+_{t})^{-\CRRA }.$ Exponentiating by $\CRRA$, we can conclude that
+\begin{eqnarray}
+\MaxMPC_{t}&=&\pZero^{-1/\CRRA} (\DiscFac
+\Rfree)^{-1/\CRRA}\Rfree(1-\MaxMPC _{t})\MaxMPC _{t+1} \notag
+\\ \underbrace{\pZero^{1/\CRRA}\overbrace{{\Rfree}^{-1}(\DiscFac
+    \Rfree)^{1/\CRRA}}^{\PatR}}_{\equiv \MinMPS}
+\MaxMPC_{t}&=&(1-\MaxMPC _{t})\MaxMPC _{t+1} \label{eq:MinMPSDef}
+\end{eqnarray}
+which yields a useful recursive formula for the maximal marginal propensity to consume:
+\begin{eqnarray}
+  (\MinMPS \MaxMPC_{t})^{-1} & = & (1-\MaxMPC_{t})^{-1}\MaxMPC_{t+1}^{-1}  \notag
+\\ \MaxMPC_{t}^{-1}(1-\MaxMPC_{t}) & = & \MinMPS \MaxMPC_{t+1}^{-1} \label{eq:muDiff} \notag
+\\ \MaxMPC_{t}^{-1} & = & 1+\MinMPS \MaxMPC_{t+1}^{-1} \label{eq:MaxMPCInvApndx}.
+\end{eqnarray}
+
+As noted in the main text, we need the WRIC \eqref{eq:WRIC} for this to be a convergent sequence:
+\begin{eqnarray}
+  0 \leq & ~\pZero^{1/\CRRA} \PatR & < 1 \label{eq:WRICapndx},
+\end{eqnarray}
+
+Since $\MaxMPC_{T}=1$, iterating \eqref{eq:MaxMPCInvApndx} backward to
+infinity (because we are interested in the limiting consumption function) we obtain:
+\begin{eqnarray}
+\lim_{n\rightarrow\infty}\MaxMPC_{T-n} & = &
+\MaxMPC \equiv 1-\pZero^{1/\CRRA}\PatR  \label{eq:MaxMPCDef}
+\end{eqnarray}
+and we will therefore call $\MaxMPC$ the `limiting maximal MPC.'
+
+The minimal MPC's are obtained by considering the case where
+$\mRat_{t} \uparrow \infty$.  If the FHWC holds, then as
+$\mRat_{t} \uparrow \infty$ the proportion of current and future
+consumption that will be financed out of capital approaches 1.  Thus,
+the terms involving $\tShkAll_{t+1}$ in \eqref{eq:eFuncEuler} can be
+neglected, leading to a revised limiting Euler equation
+\begin{eqnarray*}
+ ({\mRat_{t}}\eFunc_{t}(\mRat_{t}))^{-\CRRA} & = & \DiscFac \Rfree \Ex_{t}\left[\left(\eFunc_{t+1}(\aFunc_{t}(\mRat_{t})\Rnorm_{t+1})\left({\Rfree \aFunc_{t}(\mRat_{t})}\right)\right)^{-\CRRA}\right]
+\end{eqnarray*}
+and we know from L'H\^opital's rule that $\lim_{\mRat_{t} \rightarrow \infty} \eFunc_{t}(\mRat_{t}) = \MinMPC_{t}$, and $\lim_{\mRat_{t} \rightarrow \infty} \eFunc_{t+1}(\aFunc_{t}(\mRat_{t})\Rnorm_{t+1}) = \MinMPC_{t+1}$ so a further limit of the Euler equation is\hypertarget{MPCnvrs}{}
+\begin{eqnarray*}
+  (\mRat_{t}\MinMPC_{t})^{-\CRRA} & = & \DiscFac \Rfree \left(\MinMPC_{t+1} \Rfree (1-\MinMPC_{t})\mRat_{t}\right)^{-\CRRA}
+\\ \underbrace{{\Rfree}^{-1}{\Pat}}_{\equiv \MaxMPS = (1-\ushort{\MPC})} \MinMPC_{t} & = & (1-\MinMPC_{t}) \MinMPC_{t+1}
+\end{eqnarray*}
+and the same sequence of derivations used above yields the conclusion
+that if the RIC $0 \leq \PatR < 1$ holds, then a recursive formula for the
+minimal marginal propensity to consume is given by
+\begin{eqnarray}
+ \MinMPC_{t}^{-1} & = & 1+\MinMPC_{t+1}^{-1}\MaxMPS  \label{eq:MinMPCInvApndx}
+\end{eqnarray}
+so that $\{\MinMPC_{T-n}^{-1}\}_{n=0}^{\infty}$ is also an increasing
+convergent sequence, and we define
+\begin{align}
+\MinMPC^{-1} \equiv &\lim_{n \uparrow \infty} \MPC_{T-n}^{-1}  
+\end{align}
+as the limiting (inverse) marginal MPC.  If the RIC does \textit{not} hold, then $\lim_{n \rightarrow \infty} \MinMPC_{T-n}^{-1} = \infty$
+and so the limiting MPC is $\MinMPC = 0.$
+
+For the purpose of constructing the limiting perfect foresight consumption function, it is useful further to note that
+the PDV of consumption is given by\hypertarget{MPCnvrsIsCPDV}{}
+
+\begin{eqnarray*}
+  \cRat_{t}\underbrace{\left(1 + \PatR + \PatR^{2} + ... \right)}_{=1+\PatR(1+\PatR\MinMPC_{t+2}^{-1})...}  & = & \cRat_{t}\MinMPC_{T-n}^{-1}.
+\end{eqnarray*}
+
+which, combined with the intertemporal budget constraint, yields the usual formula for the perfect foresight consumption function:
+\begin{align}
+  \cRat_{t} & = (\bRat_{t}+\hRat_{t})\MinMPC_{t}
+\end{align}
+
+\end{document}
