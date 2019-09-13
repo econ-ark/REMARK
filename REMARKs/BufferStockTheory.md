@@ -5,7 +5,7 @@ of the paper [Theoretical Foundations of Buffer Stock Saving](http://econ.jhu.ed
 
 Options:
 
-1. Open it as a [jupyter notebook][![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FBufferStockTheory%2FBufferStockTheory.ipynb)
+1. Open it as a [jupyter notebook][![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/llorracc/BufferStockTheory/master?filepath=Code%2FPython%2FBufferStockTheory.ipynb)
 1. Run it at the command line via
    `ipython BufferStockTheory.py`
    
