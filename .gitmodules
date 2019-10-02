@@ -17,3 +17,5 @@
 [submodule "REMARKs/BufferStockTheory"]
 	path = REMARKs/BufferStockTheory
 	url = https://github.com/llorracc/BufferStockTheory.git
+	branch = master
+	
