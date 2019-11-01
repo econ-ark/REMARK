@@ -49,7 +49,7 @@ and pretty much anything else that uses the toolkit but does not fall into the c
 <!--
 The [ballpark](http://github.com/econ-ark/ballpark) is a place for the set of papers that we would be delighted to have replicated in the Econ-ARK. 
 
-This REMARK repo is where we intend to store such replications (as well as the code for papers whose codebase was originally written using the Econ-ARK).
+This REMARK repo is where we store such replications when they are done (as well as the code for papers whose codebase was originally written using the Econ-ARK).
 --> 
 
 In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests with minimal review.
@@ -70,5 +70,12 @@ Code archives should contain:
 Jupyter notebook(s) should:
    * Explain their own content ("This notebook uses the associated replication archive to demonstrate three central results from the paper of [original author]: The consumption function and the distribution of wealth)
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
+   
+In addition to the Jupyter notebook, there should be two plaintext files, with the same name as the notebook but different extensions:
+
+1. A bibtex bibliography entry containing a citation to the version of the paper being replicated (include a link in the url field)
+1. A markdown document containing a very brief description of the content of the replication.
+   * Does the REMARK attempt to reproduce all results of the paper, or only some?
+   * For those results it attempts to reproduce, did the results match those in the original paper?
    
 
