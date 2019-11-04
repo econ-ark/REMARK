@@ -41,7 +41,7 @@ A common feature of all of the content is that the root level of each directory 
    * Does the REMARK attempt to reproduce all results of the paper, or only some?
    * For those results it attempts to reproduce, did the results match those in the original paper?
    
-# Explorations
+## Explorations
 
 This is an unstructured category, whose purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
 
