@@ -2,7 +2,7 @@
 
 This repo stores self-contained and complete projects written using the Econ-ARK, executable by anyone with a suitably configured computer (see ["Installation.md"](./Installation.md) in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
+Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of local files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
 
 Types of content include (see below for elaboration):
 
