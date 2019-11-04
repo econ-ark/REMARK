@@ -2,7 +2,7 @@
 
 This repo stores self-contained and complete projects written using the Econ-ARK.  Content here should be executable by anyone with a suitably configured computer (see "Installation.md" in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the [DemARK](https://github.com/econ-ark/DemARK) is that REMARKs can rely on the existence of files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
+Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
 
 Types of content include (see below for elaboration):
 
@@ -35,8 +35,9 @@ A common feature of all of the content is that the root level of each directory 
 	  * Get the user's permission before proceeding 
 
 ### Context Files
-1. A bibtex bibliography entry containing a citation to the version of the paper being replicated (include a link in the url field)
-1. A markdown document containing a very brief description of the content of the replication.
+1. A bibtex bibliography file `[notebookname].bib` containing a bibtex citation to the version of the paper being replicated
+   * include a link in the url bibtex field
+1. A markdown document `[notebookname].md` containing a very brief description of the content of the replication.
    * Does the REMARK attempt to reproduce all results of the paper, or only some?
    * For those results it attempts to reproduce, did the results match those in the original paper?
    
