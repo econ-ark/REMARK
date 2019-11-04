@@ -1,6 +1,6 @@
 # Replications and Explorations Made using the ARK
 
-This repo stores self-contained and complete projects written using the Econ-ARK.  Content here should be executable by anyone with a suitably configured computer (see "Installation.md" in this directory).
+This repo stores self-contained and complete projects written using the Econ-ARK, executable by anyone with a suitably configured computer (see ["Installation.md"](./Installation.md) in this directory).
 
 Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
 
@@ -18,6 +18,13 @@ Types of content include (see below for elaboration):
 
 A common feature of all of the content is that the root level of each directory should contain a file named `do_all.py` which produces all of the claimed results.  
 
+* `do_all.py` should produce all of the results that the tool is capable of generating
+   * For a reproduction, it should produce substantially all of the tables and figures of the associated paper 
+   * For a replication, it should produce whatever the author judges to be a characteristic set of the results of the paper
+   * When executed, it should:
+      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
+	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
+	  * Get the user's permission before proceeding 
 * `do_min.py` should also exist if `do_all.py` takes more than a couple of minutes to execute
    * It should finish in at most a minute or two
    * Given that constraint, the `do_min.py` file should illustrate as much as possible of the content of the codebase
@@ -26,14 +33,7 @@ A common feature of all of the content is that the root level of each directory 
       * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
 	  * Get the user's permission before proceeding 
-* `do_all.py` should produce all of the results that the tool is capable of generating
-   * For a reproduction, it should produce substantially all of the tables and figures of the associated paper 
-   * For a replication, it should produce what the author judges to be a characteristic set of the results of the paper
-   * When executed, it should:
-      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
-	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
-	  * Get the user's permission before proceeding 
-
+	  
 ### Context Files
 1. A bibtex bibliography file `[notebookname].bib` containing a bibtex citation to the version of the paper being replicated
    * include a link in the url bibtex field
@@ -43,7 +43,7 @@ A common feature of all of the content is that the root level of each directory 
    
 # Explorations
 
-This is an unstructured category, whoese purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
+This is an unstructured category, whose purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
 
 1. Illustrations of the uses of a particular model
 1. Examples of how to use a particular technique (e.g., indirect inference)
