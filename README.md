@@ -13,7 +13,8 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
-## `do_[].py`
+## Requirements
+### `do_[].py`
 
 A common feature of all of the content is that the root level of each directory should contain a file named `do_all.py` which produces all of the claimed results.  
 
@@ -33,6 +34,12 @@ A common feature of all of the content is that the root level of each directory 
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
 	  * Get the user's permission before proceeding 
 
+### Context Files
+1. A bibtex bibliography entry containing a citation to the version of the paper being replicated (include a link in the url field)
+1. A markdown document containing a very brief description of the content of the replication.
+   * Does the REMARK attempt to reproduce all results of the paper, or only some?
+   * For those results it attempts to reproduce, did the results match those in the original paper?
+   
 # Explorations
 
 This is an unstructured category, whoese purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
@@ -69,12 +76,3 @@ Code archives should contain:
 Jupyter notebook(s) should:
    * Explain their own content ("This notebook uses the associated replication archive to demonstrate three central results from the paper of [original author]: The consumption function and the distribution of wealth)
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
-   
-In addition to the Jupyter notebook, there should be two plaintext files, with the same name as the notebook but different extensions:
-
-1. A bibtex bibliography entry containing a citation to the version of the paper being replicated (include a link in the url field)
-1. A markdown document containing a very brief description of the content of the replication.
-   * Does the REMARK attempt to reproduce all results of the paper, or only some?
-   * For those results it attempts to reproduce, did the results match those in the original paper?
-   
-
