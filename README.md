@@ -1,26 +1,24 @@
 # Replications and Explorations Made using the ARK
 
-This is the resting place for self-contained and complete projects written using the Econ-ARK.
-The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
-in this directory).
+This repo stores self-contained and complete projects written using the Econ-ARK.  Content here should be executable by anyone with a suitably configured computer (see "Installation.md" in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory
+Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the [DemARK](https://github.com/econ-ark/DemARK) is that REMARKs can rely on the existence of files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
 
 Types of content include (see below for elaboration):
 
 1. Explorations
-   * Use the Econ-ARK/HARK toolkit to demonstrate some set of modeling ideas 
+   * Use the Econ-ARK/HARK toolkit to demonstrate some set of modeling ideas
 1. Replications
-   * Attempts to replicate the results of published papers written using other tools
+   * Attempts to replicate important results of published papers written using other tools
 1. Reproductions
-   * Code that reproduces the results of some paper that was originally written using the toolkit
+   * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
 ## `do_[].py`
 
-A common feature of all of the content here is that the root level of each directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. The only such file that is absolutely required is `do_all.py.` If executing everything in the code takes more than a few minutes, there should also be a `do_min.py.` Other files that are intermediate between `do_min` and `do_all` are optional.
+A common feature of all of the content is that the root level of each directory should contain a file named `do_all.py` which produces all of the claimed results.  
 
-* `do_min.py` should produce the minimal set of results that might be useful
-   * The most important definition of _minimal_ is that `do_min.py` files should execute in at most a minute or two on a mid-range laptop computer
+* `do_min.py` should also exist if `do_all.py` takes more than a couple of minutes to execute
+   * It should finish in at most a minute or two
    * Given that constraint, the `do_min.py` file should illustrate as much as possible of the content of the codebase
 * `do_mid.py` should produce a representative range of the most interesting and important results
    * When executed, it should:
@@ -28,7 +26,8 @@ A common feature of all of the content here is that the root level of each direc
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
 	  * Get the user's permission before proceeding 
 * `do_all.py` should produce all of the results that the tool is capable of generating
-   * For example, ideally for a reproduction or replication, it should produce all of the tables and figures of the associated paper 
+   * For a reproduction, it should produce substantially all of the tables and figures of the associated paper 
+   * For a replication, it should produce what the author judges to be a characteristic set of the results of the paper
    * When executed, it should:
       * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
@@ -36,7 +35,7 @@ A common feature of all of the content here is that the root level of each direc
 
 # Explorations
 
-This is an unstructured category, designed to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
+This is an unstructured category, whoese purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
 
 1. Illustrations of the uses of a particular model
 1. Examples of how to use a particular technique (e.g., indirect inference)
