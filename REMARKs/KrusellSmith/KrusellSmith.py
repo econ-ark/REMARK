@@ -142,32 +142,13 @@
 # which can be executed from a terminal command line via "ipython KrusellSmith.py"
 # But a terminal does not permit inline figures, so we need to test jupyter vs terminal
 # Google "how can I check if code is executed in the ipython notebook"
-def in_ipynb():
-    try:
-        if str(type(get_ipython())) == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>":
-            return True
-        else:
-            return False
-    except NameError:
-        return False
+
 
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
-if in_ipynb():
-    # %matplotlib inline generates a syntax error when run from the shell
-    # so do this instead
-    get_ipython().run_line_magic('matplotlib', 'inline') 
-else:
-    get_ipython().run_line_magic('matplotlib', 'auto') 
+import remark
 
 # Import the plot-figure library matplotlib
-
-import matplotlib
-import matplotlib.pyplot as plt
-
-import sys
-import os
-from copy import copy
 from HARK.utilities import plotFuncs, plotFuncsDer
 
 # %% {"code_folding": [0]}
@@ -393,7 +374,18 @@ KSEconomy.solve() # Solve the economy using the market method.
 # Plot some key results
 
 print('Aggregate savings as a function of aggregate market resources:')
-plotFuncs(KSEconomy.AFunc,0.1,2*KSEconomy.kSS)
+fig = plt.figure()
+bottom = 0.1
+top = 2*KSEconomy.kSS
+x = np.linspace(bottom,top,1000,endpoint=True)
+print(KSEconomy.AFunc)
+y0 = KSEconomy.AFunc[0](x)
+y1 = KSEconomy.AFunc[1](x)
+plt.plot(x,y0)
+plt.plot(x,y1)
+plt.xlim([bottom, top])
+remark.show('.','aggregate_savings')
+
 
 print('Consumption function at each aggregate market resources gridpoint (in general equilibrium):')
 KSAgent.unpackcFunc()
@@ -402,9 +394,11 @@ KSAgent.unpackcFunc()
 for M in KSAgent.Mgrid:
     c_at_this_M = KSAgent.solution[0].cFunc[0](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,c_at_this_M)
-plt.show()
+
+remark.show('.','consumption_function')
 
 print('Savings at each individual market resources gridpoint (in general equilibrium):')
+fig = plt.figure()
 KSAgent.unpackcFunc()
 m_grid = np.linspace(0,10,200)
 KSAgent.unpackcFunc()
@@ -412,7 +406,8 @@ for M in KSAgent.Mgrid:
     s_at_this_M = m_grid-KSAgent.solution[0].cFunc[1](m_grid,M*np.ones_like(m_grid))
     c_at_this_M = KSAgent.solution[0].cFunc[1](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,s_at_this_M)
-plt.show()
+    
+remark.show('.','savings_function')
 
 # %% [markdown]
 # ### The Wealth Distribution in KS
@@ -451,7 +446,7 @@ plt.xlabel('Percentile of net worth')
 plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
-plt.show()
+remark.show('.','wealth_distribution_1')
 
 # %%
 # Calculate a measure of the difference between the simulated and empirical distributions
@@ -533,12 +528,13 @@ plt.xlabel('Percentile of net worth')
 plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
-plt.show()
+remark.show('.','wealth_distribution_2')
 
 # %% {"code_folding": []}
 # The mean levels of wealth for the three types of consumer are 
 [np.mean(KSEconomy_sim.aLvlNow[0]),np.mean(KSEconomy_sim.aLvlNow[1]),np.mean(KSEconomy_sim.aLvlNow[2])]
 
+fig = plt.figure()
 # %% {"code_folding": []}
 # Plot the distribution of wealth 
 for i in range(len(MyTypes)):
@@ -549,14 +545,15 @@ for i in range(len(MyTypes)):
         plt.yticks([])
 plt.legend(loc=2)
 plt.title('Log Wealth Distribution of 3 Types')
-plt.show()
+remark.show('.','log_wealth_3_types')
 
+fig = plt.figure()
 # %% {"code_folding": []}
 # Distribution of wealth in original model with one type
 plt.hist(np.log(sim_wealth),bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
 plt.yticks([])
 plt.title('Log Wealth Distribution of Original Model with One Type')
-plt.show()
+remark.show('.','log_wealth_1')
 
 # %% [markdown]
 # ### Target Wealth is Nonlinear in Time Preference Rate
@@ -587,4 +584,4 @@ theta = np.linspace(0.023,0.10,100)
 plt.plot(theta,1/(theta*(1+(theta-r)/sigma)-r))
 plt.xlabel(r'$\theta$')
 plt.ylabel('Target wealth')
-plt.show()
+remark.show('.','target_wealth')
