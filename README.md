@@ -4,16 +4,16 @@ This is is the resting place for self-contained and complete projects written us
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
 in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory
+Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of local files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
 
 Types of content include (see below for elaboration):
 
 1. Explorations
    * Use the Econ-ARK/HARK toolkit to demonstrate some set of modeling ideas
 1. Replications
-   * Attempts to replicate the results of published papers written using other tools
+   * Attempts to replicate important results of published papers written using other tools
 1. Reproductions
-   * Code that reproduces the results of some paper that was originally written using the toolkit
+   * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
 ## Mandatory Content
 
@@ -31,10 +31,9 @@ Every remark should have the following content (described in more detail in sect
 
 Each REMARK directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. The only such file that is absolutely required is `do_all.py.` If executing everything in the code takes more than a few minutes, there should also be a `do_min.py.` Other files that are intermediate between `do_min` and `do_all` are optional.
 
-* `do_min.py` should produce the minimal set of results that might be useful
-   * The most important definition of _minimal_ is that `do_min.py` files should execute in at most a minute or two on a mid-range laptop computer
-   * Given that constraint, the `do_min.py` file should illustrate as much as possible of the content of the codebase
-* `do_mid.py` should produce a representative range of the most interesting and important results
+* `do_all.py` should produce all of the results that the tool is capable of generating
+   * For a reproduction, it should produce substantially all of the tables and figures of the associated paper
+   * For a replication, it should produce whatever the author judges to be a characteristic set of the results of the paper
    * When executed, it should:
       * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
@@ -57,9 +56,7 @@ REMARK
 
 This should contain a brief description of the project, which will be used on the website as the brief description of the REMARK
 
-# Explorations
-
-This is an unstructured category, designed to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
+This is an unstructured category, whose purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
 
 1. Illustrations of the uses of a particular model
 1. Examples of how to use a particular technique (e.g., indirect inference)

@@ -1,13 +1,11 @@
 # Installing Software Required for REMARKs
 
-Some (most?) of the REMARKs can be explored without installing any software on your computer. Files in a REMARK directory ending in the extension .ipynb are [jupyter notebooks](https://jupyter.org) which can be executed by the 
-free online tool [mybinder](https://mybinder.org). The README file in the REMARK's root directory should have a link 
-which, when clicked, will launch a mybinder session that can execute the notebook.
+Some (most?) [REMARKs](https://github.com/econ-ark/REMARK/master/blob/REMARKs) can be explored without installing any software on your computer. Files in a REMARK directory ending in the extension .ipynb are [jupyter notebooks](https://jupyter.org) which can be executed by the free online tool [mybinder](https://mybinder.org). The README file in the REMARK's root directory should have a link which, when clicked, will launch a mybinder session that can execute the notebook.
 
 The free mybinder tool has only limited computational capacity, though, so for projects that have substantial 
 computational content you will need to run the code locally.
 
-## You need python3, pip, and econ-ark
+## To execute locally: You need python3, pip, and econ-ark
 
 Most computers come with a distribution of python3 and the `pip` install tool. [See the README file here](https://github.com/econ-ark/HARK) for installation instructions for the python, pip, and the econ-ark
 
