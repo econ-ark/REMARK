@@ -71,9 +71,10 @@ def show(target_dir,figure_name):
     if Generator:
         print(f"Saving figure {figure_name} in {target_dir}")
         plt.savefig(os.path.join(target_dir, f'{figure_name}.png'))
-      #  plt.savefig(os.path.join(target_dir, f'{figure_name}.jpg'))
-      #  plt.savefig(os.path.join(target_dir, f'{figure_name}.pdf'))
-      #  plt.savefig(os.path.join(target_dir, f'{figure_name}.svg'))
+        #  plt.savefig(os.path.join(target_dir, f'{figure_name}.jpg'))
+        #  plt.savefig(os.path.join(target_dir, f'{figure_name}.pdf'))
+        #  plt.savefig(os.path.join(target_dir, f'{figure_name}.svg'))
+        plt.clf()
     #if not in_ipynb():
     #    plt.ioff()
     #    plt.draw()
