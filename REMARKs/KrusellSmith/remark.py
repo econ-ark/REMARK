@@ -66,7 +66,7 @@ if not in_ipynb(): # running in batch mode
     print('You appear to be running from a terminal')
     print('By default, figures will appear one by one')
 
-def show(target_dir,figure_name):
+def show(figure_name, target_dir="Figures"):
     # Save the figures in several formats
     if Generator:
         print(f"Saving figure {figure_name} in {target_dir}")
