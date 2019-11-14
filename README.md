@@ -1,10 +1,10 @@
-# Replications and Explorations Made using the ARK
+# Replications and Explorations Made using the ARK (REMARK)
 
-This is is the resting place for self-contained and complete projects written using the Econ-ARK.
+This contains self-contained and complete projects written using the Econ-ARK.
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
 in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory.  The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of local files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
+Each project lives in its own subdirectory in the `REMARKs` directory.  
 
 Types of content include (see below for elaboration):
 
@@ -27,19 +27,14 @@ Every remark should have the following content (described in more detail in sect
 1. In the REMARKs directory, an eponymous bibtex file containing a reference
     * For example, `REMARKs/BufferStockTheory.bib`
 
-## `do_[].py`
+### `do_[].py`
 
 Each REMARK directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. The only such file that is absolutely required is `do_all.py.` If executing everything in the code takes more than a few minutes, there should also be a `do_min.py.` Other files that are intermediate between `do_min` and `do_all` are optional.
 
 * `do_all.py` should produce all of the results that the tool is capable of generating
+   * In other words, `do_all.py` should execute all the economic simulation code.
    * For a reproduction, it should produce substantially all of the tables and figures of the associated paper
    * For a replication, it should produce whatever the author judges to be a characteristic set of the results of the paper
-   * When executed, it should:
-      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
-	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
-	  * Get the user's permission before proceeding
-* `do_all.py` should produce all of the results that the tool is capable of generating
-   * For example, ideally for a reproduction or replication, it should produce all of the tables and figures of the associated paper
    * When executed, it should:
       * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
 	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
@@ -90,3 +85,7 @@ Code archives should contain:
 Jupyter notebook(s) should:
    * Explain their own content ("This notebook uses the associated replication archive to demonstrate three central results from the paper of [original author]: The consumption function and the distribution of wealth)
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
+
+## Differences with DemARK
+
+The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of local files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
