@@ -32,15 +32,6 @@ warnings.filterwarnings("ignore")
 
 from copy import copy, deepcopy
 
-# Determine whether to make the figures inline (for spyder or jupyter)
-# vs whatever is the automatic setting that will apply if run from the terminal
-if in_ipynb():
-    # %matplotlib inline generates a syntax error when run from the shell
-    # so do this instead
-    get_ipython().run_line_magic('matplotlib', 'inline')
-else:
-    get_ipython().run_line_magic('matplotlib', 'auto')
-
 # Define (and create, if necessary) the figures directory "Figures"
 my_file_path = os.path.dirname(os.path.abspath("BufferStockTheory.ipynb")) # Find pathname to this file:
 Figures_HARK_dir = os.path.join(my_file_path,"Figures/") # LaTeX document assumes figures will be here

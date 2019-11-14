@@ -147,6 +147,7 @@
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 import remark
+# %matplotlib inline
 
 # Import the plot-figure library matplotlib
 from HARK.utilities import plotFuncs, plotFuncsDer
