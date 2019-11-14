@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -146,7 +146,8 @@
 
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
-import remark
+import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
+   # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
 
 # Import the plot-figure library matplotlib
 from HARK.utilities import plotFuncs, plotFuncsDer
