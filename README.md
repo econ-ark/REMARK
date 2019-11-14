@@ -15,9 +15,9 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
-## Mandatory Content
+## REMARK Guidelines
 
-Every remark should have the following content (described in more detail in sections below):
+Every remark *must* have the following content (described in more detail in sections below):
 1. `do_all.py`
     * This should be at the root level of the directory
 1. In `Code/Python` an eponymous Jupyter Notebook
@@ -26,6 +26,12 @@ Every remark should have the following content (described in more detail in sect
     * For example, `REMARKs/BufferStockTheory.md`
 1. In the REMARKs directory, an eponymous bibtex file containing a reference
     * For example, `REMARKs/BufferStockTheory.bib`
+
+It is *highly encouraged* for each REMARK to adhere to the following guidelines:
+
+1. The Jupyter notebook should be a `.py` file bound to the notebook with Jupytext.
+1. `do_all.py` should execute this notebook code
+1. Executing `do_all.py` should save figures to a `Figures/` directory.
 
 ### `do_[].py`
 
