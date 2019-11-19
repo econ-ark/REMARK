@@ -20,6 +20,10 @@ mystr = lambda number : "{:.4f}".format(number)
 
 import matplotlib
 import matplotlib.pyplot as plt
+
+if not in_ipynb():
+    print("Matplotlib backend: " + matplotlib.get_backend())
+
 from matplotlib.pyplot import plot, draw, show
 
 # In order to use LaTeX to manage all text layout in our figures, 
@@ -54,13 +58,14 @@ if not in_ipynb(): # running in batch mode
 def show(figure_name, target_dir="Figures"):
     # Save the figures in several formats
     if saveFigs:
-        # print(f"Saving figure {figure_name} in {target_dir}") # Printing this clutters the interactive display; print to log, not terminal
         plt.savefig(os.path.join(target_dir, f'{figure_name}.png')) # For html4
         plt.savefig(os.path.join(target_dir, f'{figure_name}.jpg')) # For MSWord
         plt.savefig(os.path.join(target_dir, f'{figure_name}.pdf')) # For LaTeX
         plt.savefig(os.path.join(target_dir, f'{figure_name}.svg')) # For html5
-    else: # Running in Spyder or Jupyter or Jupyter Lab so OK to wait on user before continuing
-        plt.show(block=True) # Change to False if you want to run uninterrupted
 
+    if not plt.isinteractive():
+        plt.draw()
+
+    plt.show()
     plt.clf()
  
