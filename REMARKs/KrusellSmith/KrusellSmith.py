@@ -148,6 +148,7 @@
 # vs whatever is the automatic setting that will apply if run from the terminal
 import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
    # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
+#%matplotlib inline
 
 # Import the plot-figure library matplotlib
 from HARK.utilities import plotFuncs, plotFuncsDer

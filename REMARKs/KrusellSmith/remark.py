@@ -31,7 +31,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from copy import copy, deepcopy
-%matplotlib inline
+
 # 20191113 CDC to Seb: I do not yet have a KrusellSmith-Problems-And-Solutions.ipynb file
 # If I DID, that notebook would be the "Generator" and it would generate KrusellSmith-Problems.ipynb and KrusellSmith.ipynb
 # So, once you have processed this, delete this block of comments
