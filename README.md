@@ -1,6 +1,6 @@
 # Replications and Explorations Made using the ARK (REMARK)
 
-This contains self-contained and complete projects written using the Econ-ARK.
+This collects and organizes self-contained and complete projects written using the Econ-ARK.
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
 in this directory).
 
