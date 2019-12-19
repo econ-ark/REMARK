@@ -1,0 +1,27 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Carroll%
+}{%
+Carroll%
+}{%
+{\protect \APACyear {1997}}%
+}]{%
+1997}
+\APACinsertmetastar {%
+1997}%
+\begin{APACrefauthors}%
+Carroll, C\BPBI D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1997}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Buffer-Stock Saving and the Life Cycle/Permanent Income
+  Hypothesis} {Buffer-stock saving and the life cycle/permanent income
+  hypothesis}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{The Quarterly Journal of Economics}{CXII}{}{1--55}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}
