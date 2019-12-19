@@ -46,7 +46,7 @@ drawFigs=True # 20191113 CDC to Seb: Is there a way to determine whether we are 
 
 # Define (and create, if necessary) the figures directory "Figures"
 if saveFigs:
-    my_file_path = os.path.dirname(os.path.abspath("KrusellSmith.ipynb")) # Find pathname to this file:
+    my_file_path = my_path = os.getcwd() # Path to this notebook
     Figures_dir = os.path.join(my_file_path,"Figures/") # LaTeX document assumes figures will be here
     if not os.path.exists(Figures_dir):
         os.makedirs(Figures_dir)

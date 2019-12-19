@@ -7,11 +7,11 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.1
 #   kernelspec:
-#     display_name: Python 3.7 econ-ark
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark
+#     name: python3
 # ---
 
 # %% [markdown]
@@ -135,7 +135,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0, 6]}
+# %% {"code_folding": []}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -147,10 +147,11 @@
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
 import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
+# 2019121924 CDC to Seb: Please respond to the question above.  Should this become part of HARK?  It works now because remark.py is in the root directory. That doesn't seem like the right solution -- to have a copy of it in the root of every remark.
    # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
-# %matplotlib inline
+# %matplotlib inline # 20191219: Have you checked with Mridul about whether this will work for headless AWS server instances?
 
-# Import the plot-figure library matplotlib
+# Import the HARK plot-figure libraries
 from HARK.utilities import plotFuncs, plotFuncsDer
 
 # %% {"code_folding": [0]}
