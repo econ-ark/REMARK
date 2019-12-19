@@ -6,10 +6,10 @@ from IPython import get_ipython # In case it was run from python instead of ipyt
 # If the ipython process contains 'terminal' assume not in a notebook
 def in_ipynb():
     try:
-        if str(type(get_ipython())) == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>":
-            return True
-        else:
+        if 'terminal' in str(type(get_ipython())):
             return False
+        else:
+            return True
     except NameError:
         return False
     
@@ -20,6 +20,10 @@ mystr = lambda number : "{:.4f}".format(number)
 
 import matplotlib
 import matplotlib.pyplot as plt
+
+if not in_ipynb():
+    print("Matplotlib backend: " + matplotlib.get_backend())
+
 from matplotlib.pyplot import plot, draw, show
 
 # In order to use LaTeX to manage all text layout in our figures, 
@@ -32,12 +36,20 @@ warnings.filterwarnings("ignore")
 
 from copy import copy, deepcopy
 
+# Whether to save the figures in a local directory
+saveFigs=True
+# Whether to draw the figs on the GUI (if there is one)
+drawFigs=True # 20191113 CDC to Seb: Is there a way to determine whether we are running in an environment capable of displaying graphical figures?  @mridul might know.  If there is, then we should have a line like the one below:
+# if not inGUI:
+#    drawFigs=False
+
+
 # Define (and create, if necessary) the figures directory "Figures"
-my_file_path = os.path.dirname(os.path.abspath("BufferStockTheory.ipynb")) # Find pathname to this file:
-Figures_HARK_dir = os.path.join(my_file_path,"Figures/") # LaTeX document assumes figures will be here
-Figures_HARK_dir = os.path.join(my_file_path,"/tmp/Figures/") # Uncomment to make figures outside of git path
-if not os.path.exists(Figures_HARK_dir):
-    os.makedirs(Figures_HARK_dir)
+if saveFigs:
+    my_file_path = os.path.dirname(os.path.abspath("KrusellSmith.ipynb")) # Find pathname to this file:
+    Figures_dir = os.path.join(my_file_path,"Figures/") # LaTeX document assumes figures will be here
+    if not os.path.exists(Figures_dir):
+        os.makedirs(Figures_dir)
         
 if not in_ipynb(): # running in batch mode
     print('You appear to be running from a terminal')
@@ -45,12 +57,15 @@ if not in_ipynb(): # running in batch mode
 
 def show(figure_name, target_dir="Figures"):
     # Save the figures in several formats
-    
-    print(f"Saving figure {figure_name} in {target_dir}")
-    plt.savefig(os.path.join(target_dir, f'{figure_name}.png'))
+    if saveFigs:
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.png')) # For html4
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.jpg')) # For MSWord
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.pdf')) # For LaTeX
+        plt.savefig(os.path.join(target_dir, f'{figure_name}.svg')) # For html5
 
-    if not in_ipynb():
-        plt.show(block=True) # Change to False if you want to run uninterrupted
+    if not plt.isinteractive():
+        plt.draw()
 
+    plt.show(block=True)
     plt.clf()
  
