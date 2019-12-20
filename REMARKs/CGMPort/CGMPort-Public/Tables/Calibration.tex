@@ -1,0 +1,24 @@
+\begin{table}[h]
+  \centering
+\renewcommand{\arraystretch}{1.5}
+\caption{Model Calibration}
+\label{tab:Calibration}
+\begin{tabular}{|c|c|c|}
+	\hline
+	\textbf{Description} & \textbf{Parameter} & \textbf{Value} \\ \hline
+	Time Preference Factor & $\delta$ & 0.96 \\ \hline
+	Coefficient of Relative Risk Aversion & $\gamma$ & 10 \\ \hline
+	Survival Probability & $p_t$ & [0.6809,0.99845] \\ \hline
+	Starting Age & $t_0$ & 20 \\ \hline
+	Retirement Age & $t_r$ & 65 \\ \hline
+	Maximum Age & $T$ & 100 \\ \hline
+	Average income at each stage of life & $f(t,Z_{i,t})$ & \begin{tabular}[c]{@{}c@{}}$\exp(0.530339 + 0.1681t +$ \\ $(0.0323371/10) t^2 +$ \\ $(0.0019704/100) t^3)$\end{tabular} \\ \hline
+	Last Period Labor Income Share for Retirement & $\lambda$ & 0.68212 \\ \hline
+	Permanent Income Growth Factor & $\log \Gamma$ & $\{\log f_{t+1} - \log f_t\}^{t_r+1}_{t=20}$ \\ \hline
+	Interest Factor & $\mathsf{R}$ & 1.02 \\ \hline
+	Average Stock Return & $\mu$ & 1.06 \\ \hline
+	Std Dev of Stock Returns & $\sigma_\eta$ & 0.157 \\ \hline
+	Std Dev of Log Permanent Shock & $\sigma_v$ & 0.102956 \\ \hline
+	Std Dev of Log Transitory Shock & $\sigma_\epsilon$ & 0.27166 \\ \hline
+\end{tabular}
+\end{table}

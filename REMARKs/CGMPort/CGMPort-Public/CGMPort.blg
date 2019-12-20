@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2019)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: CGMPort.aux
+The style file: ./texmf-local/bibtex/bst/econtex.bst
+Database file #1: ./CGMPort-Add.bib
+Done.
+You've used 3 entries,
+            2309 wiz_defined-function locations,
+            529 strings with 3955 characters,
+and the built_in function-call counts, 1484 in all, are:
+= -- 149
+> -- 67
+< -- 0
++ -- 21
+- -- 20
+* -- 137
+:= -- 284
+add.period$ -- 3
+call.type$ -- 3
+change.case$ -- 17
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 51
+empty$ -- 100
+format.name$ -- 22
+if$ -- 284
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 3
+newline$ -- 16
+num.names$ -- 18
+pop$ -- 11
+preamble$ -- 2
+purify$ -- 17
+quote$ -- 0
+skip$ -- 45
+stack$ -- 0
+substring$ -- 104
+swap$ -- 9
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 33
+warning$ -- 0
+while$ -- 18
+width$ -- 0
+write$ -- 42

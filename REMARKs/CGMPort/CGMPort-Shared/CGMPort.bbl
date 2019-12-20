@@ -1,0 +1,23 @@
+\providecommand{\noopsort}[1]{} \providecommand{\singleletter}[1]{#1}
+\ifx\undefined\BySame
+\newcommand{\BySame}{\leavevmode\rule[.5ex]{3em}{.5pt}\ }
+\fi
+\begin{thebibliography}{}
+
+\harvarditem[Cocco, Gomes, and Maenhout]{Cocco, Gomes, and
+  Maenhout}{2005}{cgm2015}
+\textsc{Cocco, Jo\~ao~F., Francisco~J. Gomes,  {and} Pascal~J. Maenhout}
+  (2005): ``{Consumption and Portfolio Choice over the Life Cycle},'' \emph{The
+  Review of Financial Studies}, 18(2), 491--533.
+
+\harvarditem[Merton]{Merton}{1969}{merton}
+\textsc{Merton, Robert~C.}  (1969): ``Lifetime Portfolio Selection under
+  Uncertainty: The Continuous-Time Case,'' \emph{The Review of Economics and
+  Statistics}, 51(3), 247--257.
+
+\harvarditem[Samuelson]{Samuelson}{1969}{samuelson}
+\textsc{Samuelson, Paul~A.}  (1969): ``Lifetime Portfolio Selection By Dynamic
+  Stochastic Programming,'' \emph{The Review of Economics and Statistics},
+  51(3), 239--246.
+
+\end{thebibliography}

@@ -1,0 +1,2 @@
+FTN95.EXE "C:\Users\Matt\Dropbox\Hopkins\Courses\605 Advanced Macroeconomics\Git-Hub\CGMPort\SourceCode\Fortran\MAIN.f90" /NO_BANNER /VS7 /DELETE_OBJ_ON_ERROR /ERROR_NUMBERS /UNLIMITED_ERRORS /CHECKMATE /FPP /CFPP /BINARY "CheckMate\Win32\MAIN.obj" 
+slink.exe -OUT:"CheckMate\Win32\Run Fortran.exe" @"C:\Users\Matt\Dropbox\Hopkins\Courses\605 Advanced Macroeconomics\Git-Hub\CGMPort\SourceCode\link.lst" 
