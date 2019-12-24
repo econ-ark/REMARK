@@ -149,7 +149,7 @@
 import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
 # 2019121924 CDC to Seb: Please respond to the question above.  Should this become part of HARK?  It works now because remark.py is in the root directory. That doesn't seem like the right solution -- to have a copy of it in the root of every remark.
    # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
-# %matplotlib inline # 20191219: Have you checked with Mridul about whether this will work for headless AWS server instances?
+# %matplotlib inline
 
 # Import the HARK plot-figure libraries
 from HARK.utilities import plotFuncs, plotFuncsDer
