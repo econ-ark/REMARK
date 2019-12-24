@@ -12,6 +12,18 @@ def in_ipynb():
             return True
     except NameError:
         return False
+
+def in_ide():
+    ides = ['PYCHARM','SPYDER']
+
+    if any([any([ide in name
+            for ide
+            in ides])
+            for name
+            in os.environ]):
+        return True
+    else:
+        return False
     
 # Import related generic python packages
 import numpy as np
