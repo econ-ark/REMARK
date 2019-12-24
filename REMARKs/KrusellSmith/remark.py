@@ -78,6 +78,6 @@ def show(figure_name, target_dir="Figures"):
     if not plt.isinteractive():
         plt.draw()
 
-    plt.show(block=True)
+    plt.show()
     plt.clf()
  
