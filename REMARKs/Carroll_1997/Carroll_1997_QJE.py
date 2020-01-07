@@ -1,99 +1,115 @@
-#!/usr/bin/env python
-# coding: utf-8
+# ---
+# jupyter:
+#   jupytext:
+#     formats: ipynb,py:percent
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.2'
+#       jupytext_version: 1.2.4
+#   kernelspec:
+#     display_name: Python 3
+#     language: python
+#     name: python3
+# ---
 
+# %% [markdown]
 # # ["Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis](https://www.jstor.org/stable/2951275?seq=1#page_scan_tab_contents)"
-# - Christopher D. Carroll
+# - Original Paper by Christopher D. Carroll
 # - Notebook by Yusuf Suha Kulu and Jeongwon (John) Son
 
+# %% [markdown]
 # ### Summary
-# 
-# This paper argues that the saving behaviour of a household is better described by the buffer stock version of the Life Cycle/Permanent Income Hypothesis (LC/PIH) than the traditional version of it. Buffer Stock Consumers set average consumption growth equal to average labor income growth, regardless of tastes. The buffer stock model predicts a higher marginal propensity to consume (MPC) out of transitory income, higher effective discount rate for future labor income, and a positive sign for the correlation between saving and expected labor income growth.
-# 
+#
+# This paper argues that the saving behavior of households is better described by a "buffer stock" version of the Life Cycle/Permanent Income Hypothesis (LC/PIH), which incorporates income uncertainty and the corresponding precautionary saving motive, than by the traditional perfect foresight version of that model. During the buffer stock phase of the life cycle, consumers set average consumption growth equal to average labor income growth. During this phase, the model predicts a high marginal propensity to consume (MPC) out of transitory income, a high effective discount rate for future labor income, and a strong correlation between saving and expected labor income growth.  The paper shows that under plausible configurations of parameter values, including a time preference factor of 0.96, relative risk aversion of 2, and an age-income profile matching the evidence in the U.S., the  median consumer can optimally engage in "buffer stock" saving behavior until late middle age, before beginning to behave in ways that more closely resemble the traditional perfect foresight life  cycle  model.
+#
 # The finite horizon version of the model presented in the paper explains three emprical puzzles.
-# 
+#
 # 1. __Consumption/income parallel :__  Aggregate consumption parallels growth in income over periods of more than a few years.
 # 2. __Consumption/income divergence :__ For individual households, consumption is far from current income. This implies the consumption/income parallel does not arise at the household level.
 # 3. __Stability of the household age/wealth profile :__ The effects of the productivity growth slowdown after 1973 on the age/median-wealth profile and the extraordinarily high volatility of the household liquid wealth are explained. 
-# 
+#
 
-# The traditional model is the following:
-# 
+# %% [markdown]
+# The traditional perfect foresight model is the following:
+#
 # Finite Horizon  
-# 
+#
 # $$c_t = \kappa_t[m_t + h_t]$$ 
 # $$h_t = \sum_{i=t+1}^{T}R^{i-t}y_{i} $$
 # $$\kappa_t = \frac{(1 - {[R^{-1}(\beta R)^{1/\rho}]})}{(1 - {[R^{-1}(\beta R)^{1/\rho}]}^{T-t+1})}$$
-# 
-# 
-# 
+#
+#
+#
 # Infinite Horizon 
-# 
+#
 # $$c_t = \kappa_t[m_t + h_t]$$
 # $$h_t = \sum_{i=t+1}^{\infty}R^{i-t}y_{i} \approx \frac{y_t}{r - g}$$
 # $$\kappa = {(1 - {[R^{-1}(\beta R)^{1/\rho}]})}$$
+#
+# The buffer stock version of the model will be different.
 
+# %% [markdown]
 # ### Model Setup
-# 
+#
 #  
-# 
+#
 # The consumer solves the following intertemporal optimization problem. 
-# 
+#
 #  
-# 
+#
 # $$ \max \quad E_t \Sigma_{n=0}^{T-t} \beta^{n}u(c_{t+n}) $$
-# 
+#
 # \begin{aligned} \text{s.t.} \quad b_{t+1} &= R[b_t + y_t - c_t]\\
 # y_t &= p_tv_t\\
 # p_t &= G_tp_{t-1}n_t 
 # \end{aligned}
-# 
+#
 # $y$: current labor income 
-# 
+#
 # $p$: permanent labor income 
-# 
+#
 # $v$: transitory income shock 
-# 
+#
 # $n$: permanent income shock
-# 
+#
 # $G = (1+g)$: growth factor for permanent labor income 
-# 
+#
 # $b$: stock of physical net wealth 
-# 
+#
 # $R = (1+r)$: gross interest rate 
-# 
+#
 # $\beta = 1/(1+\delta)$: discount factor
-# 
+#
 #  
-# 
+#
 # Solving the consumer's optimization problem gives the following Euler equation. 
-# 
+#
 #  
-# 
+#
 # $$1= R\beta E_{t-1}[\{c_t[R[m_{t-1}-c_{t-1}]/Gn_t + v_t]Gn_t/c_{t-1}\}^{-\rho}]$$ 
-# 
+#
 # Lower case variables are defined as the uppercase variables divided by the current level of permanent income. 
-# 
+#
 # $m = b+y$: gross wealth
-# 
+#
 #  
-# 
+#
 # Since this is a life cycle model, the consumer consumes everything in the last period:$c_T[m_T] = m_T$. This implies that by recursion, the Euler equation gives the consumption ratio for each period. 
-# 
+#
 #  
-# 
+#
 # If shocks to consumption are assumed to be lognormally distributed, a log-linearized version of the Euler equation takes the following form.
-# 
+#
 #  
-# 
+#
 # $$ E_t\Delta \ln c_{t+1} \approx \rho^{-1}(r-\delta) + (\rho/2)\text{var}_t(\Delta\ln c_{t+1}) + e_{t+1} $$
-# 
+#
 #  
-# 
+#
 # The figure below depicts expected consumption growth. As can be seen from the directional arrows, there is a target level of wealth ratio and consumption ratio.
 
-# In[1]:
-
-
+# %% {"code_folding": [0]}
 # The following references have been terrific sources of help in creating this Notebook.
 # https://github.com/llorracc/BufferStockTheory/blob/master/Code/Python/BufferStockTheory.ipynb
 # https://github.com/econ-ark/HARK/blob/master/HARK/SolvingMicroDSOPs/Code/StructEstimation.py
@@ -102,12 +118,9 @@
 # https://github.com/matthew-zahn/CGMPort/blob/develop/REMARK/CGM_REMARK.ipynb
 # https://github.com/zhuang13atJHU/ballpark/blob/subsubbranch-Aiyagari/models/We-Would-Like-In-Econ-ARK/AiyagariIdiosyncratic/do_all.py
 
-
-# In[2]:
-
-
+# %% {"code_folding": [0]}
 # This cell has a bit of initial setup.
-#get_ipython().run_line_magic('matplotlib', 'inline') #This line does not work
+# %matplotlib inline
 import matplotlib.pyplot as plt
 
 # The first step is to be able to bring things in from different directories
@@ -125,10 +138,7 @@ from copy import deepcopy
 mystr = lambda number : "{:.4f}".format(number)
 from HARK.utilities import plotFuncs
 
-
-# In[3]:
-
-
+# %% {"code_folding": [0]}
 # Define a parameter dictionary with baseline parameter values
 
 # Set the baseline parameter values 
@@ -164,9 +174,9 @@ base_params['T_cycle']      = 1       # No 'seasonal' cycles
 base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 
 
-# In[4]:
 
-
+# %%
+# Import the key tools needed from the HARK toolkit
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType #Import consumer type
 baseEx_inf = IndShockConsumerType(cycles=0,**base_params) #cycles=0 implies infinite horizon model
 
@@ -174,9 +184,7 @@ baseEx_inf.solve()
 baseEx_inf.unpackcFunc()
 
 
-# In[5]:
-
-
+# %% {"code_folding": []}
 # Define a function to calculate expected consumption 
 def exp_consumption(a):
     '''
@@ -204,9 +212,7 @@ def exp_consumption(a):
     return expconsumption
 
 
-# In[6]:
-
-
+# %% {"code_folding": []}
 # Calculate the expected consumption growth factor
 m1 = np.linspace(1,baseEx_inf.solution[0].mNrmSS,50) # m1 defines the plot range on the left of target m value (e.g. m <= target m)
 c_m1 = baseEx_inf.cFunc[0](m1)
@@ -226,9 +232,7 @@ exp_consumption_l2 = [exp_consumption(i) for i in a2]
 growth2 = np.array(exp_consumption_l2)/c_m2
 
 
-# In[7]:
-
-
+# %% {"code_folding": []}
 # Define a function to construct the arrows on the consumption growth rate function
 def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
               hl=0.01, hw=3, c='black'):
@@ -312,9 +316,7 @@ def arrowplot(axes, x, y, narrs=15, dspace=0.5, direc='neg',
                 arrowprops=dict( headwidth=hw, frac=1., ec=c, fc=c))
 
 
-# In[8]:
-
-
+# %% {"code_folding": []}
 # Plot consumption growth as a function of market resources
 # Calculate Absolute Patience Factor Phi = lower bound of consumption growth factor
 import math
@@ -348,12 +350,9 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$', fontsize=20)
 plt.ylabel('Growth', fontsize=20)
 plt.legend()
-plt.savefig('Paper/Figures/Figure1a.png')
 
-# In[9]:
-
-
-#Create a new consumer model with lower permanent income growth (1.005)
+# %% {"code_folding": []}
+#Create a new consumer instance with lower permanent income growth (1.005)
 
 # Make a dictionary containing all parameters needed to solve the model
 base_params1 = Params.init_idiosyncratic_shocks
@@ -375,10 +374,7 @@ base_params1['CubicBool']    = True    # Use cubic spline interpolation
 base_params1['T_cycle']      = 1       # No 'seasonal' cycles
 base_params1['BoroCnstArt']  = None    # No artificial borrowing constraint
 
-
-# In[10]:
-
-
+# %%
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 baseEx_inf1 = IndShockConsumerType(cycles=0,**base_params1)
 
@@ -386,9 +382,7 @@ baseEx_inf1.solve()
 baseEx_inf1.unpackcFunc()
 
 
-# In[11]:
-
-
+# %% {"code_folding": []}
 # Redefine a function to calculate expected consumption since the model has changed
 def exp_consumption(a):
     '''
@@ -416,9 +410,7 @@ def exp_consumption(a):
     return expconsumption
 
 
-# In[12]:
-
-
+# %% {"code_folding": []}
 # Calculate the expected consumption growth factor
 m11 = np.linspace(1,baseEx_inf1.solution[0].mNrmSS,50) # m11 defines the plot range on the left of target m value (e.g. m <= target m)
 c_m11 = baseEx_inf1.cFunc[0](m11)
@@ -437,10 +429,7 @@ exp_consumption_l21 = [exp_consumption(i) for i in a21]
 # growth 21 defines the values of expected consumption growth factor when m is bigger than target m
 growth21 = np.array(exp_consumption_l21)/c_m21
 
-
-# In[13]:
-
-
+# %% {"code_folding": []}
 # Plot consumption growth for both cases (high growth and low growth) as a function of market resources
 # Calculate Absolute Patience Factor Phi = lower bound of consumption growth factor
 AbsPatientFac1 = math.log((baseEx_inf1.Rfree)*(baseEx_inf1.DiscFac)**(1.0/baseEx_inf1.CRRA))
@@ -471,48 +460,47 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$',fontsize=20)
 plt.ylabel('Growth',fontsize=20)
 plt.legend()
-plt.savefig('Paper/Figures/Figure1b.png')
 
+# %% [markdown]
 # ### Methods of Solution
-# 
+#
 #  
-# 
+#
 # The optimal consumption for a given value of gross wealth, $c_t(m_t)$, is derived by solving the Euler equation recursively backwards.
-# 
+#
 #  
-# 
+#
 # 1. $c_T(m_T) = m_T$
-# 
+#
 # 2. For $n$ values of $m_{T-1}$, by using the Euler equation, compute the corresponding $n$ values of $c_{T-1}(m_{T-1})$.
-# 
+#
 # 3. Using cubic interpolation for values of $m_{T-1}$ between the n values, numerically calculate the function $c_{T-1}(m_{T-1})$.
-# 
+#
 # 4. Given $c_{T-1}(m_{T-1})$, use the same methods as 2 and 3 to numerically solve for $c_{T-2}(m_{T-2})$.
-# 
+#
 # 5. Continue this method until period $t$.
-# 
+#
 #  
-# 
+#
 # For the infinite horizon version of this model, the following convergence criterion is used.
-# 
+#
 # $$\frac{1}{n}\Sigma\vert c_t(m_i) - c_{t+1}(m_i)\vert < 0.0005$$
 
+# %% [markdown]
 # ### Resolving Three Emprical Puzzles
-# 
+#
 # #### 1) The Consumption/Income Parallel in Low Frequency Data
-# 
+#
 # Consumption growth and income growth are very closely linked over periods of a few years or longer.
-# 
+#
 # Three age/income profiles calibrated using the data for Unskilled Laborers, Operatives, and Managers.
 # 1. For Unskilled Labor,labor income grows at 3% annually from ages 25 to 40, and is flat from age 40 to retirement at 65.
 # 2. For Operatives, labor income grows at 2.5% annually from the age 25 to 50, then 1% per year until retirement.
 # 3. For Managers, income grows at 3% from ages 25 to 55, and declines at 1% per year from 55 to 65.
-# 
+#
 # Post-retirement income is assumed to equal 70 percent income in the last year of the working life, for all three groups. 
 
-# In[14]:
-
-
+# %% {"code_folding": [0]}
 #Some preliminary setup for the lifecycle model
 
 import HARK.ConsumptionSaving.ConsIndShockModel as Model    
@@ -524,10 +512,7 @@ do_simulation = True
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-# In[15]:
-
-
+# %% {"code_folding": [0]}
 #Set Parameters
 
 Params.init_lifecycle["CRRA"]= 2.00            # Default coefficient of relative risk aversion (rho)
@@ -548,10 +533,7 @@ Params.init_lifecycle['T_cycle']    = 49                    # Agents are simulat
 Params.init_lifecycle['T_retire']   = 40                    # Agents retire at age 65, or their 40th period.
 Params.init_lifecycle['T_age']      = 50                    #Make sure that old people die at terminal age and don't turn into newborns!
 
-
-# In[16]:
-
-
+# %% {"code_folding": [0]}
 #Unskilled Laborers: 3 percent growth from 26~40. flat for 40~65.
 
 Params.init_lifecycle["pLvlInitMean"]= math.log(1/1.03)  #There seems to be a bug where the permanent income is increased by the growth rate already in the first period. This is set to offset that and have agents start with permanent income of 1.
@@ -563,10 +545,7 @@ Lifecycle_Unskilled.solve()
 Lifecycle_Unskilled.unpackcFunc()
 Lifecycle_Unskilled.timeFwd() #make sure that time is moving forward
 
-
-# In[17]:
-
-
+# %% {"code_folding": [0]}
 #Operatives: 2.5 percent growth from 26~50. 1 percent growth from 50~65.
 
 Params.init_lifecycle["pLvlInitMean"]= math.log(1/1.025) #This is set as such to offset growth bug
@@ -578,10 +557,7 @@ Lifecycle_Operatives.solve()
 Lifecycle_Operatives.unpackcFunc()
 Lifecycle_Operatives.timeFwd() #make sure that time is moving forward
 
-
-# In[18]:
-
-
+# %% {"code_folding": [0]}
 #Managers: 3 percent growth from 26~55. 1 percent decline from 55~65.
 
 Params.init_lifecycle["pLvlInitMean"]= math.log(1/1.03) #This is set as such to offset growth bug
@@ -593,10 +569,7 @@ Lifecycle_Managers.solve()
 Lifecycle_Managers.unpackcFunc()
 Lifecycle_Managers.timeFwd() #make sure that time is moving forward
 
-
-# In[19]:
-
-
+# %% {"code_folding": [0]}
 #Simulate the models for each agent type
 
 if do_simulation:
@@ -623,10 +596,7 @@ if do_simulation:
 #pLvlNow: Permanent level of income
 #t_age:   Period of the simulation
 
-
-# In[20]:
-
-
+# %% {"code_folding": []}
 #Save the simulated data into a dataframe
 
 import pandas as pd
@@ -649,10 +619,8 @@ Data['Inc_Managers'] = Data.pLvlNow_Managers
 
 AgeMeans = Data.groupby(['T_age']).mean().reset_index() # Group the dataset by T_age and get the mean.
 
-
-# In[21]:
-
-
+# %%
+# Plot the figures
 plt.figure()
 
 plt.plot(AgeMeans.T_age, AgeMeans.Cons_Unskilled,label='Consumption')
@@ -662,7 +630,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Unskilled Laborers')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5a.png')
 
 plt.figure()
 
@@ -673,7 +640,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Operatives')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5b.png')
 
 plt.figure()
 
@@ -684,27 +650,25 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Managers')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5c.png')
 
+# %% [markdown]
 # Results show the parallel until the age of 45 or 50. Then retirement savings allow income profile to rise above the consumption profile in the years immediately before the retirement.
-# 
+#
 # #### 2) The Consumption/Income Divergence in High Frequency Data
-# 
+#
 # The Buffer-Stock model has no difficulty generating an MPC large enough to match emprical estimates, while the standard LC/PIH model is simply incapable of implying large values for the MPC out of transitory income. 
-# 
+#
 # #### 3) The Behaviour of Wealth over the Lifetime
-# 
+#
 # Median ratio of wealth(financial assets) to income(annual income) is between 2 and 35 percent at all ages before the retirement. This fact is stable over the early 1960s and the late 1980s but there was a sharp slowdown(post-1973) in the productivity growth within this period. 
-# 
+#
 # The productivity growth slowdown is assumed to result in a 1 percent slower growth rate of labor income over the working labor income. 
-# 
+#
 # This fact is not explained by the standard LC/PIH model as the lower growth induces an enourmous increase in household wealth at all ages greater than 30. On average, the slower curve is higher than the faster curve by an amount equal to roughly two years' worth of income. Thus, the model predicts enourmous increase in household wealth/income ratios due to the productivity slowdown. 
-# 
+#
 # Below are figures that show the different wealth ratios over the lifecycle for the standard LC/PIH model (Figure VI) and the buffer stock saving LC/PIH model (Figure VII). The standard LC/PIH model over-estimates the effect of a decrease in productivity growth. The difference between the two productivity growth scenarios in the buffer stock saving LC/PIH model is not remotely so dramatic as in the standard model.
 
-# In[22]:
-
-
+# %% {"code_folding": [0]}
 #Simulate Figure VI (Wealth for faster and slower income growth under perfect foresight)
 
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
@@ -746,9 +710,7 @@ Lifecycle_Operatives_PF_Slow.unpackcFunc()
 Lifecycle_Operatives_PF_Slow.timeFwd() #make sure that time is moving forward
 
 
-# In[23]:
-
-
+# %% {"code_folding": [0]}
 #Simulate the models
 
 if do_simulation:
@@ -773,10 +735,8 @@ Data = pd.DataFrame(raw_data) #make the raw data into a formal dataset
 Data['W_Y_PF'] = Data.aNrmNow_Operatives
 Data['W_Y_PF_Slow'] = Data.aNrmNow_Operatives_Slow
 
-
-# In[24]:
-
-
+# %%
+# Plot the results
 plt.figure()
 
 plt.plot(Data.T_age, Data.W_Y_PF,label='Faster Productivity Growth')
@@ -786,11 +746,8 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VI: Standard Lifecycle Model')
-plt.savefig('Paper/Figures/Figure6.png')
 
-# In[25]:
-
-
+# %%
 # Simulate Figure VII (Wealth for faster and slower income growth)
 
 #Parameter setup and solve
@@ -831,10 +788,8 @@ Lifecycle_Operatives_Slower.solve()
 Lifecycle_Operatives_Slower.unpackcFunc()
 Lifecycle_Operatives_Slower.timeFwd() #make sure that time is moving forward
 
-
-# In[26]:
-
-
+# %%
+# Do the simulations
 if do_simulation:
     Lifecycle_Operatives.T_sim = 49
     Lifecycle_Operatives.track_vars = ['aNrmNow','mNrmNow','cNrmNow','pLvlNow','t_age'] #track these variables
@@ -859,10 +814,8 @@ Data['W_Y_Faster'] = Data.aNrmNow_Operatives #Data is named W_Y since it is weal
 Data['W_Y_Slower'] = Data.aNrmNow_Operatives_Slower
 AgeMeans = Data.groupby(['T_age']).median().reset_index() #Group the dataset by T_age and get the median.
 
-
-# In[27]:
-
-
+# %% {"code_folding": [0]}
+# Plot
 plt.figure()
 
 plt.plot(AgeMeans.T_age, AgeMeans.W_Y_Faster,label='Faster Productivity Growth')
@@ -872,15 +825,13 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VII: Buffer Stock Lifecycle Model')
-plt.savefig('Paper/Figures/Figure7.png')
 
-# #### 4) Variation of Parameter Values
-# 
+# %% [markdown]
+# ### Variation of Parameter Values
+#
 # Below are two tables showing different values of model specific variables under different parameters. Table 1 values represent the steady state values under an infinite horizon buffer stock model. Table 2 values represent the steady state values under an infinite horizon perfect foresight model and an infinite horizon buffer stock model.
 
-# In[28]:
-
-
+# %% {"code_folding": [0]}
 #Calibrate Table 1
 
 #Some preliminary setup and parameter definitions
@@ -907,10 +858,8 @@ base_params['CubicBool']    = True    # Use cubic spline interpolation
 base_params['T_cycle']      = 1       # No 'seasonal' cycles
 base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 
-
-# In[29]:
-
-
+# %% {"code_folding": [0]}
+# Solve the three models
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 #Base parameter model
@@ -935,10 +884,7 @@ baseEx_infg.unpackcFunc()
 baseEx_infd.solve()
 baseEx_infd.unpackcFunc()
 
-
-# In[30]:
-
-
+# %% {"code_folding": [0]}
 #Simulate the three models
 
 if do_simulation:
@@ -959,10 +905,7 @@ if do_simulation:
     baseEx_infd.initializeSim()
     baseEx_infd.simulate()
 
-
-# In[31]:
-
-
+# %% {"code_folding": [0]}
 #Save simulated data into a dataframe
 
 import pandas as pd
@@ -1018,10 +961,7 @@ Data['logIncd'] = Data.logpLvld                  #log of permanent income for di
 
 AgeMeans = Data.groupby(['T_age']).mean().reset_index() # Group the dataset by T_age and get the mean.
 
-
-# In[32]:
-
-
+# %% {"code_folding": [0]}
 #Create Table1
 
 table1 = np.zeros((3,7))
@@ -1048,10 +988,7 @@ table1[0,5]=(AgeMeans.mNrm[99] - AgeMeans.cNrm[99])
 #Target net wealth
 table1[0,6]=baseEx_inf.solution[0].mNrmSS - baseEx_inf.cFunc[0](baseEx_inf.solution[0].mNrmSS)
 
-
-# In[33]:
-
-
+# %% {"code_folding": [0]}
 #g=1.04 Model
 
 #Growth rate of aggregate consumption
@@ -1075,10 +1012,7 @@ table1[1,5]=(AgeMeans.mNrmg[99] - AgeMeans.cNrmg[99])
 #Target net wealth
 table1[1,6]=baseEx_infg.solution[0].mNrmSS - baseEx_infg.cFunc[0](baseEx_infg.solution[0].mNrmSS)
 
-
-# In[34]:
-
-
+# %% {"code_folding": [0]}
 #Discount Factor=0.9 Model
 
 #Growth rate of aggregate consumption
@@ -1102,26 +1036,14 @@ table1[2,5]=(AgeMeans.mNrmd[99] - AgeMeans.cNrmd[99])
 #Target net wealth
 table1[2,6]=baseEx_infd.solution[0].mNrmSS - baseEx_infd.cFunc[0](baseEx_infd.solution[0].mNrmSS)
 
-
-# In[35]:
-
-
+# %% {"code_folding": [0]}
 # Data frame of the results we calculated
 table = pd.DataFrame(table1)
-table.columns = ['Agg Cons Growth Rate', 'Perm Inc Av Growth Rate', 'Cons Av Growth Rate', 'Agg Saving Rate', 'Av MPC','Av Net Wealth','Target Net Wealth'] # add names for columns
+table.columns = ['Growth rate of aggregate consumption', 'Average growth rate of household permanent income', 'Average growth rate of household consumption', 'Aggregate personal saving rate', 'Average MPC out of wealth','Average net wealth','Target net wealth'] # add names for columns
 table.index = ['Base Model','g = .04','DiscFac = .90']
 table
 
-#create tabular version of the dataframe and export it
-from tabulate import tabulate
-headers = ['Agg Cons Growth Rate', 'Perm Inc Av Growth Rate', 'Cons Av Growth Rate', 'Agg Saving Rate', 'Av MPC','Av Net Wealth','Target Net Wealth']
-tab1 = tabulate(table,headers, tablefmt='latex')
-table_1 = open('Paper/Tables/table1.tex','w')
-table_1.write(tab1)
-
-# In[36]:
-
-
+# %% {"code_folding": [0]}
 # Calibrate Table 2
 
 # Preliminary setup and parameter definitions
@@ -1149,10 +1071,8 @@ base_params['CubicBool']    = True    # Use cubic spline interpolation
 base_params['T_cycle']      = 1       # No 'seasonal' cycles
 base_params['BoroCnstArt']  = None    # No artificial borrowing constraint
 
-
-# In[37]:
-
-
+# %%
+# Do the experiment showing the results of a higher growth rate
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 #Base Model
@@ -1168,10 +1088,8 @@ baseEx_inf.unpackcFunc()
 baseEx_infg.solve()
 baseEx_infg.unpackcFunc()
 
-
-# In[38]:
-
-
+# %%
+# 
 import math
 from scipy.optimize import fsolve
 
@@ -1188,10 +1106,8 @@ for i in range(8):
         return table2[i-1,5]-table2[i-1,4]-(1-(x**(-1)*((x*DiscFac)**(1/CRRA))))*((1/(1-(1.03/x)))-(1/(1-(1.02/x))))
     table2[i-1,7] = fsolve(func, 1.1) -1                   #Implied discount rate of future income
 
-
-# In[39]:
-
-
+# %%
+#
 from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
 
 base_params['PermGroFac']=[1.02] #Set to original value
@@ -1206,19 +1122,13 @@ baseEx_inf_PF.unpackcFunc()
 baseEx_inf_PFg.solve()
 baseEx_inf_PFg.unpackcFunc()
 
-
-# In[40]:
-
-
+# %%
 for i in range(8):
     table2[i-1,1] = baseEx_inf_PF.cFunc[0](0.4*i)            #Consumption in certainty model when permanent income growth rate is 2%
     table2[i-1,2] = baseEx_inf_PFg.cFunc[0](0.4*i)           #Consumption in certainty model when permanent income growth rate is 3%
     table2[i-1,3] = (table2[i-1,2] - table2[i-1,1])/DeltaHW  #MPC out of human wealth in certainty model
 
-
-# In[41]:
-
-
+# %%
 # Data frame of the results we calculated
 
 table = pd.DataFrame(table2)
@@ -1226,13 +1136,7 @@ table.columns = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC
 table.index =['','','','','','','']
 table
 
-#create tabular version of the dataframe and export it
-from tabulate import tabulate
-headers = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC out of human wealth','BS Consumption g=2%', 'BS Consumption g=3%', 'BS MPC out of human wealth', 'BS Implied Discount Rate of Future Income'] # add names for columns
-tab2 = tabulate(table,headers, tablefmt='latex')
-table_2 = open('Paper/Tables/table2.tex','w')
-table_2.write(tab2)
-
+# %% [markdown]
 # ### Conclusion 
-# 
+#
 # This paper argues that the buffer-stock version of the LC/PIH model is closer both to the behaviour of the typical household and to Friedman's original conception of the Permanent Income Hypothesis model. It can explain why consumption tracks income closely when aggregated by groups or in whole economies, but is often sharply different from income at the level of individual households. The model is consistent having higher MPC out of transitory income without imposing liquidity constraints. Further, it provides an explanation for why median household wealth/income ratios have remained roughly stable despite a sharp slowdown in expected income growth. 
