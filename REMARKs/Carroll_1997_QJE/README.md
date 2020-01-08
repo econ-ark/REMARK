@@ -11,6 +11,7 @@ The do_all.py file will run generate all of the relevant figures and tables and 
 * The do_all.py file is similar to the Carroll_1997_QJE.ipynb notebook. They are different in that the do_all.py file includes code that saves the figures and tables.
 
 The notebook is located in /Code/Python. It is named "Carroll_1997_QJE.ipynb".
+* The notebook creates a clone of itself as a .py file if it is run.
 
 The Econ-ARK/HARK toolkit must be preinstalled. Please refer to https://github.com/econ-ark/HARK to install the required toolkit.
 
