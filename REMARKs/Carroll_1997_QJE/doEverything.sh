@@ -4,7 +4,7 @@ scriptDir="$(realpath $(dirname "$0"))" # get the path to this script itself
 
 sudo echo 'Authorizing sudo.'
 
-python ./Carroll_1997_QJE.py #save figures and tables
+python ./do_all.py #create and save figures and tables
 
 cd Paper
 pdflatex main.tex #creates the main paper and aux file
