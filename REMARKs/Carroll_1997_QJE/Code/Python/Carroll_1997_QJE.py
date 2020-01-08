@@ -359,7 +359,6 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$', fontsize=20)
 plt.ylabel('Growth', fontsize=20)
 plt.legend()
-plt.savefig('Paper/Figures/Figure1a.png')
 
 # %% {"code_folding": [0]}
 # Create a new consumer instance with lower permanent income growth (1.005)
@@ -470,7 +469,6 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$',fontsize=20)
 plt.ylabel('Growth',fontsize=20)
 plt.legend()
-plt.savefig('Paper/Figures/Figure1b.png')
 
 # %% [markdown]
 # ### Methods of Solution
@@ -641,7 +639,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Unskilled Laborers')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5a.png')
 
 plt.figure()
 
@@ -652,7 +649,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Operatives')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5b.png')
 
 plt.figure()
 
@@ -663,7 +659,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Managers')
 plt.ylim(0.8,2.5)
-plt.savefig('Paper/Figures/Figure5c.png')
 
 # %% [markdown]
 # Results show the parallel until the age of 45 or 50. Then retirement savings allow income profile to rise above the consumption profile in the years immediately before the retirement.
@@ -760,7 +755,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VI: Standard Lifecycle Model')
-plt.savefig('Paper/Figures/Figure6.png')
 
 # %% {"code_folding": [0]}
 # Parameter setup and model solving to simulate Figure VII (Wealth for faster and slower income growth in a bufferstock model)
@@ -840,7 +834,6 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VII: Buffer Stock Lifecycle Model')
-plt.savefig('Paper/Figures/Figure7.png')
 
 # %% [markdown]
 # ### Variation of Parameter Values
@@ -1059,13 +1052,6 @@ table.columns = ['Growth rate of aggregate consumption', 'Average growth rate of
 table.index = ['Base Model','g = .04','DiscFac = .90']
 table
 
-#create tabular version of the dataframe and export it
-from tabulate import tabulate
-headers = ['Agg Cons Growth Rate', 'Perm Inc Av Growth Rate', 'Cons Av Growth Rate', 'Agg Saving Rate', 'Av MPC','Av Net Wealth','Target Net Wealth']
-tab1 = tabulate(table,headers, tablefmt='latex')
-table_1 = open('Paper/Tables/table1.tex','w')
-table_1.write(tab1)
-
 # %% {"code_folding": [0]}
 # Preliminary parameter setup to calibrate Table 2
 
@@ -1157,13 +1143,6 @@ table = pd.DataFrame(table2)
 table.columns = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC out of human wealth','BS Consumption g=2%', 'BS Consumption g=3%', 'BS MPC out of human wealth', 'BS Implied Discount Rate of Future Income'] # add names for columns
 table.index =['','','','','','','']
 table
-
-#create tabular version of the dataframe and export it
-from tabulate import tabulate
-headers = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC out of human wealth','BS Consumption g=2%', 'BS Consumption g=3%', 'BS MPC out of human wealth', 'BS Implied Discount Rate of Future Income'] # add names for columns
-tab2 = tabulate(table,headers, tablefmt='latex')
-table_2 = open('Paper/Tables/table2.tex','w')
-table_2.write(tab2)
 
 # %% [markdown]
 # ### Conclusion 
