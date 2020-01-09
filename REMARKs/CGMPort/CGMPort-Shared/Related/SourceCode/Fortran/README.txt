@@ -1,1 +1,0 @@
-Downloaded from http://faculty.london.edu/fgomes/research.html
