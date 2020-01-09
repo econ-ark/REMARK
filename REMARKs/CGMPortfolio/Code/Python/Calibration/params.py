@@ -194,7 +194,7 @@ dict_portfolio = {
                    'RiskyCount': 3,
                    'RiskyShareCount': 30,
                   
-                   # Grid stuff? 
+                   # Grid 
                    'aXtraMin': 0.001,
                    'aXtraMax': 400,
                    'aXtraCount': 400,

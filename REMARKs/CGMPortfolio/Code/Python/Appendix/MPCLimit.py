@@ -21,12 +21,13 @@ if __name__ == '__main__':
 else:
     # Running from do_ALL
     my_file_path = os.path.dirname(os.path.abspath("do_ALL.py"))
-
+    my_file_path = os.path.join(my_file_path,"Code/Python/")
+    
 FigPath = os.path.join(my_file_path,"Figures/")
 
 # %% Import calibration
 # Import parameters from external file
-sys.path.append(os.path.realpath('../')) 
+sys.path.append(my_file_path) 
 # Loading the parameters from the ../Code/Calibration/params.py script
 from Calibration.params import dict_portfolio, time_params
 

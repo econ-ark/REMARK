@@ -1,3 +1,6 @@
+import sys
+sys.path.append('./Code/Python/')
+
 # %% Set up plot displays
 import matplotlib
 from IPython import get_ipython
