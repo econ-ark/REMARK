@@ -1,4 +1,4 @@
-# Runtime ~1300 seconds
+# Runtime ~600 seconds
 import sys
 sys.path.append('./Code/Python/')
 
@@ -34,18 +34,3 @@ import Comparison.ComparePolFuncs
 # life.
 print('5. Present more detailed figures on discrepancies for the last periods of life.')
 import Comparison.Compare_last_periods
-
-# %% Appendix
-
-print('6. Compare HARK\'s risky share policy functions at their limits with Merton\'s theoretical result.')
-import Appendix.MertonSamuelson
-
-# 7. Use HARK to compare the limiting MPC to the theoretical result obtained
-# when there is no income risk and no riskless asset.
-print('7. Use HARK to compare the limiting MPC to the theoretical result obtained when there is no income risk and no riskless asset.')
-import Appendix.MPCLimit
-
-# 8. Turn off all shocks and check if consumption converges to its analytical
-# perfect foresight solution
-print('8. Turn off all shocks and check if consumption converges to its analytical perfect foresight solution')
-import Appendix.PF_analytical_sol
