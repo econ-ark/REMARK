@@ -1,0 +1,25 @@
+\input{./econtexRoot}\input{\econtexRoot/econtexPaths}\documentclass[titlepage]{\econtex}\providecommand{\texname}{CGMPort}% Indicate the keyname for the bibtex entry corresponding to this paper
+
+\usepackage{\econtexRoot/CGMPortfolio}
+
+\begin{document}
+
+\renewcommand{\onlyinsubfile}[1]{}
+\renewcommand{\notinsubfile}[1]{#1}
+
+\subfile{CGMPortfolio-NoAppendix}
+
+\hypertarget{Appendices}{}
+\appendix \centerline{\LARGE Appendices}\vspace{0.2in}
+	\subfile{\ApndxDir/ApndxSensitivityAnalysis}
+
+
+\clearpage\vfill\eject
+
+\normalsize
+
+\bibliography{\econtexRoot/CGMPortfolio-Add}
+
+\end{document}
+
+
