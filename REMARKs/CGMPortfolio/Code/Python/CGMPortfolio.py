@@ -21,9 +21,11 @@
 #
 #  - Notebook created by [Mateo Velásquez-Giraldo](https://github.com/Mv77) and [Matthew Zahn](https://sites.google.com/view/matthew-v-zahn/matthew-v-zahn).
 #
-#  This notebook uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the linked paper. The main HARK tool used here is the $\texttt{PortfolioConsumerType}$ class. For an introduction to this module, see the [HARK's Documentation](https://hark.readthedocs.io/en/latest/).
+# This notebook uses the [Econ-ARK/HARK](https://github.com/econ-ark/hark) toolkit to describe the main results and reproduce the figures in the linked paper. The main HARK tool used here is the $\texttt{PortfolioConsumerType}$ class. For an introduction to this module, see the [HARK's Documentation](https://hark.readthedocs.io/en/latest/).
 #
-#  We thank Chris Carroll and Sylvain Catherine for comments and guidance
+# Our results using the HARK toolkit resemble those of the original paper, but we have not been able to replicate its results exactly for reasons that we have not been able to track down. We suspect there might be subtleties in the normalization or calibration that we have missed and that could be causing the discrepancies. We would be thankful if a reader (or the original authors) were able to discover the reason for the discrepancies, and could issue a pull request for a revision that reconciles them.
+#
+# We thank Chris Carroll and Sylvain Catherine for comments and guidance.
 
 # %%
 # This cell does some preliminary set up
