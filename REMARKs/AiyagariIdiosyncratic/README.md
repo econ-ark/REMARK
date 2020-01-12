@@ -1,12 +1,12 @@
 1. Start with a Ubuntu Virtual Machine that has Anaconda 3 installed on it. Launch the virtual machine. In a unix shell, execute the commands:
 
-     ???    pip install econ-ark
+     ​    pip install econ-ark
    
-     ???    git clone https://github.com/zhang13atJHUecon/REMARK.git
+     ​    git clone https://github.com/zhang13atJHUecon/REMARK.git
    
-     ???    cd REMARK/REMARKs/AiyagariIdiosyncratic
+     ​    cd REMARK/REMARKs/AiyagariIdiosyncratic
      
-     ???    sudo ./doEverything.sh
+     ​    sudo ./doEverything.sh
 
 
 2. The following graph contains main files and shows how this folder is structured.
