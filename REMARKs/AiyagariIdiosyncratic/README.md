@@ -7,7 +7,8 @@
      *     cd REMARK/REMARKs/AiyagariIdiosyncratic
      
      *     sudo ./doEverything.sh
-
+    
+(It takes around 2 minutes to run the 'doEverything.sh')
 
 2. The following graph contains main files and shows how this folder is structured.
 
