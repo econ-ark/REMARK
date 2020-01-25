@@ -8,9 +8,10 @@
 
 # Code Essentials
 #Import quantecon (!pip install quantecon)
+!pip install quantecon
 #Tauchen method is needed from quantecon to approximate the Markov Process
 
-get_ipython().run_line_magic('matplotlib', 'notebook')
+get_ipython().run_line_magic('matplotlib', 'auto')
 import numpy as np
 from quantecon.markov.approximation import tauchen
 import scipy.optimize as opt
