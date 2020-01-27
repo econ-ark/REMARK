@@ -10,10 +10,6 @@
 	path = REMARKs/cstwMPC
 	url = https://github.com/llorracc/cstwMPC.git
 	branch = master
-[submodule "REMARKs/LiqConstr"]
-	path = REMARKs/LiqConstr
-	url = https://github.com/llorracc/LiqConstr
-	branch = master
 [submodule "REMARKs/BufferStockTheory"]
 	path = REMARKs/BufferStockTheory
 	url = https://github.com/llorracc/BufferStockTheory.git
