@@ -14,4 +14,6 @@
 	path = REMARKs/BufferStockTheory
 	url = https://github.com/llorracc/BufferStockTheory.git
 	branch = master
-	
+[submodule "REMARKs/LiqConstr/Paper-Original"]
+	path = REMARKs/LiqConstr/Paper-Original
+	url = https://github.com/llorracc/LiqConstr
