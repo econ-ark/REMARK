@@ -87,6 +87,10 @@ aPts = 1000 # Number of points to plot
 eevalgrid = np.linspace(aMin,aMax,aPts)
 
 # Ages at which the plots will be generated
+# this should be something like this instead of hard coding
+# ages = age_plot_params
+# maybe we could make this something like
+# age = [t_start, (t_start + t_end)*0.75, t_end - 1, t_end]
 ages = [20,75,99,100]
 
 # Plot our approximation at every age

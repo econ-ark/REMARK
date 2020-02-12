@@ -90,6 +90,7 @@ aMax = 10  # Maximum ratio of assets to income to plot
 aPts = 100 # Number of points to plot 
 agrid = np.linspace(aMin,aMax,aPts) # range of values of assets for the plot
 
+# ages list should be a function of time_params instead of hard coded values
 ages = [97,98,99,100]
 ages = [55,99,100]
 age_born = time_params['Age_born']
