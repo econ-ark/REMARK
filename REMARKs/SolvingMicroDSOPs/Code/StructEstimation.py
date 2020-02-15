@@ -19,7 +19,7 @@ import sys
 import csv
 import numpy as np                              # Numeric Python
 import pylab                                    # Python reproductions of some Matlab functions
-from time import time, clock                    # Timing utility
+from time import time                           # Timing utility
 
 # Import modules from core HARK libraries:
 import HARK.ConsumptionSaving.ConsIndShockModel as Model # The consumption-saving micro model
@@ -311,9 +311,9 @@ def main(estimate_model=local_estimate_model, compute_standard_errors=local_comp
         print('--------------------------------------------------------------------------------')
         print('Now estimating the model using Nelder-Mead from an initial guess of ' + str(initial_guess) + '...')
         print('--------------------------------------------------------------------------------')            
-        t_start_estimate = clock()
+        t_start_estimate = time()
         model_estimate = minimizeNelderMead(smmObjectiveFxnReduced,initial_guess,verbose=True)
-        t_end_estimate = clock()
+        t_end_estimate = time()
         time_to_estimate = t_end_estimate-t_start_estimate
         print('Time to execute all:', round(time_to_estimate/60.,2), 'min,', time_to_estimate, 'sec')
         print('Estimated values: DiscFacAdj=' + str(model_estimate[0]) + ', CRRA=' + str(model_estimate[1]))
@@ -342,9 +342,9 @@ def main(estimate_model=local_estimate_model, compute_standard_errors=local_comp
             print("This will take approximately", round(t_bootstrap_guess/60.,2), "min, ", t_bootstrap_guess, "sec")
         except:
             pass
-        t_start_bootstrap = clock()
+        t_start_bootstrap = time()
         std_errors = calculateStandardErrorsByBootstrap(model_estimate,N=Params.bootstrap_size,seed=Params.seed,verbose=True)
-        t_end_bootstrap = clock()
+        t_end_bootstrap = time()
         time_to_bootstrap = t_end_bootstrap-t_start_bootstrap
         print('Time to execute all:', round(time_to_bootstrap/60.,2), 'min,', time_to_bootstrap, 'sec')
         print('Standard errors: DiscFacAdj--> ' + str(std_errors[0]) + ', CRRA--> ' + str(std_errors[1]))
@@ -361,7 +361,7 @@ def main(estimate_model=local_estimate_model, compute_standard_errors=local_comp
         print('````````````````````````````````````````````````````````````````````````````````')
         print("Creating the contour plot.")
         print('````````````````````````````````````````````````````````````````````````````````')
-        t_start_contour = clock()
+        t_start_contour = time()
         grid_density = 20   # Number of parameter values in each dimension
         level_count = 100   # Number of contour levels to plot
         DiscFacAdj_list = np.linspace(0.85,1.05,grid_density)
@@ -374,7 +374,7 @@ def main(estimate_model=local_estimate_model, compute_standard_errors=local_comp
                 CRRA = CRRA_list[k]
                 smm_obj_levels[j,k] = smmObjectiveFxn(DiscFacAdj,CRRA)
         smm_contour = pylab.contourf(CRRA_mesh,DiscFacAdj_mesh,smm_obj_levels,level_count)
-        t_end_contour = clock()
+        t_end_contour = time()
         time_to_contour = t_end_contour-t_start_contour
         print('Time to execute all:', round(time_to_contour/60.,2), 'min,', time_to_contour, 'sec')
         pylab.colorbar(smm_contour)

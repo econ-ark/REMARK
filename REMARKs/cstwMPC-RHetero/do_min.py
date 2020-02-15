@@ -11,7 +11,7 @@ import os
 
 import numpy as np
 from copy import copy, deepcopy
-from time import clock
+from time import time
 from HARK.utilities import approxMeanOneLognormal, combineIndepDstns, approxUniform, \
                            getPercentiles, getLorenzShares, calcSubpopAvg, approxLognormal
 from HARK.simulation import drawDiscrete
@@ -604,10 +604,10 @@ def main():
                                         center = center,
                                         spread = 0.0,
                                         dist_type = dist_type)
-    t_start = clock()
+    t_start = time()
     center_estimate = brentq(paramPointObjective,param_range[0],param_range[1],xtol=1e-6)
     spread_estimate = 0.0
-    t_end = clock()
+    t_end = time()
 
     # Display statistics about the estimated model
     EstimationEconomy.LorenzBool = True
