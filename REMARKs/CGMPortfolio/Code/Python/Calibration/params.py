@@ -105,10 +105,10 @@ b1=0.16818
 b2=-0.0323371/10
 b3=0.0019704/100
 
-t_start = 20
-t_ret   = 65 # We are currently interpreting this as the last period of work
-t_end   = 100
-time_params = {'Age_born': t_start, 'Age_retire': t_ret, 'Age_death': t_end}
+time_params = {'Age_born': 20, 'Age_retire': 65, 'Age_death': 100}
+t_start = time_params['Age_born']
+t_ret   = time_params['Age_retire'] # We are currently interpreting this as the last period of work
+t_end   = time_params['Age_death']
 
 # They assume retirement income is a fraction of labor income in the
 # last working period
@@ -216,3 +216,5 @@ dict_portfolio = {
                    'aNrmInitMean': -50.0, # Agents start with 0 assets (this is log-mean)
                    'aNrmInitStd' : 0.0
 }
+
+age_plot_params = [20, 30, 55, 75]

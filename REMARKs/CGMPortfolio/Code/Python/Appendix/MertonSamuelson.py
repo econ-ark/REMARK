@@ -29,7 +29,7 @@ FigPath = os.path.join(my_file_path,"Figures/")
 # Import parameters from external file
 sys.path.append(my_file_path) 
 # Loading the parameters from the ../Code/Calibration/params.py script
-from Calibration.params import dict_portfolio, time_params, det_income, Mu, Rfree, Std, norm_factor
+from Calibration.params import dict_portfolio, time_params, det_income, Mu, Rfree, Std, norm_factor, age_plot_params
 
 # Create new dictionary
 merton_dict = copy(dict_portfolio)
@@ -58,7 +58,7 @@ agent.MertSamCampVicShare = agent.RiskyShareLimitFunc(RiskyDstnFunc(merton_dict[
 eevalgrid = np.linspace(0,aMax,aPts) # range of values of assets for the plot
 
 # Plot by ages
-ages = [20,30,55,75]
+ages = age_plot_params
 age_born = time_params['Age_born']
 plt.figure()
 for a in ages:

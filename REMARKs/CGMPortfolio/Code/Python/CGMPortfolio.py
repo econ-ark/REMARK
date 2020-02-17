@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -195,7 +195,7 @@ import sys,os
 # The following code navigates to another directory where a python script with the parameters for the model is saved.
 sys.path.append(os.path.realpath('Calibration/')) 
 # Loading the parameters from the Calibration/params.py script
-from params import dict_portfolio, time_params, det_income
+from params import dict_portfolio, time_params, det_income, age_plot_params
 
 
 # %% [markdown]
@@ -261,7 +261,7 @@ plt.figure()
 # so portfolio choice is irrelevant
 
 # Ages
-ages = [20,30,55,75]
+ages = age_plot_params
 age_born = time_params['Age_born']
 for a in ages:
     plt.plot(eevalgrid,
@@ -295,7 +295,7 @@ else:
 # %%
 # Plot consumption function
 plt.figure()
-ages = [20,35,65,85]
+ages = age_plot_params
 for a in ages:
     plt.plot(eevalgrid,
              agent.solution[a-age_born].cFunc[0][0](eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],

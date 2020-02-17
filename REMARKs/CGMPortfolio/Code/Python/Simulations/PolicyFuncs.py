@@ -27,7 +27,7 @@ FigPath = os.path.join(my_file_path,"Figures/")
 
 sys.path.append(my_file_path) 
 # Loading the parameters from the ../Code/Calibration/params.py script
-from Calibration.params import dict_portfolio, time_params, norm_factor
+from Calibration.params import dict_portfolio, time_params, norm_factor, age_plot_params
 
 agent = cpm.PortfolioConsumerType(**dict_portfolio)
 agent.solve()
@@ -40,7 +40,7 @@ eevalgrid = np.linspace(0,300,100)
 # so portfolio choice is irrelevant
 
 # Ages
-ages = [20,30,55,75]
+ages = age_plot_params
 age_born = time_params['Age_born']
 plt.figure()
 for a in ages:
@@ -65,7 +65,7 @@ plt.pause(1)
 
 # Plot consumption function
 plt.figure()
-ages = [20,35,65,85]
+ages = age_plot_params
 for a in ages:
     plt.plot(eevalgrid,
              agent.solution[a-age_born].cFunc[0][0](eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],
