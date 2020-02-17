@@ -48,16 +48,18 @@ RiskyDrawFunc = cpm.LogNormalRiskyDstnDraw(RiskyAvg=mu, RiskyStd=Std) # Generate
 pf_dict['approxRiskyDstn'] = RiskyDstnFunc
 pf_dict['drawRiskyFunc'] = RiskyDrawFunc
 
+t_cycle = pf_dict['T_cycle']
 # No income shocks
-pf_dict['PermShkStd'] = [0]*80
-pf_dict['TranShkStd'] = [0]*80
+pf_dict['PermShkStd'] = [0]*t_cycle
+pf_dict['TranShkStd'] = [0]*t_cycle
+
 
 # Make agent live for sure until the terminal period
-pf_dict['T_retire'] = 80 
-pf_dict['LivPrb'] = [1]*80
+pf_dict['T_retire'] = t_cycle
+pf_dict['LivPrb'] = [1]*t_cycle
 
 # Shut down income growth
-pf_dict['PermGroFac'] = [1]*80
+pf_dict['PermGroFac'] = [1]*t_cycle
 
 # Decrease grid for speed
 pf_dict['aXtraCount'] = 100
@@ -91,9 +93,11 @@ aPts = 100 # Number of points to plot
 agrid = np.linspace(aMin,aMax,aPts) # range of values of assets for the plot
 
 # ages list should be a function of time_params instead of hard coded values
-ages = [97,98,99,100]
-ages = [55,99,100]
+# ages = [97,98,99,100]
+# ages = [55,99,100]
+age_death = time_params['Age_death']
 age_born = time_params['Age_born']
+ages = [(age_born + age_death)//2, age_death - 1, age_death]
 
 # Consumption Comparison -- Levels
 fig, axs = plt.subplots(1, len(ages))

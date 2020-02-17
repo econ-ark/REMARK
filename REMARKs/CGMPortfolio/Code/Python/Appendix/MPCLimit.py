@@ -90,8 +90,10 @@ eevalgrid = np.linspace(aMin,aMax,aPts)
 # this should be something like this instead of hard coding
 # ages = age_plot_params
 # maybe we could make this something like
-# age = [t_start, (t_start + t_end)*0.75, t_end - 1, t_end]
-ages = [20,75,99,100]
+t_start = time_params['Age_born']
+t_end = time_params['Age_death']
+ages = [t_start, int((t_end - t_start)*0.75), t_end - 1, t_end]
+# ages = [20,75,99,100]
 
 # Plot our approximation at every age
 plt.figure()
