@@ -1,6 +1,6 @@
 # Cocco, Gomes, & Maenhout (2005), "[Consumption and Portfolio Choice Over the Life Cycle](https://academic.oup.com/rfs/article-abstract/18/2/491/1599892)"
 
-# A replication by [Mateo Velásquez-Giraldo](https://github.com/Mv77) and [Matthew Zahn](https://sites.google.com/view/matthew-v-zahn/matthew-v-zahn).
+# A replication by [Mateo Velásquez-Giraldo](https://mv77.github.io/) and [Matthew Zahn](https://sites.google.com/view/matthew-v-zahn/matthew-v-zahn).
 
 **Quick launch**: the following link launches a Jupyter notebook with the main results.
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/matthew-zahn/CGMPort/master?filepath=CGMPort-Public%2FCode%2FPython%2FCGM_REMARK.ipynb) **TODO: Point link to REMARK repo after merge. Currently points to MVZ's repo.**
