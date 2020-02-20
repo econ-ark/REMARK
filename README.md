@@ -18,7 +18,7 @@ Types of content include (see below for elaboration):
 ## REMARK Guidelines
 
 Every remark *must* have the following content (described in more detail in sections below):
-1. `do_all.py`
+1. `do_all_code.sh`
     * This should be at the root level of the directory
 1. In `Code/Python` an eponymous Jupyter Notebook
     * For example, `Code/Python/BufferStockTheory.ipynb`
