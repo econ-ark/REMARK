@@ -16,7 +16,7 @@ be (re)created in the out directory.
 """
 import os
 import sys
-from time import clock
+from time import time
 from do_min import timestr, get_user_input
 
 
@@ -31,28 +31,28 @@ if __name__ == '__main__':
         print('Building plots...')
         sys.stdout.flush()
         ### Rebuild plots ###
-        t_start = clock()
+        t_start = time()
         import model_plots
         import sparsity
-        t_end = clock()
+        t_end = time()
         print('Building plots took' + timestr(t_end-t_start) + ' seconds.')
         sys.stdout.flush()
     
         ### Compute standard errors for parameter estimates ###
         print('Computing parameter standard errors...')
         sys.stdout.flush()
-        t_start = clock()
+        t_start = time()
         import comp_SEs
-        t_end = clock()
+        t_end = time()
         print('Computing standard errors for param. estimates took ' + timestr(t_end-t_start) + ' seconds.')
         sys.stdout.flush()
     
         ### Perform welfare simulations for structural models###
         print('Performing welfare simulations...')
         sys.stdout.flush()
-        t_start = clock()
+        t_start = time()
         import model_welfare
-        t_end = clock()
+        t_end = time()
         print('Welfare simulations took' + timestr(t_end-t_start) + ' seconds.')
         sys.stdout.flush()
     

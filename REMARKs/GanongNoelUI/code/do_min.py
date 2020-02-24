@@ -15,7 +15,7 @@ parameters will be (re)created in the out directory.
 
 import os
 import sys
-from time import clock
+from time import time
 
 ### Helper funcs ###
 def timestr(seconds):
@@ -46,10 +46,10 @@ if __name__ == '__main__':
         print('building plots...')
         sys.stdout.flush()
         ### Rebuild plots ###
-        t_start = clock()
+        t_start = time()
         import model_plots
         import sparsity
-        t_end = clock()
+        t_end = time()
         print('Building plots took' + timestr(t_end-t_start) + ' seconds.')
         sys.stdout.flush()
         
