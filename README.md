@@ -1,4 +1,4 @@
-# Replications and Explorations Made using the ARK (REMARK)
+# R[eplications/eproductions] and Explorations Made using ARK (REMARK)
 
 This collects and organizes self-contained and complete projects written using the Econ-ARK.
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
