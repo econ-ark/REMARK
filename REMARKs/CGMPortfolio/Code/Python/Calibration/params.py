@@ -156,20 +156,8 @@ Rfree = 1.02
 Mu = 0.06 # Equity premium
 Std = 0.157 # standard deviation of rate-of-return shocks
 
-# Normal Risky Rate test
-# RiskyDstnFunc = lambda count: approxNormal(count, mu = Mu + Rfree, sigma = Std)
-# RiskyDrawFunc = lambda rngSeed: drawNormal(1, mu = Mu + Rfree, sigma = Std,
-#                                            seed = rngSeed)
-
-# Make a [list] of beliefs about Mu and Std by age
-# Allows beliefs to vary with age (and, depending on 
-# implementation in simulation, potentially outcomes as well)
-# For example, inexperience might cause low returns when young,
-# and cognitive decline when old 
-RiskyAvg = [Mu + Rfree]*(t_end - t_start)
-RiskyStd = [Std]*(t_end - t_start)
-RiskyAvgTrue = Mu + Rfree
-RiskyStdTrue = Std
+RiskyAvg = Mu + Rfree
+RiskyStd = Std
 
 # Make a dictionary to specify the rest of params
 dict_portfolio = { 
@@ -201,8 +189,6 @@ dict_portfolio = {
                     # Portfolio related params
                    'RiskyAvg': RiskyAvg,
                    'RiskyStd': RiskyStd,
-                   'RiskyAvgTrue': RiskyAvgTrue,
-                   'RiskyStdTrue': RiskyStdTrue,
                    'RiskyCount': 3,
                    'RiskyShareCount': 30,
                   
