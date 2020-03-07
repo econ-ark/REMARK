@@ -2,10 +2,10 @@ import argparse
 import yaml
 import subprocess
 
-ORIGIN = f"https://github.com/mriduls/REMARK"
+ORIGIN = f"https://github.com/econ-ark/REMARK"
 PR = f"1"
-DOCKER_IMAGE = f"mriduls/econ-ark-notebook"
-DO_FILE = f"do_ALL.py"
+DOCKER_IMAGE = f"econark/econ-ark-notebook"
+DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
 PATH_TO_FIGURES = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures/"
 PATH_TO_SCRIPT = f"REMARK/REMARKs/CGMPortfolio"
@@ -32,10 +32,10 @@ container_id = subprocess.run(
     ["docker", "run", "-v", mount, "-d", DOCKER_IMAGE], stdout=subprocess.PIPE, stderr=subprocess.PIPE
 )
 container_id = container_id.stdout.decode("utf-8")[:-1]
-# fetch the PR
+# pull the master branch
 subprocess.run(
     [
-        f'docker exec -it {container_id} bash -c "cd REMARK; git fetch {ORIGIN} +refs/pull/{PR}/merge; git checkout FETCH_HEAD"'
+        f'docker exec -it {container_id} bash -c "cd REMARK; git pull {ORIGIN} master"'
     ],
     shell=True,
 )
@@ -79,8 +79,10 @@ dict_portfolio_keys = [
     "IncUnempRet",
     "BoroCnstArt",
     "tax_rate",
-    "approxRiskyDstn",
-    "drawRiskyFunc",
+    "RiskyAvg",
+    "RiskyStd",
+    "RiskyAvgTrue",
+    "RiskyStdTrue",
     "RiskyCount",
     "RiskyShareCount",
     "aXtraMin",
@@ -179,3 +181,4 @@ for parameter in config_parameters:
 
 subprocess.run([f"docker stop {container_id}"], shell=True)
 subprocess.run([f"rm params.py params_init.py"], shell=True)
+
