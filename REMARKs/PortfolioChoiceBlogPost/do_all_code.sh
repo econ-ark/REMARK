@@ -1,1 +1,1 @@
-python configurator.py config.yaml
+python cgm_configurator.py config.yaml
