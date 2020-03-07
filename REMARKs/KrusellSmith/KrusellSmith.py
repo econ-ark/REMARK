@@ -146,16 +146,19 @@
 
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
-import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
+# import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
    # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
 # %matplotlib inline
 
 # Import the plot-figure library matplotlib
-from HARK.utilities import plotFuncs, plotFuncsDer
+import numpy as np
+import matplotlib.pyplot as plt
+from HARK.utilities import plotFuncs, plotFuncsDer, make_figs
+from copy import deepcopy
 
 # %% {"code_folding": [0]}
 # Import components of HARK needed for solving the KS model
-from   HARK.ConsumptionSaving.ConsAggShockModel import *
+# from   HARK.ConsumptionSaving.ConsAggShockModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 
 # Markov consumer type that allows aggregate shocks (redundant but instructive)
@@ -386,7 +389,8 @@ y1 = KSEconomy.AFunc[1](x)
 plt.plot(x,y0)
 plt.plot(x,y1)
 plt.xlim([bottom, top])
-remark.show('aggregate_savings')
+make_figs('aggregate_savings', True, False)
+# remark.show('aggregate_savings')
 
 
 print('Consumption function at each aggregate market resources gridpoint (in general equilibrium):')
@@ -396,8 +400,9 @@ KSAgent.unpackcFunc()
 for M in KSAgent.Mgrid:
     c_at_this_M = KSAgent.solution[0].cFunc[0](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,c_at_this_M)
+make_figs('consumption_function', True, False)
 
-remark.show('consumption_function')
+# remark.show('consumption_function')
 
 print('Savings at each individual market resources gridpoint (in general equilibrium):')
 fig = plt.figure()
@@ -408,8 +413,9 @@ for M in KSAgent.Mgrid:
     s_at_this_M = m_grid-KSAgent.solution[0].cFunc[1](m_grid,M*np.ones_like(m_grid))
     c_at_this_M = KSAgent.solution[0].cFunc[1](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,s_at_this_M)
-    
-remark.show('savings_function')
+make_figs('savings_function', True, False)
+
+# remark.show('savings_function')
 
 # %% [markdown]
 # ### The Wealth Distribution in KS
@@ -448,7 +454,8 @@ plt.xlabel('Percentile of net worth')
 plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
-remark.show('wealth_distribution_1')
+make_figs('wealth_distribution_1', True, False)
+# remark.show('')
 
 # %%
 # Calculate a measure of the difference between the simulated and empirical distributions
@@ -530,7 +537,9 @@ plt.xlabel('Percentile of net worth')
 plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
-remark.show('wealth_distribution_2')
+make_figs('wealth_distribution_2', True, False)
+
+# remark.show('wealth_distribution_2')
 
 # %% {"code_folding": []}
 # The mean levels of wealth for the three types of consumer are 
@@ -547,7 +556,9 @@ for i in range(len(MyTypes)):
         plt.yticks([])
 plt.legend(loc=2)
 plt.title('Log Wealth Distribution of 3 Types')
-remark.show('log_wealth_3_types')
+make_figs('log_wealth_3_types', True, False)
+
+# remark.show('log_wealth_3_types')
 
 fig = plt.figure()
 # %% {"code_folding": []}
@@ -555,7 +566,9 @@ fig = plt.figure()
 plt.hist(np.log(sim_wealth),bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
 plt.yticks([])
 plt.title('Log Wealth Distribution of Original Model with One Type')
-remark.show('log_wealth_1')
+make_figs('log_wealth_1', True, False)
+
+# remark.show('log_wea`lth_1')
 
 # %% [markdown]
 # ### Target Wealth is Nonlinear in Time Preference Rate
@@ -586,4 +599,6 @@ theta = np.linspace(0.023,0.10,100)
 plt.plot(theta,1/(theta*(1+(theta-r)/sigma)-r))
 plt.xlabel(r'$\theta$')
 plt.ylabel('Target wealth')
-remark.show('target_wealth')
+make_figs('target_wealth', True, False)
+
+# remark.show('target_wealth')
