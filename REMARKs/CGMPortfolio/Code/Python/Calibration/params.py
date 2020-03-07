@@ -161,6 +161,9 @@ Std = 0.157 # standard deviation of rate-of-return shocks
 # RiskyDrawFunc = lambda rngSeed: drawNormal(1, mu = Mu + Rfree, sigma = Std,
 #                                            seed = rngSeed)
 
+# Make a [list] of beliefs about Mu and Std by age
+# Allows beliefs to vary with age (and, depending on implementation in simulation, potentially outcomes as well)
+# For example, youth and inexperience might cause low returns when young, and cognitive decline when old 
 RiskyAvg = [Mu + Rfree]*(t_end - t_start)
 RiskyStd = [Std]*(t_end - t_start)
 RiskyAvgTrue = Mu + Rfree
