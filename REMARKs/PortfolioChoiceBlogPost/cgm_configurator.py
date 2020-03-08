@@ -39,6 +39,7 @@ subprocess.run(
     ],
     shell=True,
 )
+subprocess.run([f"docker exec -it  {container_id} bash -c 'pip install https://github.com/econ-ark/hark/archive/ImproveConsPortfolioModel.zip'"], shell=True)
 # copy the params file to params_init file
 subprocess.run(
     [
@@ -104,7 +105,6 @@ dict_portfolio_keys = [
 parameters_update = [
     "from .params_init import dict_portfolio, time_params, Mu, Rfree, Std, det_income, norm_factor, age_plot_params",
     "import numpy as np",
-    "from HARK.utilities import approxNormal",
 ]
 for parameter in config_parameters:
     print(f"Running docker instance against parameters: {parameter} ")
@@ -144,7 +144,7 @@ for parameter in config_parameters:
         for item in parameters_update:
             f.write("%s\n" % item)
     # restart parameter update list
-    parameters_update = parameters_update[0:3]
+    parameters_update = parameters_update[0:2]
     # copy new parameters file to the REMARK
     subprocess.run(
         [
@@ -181,4 +181,3 @@ for parameter in config_parameters:
 
 subprocess.run([f"docker stop {container_id}"], shell=True)
 subprocess.run([f"rm params.py params_init.py"], shell=True)
-
