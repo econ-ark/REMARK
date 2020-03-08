@@ -156,10 +156,8 @@ Rfree = 1.02
 Mu = 0.06 # Equity premium
 Std = 0.157 # standard deviation of rate-of-return shocks
 
-# Normal Risky Rate test
-RiskyDstnFunc = lambda count: approxNormal(count, mu = Mu + Rfree, sigma = Std)
-RiskyDrawFunc = lambda rngSeed: drawNormal(1, mu = Mu + Rfree, sigma = Std,
-                                           seed = rngSeed)
+RiskyAvg = Mu + Rfree
+RiskyStd = Std
 
 # Make a dictionary to specify the rest of params
 dict_portfolio = { 
@@ -189,8 +187,8 @@ dict_portfolio = {
                    'tax_rate':0.0,
                    
                     # Portfolio related params
-                   'approxRiskyDstn': RiskyDstnFunc,
-                   'drawRiskyFunc': RiskyDrawFunc,
+                   'RiskyAvg': RiskyAvg,
+                   'RiskyStd': RiskyStd,
                    'RiskyCount': 3,
                    'RiskyShareCount': 30,
                   
