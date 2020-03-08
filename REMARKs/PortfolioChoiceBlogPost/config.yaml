@@ -21,10 +21,17 @@
 #   TranShkStd: np.random.randint(600, 1600, size=58)/10000
 #   PermShkStd: np.random.randint(300, 700, size=58)/10000
 
-Parameters_base:
-  Age_born: 20
-  Age_retire: 65
-  Age_death: 100
+risky_age:
+  RiskyAvg: np.array([1.06]*20 + [1.08]*20 + [1.10]*20 + [1.08]*20)
+  RiskyStd: np.array([0.15]*20 + [0.17]*20 + [0.19]*20 + [0.21]*20)
+  RiskyAvgTrue: 1.08
+  RiskyStdTrue: 0.16
+  
+ 
+# Parameters_base:
+#   Age_born: 20
+#   Age_retire: 65
+#   Age_death: 100
 
 # Parameters_1940s_shocks:
 #   Age_born: 27
