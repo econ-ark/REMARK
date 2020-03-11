@@ -7,11 +7,11 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.1
 #   kernelspec:
-#     display_name: Python 3.7 econ-ark
+#     display_name: Python 3
 #     language: python
-#     name: econ-ark
+#     name: python3
 # ---
 
 # %% [markdown]
@@ -135,7 +135,7 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0, 6]}
+# %% {"code_folding": [0]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
@@ -156,7 +156,7 @@ import matplotlib.pyplot as plt
 from HARK.utilities import plotFuncs, plotFuncsDer, make_figs
 from copy import deepcopy
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Import components of HARK needed for solving the KS model
 # from   HARK.ConsumptionSaving.ConsAggShockModel import *
 import HARK.ConsumptionSaving.ConsumerParameters as Params
