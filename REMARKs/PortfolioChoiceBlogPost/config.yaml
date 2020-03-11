@@ -24,12 +24,12 @@
 #   RiskyAvgTrue: 1.08
 #   RiskyStdTrue: 0.16
 
-# death_at_90:
-#   Age_death: 90
+death_at_90:
+  Age_death: 90
   
-Parameters_base:
-  Age_born: 20
-  Age_retire: 65
+# Parameters_base:
+#   Age_born: 20
+#   Age_retire: 65
 #   Age_death: 90
 
 # Parameters_1940s_shocks:
