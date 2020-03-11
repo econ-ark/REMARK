@@ -103,7 +103,7 @@ dict_portfolio_keys = [
 ]
 
 parameters_update = [
-    "from .params_init import dict_portfolio, time_params, Mu, Rfree, Std, det_income, norm_factor, age_plot_params",
+    "from .params_init import dict_portfolio, time_params, Mu, Rfree, Std, det_income, norm_factor, age_plot_params, repl_fac, a, b1, b2, b3, std_perm_shock, std_tran_shock",
     "import numpy as np",
 ]
 for parameter in config_parameters:
@@ -120,15 +120,32 @@ for parameter in config_parameters:
                 f"dict_portfolio['T_cycle'] = time_params['Age_death'] - time_params['Age_born']"
             )
             parameters_update.append(
-                f"dict_portfolio['T_retire'] = time_params['Age_retire'] - time_params['Age_born']"
+                f"dict_portfolio['T_retire'] = time_params['Age_retire'] - time_params['Age_born'] + 1"
             )
             parameters_update.append(
                 f"dict_portfolio['T_sim'] = (time_params['Age_death'] - time_params['Age_born'] + 1)*50"
             )
-
+            # fix notches (income growth and more parameters depends on age parameters)
+            age_varying_paramters = [
+            "f = np.arange(time_params['Age_born'], time_params['Age_retire'] + 1, 1)",
+            "f = a + b1*f + b2*(f**2) + b3*(f**3)",
+            "det_work_inc = np.exp(f)",
+            "det_ret_inc = repl_fac*det_work_inc[-1]*np.ones(time_params['Age_death'] - time_params['Age_retire'])",
+            "det_income = np.concatenate((det_work_inc, det_ret_inc))",
+            "gr_fac = np.exp(np.diff(np.log(det_income)))",
+            "std_tran_vec = np.array([std_tran_shock]*(time_params['Age_death'] - time_params['Age_born']))",
+            "std_perm_vec = np.array([std_perm_shock]*(time_params['Age_death'] - time_params['Age_born']))",
+            "dict_portfolio['PermGroFac'] = gr_fac.tolist()",
+            "dict_portfolio['pLvlInitMean'] = np.log(det_income[0])",
+            "dict_portfolio['TranShkStd'] = std_tran_vec",
+            "dict_portfolio['PermShkStd'] = std_perm_vec"
+            ]
+            for para_age in age_varying_paramters:
+                parameters_update.append(para_age)
         # check if it's det_income
         elif key in ["det_income"]:
             parameters_update.append(f"det_income = np.array({val})")
+            parameters_update.append("dict_portfolio['pLvlInitMean'] = np.log(det_income[0])")
         # check if it's in dict_portfolio
         elif key in dict_portfolio_keys:
             parameters_update.append(f"dict_portfolio['{key}'] = {val}")
@@ -139,7 +156,9 @@ for parameter in config_parameters:
     parameters_update.append(
                 f"dict_portfolio['LivPrb'] = dict_portfolio['LivPrb'][(time_params['Age_born'] - 20):(time_params['Age_death'] - 20)]"
             )
-    print(parameters_update)
+    for i in parameters_update:
+        print(i)
+        print('\n')
     with open("params.py", "w") as f:
         for item in parameters_update:
             f.write("%s\n" % item)
