@@ -2,7 +2,8 @@ import argparse
 import yaml
 import subprocess
 
-ORIGIN = f"https://github.com/econ-ark/REMARK"
+ORIGIN = f"https://github.com/mriduls/REMARK"
+REMARK_BRANCH = f"updateCGM"
 PR = f"1"
 DOCKER_IMAGE = f"econark/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
@@ -35,7 +36,7 @@ container_id = container_id.stdout.decode("utf-8")[:-1]
 # pull the master branch
 subprocess.run(
     [
-        f'docker exec -it {container_id} bash -c "cd REMARK; git pull {ORIGIN} master"'
+        f'docker exec -it {container_id} bash -c "cd REMARK; git pull {ORIGIN} {REMARK_BRANCH}"'
     ],
     shell=True,
 )
