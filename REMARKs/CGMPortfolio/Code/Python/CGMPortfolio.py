@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 # Import relevenat HARK tools
-import HARK.ConsumptionSaving.ConsPortfolioModel as cpm
+import HARK.ConsumptionSaving.ConsPortfolioModelALT as cpm
 
 # This is a jupytext paired notebook that autogenerates BufferStockTheory.py
 # which can be executed from a terminal command line via "ipython BufferStockTheory.py"
