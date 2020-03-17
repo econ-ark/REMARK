@@ -115,3 +115,44 @@ plt.savefig(os.path.join(FigPath, figname + '.svg'))
 plt.ioff()
 plt.draw()
 plt.pause(1)
+
+
+# %% Risky Share with 100-age rule
+
+# Find age percentiles
+AgePC5 = Data.groupby(['Age']).quantile(0.05).reset_index()
+AgePC95 = Data.groupby(['Age']).quantile(0.95).reset_index()
+
+plt.figure()
+plt.ylim([0, 1.1])
+plt.plot(AgeMeans.Age, AgeMeans.rShare, label = 'Mean')
+plt.plot(AgePC5.Age, AgePC5.rShare, '--k')
+plt.plot(AgePC95.Age, AgePC95.rShare, '--k', label = 'Perc. 5 and 95')
+# 100 age rule
+x = range(time_params['Age_born'], time_params['Age_death'] + 1)
+# before retirement
+y1 = range(100 - time_params['Age_retire'], 100 - time_params['Age_born'] + 1)[::-1]
+y1 = np.array(y1)/100
+# after retirement
+y2 = range(100 - time_params['Age_death'], 100 - time_params['Age_retire'])[::-1]
+y2 = np.array(y2)/100*0.5 + (100-time_params['Age_retire'])/100*0.5
+y = np.concatenate((y1, y2))
+plt.plot(x, y, '--', label = '100-age rule')
+plt.legend()
+
+plt.xlabel('Age')
+plt.ylabel('Risky Share')
+plt.title('Risky Portfolio Share Mean Conditional on Survival')
+plt.grid()
+
+# Save figure
+figname = 'RShare_Means_100_age'
+plt.savefig(os.path.join(FigPath, figname + '.png'))
+plt.savefig(os.path.join(FigPath, figname + '.jpg'))
+plt.savefig(os.path.join(FigPath, figname + '.pdf'))
+plt.savefig(os.path.join(FigPath, figname + '.svg'))
+
+plt.ioff()
+plt.draw()
+plt.pause(1)
+
