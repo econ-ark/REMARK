@@ -1,0 +1,7 @@
+# # ####
+risky_age:
+  RiskyAvg: np.array([1.06]*80)
+  RiskyStd: np.concatenate((np.array([0.16]*40),np.linspace(0.16,0.32,num=40)))
+  RiskyAvgTrue: 1.06
+  RiskyStdTrue: 0.16
+
