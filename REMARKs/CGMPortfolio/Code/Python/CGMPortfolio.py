@@ -389,7 +389,7 @@ agent.T_sim = 80*50
 agent.initializeSim()
 agent.simulate()
 
-raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'],
+raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'] - 1,
             'pIncome': agent.pLvlNow_hist.flatten(),
             'rShare': agent.RiskyShareNow_hist.flatten(),
             'nrmM': agent.mNrmNow_hist.flatten(),
@@ -430,6 +430,7 @@ AgePC5 = Data.groupby(['Age']).quantile(0.05).reset_index()
 AgePC95 = Data.groupby(['Age']).quantile(0.95).reset_index()
 
 plt.figure()
+plt.ylim([0, 1.1])
 plt.plot(AgeMeans.Age, AgeMeans.rShare, label = 'Mean')
 plt.plot(AgePC5.Age, AgePC5.rShare, '--k')
 plt.plot(AgePC95.Age, AgePC95.rShare, '--k', label = 'Perc. 5 and 95')
