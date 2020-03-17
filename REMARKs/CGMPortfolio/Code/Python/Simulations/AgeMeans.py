@@ -8,6 +8,7 @@ Created on Tue Dec 10 15:10:36 2019
 import HARK.ConsumptionSaving.ConsPortfolioModel as cpm
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 # %% Set up figure path
 import sys,os
@@ -20,11 +21,11 @@ else:
     # Running from do_ALL
     my_file_path = os.path.dirname(os.path.abspath("do_ALL.py"))
     my_file_path = os.path.join(my_file_path,"Code/Python/")
-    
+
 FigPath = os.path.join(my_file_path,"Figures/")
 
 # %% Calibration and solution
-sys.path.append(my_file_path) 
+sys.path.append(my_file_path)
 # Loading the parameters from the ../Code/Calibration/params.py script
 from Calibration.params import dict_portfolio, time_params
 
