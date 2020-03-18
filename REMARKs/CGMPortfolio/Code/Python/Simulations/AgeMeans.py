@@ -131,13 +131,8 @@ plt.plot(AgePC5.Age, AgePC5.rShare, '--k')
 plt.plot(AgePC95.Age, AgePC95.rShare, '--k', label = 'Perc. 5 and 95')
 # 100 age rule
 x = range(time_params['Age_born'], time_params['Age_death'] + 1)
-# before retirement
-y1 = range(100 - time_params['Age_retire'], 100 - time_params['Age_born'] + 1)[::-1]
-y1 = np.array(y1)/100
-# after retirement
-y2 = range(100 - time_params['Age_death'], 100 - time_params['Age_retire'])[::-1]
-y2 = np.array(y2)/100*0.5 + (100-time_params['Age_retire'])/100*0.5
-y = np.concatenate((y1, y2))
+y = range(100 - time_params['Age_death'], 100 - time_params['Age_born'] + 1)[::-1]
+y = np.array(y)/100
 plt.plot(x, y, '--', label = '100-age rule')
 plt.legend()
 
