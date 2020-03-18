@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.6
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -155,7 +155,7 @@
 #
 # Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and reaches a low point of about 70 percent for people nearing retirement.
 #
-# ![CRRA_3_Equity_Premium_1](figures/Figure_CRRA_3_Equity_Premium_1/RShare_Means.png)
+# ![CRRA_3_Equity_Premium_1](figures/figure_CRRA_3_Equity_Premium_1/RShare_Means.png)
 
 # %% [markdown]
 # ### Comparison to Professional Advice
