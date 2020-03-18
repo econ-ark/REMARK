@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -165,7 +165,7 @@
 #
 # That is what is done in the last figure below.  
 #
-# ![risky_age](figures/figure_risky_age/RShare_Means.png)
+# ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png)
 
 # %% [markdown]
 # ### Other Experiments
