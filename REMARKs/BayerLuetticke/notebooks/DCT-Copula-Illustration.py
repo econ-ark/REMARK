@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.1
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -38,7 +38,7 @@
 # $[\frac{d v}{d m} = \frac{d u}{d c}]$.
 # In practice, the authors solve their problem using the marginal value of money $\texttt{Vm} = dv/dm$, but because the marginal utility function is invertible it is trivial to recover $\texttt{c}$ from $(u^{\prime})^{-1}(\texttt{Vm} )$.  The consumption function is therefore computed from the $\texttt{Vm}$ function
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Setup stuff
 
 # This is a jupytext paired notebook that autogenerates a corresponding .py file
@@ -76,7 +76,7 @@ code_dir = os.path.join(my_file_path, "../Assets/Two")
 sys.path.insert(0, code_dir)
 sys.path.insert(0, my_file_path)
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 # Load precalculated Stationary Equilibrium (StE) object EX3SS
 
 import pickle
@@ -171,7 +171,7 @@ print('The copula consists of two parts: gridpoints and values at those gridpoin
       '\n state variables are below the corresponding point.')
 
 
-# %% {"code_folding": []}
+# %% {"code_folding": [0]}
 ## Import BL codes
 
 import sys 
@@ -198,7 +198,7 @@ import seaborn as sns
 import copy as cp
 from scipy import linalg   #linear algebra 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Choose an aggregate shock to perturb(one of three shocks: MP, TFP, Uncertainty)
 
 # EX3SS['par']['aggrshock']           = 'MP'
@@ -222,7 +222,7 @@ EX3SS['par']['sigmaS'] = 0.54    # STD of variance shocks
 ### EX3SS is precomputed steady-state pulled in above
 EX3SS['par']['accuracy'] = 0.99999
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Implement state reduction and DCT
 ### Do state reduction on steady state
 EX3SR=FluctuationsTwoAsset(**EX3SS)   # Takes StE result as input and get ready to invoke state reduction operation
@@ -638,7 +638,7 @@ for hgrid_id in range(EX3SS['mpar']['nh']):
               ['Full-grid c','Approx c','Joint distribution'],
               loc=0)
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## 3D scatter plots of the difference of full-grid c and approximated c for non-adjusters
 
 fig = plt.figure(figsize=(14,14))
@@ -947,7 +947,7 @@ for hgrid_id in range(EX3SS['mpar']['nh']):
 # %% [markdown]
 # Notice the CDFs in StE copula have 4 modes, corresponding to the number of $h$ gridpoints. Each of the four parts of the cdf is a joint-distribution of $m$ and $k$.  It can be presented in 3-dimensional graph as below.  
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 ## Plot the copula 
 # same plot as above for only 90 percent of the distributions 
 

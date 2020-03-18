@@ -66,7 +66,7 @@
 #
 # which, for many types of problems, implies a corresponding Euler equation: <!-- Question: Why isn't R a t+1 dated variable (and inside the expectations operator? -->
 #      \begin{equation}
-#         u^{\prime}\left(x(s_{it},S_t,\mu_t)\right) = \beta \mathbb{E}_{t} R(S_t,\mu_t) u^{\prime}\left(x(s_{it+1},S_{t+1},\mu_{t+1})\right)
+#         u^{\prime}\left(s_{it},x(s_{it},S_t,\mu_t)\right) = \beta \mathbb{E}_{t} R(S_t,S_{t+1},\mu_t,\mu_{t+1}) u^{\prime}\left(s_{it+1},x(s_{it+1},S_{t+1},\mu_{t+1})\right)
 #      \end{equation}
 #      
 
@@ -80,7 +80,7 @@
 #       * Representing the nodes of the discretization in a set of vectors
 #       * Such vectors will be represented by an overbar
 #       * For example, the vectors $\bar{s}_{it}$ and $\bar{c}_{it}$ define a set of points on the policy function (the consumption function)
-#    * The optimal policy $\newcommand{\policy}{c}\newcommand{\Policy}{C}\policy(s_{it};P)$ induces flow utility $u_{\policy}$ whose discretization is a vector $\bar{u}_{\bar{\policy}}$
+#    * The optimal policy $\newcommand{\policy}{c}\newcommand{\Policy}{C}\policy(s_{it};P(\mu))$ induces flow utility $u_{\policy}$ whose discretization is a vector $\bar{u}_{\bar{\policy}}$
 #    * Idiosyncratic dynamics are captured by a transition probability matrix $\Pi_{\bar{\policy}}$
 #        * $\Pi$ is like an expectations operator
 #            * Given the consumer's state in $t$ it measures the probability of being in any other state in period $t+1$
@@ -94,8 +94,8 @@
 #      holds for the optimal policy
 #    * For the distribution $\mu$ of consumers across states, which (by the definition of steady state) is constant:   
 # \begin{eqnarray}
-#         \bar{\mu} & = & \bar{\mu} \Pi_{\bar{\policy}} %\\
-# %        d\bar{\mu} & = & d\bar{\mu} \Pi_{\bar{\policy}}
+#         \bar{\mu} & = & \bar{\mu} \Pi_{\bar{\policy}} \\
+#         d\bar{\mu} & = & d\bar{\mu} \Pi_{\bar{\policy}}
 # \end{eqnarray}
 # <!--     where we differentiate in the second line because we will be representing the distribution as a histogram, which counts the _extra_ population obtained by moving up --> <!-- Is this right?  $\mu$ vs $d \mu$ is a bit confusing.  The d is wrt the state, not time, right? -->
 #      
@@ -190,7 +190,6 @@ os.chdir(code_dir) # Go to the directory with pickled code
 ## EX3SS_20.p is the information in the stationary equilibrium (20: the number of illiquid and liquid weath grids )
 EX3SS=pickle.load(open("EX3SS_20.p", "rb"))
 
-## WangTao: Find the code that generates this
 
 # %% [markdown]
 # #### Compact notation
@@ -339,7 +338,7 @@ EX3SS=pickle.load(open("EX3SS_20.p", "rb"))
 #    - Monetary policy
 # - Central bank
 #    - Taylor rule on nominal saving rate $R^B$: reacts to deviation of inflation from target by $\theta_R$ 
-#    - $\rho_R$: policy innertia
+#    - $\rho_R$: policy inertia
 #    - $\epsilon^R$: monetary policy shocks
 # - Government (fiscal rule)
 #    - Government spending $G$ 
