@@ -94,13 +94,15 @@
 #
 # The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with typical risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
 #
-# <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
 # <center><big>
 #     Portfolio Choice for Moderately Risk Averse Consumer
 #     </big>
 # <center>
 #     <img src='figures/figure_CRRA_3/RShare_Means.png'>
 # </center>
+#     
+# ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png)
+#     
 
 # %% [markdown]
 # Of course, your optimal portfolio share in risky asset depends on your perception of the degree of riskiness and the average extra return you expect stocks will yield over the long run (the "equity premium").
@@ -134,7 +136,7 @@
 #     <img src='figures/figure_Parameters_base/RShare_Means.png'>
 # </center>
 #     
-# <!-- ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png) -->
+# ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png)
 
 # %% [markdown]
 # ## What Do People Actually Do?
@@ -179,7 +181,7 @@
 # </center>
 #
 #     
-# <!-- ![RShare_Means](figures/figure_equity_0p02/RShare_Means.png)-->
+# ![RShare_Means](figures/figure_equity_0p02/RShare_Means.png)
 #
 
 # %% [markdown]
@@ -197,7 +199,7 @@
 # </center>
 #
 #
-# <!-- ![CRRA_3_Equity_Premium_2](figures/Figure_CRRA_3_Equity_Premium_2/RShare_Means.png) -->
+# ![CRRA_3_Equity_Premium_2](figures/Figure_CRRA_3_Equity_Premium_2/RShare_Means.png)
 
 # %% [markdown]
 # ### Comparison to Professional Advice
@@ -225,7 +227,7 @@
 #     <img src='figures/figure_risky_age/RShare_Means_100_age.png'>
 # </center>
 #
-# <!-- ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png) -->
+# ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png)
 
 # %% [markdown]
 # ### Other Experiments
@@ -244,7 +246,7 @@
 #     <img src='figures/Figure_Parameters_1940s_shocks/RShare_Means.png'>
 # </center>
 #
-# <!--     ![Parameters_1940s_shocks](figures/Figure_Parameters_1940s_shocks/RShare_Means.png) -->
+# ![Parameters_1940s_shocks](figures/Figure_Parameters_1940s_shocks/RShare_Means.png)
 #
 # Many other experiments are possible in the framework, but the conclusion is always the same: Even if people expect that stock returns in the future will be substantially lower than they have been in the past, for most people most of the time, the return on stock market investments more than compensates for any reasonable degree of risk aversion.
 
