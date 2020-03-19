@@ -44,13 +44,14 @@
 # %% [markdown]
 # # Optimal Portfolio Choice over the Life Cycle
 #
-# Economists like to compare actual behavior to the choices that would be made by a "rational" agent who understands all the complexities of a decision, and who knows how to find the mathematically optimal choice that takes those complexities into account.  
+# Economists like to compare actual human behavior to the choices that would be made by a "rational" agent who optimally takes into account all the complexities of a decision.
 #
-# Often, however, finding the optimal choice is remarkably difficult. Economists use computational tools that descend directly from the tools used originally by physicists and engineers to calculate, for example, the "optimal" trajectories for the Apollo spacecraft. 
+# But for some problems, finding the optimal choice can be remarkably difficult.  
 #
-# Surprisingly, calculating how much to save for retirement, and the optimal proportion of your portfolio to put in risky assets, is a **much** harder problem than performing the calculations for landing on the moon.  In fact, only in 2005 was the first academic paper published that made such calculations in a way realistic enough to take seriously (as we describe below).  
+# For example, calculating the optimal amount to save for retirement, and how much of those savings to invest in risky assets, is a **much** harder problem than performing the calculations required to land the Apollo spacecraft on the moon.  Indeed, the computational  tools that economists use descend directly from those originally developed for spaceflight - with 50 years of improvements in technology.
 #
-# Even today, these tools so difficult that it can take years of work for a new researcher to get to the point of being able to solve such problems themselves.  So much work is needed because each economist (or team of coauthors) has tended to construct from scratch their own elaborate and complex body of computer code tailored to solving exactly the problem they are interested in; rather than "standing on the shoulders of giants" in the great scientific tradition, everyone has had to grow to the stature of a giant themselves.
+#
+# Even now, these tools are so difficult that it can take years of work for a new researcher to reach the point of being able to solve such problems themselves.  Partly this is because each economist (or team of coauthors) has tended to construct from scratch their own elaborate and complex body of computer code tailored to solving exactly the problem they are interested in; rather than "standing on the shoulders of giants" in the great scientific tradition, everyone has had to grow to the stature of a giant themselves.
 #
 # The aim of the [Econ-ARK](https://econ-ark.org) toolkit is to address that problem by providing a set of open source software tools that can solve many computationally difficult models of optimal consumer choice; one of the early contributions of the toolkit was a tool that calculates optimal retirement saving under mostly realistic assumptions -- except that, to reduce complexity, the model makes the assumption that the consumer has no choice of how to invest their savings in "risky" (think stocks) versus "safe" (think bank accounts) assets.
 #
