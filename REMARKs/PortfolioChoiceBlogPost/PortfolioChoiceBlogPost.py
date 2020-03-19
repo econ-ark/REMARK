@@ -161,9 +161,9 @@
 #
 # The preceding figure makes the assumption that relative risk aversion is very high (6).  A natural question is whether, when people are pessimistic about the equity premium, their optimal portfolio shares might be low even at a less extreme degree of risk aversion.  
 #
-# Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 70 percent for people nearing retirement.
+# Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
 #
-# ![CRRA_3_Equity_Premium_1](figures/Figure_CRRA_3_Equity_Premium_1/RShare_Means.png)
+# ![CRRA_3_Equity_Premium_2](figures/Figure_CRRA_3_Equity_Premium_2/RShare_Means.png)
 
 # %% [markdown]
 # ### Comparison to Professional Advice
