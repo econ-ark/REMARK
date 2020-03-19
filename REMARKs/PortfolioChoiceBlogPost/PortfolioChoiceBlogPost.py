@@ -50,13 +50,13 @@
 #
 # But for some problems, finding the optimal choice is remarkably difficult.  
 #
-# Financial decisions over a lifetime are such a problem.  Determining the optimal amount to save for retirement, and how much of your savings to invest in risky versus safe assets, turns out to be mathematically **much** harder than calculating how to land the Apollo spacecraft on the moon.  In fact, the computational tools that economists now use to solve such problems descend directly from those originally developed for optimizing Apollo trajectories -- with 50 more years of development.
+# Financial decisions over a lifetime are such a problem.  Determining the optimal amount to save for retirement, and how much of your savings to invest in risky assets (like stocks) versus safe assets (like a bank account), turns out to be mathematically **much** harder than calculating how to land the Apollo spacecraft on the moon.  In fact, the computational tools that economists now use to solve such problems descend directly from those originally developed for optimizing Apollo trajectories -- with 50 more years of development.
 #
 # By 2005, those tools were finally good enough to give financial advice that deserved to be taken seriously -- if by "taken seriously" we mean that economists's own personal decisions (and the advice they give to friends and family) were influenced by the results.  (A 2005 academic paper by Cocco, Gomes, and Maenhout is now the standard reference.)
 #
 # But even today, using these tools is so difficult that it can take years of study for a new researcher to master them; as a result, most economists studying consumer financial choices still do not use them.  
 #
-# In 2015, the U.S. [Consumer Financial Protection Bureau](https://www.consumerfinance.gov) funded the creation of the [Econ-ARK](https://econ-ark.org) open source software project; its purpose is to make tools for calculating optimal financial choices much more accessible, both to scholars and to the wider public.  Thanks to subsequent [funding by the Sloan Foundation]() and the [Think Forward Institute](), the Econ-ARK team is proud to announce in this blog post the newest enhancement to the toolkit: It can now find the optimal solution to a lifetime optimal saving problem where the consumer can choose how much to invest in risky versus safe assets.
+# In 2015, the U.S. [Consumer Financial Protection Bureau](https://www.consumerfinance.gov) funded the creation of the [Econ-ARK](https://econ-ark.org) open source software project, whose purpose is to make the mathematical tools for calculating optimal financial choices much more accessible, both to scholars and to the wider public.  Thanks to subsequent [funding by the Sloan Foundation]() and the [Think Forward Institute](), the Econ-ARK team is proud to announce in this blog post the newest enhancement to the toolkit: It can now find the optimal solution to a lifetime optimal saving problem where the consumer can choose how much to invest in risky versus safe assets.
 #
 # Our hope is that eventually transparent and publicly available tools like ours will provide an alternative to the proprietary advice that has become available from "robo advisors" in the last few years (and has been available from human advisors much longer).
 #
@@ -74,9 +74,9 @@
 # %% [markdown]
 # ## The Problem
 #
-# Nobody saving for retirement really knows what the future holds. They are likely to change jobs several times during their career, and each new job will have a different profile of income growth and risk; they might develop health problems that cut short their life even before they reach retirement (in which case retirement savings would  be unnecessary), or they might turn out to be so healthy that they live to 100 (with a danger of outliving their savings).  
+# Nobody saving for retirement really knows what the future holds. They are likely to change jobs several times during their career, and each new job will have a different profile of income growth and risk; they might develop health problems that cut life short even before they reach retirement (in which case retirement savings would  be unnecessary), or they might turn out to be so healthy that they live to 100 (with a danger of outliving their savings).  
 #
-# Nor does anybody know what the payoffs will turn out to be for alternative investment choices.  Historically, "risky" assets like stocks have earned higher returns than "safe" assets like government bonds -- but there is no guarantee that will be true over any particular period.
+# Nor does anybody know what the payoffs will turn out to be for alternative investment choices.  "Risky" assets like stocks have historically earned higher returns than "safe" assets like government bonds -- but there is no guarantee that will be true over any particular period.
 #
 # Uncertainties of these (and other) kinds are why the consumer's problem is so much harder than NASA's. The motion of a spacecraft is almost perfectly predictable:  If you set it in motion in a certain direction and with a certain velocity, Newton's equations can accurately predict where it will be far into the future.  In contrast, "optimal" behavior over a life that is subject to many risks must prudently take into account all of the possible outcomes.  
 #
@@ -88,27 +88,27 @@
 #
 # ### Replicating the Standard Model
 #
-# The first use of our new `ConsPortfolioModel` tool has been to replicate the results of the above-mentioned 2005 paper (by Cocco, Gomes, and Maenhout - "CGM" for short).  Although for technical reasons our results are different in some minor respects from theirs, the "big-picture" findings are the same.
+# The first use of our new `ConsPortfolioModel` tool has been to replicate the results of the above-mentioned 2005 paper (by Cocco, Gomes, and Maenhout - "CGM" for short).  Although for technical reasons our results are slightly different than theirs, the "big-picture" findings are the same.
 #
 # A key input is a measure of the degree of consumers' ["risk aversion"](https://en.wikipedia.org/wiki/Risk_aversion).  Roughly speaking, risk aversion determines how much you are willing to pay to buy insurance against financial risks; or, if insurance is not available, how much you alter your behavior (for example, by saving more) as a precaution against the risk.  Researchers have found that many kinds of consumer behavior are consistent with values of the "relative risk aversion parameter" in the range from 2 to 4.  
 #
-# The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with typical risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings to invest in the "risky" asset (the stock market).  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
+# The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with typical risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
 #
 # ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png)
 
 # %% [markdown]
 # Of course, your optimal portfolio share in risky asset depends on your perception of the degree of riskiness and the average extra return you expect stocks will yield over the long run (the "equity premium").
 #
-# The model assumes that people expect that in the future the average equity premium and the degree of stock market riskiness will be similar to their values in the past.  Specifically, we assume that people expect an equity premium of 4 percent, because that is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.
+# The model assumes that people expect that people expect an equity premium of 4 percent, which is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.  Risk is also assumed to match the historical average.
 #
-# The inescapbalbe conclusion is that for values of risk aversion that accurately capture people's risk-related choices in other contexts, an equity premium of 4 percent a year is more than enough to compensate almost any rational agent for bearing the risk associated with that return.
+# The inescapbable conclusion is that for values of risk aversion that accurately capture people's risk-related choices in other contexts, an equity premium of 4 percent a year is more than enough to compensate almost any rational agent for bearing the risk that has typically been associated with that return.
 
 # %% [markdown]
 # ## Maybe Risk Aversion is Much Greater than 3?
 #
 # Parameters like "relative risk aversion" are slippery things to measure and calibrate.  Maybe the conventional choice of around 3, which works well to explain other choices, is inappropriate here -- maybe people just hate stock market risk much more than they hate other kinds of risk.
 #
-# The next figure shows the profile of the mean risky share if risk aversion is 6, twice the conventional value.
+# The next figure shows the profile of the mean risky share for a consumer with risk aversion of 6, twice the conventional value.
 #
 # Even with such high risk aversion, the model says that until about age 35 it is still optimal to invest all of your savings in the stock market.  After that, the risky share declines gradually until it stabilizes at around 65 percent at age 65.  (The dashing lines show the choices made by people at the 5th and 95th percentiles of the distribution of the risky share).
 #
@@ -117,8 +117,8 @@
 #    * Their income comes mostly from working in the labor market
 #    * If you have only a small amount of wealth, the absolute dollar size of the risk you are taking by investing your (modest) retirement savings in the stock market is small, so the higher expected returns more than make up for the (small) risk
 # 1. By the age of retirement, you plan to finance a lot of your spending from your savings
-#    * Investing everything in the stock market (like a young person) would put a large proportion of your retirement spending at risk from the fluctuations in the market
-#    * The "equity premium" is nevertheless large enough to make it worthwhile for most people to half or more of their assets in stocks
+#    * Investing everything in the stock market would put a large proportion of your retirement spending at risk from market fluctuations
+#    * The "equity premium" is nevertheless large enough to make it worthwhile for most people to keep half or more of their assets in stocks
 #
 # ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png)
 
@@ -147,7 +147,7 @@
 # %% [markdown]
 # #### Maybe People Are Pessimistic About the Equity Premium
 #
-# While 4 percent is a good estimate of what the equity premium has been in the past, it is possible that people do not believe that the equity premium will be as large in the future.
+# While 4 percent is a good estimate of what the equity premium has been in the past, it is possible that most people do not relize.
 #
 # The figure below shows the consequences if highly risk averse people believe the equity premium will be only two percent -- which is within the range of values that some respected economists believe might prevail in the future.
 #
