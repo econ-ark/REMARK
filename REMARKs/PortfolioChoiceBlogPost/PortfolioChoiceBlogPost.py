@@ -46,7 +46,7 @@
 #
 # <!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Mriduls/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb) -->
 #
-# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MridulS/REMARK/blob/updateCGM/REMARKs/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.ipynb/master)
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MridulS/REMARK/updateCGM?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb)
 #
 # Economists like to compare actual human behavior to the choices that would be made by a "rational" agent who optimally takes into account all the complexities of a decision.
 #
