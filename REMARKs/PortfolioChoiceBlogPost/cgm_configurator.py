@@ -40,7 +40,7 @@ subprocess.run(
     ],
     shell=True,
 )
-subprocess.run([f"docker exec -it  {container_id} bash -c 'pip uninstall econ-ark; pip install https://github.com/econ-ark/hark/archive/ImproveConsPortfolioModel.zip'"], shell=True)
+subprocess.run([f"docker exec -it  {container_id} bash -c 'pip uninstall -y econ-ark; pip install https://github.com/econ-ark/hark/archive/ImproveConsPortfolioModel.zip'"], shell=True)
 # copy the params file to params_init file
 subprocess.run(
     [
