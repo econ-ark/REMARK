@@ -1,12 +1,9 @@
 # # ####
-equity_0p03:
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.03 + 1.02, sigma = 0.157)'
+Equity_0p04:
+  RiskyAvg: 1.06
 
-equity_0p015:
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.015 + 1.02, sigma = 0.157)'
-
-equity_0p0075:
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.0075 + 1.02, sigma = 0.157)'
+Equity_0p02:
+  RiskyAvg: 1.04
 
 risky_age:
   RiskyAvg: np.array([1.06]*80)
@@ -14,36 +11,12 @@ risky_age:
   RiskyAvgTrue: 1.06
   RiskyStdTrue: 0.16
 
-CRRA_3_Equity_Premium_0p0:
-  CRRA: 3
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.000 + 1.02, sigma = 0.157)'
-  
-# CRRA_3_Equity_Premium_0p001:
-#   CRRA: 3
-#   approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.001 + 1.02, sigma = 0.157)'
-  
-# CRRA_3_Equity_Premium_0p005:
-#   CRRA: 3
-#   approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.005 + 1.02, sigma = 0.157)'
-
 CRRA_3:
   CRRA: 3
 
-CRRA_6_Equity_Premium_1:
-  CRRA: 6
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.01 + 1.02, sigma = 0.157)'
-
-CRRA_3_Equity_Premium_1:
-  CRRA: 3
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.01 + 1.02, sigma = 0.157)'
-
 CRRA_3_Equity_Premium_2:
   CRRA: 3
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.02 + 1.02, sigma = 0.157)'
-
-CRRA_3_Equity_Premium_3:
-  CRRA: 3
-  approxRiskyDstn: 'lambda count: approxNormal(count, mu = 0.03 + 1.02, sigma = 0.157)'
+  RiskyAvg: 1.04
 
 Parameters_base:
   Age_born: 20
