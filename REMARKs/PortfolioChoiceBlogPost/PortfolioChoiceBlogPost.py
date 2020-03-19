@@ -78,7 +78,7 @@
 #
 # Nor does anybody know what the payoffs will turn out to be for alternative investment choices.  Historically, "risky" assets like stocks have earned higher returns than "safe" assets like government bonds -- but there is no guarantee that will be true over any particular period.
 #
-# Uncertainties of these (and other) kinds are why the consumer's problem is so much harder than NASA's. The motion of a spacecraft is almost perfectly predictable:  If you set it in motion in a certain direction and with a certain velocity, Newton's equations can accurately predict where it will be far into the future.  In contrast, "optimal" behavior over a life that is subject to many risks must appropriately take int account all of the possible outcomes.  
+# Uncertainties of these (and other) kinds are why the consumer's problem is so much harder than NASA's. The motion of a spacecraft is almost perfectly predictable:  If you set it in motion in a certain direction and with a certain velocity, Newton's equations can accurately predict where it will be far into the future.  In contrast, "optimal" behavior over a life that is subject to many risks must prudently take into account all of the possible outcomes.  
 #
 # "Big data" now allows us to quantify the risks associated with earnings from work: We can measure how often people change jobs at each age (taking into account differing personal characteristics like education, occupation and so on), and we can measure what happens to their income after job changes.  Job-related income uncertainty can therefore be represented mathematically as a statistical distribution over the many possible future outcomes, and similarly for other kinds of risk (like health risk). When all the biggest individual risks have been quantified, we can calculate the joint probabilities of every conceivable draw of the risks, and weight each possible outcome by its probability and its desirability.  Finally, we can calculate how the ultimate outcomes (like, retirement income) depend probabilisitcally on the current choice of saving and portfolio choice, and compute which choices would be "optimal" for consumers with different preferences (toward risk, for example).
 #
@@ -92,16 +92,16 @@
 #
 # A key input is a measure of the degree of consumers' ["risk aversion"](https://en.wikipedia.org/wiki/Risk_aversion).  Roughly speaking, risk aversion determines how much you are willing to pay to buy insurance against financial risks; or, if insurance is not available, how much you alter your behavior (for example, by saving more) as a precaution against the risk.  Researchers have found that many kinds of consumer behavior are consistent with values of the "relative risk aversion parameter" in the range from 2 to 4.  
 #
-# The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with typical risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market and a "safe" asset with lower expected returns.  The figure shows the optimal risky share -- that is, the optimal proportion of savings to invest in a risky asset -- by age.  The fact that it is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
+# The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with typical risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings to invest in the "risky" asset (the stock market).  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
 #
 # ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png)
 
 # %% [markdown]
-# Of course, the optimal portfolio share to put in the risky asset depends on your perception of the degree of riskiness and the average extra return you expect stocks will yield over the long run (the "equity premium").
+# Of course, your optimal portfolio share in risky asset depends on your perception of the degree of riskiness and the average extra return you expect stocks will yield over the long run (the "equity premium").
 #
-# The model assumes that in the future the average equity premium and the degree of stock market riskiness will be similar to their values in the past.  Specifically, we assume that people expect an equity premium of 4 percent, because that is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.
+# The model assumes that people expect that in the future the average equity premium and the degree of stock market riskiness will be similar to their values in the past.  Specifically, we assume that people expect an equity premium of 4 percent, because that is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.
 #
-# The conclusion is that for values of risk aversion that accurately capture people's risk-related choices in other contexts, an equity premium of 4 percent a year is more than enough to compensate any rational agent for bearing the risk associated with that return.
+# The inescapbalbe conclusion is that for values of risk aversion that accurately capture people's risk-related choices in other contexts, an equity premium of 4 percent a year is more than enough to compensate almost any rational agent for bearing the risk associated with that return.
 
 # %% [markdown]
 # ## Maybe Risk Aversion is Much Greater than 3?
@@ -145,7 +145,7 @@
 #
 
 # %% [markdown]
-# #### Maybe People Are Pessimistic About The Future Equity Premium
+# #### Maybe People Are Pessimistic About the Equity Premium
 #
 # While 4 percent is a good estimate of what the equity premium has been in the past, it is possible that people do not believe that the equity premium will be as large in the future.
 #
@@ -159,7 +159,7 @@
 # %% [markdown]
 # #### Is Pessimism Enough?
 #
-# The preceding figure uses the baseline assumption that relative risk aversion is very high (6).  A natural question is whether when people are pessimistic about the equity premium, their optimal portfolio shares might be low even at a less extreme degree of risk aversion.  
+# The preceding figure makes the assumption that relative risk aversion is very high (6).  A natural question is whether, when people are pessimistic about the equity premium, their optimal portfolio shares might be low even at a less extreme degree of risk aversion.  
 #
 # Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 70 percent for people nearing retirement.
 #
@@ -177,11 +177,11 @@
 #
 # Financial advisors, who have daily contact with real human beings, may have an insight that the model does not incorporate:  Perhaps risk aversion increases as you get older.  
 #
-# Risk aversion is remarkably difficult to measure, and economists' efforts to determine whether it increases with age have been inconclusive, with some research finding [evidence for an increase](https://voxeu.org/article/effect-age-willingness-take-risks) (at least during working life) and others finding [little increase](https://onlinelibrary.wiley.com/doi/abs/10.1016/j.rfe.2003.09.010).  (New research suggests that any increases in risk aversion among older people reflect [cognitive decline](https://www.nature.com/articles/ncomms13822) associated with reduced ability to process information.) 
+# Risk aversion is remarkably difficult to measure, and economists' efforts to determine whether it increases with age have been inconclusive, with some studies finding [evidence for an increase](https://voxeu.org/article/effect-age-willingness-take-risks) (at least during working life) and others finding [little increase](https://onlinelibrary.wiley.com/doi/abs/10.1016/j.rfe.2003.09.010).  (New research suggests that any increases in risk aversion among older people reflect [cognitive decline](https://www.nature.com/articles/ncomms13822) associated with reduced ability to process information.) 
 #
 # For technical reasons, it is somewhat difficult to incorporate values of risk aversion that vary directly with age.  But your willingness to invest in risky assets depends on both your degree of aversion to risk and your perception of the size of the risk.  So a backdoor way to examine the consequences of risng risk aversion with age is to assume that the perceived riskiness of stock investments goes up with age.  
 #
-# That is what is done in the last figure below.  Specifically, we assume that the perceived riskiness of stock market investment doubles between age 65 and age 100.  The result now looks more like the advice of financial advisors:  Increasing _perceived_ risk as you get older persuades you to invest less in risky assets.
+# That is what is done in the figure below.  Specifically, we assume that the perceived riskiness of stock market investment doubles between age 65 and age 100.  The result now looks more like the advice of financial advisors:  Increasing _perceived_ risk as you get older persuades you to invest less in risky assets.
 #
 # ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png)
 
