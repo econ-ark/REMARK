@@ -44,7 +44,9 @@
 # %% [markdown]
 # # Optimal Financial Investment over the Life Cycle
 #
-# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb)
+# <!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Mriduls/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb) -->
+#
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MridulS/REMARK/blob/updateCGM/REMARKs/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.ipynb/master)
 #
 # Economists like to compare actual human behavior to the choices that would be made by a "rational" agent who optimally takes into account all the complexities of a decision.
 #
