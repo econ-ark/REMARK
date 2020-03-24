@@ -2,8 +2,8 @@ import argparse
 import yaml
 import subprocess
 
-ORIGIN = f"https://github.com/econ-ark/REMARK"
-PR = f"1"
+ORIGIN = f"https://github.com/mriduls/REMARK"
+REMARK_BRANCH = f"updateCGM"
 DOCKER_IMAGE = f"econark/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
@@ -35,11 +35,11 @@ container_id = container_id.stdout.decode("utf-8")[:-1]
 # pull the master branch
 subprocess.run(
     [
-        f'docker exec -it {container_id} bash -c "cd REMARK; git pull {ORIGIN} master"'
+        f'docker exec -it {container_id} bash -c "cd REMARK; git pull {ORIGIN} {REMARK_BRANCH}"'
     ],
     shell=True,
 )
-subprocess.run([f"docker exec -it  {container_id} bash -c 'pip install https://github.com/econ-ark/hark/archive/ImproveConsPortfolioModel.zip'"], shell=True)
+subprocess.run([f"docker exec -it  {container_id} bash -c 'pip uninstall -y econ-ark; pip install econ-ark==0.10.5'"], shell=True)
 # copy the params file to params_init file
 subprocess.run(
     [

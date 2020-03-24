@@ -3,6 +3,7 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
@@ -12,6 +13,32 @@
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
+#   latex_envs:
+#     LaTeX_envs_menu_present: true
+#     autoclose: false
+#     autocomplete: true
+#     bibliofile: biblio.bib
+#     cite_by: apalike
+#     current_citInitial: 1
+#     eqLabelWithNumbers: true
+#     eqNumInitial: 1
+#     hotkeys:
+#       equation: Ctrl-E
+#       itemize: Ctrl-I
+#     labels_anchors: false
+#     latex_user_defs: false
+#     report_style_numbering: false
+#     user_envs_cfg: false
 # ---
 
 # %% [markdown]
@@ -265,7 +292,7 @@ ages = age_plot_params
 age_born = time_params['Age_born']
 for a in ages:
     plt.plot(eevalgrid,
-             agent.solution[a-age_born].RiskyShareFunc[0][0](eevalgrid/norm_factor[a-age_born]),
+             agent.solution[a-age_born].ShareFuncAdj(eevalgrid/norm_factor[a-age_born]),
              label = 'Age = %i' %(a))
 plt.xlabel('Wealth')
 plt.ylabel('Risky portfolio share')
@@ -298,7 +325,7 @@ plt.figure()
 ages = age_plot_params
 for a in ages:
     plt.plot(eevalgrid,
-             agent.solution[a-age_born].cFunc[0][0](eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],
+             agent.solution[a-age_born].cFuncAdj(eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],
              label = 'Age = %i' %(a))
 plt.xlabel('Wealth')
 plt.ylabel('Consumption')
@@ -336,7 +363,7 @@ agent.AgentCount = 5 # Number of instances of the class to be simulated.
 agent.T_sim = 80
 
 # Set up the variables we want to keep track of.
-agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow', 't_age', 'RiskyShareNow','mNrmNow']
+agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow', 't_age', 'ShareNow','mNrmNow']
 
 # Run the simulations
 agent.initializeSim()
@@ -357,7 +384,7 @@ else:
     plt.show(block=True)
 
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.RiskyShareNow_hist,'.')
+plt.plot(agent.t_age_hist+time_params['Age_born'], agent.ShareNow_hist,'.')
 plt.xlabel('Age')
 plt.ylabel('Risky share')
 plt.title('Simulated Risky Portfolio Shares')
@@ -389,9 +416,9 @@ agent.T_sim = 80*50
 agent.initializeSim()
 agent.simulate()
 
-raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'],
+raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'] - 1,
             'pIncome': agent.pLvlNow_hist.flatten(),
-            'rShare': agent.RiskyShareNow_hist.flatten(),
+            'rShare': agent.ShareNow_hist.flatten(),
             'nrmM': agent.mNrmNow_hist.flatten(),
             'nrmC': agent.cNrmNow_hist.flatten()}
 
@@ -429,10 +456,14 @@ else:
 AgePC5 = Data.groupby(['Age']).quantile(0.05).reset_index()
 AgePC95 = Data.groupby(['Age']).quantile(0.95).reset_index()
 
+# plot till death - 1  
+age_1 = time_params['Age_death'] - time_params['Age_born']
+
 plt.figure()
-plt.plot(AgeMeans.Age, AgeMeans.rShare, label = 'Mean')
-plt.plot(AgePC5.Age, AgePC5.rShare, '--k')
-plt.plot(AgePC95.Age, AgePC95.rShare, '--k', label = 'Perc. 5 and 95')
+plt.ylim([0, 1.1])
+plt.plot(AgeMeans.Age[:age_1], AgeMeans.rShare[:age_1], label = 'Mean')
+plt.plot(AgePC5.Age[:age_1], AgePC5.rShare[:age_1], '--k')
+plt.plot(AgePC95.Age[:age_1], AgePC95.rShare[:age_1], '--k', label = 'Perc. 5 and 95')
 plt.legend()
 
 plt.xlabel('Age')

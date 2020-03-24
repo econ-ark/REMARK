@@ -43,10 +43,8 @@ mu = 1
 Std = 0
 
 # Turn off rate shocks
-RiskyDstnFunc = cpm.RiskyDstnFactory(RiskyAvg=mu, RiskyStd=Std) # Generates nodes for integration
-RiskyDrawFunc = cpm.LogNormalRiskyDstnDraw(RiskyAvg=mu, RiskyStd=Std) # Generates draws from the "true" distribution
-pf_dict['approxRiskyDstn'] = RiskyDstnFunc
-pf_dict['drawRiskyFunc'] = RiskyDrawFunc
+pf_dict['RiskyAvg'] = mu
+pf_dict['RiskyStd'] = Std
 
 t_cycle = pf_dict['T_cycle']
 # No income shocks
@@ -108,7 +106,7 @@ for i in range(len(ages)):
     age = ages[i]
     
     # Portfolio
-    axs[i].plot(agrid, port_agent.solution[age-age_born].cFunc[0][0](agrid),
+    axs[i].plot(agrid, port_agent.solution[age-age_born].cFuncAdj(agrid),
                 label = 'PortfolioConsumerType')
     # Perfect foresight
     axs[i].plot(agrid, pf_agent.solution[age-age_born].cFunc(agrid),
@@ -148,7 +146,7 @@ plt.pause(1)
 fig, axs = plt.subplots(1, 2)
 for a in ages:
     
-    cPort = port_agent.solution[a-age_born].cFunc[0][0](agrid)
+    cPort = port_agent.solution[a-age_born].cFuncAdj(agrid)
     cPF = pf_agent.solution[a-age_born].cFunc(agrid)
     c_true = true_cFunc(a-age_born + 1, agrid )
     

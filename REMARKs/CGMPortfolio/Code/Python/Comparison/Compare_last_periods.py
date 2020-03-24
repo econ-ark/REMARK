@@ -84,8 +84,8 @@ for i in range(len(years_comp)):
     
     year = years_comp[i]
     
-    h_cons[i,:]  = agent.solution[year].cFunc[0][0](agrid/norm_factor[year])*norm_factor[year]
-    h_share[i,:] = agent.solution[year].RiskyShareFunc[0][0](agrid/norm_factor[year])
+    h_cons[i,:]  = agent.solution[year].cFuncAdj(agrid/norm_factor[year])*norm_factor[year]
+    h_share[i,:] = agent.solution[year].ShareFuncAdj(agrid/norm_factor[year])
 
 # %% Compare the results
 
