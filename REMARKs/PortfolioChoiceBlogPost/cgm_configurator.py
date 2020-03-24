@@ -2,8 +2,8 @@ import argparse
 import yaml
 import subprocess
 
-ORIGIN = f"https://github.com/mriduls/REMARK"
-REMARK_BRANCH = f"updateCGM"
+ORIGIN = f"https://github.com/econ-ark/REMARK"
+REMARK_BRANCH = f"master"
 DOCKER_IMAGE = f"econark/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
@@ -23,7 +23,6 @@ with open(args.config, "r") as stream:
     config_parameters = yaml.safe_load(stream)
 
 print(config_parameters)
-
 
 pwd = subprocess.run(["pwd"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 mount = str(pwd.stdout)[2:-3] + ":/home/jovyan/work"
