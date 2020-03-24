@@ -4,7 +4,6 @@ import subprocess
 
 ORIGIN = f"https://github.com/mriduls/REMARK"
 REMARK_BRANCH = f"updateCGM"
-PR = f"1"
 DOCKER_IMAGE = f"econark/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
@@ -40,7 +39,7 @@ subprocess.run(
     ],
     shell=True,
 )
-subprocess.run([f"docker exec -it  {container_id} bash -c 'pip uninstall -y econ-ark; pip install https://github.com/econ-ark/hark/archive/ImproveConsPortfolioModel.zip'"], shell=True)
+subprocess.run([f"docker exec -it  {container_id} bash -c 'pip uninstall -y econ-ark; pip install econ-ark==0.10.5'"], shell=True)
 # copy the params file to params_init file
 subprocess.run(
     [
