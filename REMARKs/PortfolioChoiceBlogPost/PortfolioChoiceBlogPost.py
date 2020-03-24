@@ -46,7 +46,7 @@
 #
 # <!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Mriduls/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb) -->
 #
-# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MridulS/REMARK/blob/updateCGM/REMARKs/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.ipynb/master)
+# [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MridulS/REMARK/updateCGM?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb)
 #
 # Economists like to compare actual human behavior to the choices that would be made by a "rational" agent who optimally takes into account all the complexities of a decision.
 #
@@ -109,7 +109,7 @@
 # %% [markdown]
 # Of course, your optimal portfolio share in risky asset depends on your perception of the degree of riskiness and the average extra return you expect stocks will yield over the long run (the "equity premium").
 #
-# The model assumes that people expect that people expect an equity premium of 4 percent, which is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.  Risk is also assumed to match the historical average.
+# The model assumes that people expect an equity premium of 4 percent, which is a good estimate of what the average premium has been on stock market investments in the developed world over the past century.  Risk is also assumed to match the historical average.
 #
 # The inescapbable conclusion is that for values of risk aversion that accurately capture people's risk-related choices in other contexts, an equity premium of 4 percent a year is more than enough to compensate almost any rational agent for bearing the risk that has typically been associated with that return.
 
@@ -197,11 +197,11 @@
 #     Pessimistic and Moderately Risk Averse Consumer
 #     </big>
 # <center>
-#     <img src='figures/Figure_CRRA_3_Equity_Premium_2/RShare_Means.png'>
+#     <img src='figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png'>
 # </center>
 #
 #
-# ![CRRA_3_Equity_Premium_2](figures/Figure_CRRA_3_Equity_Premium_2/RShare_Means.png)
+# ![CRRA_3_Equity_Premium_2](figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png)
 
 # %% [markdown]
 # ### Comparison to Professional Advice
@@ -217,7 +217,7 @@
 #
 # Risk aversion is remarkably difficult to measure, and economists' efforts to determine whether it increases with age have been inconclusive, with some studies finding [evidence for an increase](https://voxeu.org/article/effect-age-willingness-take-risks) (at least during working life) and others finding [little increase](https://onlinelibrary.wiley.com/doi/abs/10.1016/j.rfe.2003.09.010).  (New research suggests that any increases in risk aversion among older people reflect [cognitive decline](https://www.nature.com/articles/ncomms13822) associated with reduced ability to process information.) 
 #
-# For technical reasons, it is somewhat difficult to incorporate values of risk aversion that vary directly with age.  But your willingness to invest in risky assets depends on both your degree of aversion to risk and your perception of the size of the risk.  So a backdoor way to examine the consequences of risng risk aversion with age is to assume that the perceived riskiness of stock investments goes up with age.  
+# For technical reasons, it is somewhat difficult to incorporate values of risk aversion that vary directly with age.  But your willingness to invest in risky assets depends on both your degree of aversion to risk and your perception of the size of the risk.  So a backdoor way to examine the consequences of rising risk aversion with age is to assume that the perceived riskiness of stock investments goes up with age.  
 #
 # That is what is done in the figure below.  Specifically, we assume that the perceived riskiness of stock market investment doubles between age 65 and age 100.  The result now looks more like the advice of financial advisors:  Increasing _perceived_ risk as you get older persuades you to invest less in risky assets.
 #
@@ -245,10 +245,10 @@
 #     Using Better Data on Income Risk By Age
 #     </big>
 # <center>
-#     <img src='figures/Figure_Parameters_1940s_shocks/RShare_Means.png'>
+#     <img src='figures/figure_Parameters_1940s_shocks/RShare_Means.png'>
 # </center>
 #
-# ![Parameters_1940s_shocks](figures/Figure_Parameters_1940s_shocks/RShare_Means.png)
+# ![Parameters_1940s_shocks](figures/figure_Parameters_1940s_shocks/RShare_Means.png)
 #
 # Many other experiments are possible in the framework, but the conclusion is always the same: Even if people expect that stock returns in the future will be substantially lower than they have been in the past, for most people most of the time, the return on stock market investments more than compensates for any reasonable degree of risk aversion.
 
