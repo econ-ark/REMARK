@@ -49,13 +49,8 @@ mpc_dict['LivPrb'] = [1]*dict_portfolio['T_cycle']
 mu = 0.05
 std = 0.1
 
-# Construct the distribution approximation for integration
-RiskyDstnFunc = lambda count: approxLognormal(count, mu = mu, sigma = std)
-# Contruct function for drawing returns
-RiskyDrawFunc = lambda seed: drawLognormal(1, mu = mu, sigma = std, seed = seed)
-
-mpc_dict['approxRiskyDstn'] = RiskyDstnFunc
-mpc_dict['drawRiskyFunc'] = RiskyDrawFunc
+mpc_dict['RiskyAvg'] = mpc_dict['Rfree'] + mu
+mpc_dict['RiskyStd'] = std
 
 agent = cpm.PortfolioConsumerType(**mpc_dict)
 agent.cylces = 0
@@ -101,8 +96,8 @@ age_born = time_params['Age_born']
 
 for a in ages:
     index = a - age_born
-    MPC_approx = agent.solution[index].cFunc[0][0](eevalgrid + 1) - \
-                 agent.solution[index].cFunc[0][0](eevalgrid)
+    MPC_approx = agent.solution[index].cFuncAdj(eevalgrid + 1) - \
+                 agent.solution[index].cFuncAdj(eevalgrid)
                  
     plt.plot(eevalgrid,
              MPC_approx,

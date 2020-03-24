@@ -78,8 +78,8 @@ h_share = np.zeros((nyears, npoints))
 # Fill with HARK's interpolated policy function at the required points
 for year in range(nyears):
     
-    h_cons[year,:]  = agent.solution[year].cFunc[0][0](agrid/norm_factor[year])*norm_factor[year]
-    h_share[year,:] = agent.solution[year].RiskyShareFunc[0][0](agrid/norm_factor[year])
+    h_cons[year,:]  = agent.solution[year].cFuncAdj(agrid/norm_factor[year])*norm_factor[year]
+    h_share[year,:] = agent.solution[year].ShareFuncAdj(agrid/norm_factor[year])
 
 # %% Compare the results
 cons_error   = h_cons - cons

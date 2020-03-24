@@ -45,7 +45,7 @@ agent.AgentCount = 5
 agent.T_sim = agent.T_cycle
 
 # Set up the variables we want to keep track of.
-agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow', 't_age', 'RiskyShareNow','mNrmNow']
+agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow', 't_age', 'ShareNow','mNrmNow']
 
 # Run the simulations
 agent.initializeSim()
@@ -71,7 +71,7 @@ plt.draw()
 plt.pause(1)
 
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.RiskyShareNow_hist,'.')
+plt.plot(agent.t_age_hist+time_params['Age_born'], agent.ShareNow_hist,'.')
 plt.xlabel('Age')
 plt.ylabel('Risky share')
 plt.title('Simulated Risky Portfolio Shares')

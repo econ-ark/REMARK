@@ -45,7 +45,7 @@ age_born = time_params['Age_born']
 plt.figure()
 for a in ages:
     plt.plot(eevalgrid,
-             agent.solution[a-age_born].RiskyShareFunc[0][0](eevalgrid/norm_factor[a-age_born]),
+             agent.solution[a-age_born].ShareFuncAdj(eevalgrid/norm_factor[a-age_born]),
              label = 'Age = %i' %(a))
 plt.xlabel('Wealth')
 plt.ylabel('Risky portfolio share')
@@ -68,7 +68,7 @@ plt.figure()
 ages = age_plot_params
 for a in ages:
     plt.plot(eevalgrid,
-             agent.solution[a-age_born].cFunc[0][0](eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],
+             agent.solution[a-age_born].cFuncAdj(eevalgrid/norm_factor[a-age_born])*norm_factor[a-age_born],
              label = 'Age = %i' %(a))
 plt.xlabel('Wealth')
 plt.ylabel('Consumption')

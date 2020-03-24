@@ -43,7 +43,7 @@ agent.T_sim = agent.T_cycle*50
 
 # Set up the variables we want to keep track of.
 agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow',
-                    't_age', 'RiskyShareNow','mNrmNow']
+                    't_age', 'ShareNow','mNrmNow']
 
 
 # Run the simulations
@@ -52,7 +52,7 @@ agent.simulate()
 
 raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'] - 1,
             'pIncome': agent.pLvlNow_hist.flatten(),
-            'rShare': agent.RiskyShareNow_hist.flatten(),
+            'rShare': agent.ShareNow_hist.flatten(),
             'nrmM': agent.mNrmNow_hist.flatten(),
             'nrmC': agent.cNrmNow_hist.flatten()}
 
