@@ -1,17 +1,13 @@
 # PortfolioChoiceBlogPost
 
+### Reproduce the results and figures
 
+You can reproduce all of the results of this REMARK on any computer that can run [docker](https://en.wikipedia.org/wiki/Docker_(software)).
 
+To install docker locally follow the [guide](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Docker#install-docker-desktop-macos-and-windows), and launch it so that it is running in the background on your computer.
 
-
-#### Reproduce the results and figures
-
-This REMARK requires docker to reproduce the results.
-Make sure you have installed Docker and it's running in the background.
-To install docker locally follow the [guide](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Docker#install-docker-desktop-macos-and-windows)
-
-
-- Clone the REMARK repository locally
+(Instructions below will work in the terminal on a Mac or Linux machine; Windows users will need to [install bash](https://itsfoss.com/install-bash-on-windows/))
+- Then [clone](https://www.toolsqa.com/git/git-clone/) the REMARK repository locally
 
 ```
 $ git clone https://github.com/econ-ark/REMARK
@@ -20,7 +16,8 @@ $ git clone https://github.com/econ-ark/REMARK
 ```
 $ cd REMARKs/PortfolioChoiceBlogPost
 ```
-as a sanity check, you can confirm the present working directory using
+
+As a sanity check, you can confirm the present working directory using
 
 ```
 $ pwd
