@@ -35,6 +35,12 @@ $ ./do_all_code.sh
 
 - This will reproduce the figures in the figures directory.
 
+- If you make any changes to the jupyter notebook you need to rerender the HTML document.
+```
+jupyter nbconvert --to html PortfolioChoiceBlogPost.ipynb
+```
+
+
 
 ## Other Experiments (Removed to Shorten Blog Post)
 
