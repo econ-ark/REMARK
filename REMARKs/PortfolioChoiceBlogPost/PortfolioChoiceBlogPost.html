@@ -13108,11 +13108,12 @@ div#notebook {
 <h2 id="The-Solution">The Solution<a class="anchor-link" href="#The-Solution">&#182;</a></h2><h3 id="Replicating-the-Standard-Model">Replicating the Standard Model<a class="anchor-link" href="#Replicating-the-Standard-Model">&#182;</a></h3><p>Our first use of <code>ConsPortfolioModel</code> has been to replicate the results of the above-mentioned 2005 paper (by Cocco, Gomes, and Maenhout - "CGM" for short).</p>
 <p>A key input is the degree of consumers' <a href="https://en.wikipedia.org/wiki/Risk_aversion">"risk aversion."</a>  Researchers have found that many kinds of consumer behavior are consistent with values of <a href="https://en.wikipedia.org/wiki/Risk_aversion#Relative_risk_aversion">"relative risk aversion"</a> in the range from 2 to 4.</p>
 <p>The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings that it would be optimal to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!</p>
-<center><big>
-    Portfolio Choice for Moderately Risk Averse Consumer
-    </big>
 <center>
     <img src='figures/figure_CRRA_3/RShare_Means.png'>
+</center>
+<center><big>
+    Figure 1: Portfolio Choice for Moderately Risk Averse Consumer
+    </big>
 </center><!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
 </div>
 </div>
@@ -13147,13 +13148,13 @@ div#notebook {
 </li>
 </ol>
 <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
-<center><big>
-    Portfolio Choice for Highly Risk Averse Consumer
-    </big>
 <center>
     <img src='figures/figure_Parameters_base/RShare_Means.png'>
 </center>
-
+<center><big>
+    Figure 2: Portfolio Choice for Highly Risk Averse Consumer
+    </big>
+</center>
 <!-- ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png) -->
 </div>
 </div>
@@ -13191,11 +13192,12 @@ div#notebook {
 <h4 id="Maybe-People-Are-Pessimistic-About-the-Equity-Premium">Maybe People Are Pessimistic About the Equity Premium<a class="anchor-link" href="#Maybe-People-Are-Pessimistic-About-the-Equity-Premium">&#182;</a></h4><p>While <a href="http://www.globalfinancialdata.com/the-equity-risk-premium/">4 percent is a reasonable estimate of what the equity premium has been in the past</a>, it is possible that most people do not <em>expect</em> such a high equity premium (and never have expected it).</p>
 <p>The figure below shows the consequences if highly risk averse people believe the equity premium will be only two percent (which is around its historical average in the U.S. before 1941, and which <a href="https://jpm.pm-research.com/content/26/1/10.abstract">some resepected economists</a> think might prevail in the future).</p>
 <p>The shape of the figure is much the same as before; in particular, the youngest people still hold 100 percent of their portfolios in risky assets.  But the proportion of their portfolios that middle-aged and older people hold in stocks falls from about 50 to about 20 percent.</p>
-<center><big>
-    Pessimistic and Highly Risk Averse Consumer
-    </big>
 <center>
     <img src='figures/figure_equity_0p02/RShare_Means.png'>
+</center>
+<center><big>
+    Figure 3: Pessimistic and Highly Risk Averse Consumer
+    </big>
 </center><!-- ![RShare_Means](figures/figure_equity_0p02/RShare_Means.png) -->
 </div>
 </div>
@@ -13205,11 +13207,12 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Is-Pessimism-Enough?">Is Pessimism Enough?<a class="anchor-link" href="#Is-Pessimism-Enough?">&#182;</a></h4><p>The preceding figure assumes that relative risk aversion is very high (6).  A natural question is whether, when people are pessimistic about the equity premium, their optimal portfolio shares might be low even at a less extreme degree of risk aversion.</p>
 <p>Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.</p>
-<center><big>
-    Pessimistic and Moderately Risk Averse Consumer
-    </big>
 <center>
     <img src='figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png'>
+</center>
+<center><big>
+    Figure 4: Pessimistic and Moderately Risk Averse Consumer
+    </big>
 </center><!-- ![CRRA_3_Equity_Premium_2](figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png) -->
 </div>
 </div>
@@ -13232,11 +13235,12 @@ div#notebook {
 <p>For technical reasons, it is somewhat difficult to model risk aversion that varies directly with age.  But your willingness to invest in risky assets depends on both your degree of aversion to risk and your perception of the size of the risk.  So a backdoor way to examine the consequences of rising risk aversion with age is to assume that the perceived riskiness of stock investments goes up with age.</p>
 <p>That is what is done in the figure below: We assume that the perceived riskiness of stock market investment doubles between age 65 and age 100.  The result now looks more like the advice of financial advisors:  Increasing <em>perceived</em> risk as you get older persuades you to invest less in risky assets.</p>
 <p>This figure suggests that the "100 minus age" rule is not too bad as an approximation of what an extremely risk averse person might want to do -- if they become more and more fearful of risk after retirement.</p>
-<center><big>
-    100 Minus Age Rule vs Optimizing Highly Risk Averse Consumer
-    </big>
 <center>
     <img src='figures/figure_risky_age/RShare_Means_100_age.png'>
+</center>
+<center><big>
+    Figure 5: 100 Minus Age Rule vs Optimizing Highly Risk Averse Consumer
+    </big>
 </center><!-- ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png) -->
 </div>
 </div>
