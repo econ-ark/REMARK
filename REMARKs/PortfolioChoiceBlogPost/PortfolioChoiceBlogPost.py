@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.6
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -85,11 +85,12 @@
 #
 # The most striking conclusion of the CGM paper is captured in the figure below.  We assume that consumers with risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower expected returns historically typical of safe assets.  The figure shows, by age, the optimal risky share -- that is, the optimal proportion of savings that it would be optimal to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that the computer says the optimal choice is always to invest 100 percent of your savings in stocks!
 #
-# <center><big>
-#     Portfolio Choice for Moderately Risk Averse Consumer
-#     </big>
 # <center>
 #     <img src='figures/figure_CRRA_3/RShare_Means.png'>
+# </center>
+# <center><big>
+#     Figure 1: Portfolio Choice for Moderately Risk Averse Consumer
+#     </big>
 # </center>
 #     
 # <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
@@ -120,13 +121,13 @@
 #    * The "equity premium" is nevertheless large enough to make it worthwhile for most people to keep half or more of their assets in stocks
 #
 # <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
-# <center><big>
-#     Portfolio Choice for Highly Risk Averse Consumer
-#     </big>
 # <center>
 #     <img src='figures/figure_Parameters_base/RShare_Means.png'>
 # </center>
-#     
+# <center><big>
+#     Figure 2: Portfolio Choice for Highly Risk Averse Consumer
+#     </big>
+# </center>
 # <!-- ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png) -->
 
 # %% [markdown]
@@ -164,11 +165,12 @@
 #
 # The shape of the figure is much the same as before; in particular, the youngest people still hold 100 percent of their portfolios in risky assets.  But the proportion of their portfolios that middle-aged and older people hold in stocks falls from about 50 to about 20 percent.
 #
-# <center><big>
-#     Pessimistic and Highly Risk Averse Consumer
-#     </big>
 # <center>
 #     <img src='figures/figure_equity_0p02/RShare_Means.png'>
+# </center>
+# <center><big>
+#     Figure 3: Pessimistic and Highly Risk Averse Consumer
+#     </big>
 # </center>
 #
 #     
@@ -182,13 +184,14 @@
 #
 # Nope.  The figure below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
 #
-# <center><big>
-#     Pessimistic and Moderately Risk Averse Consumer
-#     </big>
+#     
 # <center>
 #     <img src='figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png'>
 # </center>
-#
+# <center><big>
+#     Figure 4: Pessimistic and Moderately Risk Averse Consumer
+#     </big>
+# </center>
 #
 # <!-- ![CRRA_3_Equity_Premium_2](figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png) -->
 
@@ -212,11 +215,12 @@
 #
 # This figure suggests that the "100 minus age" rule is not too bad as an approximation of what an extremely risk averse person might want to do -- if they become more and more fearful of risk after retirement.  
 #
-# <center><big>
-#     100 Minus Age Rule vs Optimizing Highly Risk Averse Consumer
-#     </big>
 # <center>
 #     <img src='figures/figure_risky_age/RShare_Means_100_age.png'>
+# </center>
+# <center><big>
+#     Figure 5: 100 Minus Age Rule vs Optimizing Highly Risk Averse Consumer
+#     </big>
 # </center>
 #
 # <!-- ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png) -->
