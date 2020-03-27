@@ -67,7 +67,6 @@ It seems plausible that this greater uncertainty in labor earnings could account
 
 But the figure below shows that even when we update the model to incorporate the improved estimates of labor income uncertainty, the model still says that young people should have 100 percent of their savings in the risky asset.
 
-
 <center><big>
     Using Better Data on Income Risk By Age
     </big>
@@ -76,4 +75,3 @@ But the figure below shows that even when we update the model to incorporate the
 </center>
 
 
-![Parameters_1940s_shocks](figures/figure_Parameters_1940s_shocks/RShare_Means.png)
