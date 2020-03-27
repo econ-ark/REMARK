@@ -44,19 +44,21 @@
 # %% [markdown]
 # # Optimal Financial Investment over the Life Cycle
 #
+# [![econ-ark.org](https://img.shields.io/badge/Powered%20by-Econ--ARK-3e8acc.svg)](https://econ-ark.org/)
+#
 # <!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb) -->
 #
 # <!-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/REMARK/master?filepath=REMARKs%2FPortfolioChoiceBlogPost%2FPortfolioChoiceBlogPost.ipynb) -->
 #
 # Economists like to compare actual human behavior to the choices that would be made by a "rational" agent who understands all the complexities of a decision.
 #
-# But determining the mathematically optimal amount to save for retirement, and how best to invest those savings (in high-return "risky" versus low-return "safe" assets), turns out to be **much** harder than calculating how to land the Apollo spacecraft on the moon.  In fact, the computational tools that economists use to solve such optimization problems descend directly from those originally developed to calculate Apollo trajectories -- with 50 years of further development.
+# But determining the mathematically optimal amount to save for retirement, and how best to invest those savings, turns out to be **much** harder than calculating how to land the Apollo spacecraft on the moon.  In fact, the computational tools that economists use to solve such problems descend directly from those originally developed to optimize Apollo trajectories -- with 50 years of further development.
 #
 # By 2005, those tools were finally good enough to give financial advice that deserved to be taken seriously -- if by "taken seriously" we mean that economists's own personal decisions (and the advice they give to friends and family) were influenced by the results.  (A study by [Cocco, Gomes, and Maenhout](https://doi.org/10.1093/rfs/hhi017) -- CGM for short -- is the standard reference.)
 #
 # But even today, these tools are not widely used, because it still takes years of study to master them.  
 #
-# In 2015, the U.S. [Consumer Financial Protection Bureau](https://www.consumerfinance.gov) funded the creation of the [Econ-ARK](https://econ-ark.org) open source software project, whose purpose is to make such tools much more accessible, both to researchers and to the wider public.  Thanks to subsequent [funding by the Sloan Foundation](https://sloan.org) and the [Think Forward Initiative](https://www.thinkforwardinitiative.com), the Econ-ARK team is proud to announce the newest module in our toolkit: [`ConsPortfolioModel`](https://hark.readthedocs.io/en/latest/example_notebooks/ConsPortfolioModel.html) can calculate the optimal solution to a lifetime optimal saving problem where the consumer can choose how much to invest in risky (but versus safe assets.
+# In 2015, the U.S. [Consumer Financial Protection Bureau](https://www.consumerfinance.gov) funded the creation of the [Econ-ARK](https://econ-ark.org) open source software project, whose purpose is to make such tools much more accessible, both to researchers and to the wider public.  Thanks to subsequent [funding by the Sloan Foundation](https://sloan.org) and the [Think Forward Initiative](https://www.thinkforwardinitiative.com), the Econ-ARK team is proud to announce the newest module in our toolkit: [`ConsPortfolioModel`](https://hark.readthedocs.io/en/latest/api-cs-ConsPortfolioModel.html) can calculate the optimal solution to a lifetime optimal saving problem where the consumer can choose how much to invest in risky (but expected high-return) versus safe (but low-return) assets.
 #
 # Our hope is that such transparent and publicly available tools will eventually provide an alternative to the proprietary (and mysterious) advice that has recently become widely available from "robo advisors" (and the even more mysterious advice that has been available from human advisors much longer).
 
@@ -67,9 +69,9 @@
 #
 # Nor does anybody know what the payoffs will be for alternative investment choices.  "Risky" assets like stocks have historically earned higher returns than "safe" assets like government bonds -- but there is no guarantee that stocks will outperform bonds over any particular period (like, until you retire).
 #
-# Uncertainties like this are why a household's retirement savings problem is so much harder than NASA's. The motion of a spacecraft is predictable:  Point it in a certain direction with a certain velocity, and Newton's equations tell you exactly where it will be far into the future.  In contrast, over a lifetime that is vulnerable to many risks, a wise financial decision must take into account all of the possible outcomes.  
+# Uncertainties like these are why the household's problem is harder than NASA's. The motion of a spacecraft is predictable:  Point it in a certain direction with a certain velocity, and Newton's equations tell you exactly where it will be far into the future.  In contrast, over a lifetime that is vulnerable to many risks, a wise financial decision must take into account all of the possible outcomes.  
 #
-# "Big data" now allows us to quantify the biggest risks.  We can measure how often people change jobs (taking into account education, occupation and so on), and what happens to income after job changes. Job-related income uncertainty can thus be represented as a statistical distribution over the many possible future outcomes.  The same is true for other kinds of risk (like health risk). When all the biggest risks have been quantified, we can calculate the joint probabilities of every conceivable draw, and weight each outcome by its probability and its desirability.  Finally, we can calculate how the ultimate outcomes (like, retirement income) depend probabilistically on the current choice of saving and portfolio choice. `ConsPortfolioModel` does all these calculations, then computes the choices that are "optimal" for consumers with different preferences (toward risk, for example).
+# "Big data" now allows us to quantify the most important risks.  We can measure how often people change jobs (taking into account education, occupation and so on), and what happens to income after job changes. Job-related income uncertainty can thus be represented as a statistical distribution over the many possible future outcomes.  The same is true for other kinds of risk (like health risk). When all the biggest risks have been quantified, we can calculate the joint probabilities of every conceivable draw, and weight each outcome by its probability and its desirability.  `ConsPortfolioModel` calculates how the ultimate outcomes (like, retirement income) depend probabilistically on the current choice of saving and portfolio choice, then computes the choices that are "optimal" for consumers with different preferences (toward risk, for example).
 
 # %% [markdown]
 # ## The Solution
@@ -96,7 +98,7 @@
 # %% [markdown]
 # ## Maybe Risk Aversion is Much Greater than 3?
 #
-# Parameters like "relative risk aversion" are hard to measure.  Maybe the conventional value of 3, which works well to explain other choices, is inappropriate here -- maybe people just hate stock market risk more than other kinds of risk that would have similar financial consequences.
+# Parameters like "relative risk aversion" are hard to measure.  Maybe the conventional value of 3, which works well to explain other choices, is inappropriate here -- perhaps people just hate stock market risk more than other kinds of risk that would have similar financial consequences.
 #
 # The next figure shows the profile of the mean risky share for a consumer with risk aversion of 6, twice the conventional value.  (Think of your most risk-averse neighbor or relative).
 #
@@ -172,7 +174,7 @@
 #
 # The preceding figure assumes that relative risk aversion is very high (6).  A natural question is whether, when people are pessimistic about the equity premium, their optimal risky shares might be low even if they are not so risk averse.  
 #
-# Nope.  Figure 4 below shows that, even with pessimistic beliefs about the equity premium, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
+# Nope.  Figure 4 below shows that, even with the pessimistic beliefs that the equity premium will be only 2 percent, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
 #
 #     
 # <center>
@@ -215,14 +217,14 @@
 #
 # The point of creating the `ConsPortfolioModel` tool was to make it easy for anyone to explore possibilities like these.  
 #
-# The [README.md](https://github.com/econ-ark/REMARK/tree/master/REMARKs/PortfolioChoiceBlogPost#other-experiments-removed-to-shorten-blog-post) describes how you can use the tool to explore such to the model modifications; for example, it explains how to use the toolkit to show that if the perception of the riskiness of stock investments increases with age, the model can match the "100 minus age" rule's advice that retired people should reduce their exposure to stock market risk.
+# The [README](https://github.com/econ-ark/REMARK/tree/master/REMARKs/PortfolioChoiceBlogPost#user-content-portfoliochoiceblogpost) describes how you can use the tool to explore such model modifications; for example, if the perception of the riskiness of stock investments increases with age, the model can match the "100 minus age" rule's advice that retired people should reduce their exposure to stock market risk.
 
 # %% [markdown]
 # ## What Might Still Be Missing
 #
-# Some experiments are NOT yet possible with our toolkit.  Perhaps the most important is that we have no way to take into account the risks entailed in homeownership.  Houses, like stocks, are assets whose price can go up or down.  Since housing wealth constitutes the majority of the wealth of most consumers, the model's failure to take into account the effects that homeownership should have on the optimal choice of risky investment in non-housing forms is a failing serious enough to call into question the soundness of its conclusions.  
+# Some experiments are NOT yet possible with our toolkit.  Perhaps the most important is that we have no way to take into account the risks entailed in homeownership.  Houses, like stocks, are assets whose price can go up or down.  Since housing wealth constitutes the majority of the wealth of most consumers, the model's failure to consider the effects that homeownership should have on the optimal choice of risky financial investment is a failing serious enough to call into question the soundness of its conclusions.  
 #
-# The Think Forward Initiative grant that funded this work has a second component:  Calculating the optimal risky share taking homeownership risks into acccount. This question is at the frontier of what is possible using the kinds of tools we are developing.  We are interested to see whether a proper treatment of homeownership will be enough to temper the recommendations of the model to invest heavily in other risky assets.  The answer is not clear -- which is why we need a model!
+# The Think Forward Initiative grant that funded this work has a second component:  Calculating the optimal risky share taking homeownership risks into acccount. This question is at the frontier of what is possible using the kinds of tools we are developing.  We are interested to see whether a proper treatment of homeownership will be enough to temper the recommendations of the model to invest heavily in risky financial assets.  The answer is not clear -- which is why we need a model!
 
 # %% [markdown]
 # #### Code
@@ -238,4 +240,4 @@
 #
 # Cocco, J. F., Gomes, F. J., & Maenhout, P. J. (2005). Consumption and portfolio choice over the life cycle. The Review of Financial Studies, 18(2), 491-533.  [doi.org/10.1093/rfs/hhi017](https://doi.org/10.1093/rfs/hhi017)
 #
-# Velásquez-Giraldo, Mateo and Matthew Zahn.  Replication of Cocco, Gomes, and Maenhout (2005).  [REMARK](https://github.com/econ-ark/REMARK/blob/master/REMARKs/CGMPortfolio/Code/Python/CGMPortfolio.ipynb)
+# Velásquez-Giraldo, Mateo and Matthew Zahn.  [econ-ark/REMARK](https://github.com/econ-ark/REMARK/blob/master/REMARKs/CGMPortfolio/Code/Python/CGMPortfolio.ipynb) replication of [Cocco, Gomes, and Maenhout (2005)](doi.org/10.1093/rfs/hhi017](https://doi.org/10.1093/rfs/hhi017).  

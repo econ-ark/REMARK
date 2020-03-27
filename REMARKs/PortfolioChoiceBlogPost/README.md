@@ -1,5 +1,5 @@
  
- # PortfolioChoiceBlogPost
+# [Blog Post Introducing ConsPortfolioModel to Econ-ARK](https://econ-ark.github.io/REMARK/REMARKs/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html)
 
 ### Reproduce the results and figures
 
