@@ -1,0 +1,9 @@
+\begin{tabular}{lrrrrrrr}
+\toprule
+{} &  Growth rate of aggregate consumption &  Average growth rate of household permanent income &  Average growth rate of household consumption &  Aggregate personal saving rate &  Average MPC out of wealth &  Average net wealth &  Target net wealth \\
+\midrule
+Base Value         &                              0.020957 &                                           0.014807 &                                      0.014978 &                        0.006265 &                   0.315820 &            0.341770 &           0.313770 \\
+g = .04            &                              0.040290 &                                           0.034225 &                                      0.034508 &                        0.009891 &                   0.414938 &            0.265945 &           0.246728 \\
+depreciation = .10 &                              0.020821 &                                           0.014807 &                                      0.015143 &                        0.004310 &                   0.477366 &            0.230806 &           0.214614 \\
+\bottomrule
+\end{tabular}
