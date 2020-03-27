@@ -462,8 +462,8 @@ age_1 = time_params['Age_death'] - time_params['Age_born']
 plt.figure()
 plt.ylim([0, 1.1])
 plt.plot(AgeMeans.Age[:age_1], AgeMeans.rShare[:age_1], label = 'Mean')
-plt.plot(AgePC5.Age[:age_1], AgePC5.rShare[:age_1], '--k')
-plt.plot(AgePC95.Age[:age_1], AgePC95.rShare[:age_1], '--k', label = 'Perc. 5 and 95')
+plt.plot(AgePC5.Age[:age_1], AgePC5.rShare[:age_1], '--r', label='Perc. 5')
+plt.plot(AgePC95.Age[:age_1], AgePC95.rShare[:age_1], '--g', label = 'Perc. 95')
 plt.legend()
 
 plt.xlabel('Age')
