@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.6.9
+#     version: 3.7.6
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -82,8 +82,9 @@
 #
 # A key input is the degree of consumers' ["risk aversion."](https://en.wikipedia.org/wiki/Risk_aversion)  Researchers have found that many kinds of consumer behavior are consistent with values of ["relative risk aversion"](https://en.wikipedia.org/wiki/Risk_aversion#Relative_risk_aversion) in the range from 2 to 4.  
 #
-# The most striking conclusion of the CGM paper is captured in figure 1.  `ConsPortfolioModel` assumes that consumers with risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower  returns historically typical of safe assets (like government bonds).  The figure shows, by age, the optimal risky share -- that is, the proportion of savings that it would be optimal to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that `ConsPortfolioModel` says the optimal choice is always to invest 100 percent of your savings in stocks!
+# The most striking conclusion of the CGM paper is captured in [figure 1](#fig1).  `ConsPortfolioModel` assumes that consumers with risk aversion of 3 can choose between a "risky" asset with expected performance (for risk and return) like the stock market, versus a "safe" asset with lower  returns historically typical of safe assets (like government bonds).  The figure shows, by age, the optimal risky share -- that is, the proportion of savings that it would be optimal to invest in the "risky" asset.  The fact that the proportion is stuck at 1.0 at every age means that `ConsPortfolioModel` says the optimal choice is always to invest 100 percent of your savings in stocks!
 #
+# <a name='fig1'>
 # <center>
 #     <img src='figures/figure_CRRA_3/RShare_Means.png'>
 # </center>
@@ -91,7 +92,7 @@
 #     Figure 1: Portfolio Choice for Moderately Risk Averse Consumer
 #     </big>
 # </center>
-#     
+# </a>    
 # <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
 #     
 
@@ -100,7 +101,7 @@
 #
 # Parameters like "relative risk aversion" are hard to measure.  Maybe the conventional value of 3, which works well to explain other choices, is inappropriate here -- perhaps people just hate stock market risk more than other kinds of risk that would have similar financial consequences.
 #
-# The next figure shows the profile of the mean risky share for a consumer with risk aversion of 6, twice the conventional value.  (Think of your most risk-averse neighbor or relative).
+# [Figure 2](#fig2) shows the profile of the mean risky share for a consumer with risk aversion of 6, twice the conventional value.  (Think of your most risk-averse neighbor or relative).
 #
 # Even with such high risk aversion, the model says that until about age 35 it is _still_ optimal to invest all of your savings in the stock market.  After that, the risky share declines gradually until it stabilizes at around 65 percent at age 65.  (The dashing lines show the choices made by people at the 5th and 95th percentiles of the distribution of the risky share).
 #
@@ -113,6 +114,7 @@
 #    * The "equity premium" is nevertheless large enough to make it worthwhile for most people to keep half or more of their assets in stocks
 #
 # <!-- ![RShare_CRRA_3](figures/figure_CRRA_3/RShare_Means.png) -->
+# <a name='fig2'>
 # <center>
 #     <img src='figures/figure_Parameters_base/RShare_Means.png'>
 # </center>
@@ -120,6 +122,7 @@
 #     Figure 2: Portfolio Choice for Highly Risk Averse Consumer
 #     </big>
 # </center>
+# </a>
 # <!-- ![Parameters_base](figures/figure_Parameters_base/RShare_Means.png) -->
 
 # %% [markdown]
@@ -153,10 +156,11 @@
 #
 # The calculations above assume that people expect an equity premium of 4 percent, which is [a good estimate](http://breesefine7110.tulane.edu/wp-content/uploads/sites/110/2015/10/Perspectives-on-the-Equity-Risk-Premium-Siegel.pdf) of what the average premium has been on stock market investments over the past century.  (Risk is also assumed to match historical experience.)
 #
-# But nobody could have known beforehand that equity premia would turn out to be so high.  Perhaps people chose lower risky shares because they mistakenly believed that risk premia would be lower.  Figure 3 below shows the consequences if people with a high risk aversion parameter (6) believe the equity premium will be only two percent (around its historical average in the U.S. before 1941; [some respected economists](https://jpm.pm-research.com/content/26/1/10.abstract) think such rates might prevail in the future).
+# But nobody could have known beforehand that equity premia would turn out to be so high.  Perhaps people chose lower risky shares because they mistakenly believed that risk premia would be lower. [Figure 3](#fig3) below shows the consequences if people with a high risk aversion parameter (6) believe the equity premium will be only two percent (around its historical average in the U.S. before 1941; [some respected economists](https://jpm.pm-research.com/content/26/1/10.abstract) think such rates might prevail in the future).
 #
 # The shape of the figure is much the same as before; in particular, the youngest people still hold 100 percent of their portfolios in risky assets.  But the proportion of their portfolios that middle-aged and older people hold in stocks falls from about 50 to about 20 percent.
 #
+# <a name='fig3'>
 # <center>
 #     <img src='figures/figure_equity_0p02/RShare_Means.png'>
 # </center>
@@ -164,7 +168,7 @@
 #     Figure 3: Pessimistic and Highly Risk Averse Consumer
 #     </big>
 # </center>
-#
+# </a>
 #     
 # <!-- ![RShare_Means](figures/figure_equity_0p02/RShare_Means.png) -->
 #
@@ -174,9 +178,9 @@
 #
 # The preceding figure assumes that relative risk aversion is very high (6).  A natural question is whether, when people are pessimistic about the equity premium, their optimal risky shares might be low even if they are not so risk averse.  
 #
-# Nope.  Figure 4 below shows that, even with the pessimistic beliefs that the equity premium will be only 2 percent, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
+# Nope. [Figure 4](#fig4) below shows that, even with the pessimistic beliefs that the equity premium will be only 2 percent, if relative risk aversion has a conventional value of 3 then the optimal risky share is still 100 percent for both young and old people, and on average reaches a low point of about 90 percent for people nearing retirement.
 #
-#     
+# <a name='fig4'>     
 # <center>
 #     <img src='figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png'>
 # </center>
@@ -184,6 +188,7 @@
 #     Figure 4: Pessimistic and Moderately Risk Averse Consumer
 #     </big>
 # </center>
+# </a>
 #
 # <!-- ![CRRA_3_Equity_Premium_2](figures/figure_CRRA_3_Equity_Premium_2/RShare_Means.png) -->
 
@@ -193,11 +198,11 @@
 # %% [markdown]
 # Investment advisors sometimes advocate the "100 minus age" rule: Your portfolio share in risky assets should be 100 minus your age; so, a 60 year old would have 100-60=40 percent in stocks.
 #
-# For highly risk averse people (risk aversion of 6), Figure 5 below shows that the rule's recommendation (orange dashing line) is not too different from what comes out of the model (in blue).  While the rule would say that the 25 year old should put 75 percent of their savings in the stock market and the model says 100 percent, they agree that the young person's proportion should be high, and also agree that the proportion should decline during working life.
+# For highly risk averse people (risk aversion of 6), [Figure 5](#fig5) below shows that the rule's recommendation (orange dashing line) is not too different from what comes out of the model (in blue).  While the rule would say that the 25 year old should put 75 percent of their savings in the stock market and the model says 100 percent, they agree that the young person's proportion should be high, and also agree that the proportion should decline during working life.
 #
 # But the rule and the model disagree about what should happen after retirement.  The rule recommends steadily reducing your exposure to risky assets as you get older, while the model says that after retirement your exposure should remain at about the same level as late in your working life, or even increase.
 #
-#
+# <a name='fig5'>
 # <center>
 #     <img src='figures/figure_risky_age/RShare_Means_100_age.png'>
 # </center>
@@ -205,7 +210,7 @@
 #     Figure 5: 100 Minus Age Rule vs Optimizing Highly Risk Averse Consumer
 #     </big>
 # </center>
-#
+# </a>
 # <!-- ![risky_age](figures/figure_risky_age/RShare_Means_100_age.png) -->
 #
 #
