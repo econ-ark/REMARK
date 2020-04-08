@@ -3,15 +3,26 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -135,33 +146,41 @@
 # %% [markdown]
 # #### The Consumer
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": [0, 6]}
 # Import generic setup tools
 
 # This is a jupytext paired notebook that autogenerates KrusellSmith.py
 # which can be executed from a terminal command line via "ipython KrusellSmith.py"
 # But a terminal does not permit inline figures, so we need to test jupyter vs terminal
 # Google "how can I check if code is executed in the ipython notebook"
-
+def in_ipynb():
+    try:
+        if str(type(get_ipython())) == "<class 'ipykernel.zmqshell.ZMQInteractiveShell'>":
+            return True
+        else:
+            return False
+    except NameError:
+        return False
 
 # Determine whether to make the figures inline (for spyder or jupyter)
 # vs whatever is the automatic setting that will apply if run from the terminal
-# import remark # 20191113 CDC to Seb: Where do you propose that this module should go (permanently?) 
-   # in the /binder folder, where it could be installed by postBuild (unix) or postBuild.bat?
-# %matplotlib inline
+if in_ipynb():
+    # %matplotlib inline generates a syntax error when run from the shell
+    # so do this instead
+    get_ipython().run_line_magic('matplotlib', 'inline') 
+else:
+    get_ipython().run_line_magic('matplotlib', 'auto') 
 
 # Import the plot-figure library matplotlib
-import numpy as np
+
 import matplotlib.pyplot as plt
-from HARK.utilities import plotFuncs, plotFuncsDer, make_figs
+import numpy as np
+
 from copy import deepcopy
+from HARK.utilities import plotFuncs, plotFuncsDer, make_figs
 
-# %% {"code_folding": []}
-# Import components of HARK needed for solving the KS model
-# from   HARK.ConsumptionSaving.ConsAggShockModel import *
-import HARK.ConsumptionSaving.ConsumerParameters as Params
-
-# Markov consumer type that allows aggregate shocks (redundant but instructive)
+# %% {"code_folding": [0]}
+# Markov consumer type that allows aggregate shocks
 from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 
 # %% {"code_folding": [0]}
@@ -170,8 +189,6 @@ from HARK.ConsumptionSaving.ConsAggShockModel import AggShockMarkovConsumerType
 # The folded dictionary below contains many parameters to the 
 # AggShockMarkovConsumerType agent that are not needed for the KS model
 KSAgentDictionary = { 
-    "CRRA": 1.0,                           # Coefficient of relative risk aversion
-    "DiscFac": 0.99,                       # Intertemporal discount factor
     "LivPrb" : [1.0],                      # Survival probability
     "AgentCount" : 10000,                  # Number of agents of this type (only matters for simulation)
     "aNrmInitMean" : 0.0,                  # Mean of log initial assets (only matters for simulation)
@@ -199,23 +216,19 @@ KSAgentDictionary = {
     "tax_rate" : 0.0,                      # Flat income tax rate
     "T_retire" : 0,                        # Period of retirement (0 --> no retirement)
     "BoroCnstArt" : 0.0,                   # Artificial borrowing constraint; imposed minimum level of end-of period assets   
-    "cycles": 0,                           # Consumer is infinitely lived
     "PermGroFac" : [1.0],                  # Permanent income growth factor
 # New Parameters that we need now    
     'MgridBase': np.array([0.1,0.3,0.6,
                            0.8,0.9,0.98,
                            1.0,1.02,1.1,
                            1.2,1.6,2.0,
-                           3.0]),          # Grid of capital-to-labor-ratios (factors)
-    'MrkvArray': np.array([[0.875,0.125],
-                           [0.125,0.875]]),  # Transition probabilities for macroecon. [i,j] is probability of being in state j next
-                                           # period conditional on being in state i this period. 
+                           3.0]),          # Grid of capital-to-labor-ratios (factors) 
     'PermShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate permanent shocks by state. No continous shocks in a state.
     'TranShkAggStd' : [0.0,0.0],           # Standard deviation of log aggregate transitory shocks by state. No continuous shocks in a state.
     'PermGroFacAgg' : 1.0
 }
 
-# Here we restate just the "interesting" parts of the consumer's specification
+# Here we state just the "interesting" parts of the consumer's specification
 
 KSAgentDictionary['CRRA']    = 1.0      # Relative risk aversion 
 KSAgentDictionary['DiscFac'] = 0.99     # Intertemporal discount factor
@@ -294,7 +307,6 @@ KSEconomyDictionary = {
     'PermShkAggStd': [0.0,0.0], 
     'TranShkAggStd': [0.0,0.0], 
     'DeprFac': 0.025, # Depreciation factor
-    'CapShare': 0.36, # Share of capital income in cobb-douglas production function
     'DiscFac': 0.99,
     'CRRA': 1.0,
     'PermGroFacAgg': [1.0,1.0],
@@ -302,8 +314,6 @@ KSEconomyDictionary = {
     'act_T':1200, # Number of periods for economy to run in simulation
     'intercept_prev': [0.0,0.0], # Make some initial guesses at linear savings rule intercepts for each state
     'slope_prev': [1.0,1.0], # Make some initial guesses at linear savings rule slopes for each state
-    'MrkvArray': np.array([[0.875,0.125],
-                           [0.125,0.875]]), # Transition probabilities
     'MrkvNow_init': 0   # Pick a state to start in (we pick the first state)
 }
 
@@ -379,19 +389,17 @@ KSEconomy.solve() # Solve the economy using the market method.
 # Plot some key results
 
 print('Aggregate savings as a function of aggregate market resources:')
-fig = plt.figure()
 bottom = 0.1
-top = 2*KSEconomy.kSS
-x = np.linspace(bottom,top,1000,endpoint=True)
-print(KSEconomy.AFunc)
+top = 2 * KSEconomy.kSS
+x = np.linspace(bottom, top, 1000, endpoint=True)
 y0 = KSEconomy.AFunc[0](x)
 y1 = KSEconomy.AFunc[1](x)
-plt.plot(x,y0)
-plt.plot(x,y1)
+plt.plot(x, y0)
+plt.plot(x, y1)
 plt.xlim([bottom, top])
 make_figs('aggregate_savings', True, False)
-# remark.show('aggregate_savings')
-
+plt.show()
+plt.clf()
 
 print('Consumption function at each aggregate market resources gridpoint (in general equilibrium):')
 KSAgent.unpackcFunc()
@@ -401,11 +409,10 @@ for M in KSAgent.Mgrid:
     c_at_this_M = KSAgent.solution[0].cFunc[0](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,c_at_this_M)
 make_figs('consumption_function', True, False)
-
-# remark.show('consumption_function')
+plt.show()
+plt.clf()
 
 print('Savings at each individual market resources gridpoint (in general equilibrium):')
-fig = plt.figure()
 KSAgent.unpackcFunc()
 m_grid = np.linspace(0,10,200)
 KSAgent.unpackcFunc()
@@ -414,8 +421,7 @@ for M in KSAgent.Mgrid:
     c_at_this_M = KSAgent.solution[0].cFunc[1](m_grid,M*np.ones_like(m_grid)) #Have two consumption functions, check this
     plt.plot(m_grid,s_at_this_M)
 make_figs('savings_function', True, False)
-
-# remark.show('savings_function')
+plt.show()
 
 # %% [markdown]
 # ### The Wealth Distribution in KS
@@ -455,7 +461,7 @@ plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
 make_figs('wealth_distribution_1', True, False)
-# remark.show('')
+plt.show()
 
 # %%
 # Calculate a measure of the difference between the simulated and empirical distributions
@@ -538,14 +544,12 @@ plt.ylabel('Cumulative share of wealth')
 plt.legend(loc=2)
 plt.ylim([0,1])
 make_figs('wealth_distribution_2', True, False)
-
-# remark.show('wealth_distribution_2')
+plt.show()
 
 # %% {"code_folding": []}
 # The mean levels of wealth for the three types of consumer are 
 [np.mean(KSEconomy_sim.aLvlNow[0]),np.mean(KSEconomy_sim.aLvlNow[1]),np.mean(KSEconomy_sim.aLvlNow[2])]
 
-fig = plt.figure()
 # %% {"code_folding": []}
 # Plot the distribution of wealth 
 for i in range(len(MyTypes)):
@@ -557,18 +561,15 @@ for i in range(len(MyTypes)):
 plt.legend(loc=2)
 plt.title('Log Wealth Distribution of 3 Types')
 make_figs('log_wealth_3_types', True, False)
+plt.show()
 
-# remark.show('log_wealth_3_types')
-
-fig = plt.figure()
 # %% {"code_folding": []}
 # Distribution of wealth in original model with one type
 plt.hist(np.log(sim_wealth),bins=np.arange(-2.,np.log(max(aLvl_all)),0.05))
 plt.yticks([])
 plt.title('Log Wealth Distribution of Original Model with One Type')
 make_figs('log_wealth_1', True, False)
-
-# remark.show('log_wea`lth_1')
+plt.show()
 
 # %% [markdown]
 # ### Target Wealth is Nonlinear in Time Preference Rate
@@ -600,5 +601,4 @@ plt.plot(theta,1/(theta*(1+(theta-r)/sigma)-r))
 plt.xlabel(r'$\theta$')
 plt.ylabel('Target wealth')
 make_figs('target_wealth', True, False)
-
-# remark.show('target_wealth')
+plt.show()
