@@ -17,3 +17,6 @@
 [submodule "REMARKs/LiqConstr/Paper-Original"]
 	path = REMARKs/LiqConstr/Paper-Original
 	url = https://github.com/llorracc/LiqConstr
+[submodule "REMARKs/Pandemic"]
+	path = REMARKs/Pandemic
+	url = https://github.com/econ-ark/Pandemic
