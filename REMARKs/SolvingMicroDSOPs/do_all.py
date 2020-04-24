@@ -1,4 +1,4 @@
-'''
+    '''
 Run all of the plots and tables in SolvingMicroDSOPs.
 
 To execute, do the following on the Python command line:
@@ -60,30 +60,22 @@ tables_dir = os.path.join(my_file_path, "Tables") # Relative directory for primi
 figures_dir = os.path.join(my_file_path, "Figures") # Relative directory for primitive parameter files
 code_dir = os.path.join(my_file_path, "Code") # Relative directory for primitive parameter files
 
-# Import modules from local repository. If local repository is part of HARK, 
-# this will import from HARK. Otherwise manual pathname specification is in 
-# order.
-try: 
-    # Import from core HARK code first:
-    from HARK.SolvingMicroDSOPs.Code import StructEstimation as struct
-except:
-    print("**************** Manually specifying pathnames for modules *******************")
-    # It appears that the current module is not part of HARK, therefore we will
-    # manually add the pathnames to the various files directly to the beginning
-    # of the Python path. This will be needed for all files that will run in 
-    # lower directories.
-    sys.path.insert(0, calibration_dir)
-    sys.path.insert(0, tables_dir)
-    sys.path.insert(0, figures_dir)
-    sys.path.insert(0, code_dir)
-    sys.path.insert(0, my_file_path)
 
-    # Manual import needed, should draw from first instance at start of Python 
-    # PATH added above: 
-    import StructEstimation as struct
+# manually add the pathnames to the various files directly to the beginning
+# of the Python path. This will be needed for all files that will run in
+# lower directories.
+sys.path.insert(0, calibration_dir)
+sys.path.insert(0, tables_dir)
+sys.path.insert(0, figures_dir)
+sys.path.insert(0, code_dir)
+sys.path.insert(0, my_file_path)
+
+# Manual import needed, should draw from first instance at start of Python
+# PATH added above:
+import StructEstimation as struct
 
 
-# Define settings for "main()" function in StructuralEstiamtion.py based on 
+# Define settings for "main()" function in StructuralEstiamtion.py based on
 # resource requirements: 
 
 low_resource = {'estimate_model':True, 'make_contour_plot':False, 'compute_standard_errors':False}

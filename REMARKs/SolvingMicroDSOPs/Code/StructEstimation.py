@@ -23,7 +23,7 @@ from time import time                           # Timing utility
 
 # Import modules from core HARK libraries:
 import HARK.ConsumptionSaving.ConsIndShockModel as Model # The consumption-saving micro model
-from HARK.simulation import drawDiscrete         # Method for sampling from a discrete distribution
+from HARK.distribution import DiscreteDistribution         # Method for sampling from a discrete distribution
 from HARK.estimation import minimizeNelderMead, bootstrapSampleFromData # Estimation methods
 
 # Find pathname to this file:
@@ -113,9 +113,9 @@ class TempConsumerType(Model.IndShockConsumerType):
 EstimationAgent = TempConsumerType(**Params.init_consumer_objects)   # Make a TempConsumerType for estimation
 EstimationAgent(T_sim = EstimationAgent.T_cycle+1)                   # Set the number of periods to simulate
 EstimationAgent.track_vars = ['bNrmNow']                             # Choose to track bank balances as wealth
-EstimationAgent.aNrmInit = drawDiscrete(N=Params.num_agents,
-                                      P=Params.initial_wealth_income_ratio_probs,
-                                      X=Params.initial_wealth_income_ratio_vals,
+EstimationAgent.aNrmInit = DiscreteDistribution(
+    Params.initial_wealth_income_ratio_probs,
+    Params.initial_wealth_income_ratio_vals).drawDiscrete(N=Params.num_agents,
                                       seed=Params.seed)              # Draw initial assets for each consumer
 EstimationAgent.makeShockHistory()
 
@@ -174,9 +174,6 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
         Sum of distances between empirical data observations and the corresponding
         median wealth-to-permanent-income ratio in the simulation.
     '''
-    original_time_flow = agent.time_flow
-    agent.timeFwd() # Make sure time is flowing forward for the agent
-
     # A quick check to make sure that the parameter values are within bounds.
     # Far flung falues of DiscFacAdj or CRRA might cause an error during solution or
     # simulation, so the objective function doesn't even bother with them.
@@ -203,9 +200,6 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
         group_indices = empirical_groups == (g+1) # groups are numbered from 1
         distance_sum += np.dot(np.abs(empirical_data[group_indices] - sim_median),empirical_weights[group_indices]) # Weighted distance from each empirical observation to the simulated median for this age group
 
-    # Restore time to its original direction and report the result
-    if not original_time_flow:
-        agent.timeRev()
     return distance_sum
 
 # Make a single-input lambda function for use in the optimizer

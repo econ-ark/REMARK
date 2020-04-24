@@ -20,20 +20,13 @@ figures_dir = os.path.join(my_file_path, "../Figures/") # Relative directory for
 code_dir = os.path.join(my_file_path, "../Code/") # Relative directory for primitive parameter files
 
 
-# Import modules from local repository. If local repository is part of HARK, 
-# this will import from HARK. Otherwise manual pathname specification is in 
-# order.
-try: 
-    # Import from core HARK code first:
-    from HARK.SolvingMicroDSOPs.Calibration.EstimationParameters import initial_age, empirical_cohort_age_groups
 
-except:
-    # Need to rely on the manual insertion of pathnames to all files in do_all.py
-    # NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be 
-    # copied from do_all.py to here
+# Need to rely on the manual insertion of pathnames to all files in do_all.py
+# NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be
+# copied from do_all.py to here
 
-    # Import files first:
-    from EstimationParameters import initial_age, empirical_cohort_age_groups
+# Import files first:
+from EstimationParameters import initial_age, empirical_cohort_age_groups
 
 
 # The following libraries are part of the standard python distribution
