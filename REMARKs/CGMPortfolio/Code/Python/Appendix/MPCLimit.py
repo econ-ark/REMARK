@@ -6,9 +6,6 @@ import HARK.ConsumptionSaving.ConsPortfolioModel as cpm
 import matplotlib.pyplot as plt
 import numpy as np
 
-from HARK.utilities import approxLognormal
-from HARK.simulation import drawLognormal
-
 from copy import copy
 
 # %% Set up figure path
