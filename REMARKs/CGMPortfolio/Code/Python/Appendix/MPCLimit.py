@@ -72,11 +72,11 @@ MPC_lim = 1 - (beta*E_R_exp)**(1/crra)
 # We will approximate the MPC as MPC(m_t) = c(m_t + 1) - c(m_t)
 
 # Set up the assets at which it will be evaluated
-aMin = 000   # Minimum ratio of assets to income to plot
-aMax = 15 # Maximum ratio of assets to income to plot
-aPts = 1000 # Number of points to plot 
+mMin = 000   # Minimum ratio of assets to income to plot
+mMax = 500 # Maximum ratio of assets to income to plot
+mPts = 1000 # Number of points to plot 
 
-eevalgrid = np.linspace(aMin,aMax,aPts)
+eevalgrid = np.linspace(mMin,mMax,mPts)
 
 # Ages at which the plots will be generated
 # this should be something like this instead of hard coding
