@@ -8,7 +8,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -22,7 +22,7 @@
 #     name: python
 #     nbconvert_exporter: python
 #     pygments_lexer: ipython3
-#     version: 3.7.6
+#     version: 3.7.7
 #   latex_envs:
 #     LaTeX_envs_menu_present: true
 #     autoclose: false
@@ -371,7 +371,7 @@ agent.simulate()
 
 # Present diagnostic plots.
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.pLvlNow_hist,'.')
+plt.plot(agent.history['t_age']+time_params['Age_born'], agent.history['pLvlNow'],'.')
 plt.xlabel('Age')
 plt.ylabel('Permanent income')
 plt.title('Simulated Income Paths')
@@ -384,7 +384,7 @@ else:
     plt.show(block=True)
 
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.ShareNow_hist,'.')
+plt.plot(agent.history['t_age']+time_params['Age_born'], agent.history['ShareNow'],'.')
 plt.xlabel('Age')
 plt.ylabel('Risky share')
 plt.title('Simulated Risky Portfolio Shares')
@@ -416,11 +416,11 @@ agent.T_sim = 80*50
 agent.initializeSim()
 agent.simulate()
 
-raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'] - 1,
-            'pIncome': agent.pLvlNow_hist.flatten(),
-            'rShare': agent.ShareNow_hist.flatten(),
-            'nrmM': agent.mNrmNow_hist.flatten(),
-            'nrmC': agent.cNrmNow_hist.flatten()}
+raw_data = {'Age': agent.history['t_age'].flatten()+time_params['Age_born'] - 1,
+            'pIncome': agent.history['pLvlNow'].flatten(),
+            'rShare': agent.history['ShareNow'].flatten(),
+            'nrmM': agent.history['mNrmNow'].flatten(),
+            'nrmC': agent.history['cNrmNow'].flatten()}
 
 Data = pd.DataFrame(raw_data)
 Data['Cons'] = Data.nrmC * Data.pIncome
