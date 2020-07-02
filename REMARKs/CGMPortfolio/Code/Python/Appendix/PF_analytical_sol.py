@@ -37,23 +37,9 @@ from Calibration.params import dict_portfolio, time_params
 # Create a new calibration dictionary
 pf_dict = copy(dict_portfolio)
 
-# TODO:
-# The idea here is to create a bad asset that the agent will never hold, so
-# that the problem behaves as if it had no portfolio decision.
-# The tool currently has a bad time with bad assets. So, a workarround is to
-# make the risk-free asset bad, and use the "risky" asset as the risk free
-# asset.
-
-Rfree = pf_dict['Rfree']
-
-mu = Rfree
-Std = 0.0
-# Nobody will hold the risk-free asset
-pf_dict['Rfree'] = 0.9
-
-# Turn off rate shocks
-pf_dict['RiskyAvg'] = mu
-pf_dict['RiskyStd'] = Std
+# Make the risky asset very bad. Strictly worse than the risk-free asset
+pf_dict['RiskyAvg'] = 0.8
+pf_dict['RiskyStd'] = 0.0
 
 t_cycle = pf_dict['T_cycle']
 # No income shocks
@@ -75,7 +61,6 @@ pf_dict['aXtraCount'] = 100
 port_agent = cpm.PortfolioConsumerType(**pf_dict)
 port_agent.solve()
 
-pf_dict['Rfree'] = Rfree
 pf_agent = cis.PerfForesightConsumerType(**pf_dict)
 pf_agent.solve()
 
