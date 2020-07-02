@@ -32,19 +32,14 @@ sys.path.append(my_file_path)
 from Calibration.params import dict_portfolio, time_params, det_income, Mu, Rfree, Std, norm_factor, age_plot_params
 
 # # Create new dictionary
-# merton_dict = copy(dict_portfolio)
+merton_dict = copy(dict_portfolio)
 
-# # Adjust certain parameters to align with Merton-Samuleson
-# # Log normal returns (Overwriting Noramal returns defined in params)
-# mu = Mu + Rfree
-# RiskyDstnFunc = cpm.RiskyDstnFactory(RiskyAvg=mu, RiskyStd=Std) # Generates nodes for integration
-# RiskyDrawFunc = cpm.LogNormalRiskyDstnDraw(RiskyAvg=mu, RiskyStd=Std) # Generates draws from the "true" distribution
-
-# # Make agent inifitely lived. Following parameter examples from ConsumptionSaving Notebook
-# merton_dict['RiskyAvg'] = RiskyDstnFunc
-# merton_dict['drawRiskyFunc'] = RiskyDrawFunc
-
-agent = cpm.PortfolioConsumerType(**dict_portfolio)
+# Make the discrete approximations to the return distribution and shares
+# finer, and the asset grid go up to much higher values.
+merton_dict['RiskyCount'] = 50
+merton_dict['ShareCount'] = 50
+merton_dict['aXtraMax']   = 500
+agent = cpm.PortfolioConsumerType(**merton_dict)
 agent.solve()
 
 # %%
