@@ -24,61 +24,80 @@ else:
     
 FigPath = os.path.join(my_file_path,"Figures/")
 
-# %% Calibration and solution
+# %% Setup
 
 # Import parameters from external file
 sys.path.append(my_file_path) 
 # Loading the parameters from the ../Code/Calibration/params.py script
-from Calibration.params import dict_portfolio, time_params, det_income, Mu, Rfree, Std, norm_factor, age_plot_params
+from Calibration.params import dict_portfolio, time_params, norm_factor, age_plot_params
 
-# # Create new dictionary
-merton_dict = copy(dict_portfolio)
-
-# Make the discrete approximations to the return distribution and shares
-# finer, and the asset grid go up to much higher values.
-merton_dict['RiskyCount'] = 50
-merton_dict['ShareCount'] = 50
-merton_dict['aXtraMax']   = 500
-agent = cpm.PortfolioConsumerType(**merton_dict)
-agent.solve()
-
-# %%
-
-aMin = 0   # Minimum ratio of assets to income to plot
-aMax = 1e5  # Maximum ratio of assets to income to plot
-aPts = 1000 # Number of points to plot 
-
-# Campbell-Viceira (2002) approximation to optimal portfolio share in Merton-Samuelson (1969) model
-# Compute the Merton-Samuelson limiting portfolio share when returns are lognormal
-agent.RiskyVar = agent.RiskyStd**2
-agent.RiskPrem = agent.RiskyAvg - agent.Rfree
+# A function to compute the analytical Merton Samuelson limit of the risky
+# share
 def RiskyShareMertSamLogNormal(RiskPrem, CRRA, RiskyVar):
     return RiskPrem/(CRRA*RiskyVar)*np.ones_like(1)
-eevalgrid = np.linspace(0,aMax,aPts) # range of values of assets for the plot
 
-# Plot by ages
-ages = age_plot_params
-age_born = time_params['Age_born']
-plt.figure()
-for a in ages:
-    plt.plot(eevalgrid,
-             agent.solution[a-age_born].ShareFuncAdj(eevalgrid/norm_factor[a-age_born]),
-             label = 'Age = %i' %(a))
-plt.axhline(RiskyShareMertSamLogNormal(agent.RiskPrem, agent.CRRA, agent.RiskyVar), c='k',ls='--', label = 'M&S Share') # The Campbell-Viceira approximation
 
-plt.ylim(0,1.05)
-plt.text((aMax-aMin)/4,0.15,r'$\uparrow $ limit as  $m \uparrow \infty$',fontsize = 22,fontweight='bold')
-plt.legend()
-plt.title('Risky Portfolio Share by Age')
-plt.xlabel('Wealth (m)')
+# Create a grid of market resources for the plots
+    
+mMin = 0    # Minimum ratio of assets to income to plot
+mMax = 1e4 # Maximum ratio of assets to income to plot
+mPts = 1000 # Number of points to plot 
 
-# Save figure
-figname = 'Merton_Samuelson_Limit'
-plt.savefig(os.path.join(FigPath, figname + '.png'))
-plt.savefig(os.path.join(FigPath, figname + '.jpg'))
-plt.savefig(os.path.join(FigPath, figname + '.pdf'))
-plt.savefig(os.path.join(FigPath, figname + '.svg'))
+eevalgrid = np.linspace(0,mMax,mPts) # range of values of assets for the plot
 
-plt.ioff()
-plt.draw()
-plt.pause(1)
+# Number of points that will be used to approximate the risky distribution
+risky_count_grid = [5,50]
+
+# %% Calibration and solution
+
+for rcount in risky_count_grid:
+    
+    # Create a new dictionary and replace the number of points that
+    # approximate the risky return distribution
+    
+    # Create new dictionary
+    merton_dict = copy(dict_portfolio)
+    merton_dict['RiskyCount'] = rcount
+
+    # Create and solve agent
+    agent = cpm.PortfolioConsumerType(**merton_dict)
+    agent.solve()
+
+    # Compute the analytical Merton-Samuelson limiting portfolio share
+    RiskyVar = agent.RiskyStd**2
+    RiskPrem = agent.RiskyAvg - agent.Rfree
+    MS_limit = RiskyShareMertSamLogNormal(RiskPrem, agent.CRRA, RiskyVar)
+    
+    # Now compute the limiting share numerically, using the approximated
+    # distribution
+    agent.updateShareLimit()
+    NU_limit = agent.ShareLimit
+    
+    # Plot by ages
+    ages = age_plot_params
+    age_born = time_params['Age_born']
+    plt.figure()
+    for a in ages:
+        plt.plot(eevalgrid,
+                 agent.solution[a-age_born].ShareFuncAdj(eevalgrid/norm_factor[a-age_born]),
+                 label = 'Age = %i' %(a))
+        
+    plt.axhline(MS_limit, c='k', ls='--', label = 'M&S Limit')
+    plt.axhline(NU_limit, c='k', ls='-.', label = 'Numer. Limit')
+
+    plt.ylim(0,1.05)
+    plt.xlim(eevalgrid[0],eevalgrid[-1])
+    plt.legend()
+    plt.title('Risky Portfolio Share by Age\n Risky distribution with {points} equiprobable points'.format(points = rcount))
+    plt.xlabel('Wealth (m)')
+
+    # Save figure
+    figname = 'Merton_Samuelson_Limit_{points}'.format(points = rcount)
+    plt.savefig(os.path.join(FigPath, figname + '.png'))
+    plt.savefig(os.path.join(FigPath, figname + '.jpg'))
+    plt.savefig(os.path.join(FigPath, figname + '.pdf'))
+    plt.savefig(os.path.join(FigPath, figname + '.svg'))
+
+    plt.ioff()
+    plt.draw()
+    plt.pause(1)
