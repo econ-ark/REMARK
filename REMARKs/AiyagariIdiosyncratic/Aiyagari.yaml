@@ -1,0 +1,86 @@
+name: Consumption Savings
+
+symbols:
+  states: [a]
+  exogenous: [r, w, e]
+  parameters: [beta, B, epsilon, a_max, rho, sig]
+  controls: [i]
+
+definitions:
+  c: (1+r)*a + w*exp(e) - i
+
+equations:
+
+  arbitrage:
+    - 1-(beta*(1+r(+1)))**(1/epsilon)*c/c(+1) | -B <= i <= (1+r)*a+w*exp(e)
+
+  transition:
+    - a = i(-1)
+
+calibration: 
+
+  beta: 0.96
+  B: 1e-10
+  a_max: 200.
+  a: 1
+  i: a
+
+  K: 40
+  alpha: 0.36
+  epsilon: 1
+  rho: 0.9
+  sig: 0.2
+  A: 1 
+  N: 1
+  delta: 0.08
+  r: alpha*(N/K)**(1-alpha) - delta
+  w: (1-alpha)*(K/N)**(alpha)
+  
+  
+
+domain:
+  a: [-B, a_max]
+
+exogenous:
+  r,w: !ConstantProcess
+      μ: [r, w]
+  e: !VAR1
+      ρ: rho
+      Σ: [[sig**2]]
+
+options: 
+  grid:
+      !Cartesian
+      orders: [30]
+
+
+---
+
+name: Ayiagari
+
+symbols:
+  exogenous: [z]
+  aggregate: [K]
+  parameters: [A, alpha, delta, N, ρ]
+
+calibration:
+  A: 1
+  alpha: 0.36
+  delta: 0.08
+  ρ: 0.90
+  N: 1.0 
+  K: 40
+  z: 0
+
+
+exogenous: !ConstantProcess
+    μ: [z]
+
+projection:
+  r: alpha*exp(z)*(N/K)**(1-alpha) - delta
+  w: (1-alpha)*exp(z)*(K/N)**(alpha)
+
+equilibrium: 
+  - K = a
+
+
