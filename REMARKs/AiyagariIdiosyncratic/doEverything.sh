@@ -1,14 +1,9 @@
 #!/bin/bash
 
-pip install altair
+python3 -m pip install --ignore-installed -r requirements.txt
 
-pip install tabulate
-
-scriptDir="$(realpath $(dirname "$0"))" # get the path to this script itself
-
-sudo echo 'Authorizing sudo.'
-
-python ./do_all.py #create and save figures and tables
+ipython Aiyagari1994QJE.py
+# python ./do_all.py #create and save figures and tables
 
 cd Tex
 pdflatex main.tex #creates the main paper and aux file

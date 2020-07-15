@@ -1,0 +1,6 @@
+git+https://github.com/econforge/dolark
+dolo==0.4.9.11
+altair
+tabulate
+matplotlib
+numpy
