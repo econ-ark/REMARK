@@ -37,14 +37,9 @@ from Calibration.params import dict_portfolio, time_params
 # Create a new calibration dictionary
 pf_dict = copy(dict_portfolio)
 
-
-# No risky asset (Overwriting Normal returns defined in params)
-mu = 1
-Std = 0
-
-# Turn off rate shocks
-pf_dict['RiskyAvg'] = mu
-pf_dict['RiskyStd'] = Std
+# Make the risky asset very bad. Strictly worse than the risk-free asset
+pf_dict['RiskyAvg'] = 0.8
+pf_dict['RiskyStd'] = 0.0
 
 t_cycle = pf_dict['T_cycle']
 # No income shocks
@@ -163,7 +158,7 @@ plt.legend()
 fig.suptitle('Consumption Comparisons with True Solution')
 
 for ax in axs.flat:
-    ax.set(xlabel='M', ylabel='C')
+    ax.set(xlabel='M', ylabel='Model C - Analytical C')
 
 fig.tight_layout(rect=[0, 0.05, 1, 0.95])
 

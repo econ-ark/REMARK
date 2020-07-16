@@ -50,11 +50,11 @@ agent.track_vars = ['aNrmNow','cNrmNow', 'pLvlNow',
 agent.initializeSim()
 agent.simulate()
 
-raw_data = {'Age': agent.t_age_hist.flatten()+time_params['Age_born'] - 1,
-            'pIncome': agent.pLvlNow_hist.flatten(),
-            'rShare': agent.ShareNow_hist.flatten(),
-            'nrmM': agent.mNrmNow_hist.flatten(),
-            'nrmC': agent.cNrmNow_hist.flatten()}
+raw_data = {'Age': agent.history['t_age'].flatten()+time_params['Age_born'] - 1,
+            'pIncome': agent.history['pLvlNow'].flatten(),
+            'rShare': agent.history['ShareNow'].flatten(),
+            'nrmM': agent.history['mNrmNow'].flatten(),
+            'nrmC': agent.history['cNrmNow'].flatten()}
 
 Data = pd.DataFrame(raw_data)
 Data['Cons'] = Data.nrmC * Data.pIncome

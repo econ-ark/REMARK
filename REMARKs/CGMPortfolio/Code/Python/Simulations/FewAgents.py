@@ -53,7 +53,7 @@ agent.simulate()
 
 # Present diagnostic plots.
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.pLvlNow_hist,'.')
+plt.plot(agent.history['t_age']+time_params['Age_born'], agent.history['pLvlNow'],'.')
 plt.xlabel('Age')
 plt.ylabel('Permanent income')
 plt.title('Simulated Income Paths')
@@ -71,7 +71,7 @@ plt.draw()
 plt.pause(1)
 
 plt.figure()
-plt.plot(agent.t_age_hist+time_params['Age_born'], agent.ShareNow_hist,'.')
+plt.plot(agent.history['t_age']+time_params['Age_born'], agent.history['ShareNow'],'.')
 plt.xlabel('Age')
 plt.ylabel('Risky share')
 plt.title('Simulated Risky Portfolio Shares')
