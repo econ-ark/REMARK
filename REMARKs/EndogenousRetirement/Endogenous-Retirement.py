@@ -2,14 +2,14 @@
 # ---
 # jupyter:
 #   jupytext:
-#     cell_metadata_filter: collapsed
+#     cell_metadata_filter: collapsed,code_folding
 #     formats: ipynb,py:light
 #     rst2md: false
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.4'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -42,12 +42,9 @@ from HARK.dcegm import calcMultilineEnvelope
 from HARK.interpolation import LinearInterp
 
 import numpy
-import matplotlib.pyplot as plt
 from collections import namedtuple
-from HARK import Solution, AgentType
-from HARK.interpolation import LinearInterp
+from HARK import Solution
 from HARK.utilities import CRRAutility, CRRAutility_inv, CRRAutilityP, CRRAutilityP_inv
-from HARK.simulation import drawMeanOneLognormal
 from math import sqrt
 
 
@@ -239,7 +236,7 @@ def solveRetiringDeaton(solution_next, LivPrb, PermGroFac, IncomeDstn, PermShkDs
     """
 
     rs = solveRetiredDeaton(solution_next, aXtraGrid, EGMVector, par, Util, UtilP, UtilP_inv)
-    ws = solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, UtilP, UtilP_inv, TranShkDstn[1], TranShkDstn[0])
+    ws = solveWorkingDeaton(solution_next, aXtraGrid, mGrid, EGMVector, par, Util, UtilP, UtilP_inv, TranShkDstn.X, TranShkDstn.pmf)
 
     C, V_T, P = calcExtraSaves(saveCommon, rs, ws, par, mGrid)
 
