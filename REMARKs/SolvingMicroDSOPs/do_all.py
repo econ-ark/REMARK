@@ -1,4 +1,4 @@
-    '''
+'''
 Run all of the plots and tables in SolvingMicroDSOPs.
 
 To execute, do the following on the Python command line:
@@ -6,44 +6,44 @@ To execute, do the following on the Python command line:
     from HARK.[YOUR-MODULE-NAME-HERE].do_all import run_replication
     run_replication()
 
-You will be presented with an interactive prompt that asks what level of 
-replication you would like to have. 
+You will be presented with an interactive prompt that asks what level of
+replication you would like to have.
 
 More Details
 ------------
 
-This example script allows the user to create all of the Figures and Tables 
-modules for SolvingMicroDSOPs.StructuralEstimation. 
+This example script allows the user to create all of the Figures and Tables
+modules for SolvingMicroDSOPs.StructuralEstimation.
 
-This is example is kept as simple and minimal as possible to illustrate the 
+This is example is kept as simple and minimal as possible to illustrate the
 format of a "replication archive."
 
 The file structure is as follows:
 
 ./SolvingMicroDSOPs/
-    Calibration/        # Directory that contain the necessary code and data to parameterize the model 
+    Calibration/        # Directory that contain the necessary code and data to parameterize the model
     Code/               # The main estimation code, in this case StructuralEstimation.py
     Figures/            # Any Figures created by the main code
     Tables/             # Any tables created by the main code
 
-Because computational modeling can be very memory- and time-intensive, this file 
-also allows the user to choose whether to run files based on there resouce 
+Because computational modeling can be very memory- and time-intensive, this file
+also allows the user to choose whether to run files based on there resouce
 requirements. Files are categorized as one of the following three:
 
 - low_resource:     low RAM needed and runs quickly, say less than 1-5 minutes
 - medium_resource:  moderate RAM needed and runs moderately quickly, say 5-10+ mintues
-- high_resource:    high RAM needed (and potentially parallel computing required), and high time to run, perhaps even hours, days, or longer. 
+- high_resource:    high RAM needed (and potentially parallel computing required), and high time to run, perhaps even hours, days, or longer.
 
-The designation is purposefully vague and left up the to researcher to specify 
-more clearly below. Using time taken on an example machine is entirely reasonable 
-here. 
+The designation is purposefully vague and left up the to researcher to specify
+more clearly below. Using time taken on an example machine is entirely reasonable
+here.
 
-Finally, this code may serve as example code for efforts that fall outside 
-the HARK package structure for one reason or another. Therefore this script will 
-attempt to import the necessary MicroDSOP sub-modules as though they are part of 
-the HARK package; if that fails, this script reverts to manaully updating the 
-Python PATH with the locations of the MicroDSOP directory structure so it can 
-still run. 
+Finally, this code may serve as example code for efforts that fall outside
+the HARK package structure for one reason or another. Therefore this script will
+attempt to import the necessary MicroDSOP sub-modules as though they are part of
+the HARK package; if that fails, this script reverts to manaully updating the
+Python PATH with the locations of the MicroDSOP directory structure so it can
+still run.
 '''
 
 from __future__ import division, print_function
@@ -76,41 +76,41 @@ import StructEstimation as struct
 
 
 # Define settings for "main()" function in StructuralEstiamtion.py based on
-# resource requirements: 
+# resource requirements:
 
 low_resource = {'estimate_model':True, 'make_contour_plot':False, 'compute_standard_errors':False}
-# Author note: 
+# Author note:
 # This takes approximately 90 seconds on a laptop with the following specs:
 # Linux, Ubuntu 14.04.1 LTS, 8G of RAM, Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz
 
 medium_resource = {'estimate_model':True, 'make_contour_plot':True, 'compute_standard_errors':False}
-# Author note: 
+# Author note:
 # This takes approximately 7 minutes on a laptop with the following specs:
 # Linux, Ubuntu 14.04.1 LTS, 8G of RAM, Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz
 
 high_resource = {'estimate_model':True, 'make_contour_plot':False, 'compute_standard_errors':True}
-# Author note: 
+# Author note:
 # This takes approximately 30 minutes on a laptop with the following specs:
 # Linux, Ubuntu 14.04.1 LTS, 8G of RAM, Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz
 
 all_replications = {'estimate_model':True, 'make_contour_plot':True, 'compute_standard_errors':True}
-# Author note: 
+# Author note:
 # This takes approximately 40 minutes on a laptop with the following specs:
 # Linux, Ubuntu 14.04.1 LTS, 8G of RAM, Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz
 
 
-# Ask the user which replication to run, and run it: 
+# Ask the user which replication to run, and run it:
 def run_replication():
     which_replication = input("""Which replication would you like to run? (See documentation in do_all.py for details.) Please enter the option number to run that option; default is in brackets:
-        
+
         [1] low-resource:    ~90 sec; output ./Tables/estimate_results.csv
-        
+
          2  medium-resource: ~7 min;  output ./Figures/SMMcontour.pdf
                                              ./Figures/SMMcontour.png
          3  high-resource:   ~30 min; output ./Tables/bootstrap_results.csv
 
          4  all:             ~40 min; output: all above.
-         
+
          q  quit: exit without executing.\n\n""")
 
 
@@ -120,7 +120,7 @@ def run_replication():
     elif which_replication == '1' or which_replication == '':
         print("Running low-resource replication...")
         struct.main(**low_resource)
-        
+
     elif which_replication == '2':
         print("Running medium-resource replication...")
         struct.main(**medium_resource)

@@ -36,21 +36,11 @@ figures_dir = os.path.join(my_file_path, "../Figures/") # Relative directory for
 code_dir = os.path.join(my_file_path, "../Code/") # Relative directory for primitive parameter files
 
 
-# Import modules from local repository. If local repository is part of HARK, 
-# this will import from HARK. Otherwise manual pathname specification is in 
-# order.
-try: 
-    # Import from core HARK code first:
-    from HARK.SolvingMicroDSOPs.Calibration import EstimationParameters as Params           # Parameters for the consumer type and the estimation
-    from HARK.SolvingMicroDSOPs.Calibration import SetupSCFdata as Data                     # SCF 2004 data on household wealth
-
-except:
-    # Need to rely on the manual insertion of pathnames to all files in do_all.py
-    # NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be 
-    # copied from do_all.py to here
-    import EstimationParameters as Params           # Parameters for the consumer type and the estimation
-    import SetupSCFdata as Data                     # SCF 2004 data on household wealth
-
+# Need to rely on the manual insertion of pathnames to all files in do_all.py
+# NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be
+# copied from do_all.py to here
+import EstimationParameters as Params           # Parameters for the consumer type and the estimation
+import SetupSCFdata as Data                     # SCF 2004 data on household wealth
 
 
 # Set booleans to determine which tasks should be done
@@ -115,8 +105,8 @@ EstimationAgent(T_sim = EstimationAgent.T_cycle+1)                   # Set the n
 EstimationAgent.track_vars = ['bNrmNow']                             # Choose to track bank balances as wealth
 EstimationAgent.aNrmInit = DiscreteDistribution(
     Params.initial_wealth_income_ratio_probs,
-    Params.initial_wealth_income_ratio_vals).drawDiscrete(N=Params.num_agents,
-                                      seed=Params.seed)              # Draw initial assets for each consumer
+    Params.initial_wealth_income_ratio_vals,
+    seed=Params.seed).drawDiscrete(N=Params.num_agents)    # Draw initial assets for each consumer
 EstimationAgent.makeShockHistory()
 
 # Define the objective function for the simulated method of moments estimation
@@ -189,7 +179,7 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
     max_sim_age = max([max(ages) for ages in map_simulated_to_empirical_cohorts])+1
     agent.initializeSim()                     # Initialize the simulation by clearing histories, resetting initial values
     agent.simulate(max_sim_age)               # Simulate histories of consumption and wealth
-    sim_w_history = agent.bNrmNow_hist        # Take "wealth" to mean bank balances before receiving labor income
+    sim_w_history = agent.history['bNrmNow']        # Take "wealth" to mean bank balances before receiving labor income
 
     # Find the distance between empirical data and simulated medians for each age group
     group_count = len(map_simulated_to_empirical_cohorts)
