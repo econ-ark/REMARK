@@ -1,6 +1,4 @@
 import numpy as np
-from HARK.simulation import drawNormal
-from HARK.utilities import approxNormal
 # %% Preferences
 
 # Relative risk aversion

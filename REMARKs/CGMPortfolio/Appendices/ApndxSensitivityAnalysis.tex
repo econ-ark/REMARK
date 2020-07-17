@@ -45,28 +45,6 @@ Given the differences, we inspect the second and third-to-last life periods more
 Given that our main set of results do not align with those of \cite{cgm2015},
 we provide a few tests that compare the behavior of the tools that we are using with well known theoretical results.
 
-\subsection{Merton-Samuelson's limiting risky share}
-
-\cite{merton,samuelson} show that a consumer with constant relative
-risk aversion $\rho$, a risky asset with log-normally distributed returns
-with a risk premium $\phi$ and log-standard-deviation $\sigma_r$, and no labor income uncertainty will invest the following share of their income:\footnote{See 
-\href{http://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/AssetPricing/Portfolio-CRRA/}{\texttt{Portfolio-CRRA}}.}
-\begin{equation}
-	s = \frac{\phi}{\rho \sigma^2_r}.
-\end{equation}
-This result holds as long as labor income is an \emph{unimportant} source of
-wealth for the agent.
-
-To test HARK's implementation, we modify returns to the risky asset to be 
-log-normal and keep the rest of the calibration the same. Since labor income
-is unimportant for infinitely wealthy agents, our risky portfolio share policy rules must converge to Merton and Samuelson's limit as market resources approach infinity. Figure \ref{fig:MS_share_limit} shows that this is indeed the case.
-
-\begin{figure}[h]
-	\includegraphics[]{\FigDirPython/Merton_Samuelson_Limit}
-	\caption{Merton Samuelson as the limit of the risky asset's portfolio 
-		share.}\label{fig:MS_share_limit}
-\end{figure}
-
 \subsection{Marginal Propensity to Consume}
 
 \href{http://www.econ2.jhu.edu/people/ccarroll/public/LectureNotes/Consumption/CRRA-RateRisk/}{CRRA-RateRisk}
