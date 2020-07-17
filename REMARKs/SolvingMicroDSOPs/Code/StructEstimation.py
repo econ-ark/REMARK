@@ -23,7 +23,7 @@ from time import time                           # Timing utility
 
 # Import modules from core HARK libraries:
 import HARK.ConsumptionSaving.ConsIndShockModel as Model # The consumption-saving micro model
-from HARK.simulation import drawDiscrete         # Method for sampling from a discrete distribution
+from HARK.distribution import DiscreteDistribution         # Method for sampling from a discrete distribution
 from HARK.estimation import minimizeNelderMead, bootstrapSampleFromData # Estimation methods
 
 # Find pathname to this file:
@@ -36,21 +36,11 @@ figures_dir = os.path.join(my_file_path, "../Figures/") # Relative directory for
 code_dir = os.path.join(my_file_path, "../Code/") # Relative directory for primitive parameter files
 
 
-# Import modules from local repository. If local repository is part of HARK, 
-# this will import from HARK. Otherwise manual pathname specification is in 
-# order.
-try: 
-    # Import from core HARK code first:
-    from HARK.SolvingMicroDSOPs.Calibration import EstimationParameters as Params           # Parameters for the consumer type and the estimation
-    from HARK.SolvingMicroDSOPs.Calibration import SetupSCFdata as Data                     # SCF 2004 data on household wealth
-
-except:
-    # Need to rely on the manual insertion of pathnames to all files in do_all.py
-    # NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be 
-    # copied from do_all.py to here
-    import EstimationParameters as Params           # Parameters for the consumer type and the estimation
-    import SetupSCFdata as Data                     # SCF 2004 data on household wealth
-
+# Need to rely on the manual insertion of pathnames to all files in do_all.py
+# NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be
+# copied from do_all.py to here
+import EstimationParameters as Params           # Parameters for the consumer type and the estimation
+import SetupSCFdata as Data                     # SCF 2004 data on household wealth
 
 
 # Set booleans to determine which tasks should be done
@@ -113,10 +103,10 @@ class TempConsumerType(Model.IndShockConsumerType):
 EstimationAgent = TempConsumerType(**Params.init_consumer_objects)   # Make a TempConsumerType for estimation
 EstimationAgent(T_sim = EstimationAgent.T_cycle+1)                   # Set the number of periods to simulate
 EstimationAgent.track_vars = ['bNrmNow']                             # Choose to track bank balances as wealth
-EstimationAgent.aNrmInit = drawDiscrete(N=Params.num_agents,
-                                      P=Params.initial_wealth_income_ratio_probs,
-                                      X=Params.initial_wealth_income_ratio_vals,
-                                      seed=Params.seed)              # Draw initial assets for each consumer
+EstimationAgent.aNrmInit = DiscreteDistribution(
+    Params.initial_wealth_income_ratio_probs,
+    Params.initial_wealth_income_ratio_vals,
+    seed=Params.seed).drawDiscrete(N=Params.num_agents)    # Draw initial assets for each consumer
 EstimationAgent.makeShockHistory()
 
 # Define the objective function for the simulated method of moments estimation
@@ -174,9 +164,6 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
         Sum of distances between empirical data observations and the corresponding
         median wealth-to-permanent-income ratio in the simulation.
     '''
-    original_time_flow = agent.time_flow
-    agent.timeFwd() # Make sure time is flowing forward for the agent
-
     # A quick check to make sure that the parameter values are within bounds.
     # Far flung falues of DiscFacAdj or CRRA might cause an error during solution or
     # simulation, so the objective function doesn't even bother with them.
@@ -192,7 +179,7 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
     max_sim_age = max([max(ages) for ages in map_simulated_to_empirical_cohorts])+1
     agent.initializeSim()                     # Initialize the simulation by clearing histories, resetting initial values
     agent.simulate(max_sim_age)               # Simulate histories of consumption and wealth
-    sim_w_history = agent.bNrmNow_hist        # Take "wealth" to mean bank balances before receiving labor income
+    sim_w_history = agent.history['bNrmNow']        # Take "wealth" to mean bank balances before receiving labor income
 
     # Find the distance between empirical data and simulated medians for each age group
     group_count = len(map_simulated_to_empirical_cohorts)
@@ -203,9 +190,6 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
         group_indices = empirical_groups == (g+1) # groups are numbered from 1
         distance_sum += np.dot(np.abs(empirical_data[group_indices] - sim_median),empirical_weights[group_indices]) # Weighted distance from each empirical observation to the simulated median for this age group
 
-    # Restore time to its original direction and report the result
-    if not original_time_flow:
-        agent.timeRev()
     return distance_sum
 
 # Make a single-input lambda function for use in the optimizer

@@ -3,7 +3,7 @@ Specifies the full set of calibrated values required to estimate the SolvingMicr
 model.  The empirical data is stored in a separate csv file and is loaded in SetupSCFdata.
 '''
 from __future__ import print_function
-
+import numpy as np
 # ---------------------------------------------------------------------------------
 # Debugging flags
 # ---------------------------------------------------------------------------------
@@ -119,8 +119,8 @@ empirical_cohort_age_groups = [[ 26,27,28,29,30 ],
                      [ 51,52,53,54,55 ],
                      [ 56,57,58,59,60 ]]
 
-initial_wealth_income_ratio_vals = [0.17, 0.5, 0.83]            # Three point discrete distribution of initial w
-initial_wealth_income_ratio_probs = [0.33333, 0.33333, 0.33334] # Equiprobable discrete distribution of initial w
+initial_wealth_income_ratio_vals = np.array([0.17, 0.5, 0.83])            # Three point discrete distribution of initial w
+initial_wealth_income_ratio_probs = np.array([0.33333, 0.33333, 0.33334]) # Equiprobable discrete distribution of initial w
 num_agents = 10000                                              # Number of agents to simulate
 bootstrap_size = 50                                             # Number of re-estimations to do during bootstrap
 seed = 31382                                                    # Just an integer to seed the estimation
