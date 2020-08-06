@@ -1,7 +1,3 @@
-[submodule "REMARKs/ctDiscrete"]
-	path = REMARKs/ctDiscrete
-	url = https://github.com/llorracc/ctDiscrete.git
-	branch = master
 [submodule "REMARKs/cstwMPC"]
 	path = REMARKs/cstwMPC
 	url = https://github.com/llorracc/cstwMPC.git
