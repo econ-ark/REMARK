@@ -1,1 +1,0 @@
-This paper shows that liquidity constraints and precautionary saving are closely related to each other, since both can be thought of is "counterclockwise concavifications" of the consumption function.
