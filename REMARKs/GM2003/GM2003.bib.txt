@@ -1,0 +1,14 @@
+@Article{RePEc:red:issued:v:6:y:2003:i:4:p:729-766,
+  author={Francisco Gomes and Alexander Michaelides},
+  title={{Portfolio Choice With Internal Habit Formation: A Life-Cycle Model With Uninsurable Labor Income Risk}},
+  journal={Review of Economic Dynamics},
+  year=2003,
+  volume={6},
+  number={4},
+  pages={729-766},
+  month={October},
+  keywords={Life-cycle asset allocation; Habit formation; Liquidity constraints; Stock market participation cost},
+  doi={10.1016/S1094-2025(03)000},
+  abstract={Motivated by the success of internal habit formation preferences in explaining asset pricing puzzles, we introduce these preferences in a life-cycle model of consumption and portfolio choice with liquidity constraints, undiversifiable labor income risk and stock-market participation costs. In contrast to the initial motivation, we find that the model is not able to simultaneously match two very important stylized facts: a low stock market participation rate, and moderate equity holdings for those households that do invest in stocks. Habit formation increases wealth accumulation because the intertemporal consumption smoothing motive is stronger. As a result, households start participating in the stock market very early in life, and invest their portfolios almost fully in stocks. Therefore, we conclude that, with respect to its ability to match the empirical evidence on asset allocation behavior, the internal habit formation model is dominated by its time-separable utility counterpart. (Copyright: Elsevier)},
+  url={https://ideas.repec.org/a/red/issued/v6y2003i4p729-766.html}
+}

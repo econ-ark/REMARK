@@ -1,0 +1,8 @@
+## First run docker 
+
+docker run -v "$PWD":/home/jovyan/work -p 8888:8888 econark/econ-ark-notebook
+## Then run:
+nbreproduce --docker econark/econ-ark-notebook GM2003.ipynb
+## did not use do_all_code.sh
+
+#The nbreproduce command was successfully executed on Mac but not my Windows with unknown WinError
