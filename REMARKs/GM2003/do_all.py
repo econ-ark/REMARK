@@ -839,9 +839,9 @@ agent.T_sim = 80*50
 agent.initializeSim()
 agent.simulate()
 
-raw_data = {'Age': agent.history[t_age'].flatten()+time_params['Age_born'],
+raw_data = {'Age': agent.history['t_age'].flatten()+time_params['Age_born'],
             'pIncome': agent.history['pLvlNow'].flatten(),
-            'rShare': agent.history['ShareNow']t.flatten(),
+            'rShare': agent.history['ShareNow'].flatten(),
             'nrmM': agent.history['mNrmNow'].flatten(),
             'nrmC': agent.history['cNrmNow'].flatten()}
 
