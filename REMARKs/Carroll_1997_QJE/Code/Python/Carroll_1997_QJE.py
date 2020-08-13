@@ -2,15 +2,26 @@
 # jupyter:
 #   jupytext:
 #     formats: ipynb,py:percent
+#     notebook_metadata_filter: all
 #     text_representation:
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
 #     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.7.6
 # ---
 
 # %% [markdown]
@@ -129,22 +140,10 @@
 
 # %% {"code_folding": [0]}
 # This cell has a bit of initial setup.
-# %matplotlib inline
 import matplotlib.pyplot as plt
-
-# The first step is to be able to bring things in from different directories
-import sys 
-import os
-
-sys.path.insert(0, os.path.abspath('../lib'))
-
-#from util import log_progress
 
 import numpy as np
 import HARK 
-from time import clock
-from copy import deepcopy
-mystr = lambda number : "{:.4f}".format(number)
 from HARK.utilities import plotFuncs
 
 # %% {"code_folding": [0]}
@@ -359,6 +358,8 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$', fontsize=20)
 plt.ylabel('Growth', fontsize=20)
 plt.legend()
+plt.savefig('../../Paper/Figures/Figure1a.png')
+plt.show()
 
 # %% {"code_folding": [0]}
 # Create a new consumer instance with lower permanent income growth (1.005)
@@ -469,6 +470,8 @@ ax.set_ylim(-0.05,0.05)
 plt.xlabel('$m_t$',fontsize=20)
 plt.ylabel('Growth',fontsize=20)
 plt.legend()
+plt.savefig('../../Paper/Figures/Figure1b.png')
+plt.show()
 
 # %% [markdown]
 # ### Methods of Solution
@@ -515,8 +518,6 @@ plt.legend()
 import HARK.ConsumptionSaving.ConsIndShockModel as Model    
 import HARK.ConsumptionSaving.ConsumerParameters as Params
 from HARK.utilities import plotFuncsDer, plotFuncs
-from time import time
-mystr = lambda number : "{:.4f}".format(number)
 do_simulation = True
 import numpy as np
 import matplotlib.pyplot as plt
@@ -639,6 +640,7 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Unskilled Laborers')
 plt.ylim(0.8,2.5)
+plt.savefig('../../Paper/Figures/Figure5a.png')
 
 plt.figure()
 
@@ -649,7 +651,7 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Operatives')
 plt.ylim(0.8,2.5)
-
+plt.savefig('../../Paper/Figures/Figure5b.png')
 plt.figure()
 
 plt.plot(AgeMeans.T_age, AgeMeans.Cons_Managers,label='Consumption')
@@ -659,6 +661,7 @@ plt.legend()
 plt.xlabel('Age')
 plt.title('Managers')
 plt.ylim(0.8,2.5)
+plt.savefig('../../Paper/Figures/Figure5c.png')
 
 # %% [markdown]
 # Results show the parallel until the age of 45 or 50. Then retirement savings allow income profile to rise above the consumption profile in the years immediately before the retirement.
@@ -755,6 +758,7 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VI: Standard Lifecycle Model')
+plt.savefig('../../Paper/Figures/Figure6.png')
 
 # %% {"code_folding": [0]}
 # Parameter setup and model solving to simulate Figure VII (Wealth for faster and slower income growth in a bufferstock model)
@@ -834,6 +838,7 @@ plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Wealth')
 plt.title('Figure VII: Buffer Stock Lifecycle Model')
+plt.savefig('../../Paper/Figures/Figure7.png')
 
 # %% [markdown]
 # ### Variation of Parameter Values
@@ -1052,6 +1057,14 @@ table.columns = ['Growth rate of aggregate consumption', 'Average growth rate of
 table.index = ['Base Model','g = .04','DiscFac = .90']
 table
 
+# %%
+#create tabular version of the dataframe and export it
+from tabulate import tabulate
+headers = ['Agg Cons Growth Rate', 'Perm Inc Av Growth Rate', 'Cons Av Growth Rate', 'Agg Saving Rate', 'Av MPC','Av Net Wealth','Target Net Wealth']
+tab1 = tabulate(table,headers, tablefmt='latex')
+with open('../../Paper/Tables/table1.tex','w') as table_1:
+    table_1.write(tab1)
+
 # %% {"code_folding": [0]}
 # Preliminary parameter setup to calibrate Table 2
 
@@ -1143,6 +1156,14 @@ table = pd.DataFrame(table2)
 table.columns = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC out of human wealth','BS Consumption g=2%', 'BS Consumption g=3%', 'BS MPC out of human wealth', 'BS Implied Discount Rate of Future Income'] # add names for columns
 table.index =['','','','','','','']
 table
+
+# %%
+#create tabular version of the dataframe and export it
+from tabulate import tabulate
+headers = ['Wealth', 'PF Consumption g=2%', 'PF Consumption g=3%', 'PF MPC out of human wealth','BS Consumption g=2%', 'BS Consumption g=3%', 'BS MPC out of human wealth', 'BS Implied Discount Rate of Future Income'] # add names for columns
+tab2 = tabulate(table,headers, tablefmt='latex')
+with open('../../Paper/Tables/table2.tex','w') as table_2:
+    table_2.write(tab2)
 
 # %% [markdown]
 # ### Conclusion 

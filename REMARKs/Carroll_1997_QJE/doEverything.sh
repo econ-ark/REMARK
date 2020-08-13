@@ -1,16 +1,18 @@
 #!/bin/bash
+# tabulate needs to be installed for writing tex tables
+python3 -m pip install tabulate
 
-scriptDir="$(realpath $(dirname "$0"))" # get the path to this script itself
+# Go to the ipython notebook/script directory to execute the script
+# and create figures and tables.
+cd Code/Python
+ipython Carroll_1997_QJE.py
 
-sudo echo 'Authorizing sudo.'
-
-python ./do_all.py #create and save figures and tables
-
-cd Paper
+# Navigate to Paper directory to build paper
+cd ../../Paper
 pdflatex main.tex #creates the main paper and aux file
 bibtex main.aux  #run bibtex to run aux to create bbl file
 pdflatex main.tex #rerun latex with the bbl file
 
-cd ..
-cd Slides
+# Navigate to Slides directory to build the slides
+cd ../Slides
 pdflatex slides.tex
