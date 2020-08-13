@@ -1,3 +1,14 @@
+---
+location_url: https://github.com/llorracc/BufferStockTheory
+name: BufferStockTheory
+summary: 'Theoretical Foundations of Buffer Stock Saving'
+abstract: ''
+notebook: Code/Python/BufferStockTheory.ipynb
+authors:
+  - Christopher Carroll
+DOI: 
+---
+
 # Theoretical Foundations of Buffer Stock Saving
 
 This is a Reproduction of the numerical results 

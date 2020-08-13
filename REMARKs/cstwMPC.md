@@ -1,3 +1,19 @@
+---
+location_url: https://github.com/llorracc/cstwMPC
+name: cstwMPC
+summary: ''
+abstract: ''
+notebook: cstwMPC.ipynb
+authors:
+  - Christopher Carroll
+  - Jiri Slacalek
+  - Kiichi Tokuoka
+  - Matthew N. White
+DOI: 
+---
+
+
+
 # cstwMPC is a Replication of the results in 
 ## [The Distribution of Wealth and the Marginal Propensity to Consume](http://econ.jhu.edu/people/ccarroll/papers/cstwMPC)
 ### by Christopher Carroll, Jiri Slacalek, Kiichi Tokuoka, Matthew N. White
