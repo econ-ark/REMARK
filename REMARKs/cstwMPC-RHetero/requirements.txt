@@ -1,7 +1,0 @@
-econ-ark
-numpy
-matplotlib
-numpydoc
-scipy
-future
-dill
