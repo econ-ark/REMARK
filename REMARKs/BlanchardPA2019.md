@@ -1,3 +1,17 @@
+---
+location_url: https://github.com/econ-ark/BlanchardPA2019
+name: BlanchardPA2019
+remark_title: 'Public Debt and Low Interest Rates'
+summary: ''
+abstract: ''
+notebook: Code/Python/BlanchardPA2019.ipynb
+authors:
+  - Julien Acalin
+DOI: ''
+---
+
+
+
 # Public Debt and Low Interest Rates
 
 ## Replication of Blanchard (2019)
