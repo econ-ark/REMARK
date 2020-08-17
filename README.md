@@ -15,6 +15,27 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
+## REMARKs
+
+| | REMARK       |  Link to REMARK |
+| --| ------------ | ----------------|
+| 1. | Public Debt and Low Interest Rates [Replication of Blanchard (2019)]            | https://github.com/econ-ark/BlanchardPA2019                |
+| 2. | Solving heterogeneous agent models in discrete time with many idiosyncratic states by perturbation methods | https://github.com/econ-ark/BayerLuetticke |
+| 3. | Theoretical Foundations of Buffer Stock Saving | https://github.com/llorracc/BufferStockTheory |
+| 4. | Consumption and Portfolio Choice Over the Life Cycle | https://github.com/econ-ark/CGMPortfolio |
+| 5. | Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis | https://github.com/econ-ark/Carroll_1997_QJE |
+| 6. | Consumer Spending During Unemployment: Positive and Normative Implications | |
+| 7. | Income and wealth heterogeneity in the macroeconomy (KrusellSmith) | https://github.com/econ-ark/KrusellSmith |
+| 8. | Liquidity Constraints and Precautionary Saving | https://github.com/llorracc/LiqConstr |
+| 9. | Modeling the Consumption Response to the CARES Act | https://github.com/econ-ark/Pandemic |
+| 10. | Optimal Financial Investment over the Life Cycle - Blog Post | https://github.com/econ-ark/PortfolioChoiceBlogPost |
+| 11. | SolvingMicroDSOPs | |
+| 12. | Sticky Expectations and Consumption Dynamics | https://github.com/llorracc/cAndCwithStickyE |
+| 13. | Can Persistent Unobserved Heterogeneity in Returns-to-Wealth Explain Wealth Inequality? | https://github.com/econ-ark/cstwMPC-RHetero  |
+| 14. | The Distribution of Wealth and the Marginal Propensity to Consume | https://github.com/llorracc/cstwMPC |
+| 15. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
+
+
 ## REMARK Guidelines
 
 Every remark *must* have the following content (described in more detail in sections below):
