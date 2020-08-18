@@ -19,6 +19,7 @@ Types of content include (see below for elaboration):
 
 | | REMARK       |  Link to REMARK |
 | --| ------------ | ----------------|
+| 0. | REMARK Template | https://github.com/econ-ark/REMARK-template |
 | 1. | Public Debt and Low Interest Rates [Replication of Blanchard (2019)]            | https://github.com/econ-ark/BlanchardPA2019                |
 | 2. | Solving heterogeneous agent models in discrete time with many idiosyncratic states by perturbation methods | https://github.com/econ-ark/BayerLuetticke |
 | 3. | Theoretical Foundations of Buffer Stock Saving | https://github.com/llorracc/BufferStockTheory |
