@@ -1,0 +1,16 @@
+name: Copy metadata
+on: gollum
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copycat
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        src_path: /REMARKS/*.md
+        dst_path: /materials/
+        dst_owner: DrDrij
+        dst_repo_name: staging.econ-ark.org
+        dst_branch: master
+        src_branch: master
