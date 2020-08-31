@@ -2,7 +2,7 @@ name: Copy metadata
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/5 * * * *'
+    - cron:  '0 8 * * *'
 jobs:
   copy:
     runs-on: ubuntu-latest
@@ -12,7 +12,7 @@ jobs:
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         src_path: REMARKs/.
-        file_filter: './*.md'
+        file_filter: '*.md'
         dst_path: /materials/
         dst_owner: econ-ark
         dst_repo_name: staging.econ-ark.org
