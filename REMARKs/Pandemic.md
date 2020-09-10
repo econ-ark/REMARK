@@ -1,4 +1,3 @@
-
 ---
 location_url: https://github.com/econ-ark/Pandemic
 name: Pandemic
