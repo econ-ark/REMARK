@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Replication
 location_url: https://github.com/llorracc/cAndCwithStickyE
 name: cAndCwithStickyE
 summary: 'Sticky Expectations and Consumption Dynamics'

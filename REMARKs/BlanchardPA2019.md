@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Replication
 location_url: https://github.com/econ-ark/BlanchardPA2019
 name: BlanchardPA2019
 remark_title: 'Public Debt and Low Interest Rates'

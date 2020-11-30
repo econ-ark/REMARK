@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Replication
 name: cstwMPC-RHetero
 title: Can Persistent Unobserved Heterogeneity in Returns-to-Wealth Explain Wealth Inequality?
 remark_title: cstwMPC-RHetero

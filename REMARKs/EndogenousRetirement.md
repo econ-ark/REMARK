@@ -1,4 +1,6 @@
 ---
+tags:
+  - REMARK
 location_url: https://github.com/econ-ark/EndogenousRetirement
 name: EndogenousRetirement
 summary: ''

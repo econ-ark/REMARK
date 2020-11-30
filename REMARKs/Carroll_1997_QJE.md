@@ -1,4 +1,6 @@
 ---
+tags:
+  - REMARK
 location_url: https://github.com/econ-ark/Carroll_1997_QJE
 name: Carroll_1997_QJE
 paper_title: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis
