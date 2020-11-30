@@ -26,8 +26,7 @@ keywords: # optional
   - liquidity constraints
   - uncertainty
   - precautionary saving
-message: "This paper shows that liquidity constraints and precautionary saving are closely related to each other, since both can be thought of is "counterclockwise concavifications" of the consumption function.; all results are paired with illustrative numerical solutions." # required
-repository-code: "https://github.com/llorracc/LiqConstr" # optional
+message: "This paper shows that liquidity constraints and precautionary saving are closely related to each other, since both can be thought of is \"counterclockwise concavifications\" of the consumption function.; all results are paired with illustrative numerical solutions." # required
 title: "Liquidity Constraints and Precautionary Saving" # required
 version: "1.0" # required
 # REMARK fields
