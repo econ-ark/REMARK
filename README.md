@@ -39,12 +39,10 @@ Types of content include (see below for elaboration):
 
 ## REMARK Guidelines
 
-The only absolute requirements are:
-
-1. The necessary information to strictly and robustly indicate the versions of ALL software required to recreate the environment in which the code works
-  - For python projects, this consists of a `reproduce.sh` file in the binder directory
-a reproduce.sh script that
-     - Checks whether the required environment exists, and if not installs it
+1. The only absolute requirements are:
+  - A `requirements.txt` file with pinned dependencies. Must be at the top directory level, or in a `binder/` directory.
+  - a `reproduce.sh` script that
+     - Installs the requirements
      - Runs and reproduces all the results
      
 2. Strongly recommended are:
