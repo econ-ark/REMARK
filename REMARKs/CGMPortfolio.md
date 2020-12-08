@@ -1,4 +1,6 @@
 ---
+tags:
+  - REMARK
 abstract: "This REMARK is an attempt to reproduce the main results of Cocco, Gomes, & Maenhout (2005), 'Consumption and Portfolio Choice Over the Life Cycle' (https://academic.oup.com/rfs/article-abstract/18/2/491/1599892)" # abstract: optional
 authors: # required
   -

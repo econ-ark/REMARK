@@ -1,3 +1,10 @@
+---
+tags:
+  - REMARK
+  - Replication
+  - Teaching
+  - Tutorial
+---
 # SolvingMicroDSOPs Is an Exploration of Indirect Inference for a Life Cycle Model
 
 The `do_all.py` file in SolvingMicroDSOPs is meant as a template for one kind of REMARK directory. It is a full-fledged module that can be imported and will create tools that can be used to specify the many options that govern exactly what is done by the tools in SolvingMicroDSOPs.

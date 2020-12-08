@@ -1,19 +1,57 @@
 ---
-location_url: https://github.com/llorracc/cAndCwithStickyE
-name: cAndCwithStickyE
-summary: 'Sticky Expectations and Consumption Dynamics'
-abstract: ''
-notebook:
-authors:
-  - Christopher Carroll
-  - Edmund Crawley
-  - Jiri Slacalek
-  - Kiichi Tokuoka
-  - Matthew White
-DOI: 
+tags:
+  - REMARK
+  - Reproduction
+abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
+authors: # required
+  -  
+    family-names: Carroll
+    given-names: "Christopher D."
+    orcid: "https://orcid.org/0000-0003-3732-9312"
+  -
+    family-names: Crawley
+    given-names: "Edmund"
+    orcid: "https://orcid.org/"
+  -
+    family-names: Slacalek
+    given-names: "Jiri"
+    orcid: "https://orcid.org/"
+  -
+    family-names: Kiichi
+    given-names: "Tokuoka"
+    orcid: "https://orcid.org/"
+  -
+    family-names: White
+    given-names: "Matthew"
+    orcid: "https://orcid.org/"
+cff-version: "" # required 
+date-released:  # required
+identifiers: # optional
+  - 
+    type: url
+    value: "https://github.com/llorracc/cAndCwithStickyE"
+  - 
+    type: doi
+    value: "TODO"
+keywords: # optional
+message: "" # required
+version: "" # required
+# REMARK fields
+github_repo_url: https://github.com/llorracc/cAndCwithStickyE # required 
+commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
+remark-name: cAndCwithStickyE # required 
+title-original-paper: # optional 
+notebooks: # path to any notebooks within the repo - optional
+dashboards: # path to any dahsboards within the repo - optional
+identifiers-paper: # required for Replications; optional for Reproductions
+   - 
+      type: url 
+      value: 
+   - 
+      type: doi
+      value: 
+date-published-original-paper: # required for Replications; optional for Reproductions
 ---
-
-
 # cAndCwithStickyE is a Reproduction 
 
 This is a reproduction of the results in the paper "Sticky Expectations and Consumption Dynamics" by Carroll, Crawley, Slacalek, Tokuoka, and White. The [html version](http://econ.jhu.edu/people/ccarroll/papers/cAndCwithStickyE) contains links to resources including the PDF version, the presentation slides, a repo containing the paper and code, and related material

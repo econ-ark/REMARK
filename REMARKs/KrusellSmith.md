@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Replication
 location_url: https://github.com/econ-ark/KrusellSmith
 name: KrusellSmith
 summary: 'Income and wealth heterogeneity in the macroeconomy'

@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Reproduction
 abstract: "We provide the analytical explanation of strong interactions between precautionary sav- ing and liquidity constraints that are regularly observed in numerical solutions to consump- tion/saving models. The effects of constraints and of uncertainty spring from the same cause: concavification of the consumption function, which can be induced either by constraints or by uncertainty. Concavification propagates back to consumption functions in prior periods. But, surprisingly, once a linear consumption function has been concavified by the presence of either risks or constraints, the introduction of additional concavifiers in a given period can reduce the precautionary motive in earlier periods at some levels of wealth." # abstract: optional
 authors: # required
   -

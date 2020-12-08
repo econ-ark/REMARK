@@ -1,4 +1,7 @@
 ---
+tags:
+  - REMARK
+  - Replication
 location_url: https://github.com/llorracc/ctDiscrete
 name: ctDiscrete
 summary: 'Analytically tractable model of the effects of nonfinancial risk on intertemporal choice'

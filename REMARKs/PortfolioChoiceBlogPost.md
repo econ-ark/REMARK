@@ -1,4 +1,9 @@
 ---
+tags:
+  - REMARK
+  - Replication
+  - Notebook
+  - Blog
 location_url: https://github.com/econ-ark/PortfolioChoiceBlogPost
 name: PortfolioChoiceBlogPost
 summary: 'Optimal Financial Investment over the Life Cycle'

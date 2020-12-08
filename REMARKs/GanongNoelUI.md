@@ -1,3 +1,9 @@
+---
+tags:
+  - REMARK
+  - Replication
+---
+  
   Analysis of Models for "Consumer Spending During Unemployment: Positive and Normative Implications"
 
 By Peter Ganong and Pascal Noel 
