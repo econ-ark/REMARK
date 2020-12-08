@@ -42,13 +42,13 @@ Types of content include (see below for elaboration):
 The only absolute requirements are:
 
 1. The necessary information to strictly and robustly indicate the versions of ALL software required to recreate the environment in which the code works
-  - For python projects, this consists of a `reproduce.txt` file in the binder directory
+  - For python projects, this consists of a `reproduce.sh` file in the binder directory
 a reproduce.sh script that
      - Checks whether the required environment exists, and if not installs it
      - Runs and reproduces all the results
      
 2. Strongly recommended are:
-  - If reproduce.sh takes longer than a few minutes, a reproduce_min.sh that generates some interesting subset of results within a few minutes
+  - If reproduce.sh takes longer than a few minutes, a `reproduce_min.sh` that generates some interesting subset of results within a few minutes
   - A Jupyter notebook that exposits the material being reproduced
 
 3. For a maximalist REMARK (the extra stuff is completely optional) included:
