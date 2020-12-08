@@ -4,7 +4,7 @@ This collects and organizes self-contained and complete projects written using t
 The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
 in this directory).
 
-Each project lives in its own subdirectory in the `REMARKs` directory.  
+Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).  
 
 Types of content include (see below for elaboration):
 
@@ -37,56 +37,23 @@ Types of content include (see below for elaboration):
 | 15. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
 | 16. | Endogenous Retirement: A Canonical Discrete-Continuous Problem | https://github.com/econ-ark/EndogenousRetirement |
 
-
 ## REMARK Guidelines
 
-Every remark *must* have the following content (described in more detail in sections below):
-1. `do_all_code.sh`
-    * This should be at the root level of the directory
-1. In `Code/Python` an eponymous Jupyter Notebook
-    * For example, `Code/Python/BufferStockTheory.ipynb`
-1. In the REMARKs directory, an eponymous markdown file with a brief description
-    * For example, `REMARKs/BufferStockTheory.md`
-1. In the REMARKs directory, an eponymous bibtex file containing a reference
-    * For example, `REMARKs/BufferStockTheory.bib`
+The only absolute requirements are:
 
-It is *highly encouraged* for each REMARK to adhere to the following guidelines:
+1. The necessary information to strictly and robustly indicate the versions of ALL software required to recreate the environment in which the code works
+  - For python projects, this consists of a `reproduce.txt` file in the binder directory
+a reproduce.sh script that
+     - Checks whether the required environment exists, and if not installs it
+     - Runs and reproduces all the results
+     
+2. Strongly recommended are:
+  - If reproduce.sh takes longer than a few minutes, a reproduce_min.sh that generates some interesting subset of results within a few minutes
+  - A Jupyter notebook that exposits the material being reproduced
 
-1. The Jupyter notebook should be a `.py` file bound to the notebook with Jupytext.
-1. `do_all.py` should execute this notebook code
-1. Executing `do_all.py` should save figures to a `Figures/` directory.
-
-### `do_[].py`
-
-Each REMARK directory should contain a file or files beginning with the word `do` and ending with a `.py` extension. The only such file that is absolutely required is `do_all.py.` If executing everything in the code takes more than a few minutes, there should also be a `do_min.py.` Other files that are intermediate between `do_min` and `do_all` are optional.
-
-* `do_all.py` should produce all of the results that the tool is capable of generating
-   * In other words, `do_all.py` should execute all the economic simulation code.
-   * For a reproduction, it should produce substantially all of the tables and figures of the associated paper
-   * For a replication, it should produce whatever the author judges to be a characteristic set of the results of the paper
-   * When executed, it should:
-      * Inform the user of the minimal resources required for execution (RAM, processor speed, etc)
-	  * Tell the user roughly how long execution takes on a machine that satisfies those requirements
-	  * Get the user's permission before proceeding
-
-### Eponymous Jupyter Notebook
-
-For a project named `ThisIsMyREMARK` there should be a Jupyter notebook named `ThisIsMyREMARK.ipynb`  in the directory `Code/Python`
-
-The preferred, but not required, practice is for the Jupyter notebook to be the generator of the python code executed by `do_all.py.`  An example of how this can be accomplished is given by the `BufferStockTheory`
-REMARK
-
-### An Eponymous Markdown file
-
-This should contain a brief description of the project, which will be used on the website as the brief description of the REMARK
-
-This is an unstructured category, whose purpose to hold pretty much any kind of self-contained and coherent exercise. Purposes might include:
-
-1. Illustrations of the uses of a particular model
-1. Examples of how to use a particular technique (e.g., indirect inference)
-1. Comparisons of the results of different models to each other
-
-and pretty much anything else that uses the toolkit but does not fall into the category of replications or reproductions of a paper
+3. For a maximalist REMARK (the extra stuff is completely optional) included:
+  - A reproduce_text-etc.sh that generates the text
+  - A dashboard that creates interactive versions of interesting figures
 
 ## Replications and Reproductions
 
