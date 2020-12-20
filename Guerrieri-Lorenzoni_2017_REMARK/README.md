@@ -9,7 +9,7 @@ This repository corresponds to the [Final assignment](https://github.com/ccarrol
 ## Location of main files:
   1. A notebook attempting to replicate the paper's main results using HARK can be found at Code/Python/Guerrieri-Lorenzoni.ipynb.
 
-  2. A document going into more detail on our attempt to replicate can be found at Guerrieri_Lorenzoni.pdf.
+  2. A document going into more detail on our attempt to replicate can be found at GL2017.pdf.
 
   3. The code that generates all the figures and results in the previous document can be found at Code/Python. Files can be run independently, 
      or all at once through the scrip ./do_ALL.py. 
