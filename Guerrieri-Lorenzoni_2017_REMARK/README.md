@@ -26,4 +26,4 @@ The following packages are required for executing the <tt>REMARK</tt> notebook:
 - numpy
 - scipy
 - econ-ark >= 0.10.8
-
+- cl.mat and inc_process.mat files
