@@ -20,9 +20,9 @@ This repository corresponds to the [Final assignment](https://github.com/ccarrol
   
   6. The python code requires inc_process.mat and cl.mat to run
 
-## Package requirements
+## Package/data requirements
 
-The following packages are required for executing the <tt>REMARK</tt> notebook:
+The following packages and data files are required for executing the <tt>REMARK</tt> notebook:
 - numpy
 - scipy
 - econ-ark >= 0.10.8
