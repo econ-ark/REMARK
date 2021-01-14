@@ -1,8 +1,7 @@
 # R[eplications/eproductions] and Explorations Made using ARK (REMARK)
 
 This collects and organizes self-contained and complete projects written using the Econ-ARK.
-The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
-in this directory).
+The content here should be executable by anyone with a suitably configured computer or using [nbreproduce](https://econ-ark.github.io/nbreproduce/).
 
 Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).  
 
@@ -39,15 +38,16 @@ Types of content include (see below for elaboration):
 
 ## REMARK Guidelines
 
-1. The only absolute requirements are:
-  - A `requirements.txt` file with pinned dependencies. Must be at the top directory level, or in a `binder/` directory.
+1. The minimum requirements to create a REMARK are:
+  - A `requirements.txt` + `runtime.txt` or `environment.yml` file with pinned dependencies. Must be at the top directory level, or in a `binder/` directory.
   - a `reproduce.sh` script that
      - Installs the requirements
      - Runs and reproduces all the results
+  - A markdown file with all the required metadata about the REMARK file needs to be submitted to [this repository](https://github.com/econ-ark/REMARK) so it can be indexed on [econ-ark.org](https://econ-ark.org). A template for the metadata file with the required fields is in [this repository](https://github.com/econ-ark/REMARK/blob/master/REMARKs/template.md).
      
 2. Strongly recommended are:
   - If reproduce.sh takes longer than a few minutes, a `reproduce_min.sh` that generates some interesting subset of results within a few minutes
-  - A Jupyter notebook that exposits the material being reproduced
+  - A Jupyter notebook that exposits the material being reproduced.
 
 3. For a maximalist REMARK (the extra stuff is completely optional) included:
   - A reproduce_text-etc.sh that generates the text
