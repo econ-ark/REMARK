@@ -40,10 +40,12 @@ Types of content include (see below for elaboration):
 
 1. The minimum requirements to create a REMARK are:
   - A `requirements.txt` + `runtime.txt` or `environment.yml` file with pinned dependencies. Must be at the top directory level, or in a `binder/` directory.
+  - The repository needs to have a tagged release, at least `1.0` or greater.
   - a `reproduce.sh` script that
      - Installs the requirements
      - Runs and reproduces all the results
   - A markdown file with all the required metadata about the REMARK file needs to be submitted to [this repository](https://github.com/econ-ark/REMARK) so it can be indexed on [econ-ark.org](https://econ-ark.org). A template for the metadata file with the required fields is in [this repository](https://github.com/econ-ark/REMARK/blob/master/REMARKs/template.md).
+     - The markdown file's `Version` field must correspond to the the tag of the release (see above).
      
 2. Strongly recommended are:
   - If reproduce.sh takes longer than a few minutes, a `reproduce_min.sh` that generates some interesting subset of results within a few minutes
