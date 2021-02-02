@@ -9,7 +9,8 @@ authors: # required
     given-names: "Julien"
     orcid: "https://orcid.org/0000-0003-3732-9312"
 # REMARK fields
-github_repo_url: https://github.com/econ-ark/BlanchardPA2019 # required 
+github_repo_url: https://github.com/econ-ark/BlanchardPA2019 # required
+version: 1.1 # required
 remark-name: BlanchardPA2019 # required 
 title-original-paper: Public Debt and Low Interest Rates # optional 
 notebooks: # path to any notebooks within the repo - optional
