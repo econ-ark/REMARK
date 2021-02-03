@@ -40,7 +40,7 @@ Types of content include (see below for elaboration):
 A REMARK refers to an open git repository that is indexed in this repository with appropriate metadata.
 
 The REMARK's repository must:
- 1. Have a tagged release, `1.0` or greater.
+ 1. Have a [tagged release](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository), the last commit before including it as a REMARK should be tagged with a 1.0 release.
  2. In that repository at that release, there must be:
    - In either the top-level directory or a `binder/` directory, either:
      - installation files for `pip`:
