@@ -8,7 +8,7 @@ authors:
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 cff-version: "1.1.0"
-message: "Income and wealth heterogeneity in the macroeconomy"
+abstract: "Income and wealth heterogeneity in the macroeconomy"
 title: "KrusellSmith"
 version: "1.0"
 # REMARK fields
