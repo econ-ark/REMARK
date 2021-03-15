@@ -35,34 +35,6 @@ Types of content include (see below for elaboration):
 | 14. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
 | 15. | Endogenous Retirement: A Canonical Discrete-Continuous Problem | https://github.com/econ-ark/EndogenousRetirement |
 
-## REMARK Guidelines
-
-A REMARK refers to an open git repository that is indexed in this repository with appropriate metadata.
-
-The REMARK's repository must:
- 1. Have a [tagged release](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository), the last commit before including it as a REMARK should be tagged with a 1.0 release.
- 2. In that repository at that release, there must be:
-   - In either the top-level directory or a `binder/` directory, either:
-     - installation files for `pip`:
-      - a `runtime.txt` containing the name of a python version, e.g. `python-3.9.0`
-      - a `requirements.txt` file with pinned dependencies (such as created by the command `pip freeze > requirements.txt`), or...
-     - installation files for conda:
-      - an `environment.yml` file with pinned dependencies
-   - A `reproduce.sh` script that
-     - Installs the requirements
-     - Runs and reproduces all the results
- 
-To index the repository as a REMARK, please file a pull request in [this repository](https://github.com/econ-ark/REMARK) adding:
-  1. A markdown file with all the required metadata about the REMARK. A template for the metadata file with the required fields is in [this repository](https://github.com/econ-ark/REMARK/blob/master/REMARKs/template.md).
-     - Note: markdown file's `Version` field must correspond to the the tag of the release (see above).
-     
-It is **strongly recommended** to include:
-  - If reproduce.sh takes longer than a few minutes, a `reproduce_min.sh` that generates some interesting subset of results within a few minutes
-  - A Jupyter notebook that exposits the material being reproduced.
-
-A maximalist REMARK (the extra stuff is completely optional) includes:
-  - A reproduce_text-etc.sh that generates the text
-  - A dashboard that creates interactive versions of interesting figures
 
 ## Replications and Reproductions
 
