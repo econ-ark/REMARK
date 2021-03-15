@@ -3,8 +3,6 @@
 This collects and organizes self-contained and complete projects written using the Econ-ARK.
 The content here should be executable by anyone with a suitably configured computer or using [nbreproduce](https://econ-ark.github.io/nbreproduce/).
 
-Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).  
-
 Types of content include (see below for elaboration):
 
 1. Explorations
@@ -14,7 +12,19 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
-## REMARKs
+## For Authors
+
+Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).
+
+REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMARK/blob/master/STANDARD.md).
+
+## For Editors
+
+The REMARK catalog and Econ-ARK website configuration will be maintained by Editors.
+
+Editorial guidelines are [here](https://github.com/econ-ark/REMARK/blob/master/EDITORIAL.md).
+
+## REMARK Catalog
 
 | | REMARK       |  Link to REMARK |
 | --| ------------ | ----------------|
