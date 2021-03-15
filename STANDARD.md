@@ -4,7 +4,9 @@ A REMARK refers to an open git repository that is indexed in this repository wit
 
 ## Submitting a REMARK
 
-To index the repository as a REMARK, please file a pull request in [this repository](https://github.com/econ-ark/REMARK)
+To index the repository as a REMARK, please file a pull request in [this repository](https://github.com/econ-ark/REMARK).
+
+The PR should add a link to the repository to the Catalog (currently, in the README).
 
 ## The REMARK Standard
 
