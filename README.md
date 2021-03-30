@@ -1,10 +1,7 @@
 # R[eplications/eproductions] and Explorations Made using ARK (REMARK)
 
 This collects and organizes self-contained and complete projects written using the Econ-ARK.
-The content here should be executable by anyone with a suitably configured computer (see "Installation.md"
-in this directory).
-
-Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).  
+The content here should be executable by anyone with a suitably configured computer or using [nbreproduce](https://econ-ark.github.io/nbreproduce/).
 
 Types of content include (see below for elaboration):
 
@@ -15,7 +12,19 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the toolkit
 
-## REMARKs
+## For Authors
+
+Each project lives in its own repository. To make a new REMARK, please see the [REMARK starter example](https://github.com/econ-ark/REMARK-starter-example).
+
+REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMARK/blob/master/STANDARD.md).
+
+## For Editors
+
+The REMARK catalog and Econ-ARK website configuration will be maintained by Editors.
+
+Editorial guidelines are [here](https://github.com/econ-ark/REMARK/blob/master/EDITORIAL.md).
+
+## REMARK Catalog
 
 | | REMARK       |  Link to REMARK |
 | --| ------------ | ----------------|
@@ -32,26 +41,10 @@ Types of content include (see below for elaboration):
 | 10. | Optimal Financial Investment over the Life Cycle - Blog Post | https://github.com/econ-ark/PortfolioChoiceBlogPost |
 | 11. | SolvingMicroDSOPs | |
 | 12. | Sticky Expectations and Consumption Dynamics | https://github.com/llorracc/cAndCwithStickyE |
-| 13. | Can Persistent Unobserved Heterogeneity in Returns-to-Wealth Explain Wealth Inequality? | https://github.com/econ-ark/cstwMPC-RHetero  |
-| 14. | The Distribution of Wealth and the Marginal Propensity to Consume | https://github.com/llorracc/cstwMPC |
-| 15. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
-| 16. | Endogenous Retirement: A Canonical Discrete-Continuous Problem | https://github.com/econ-ark/EndogenousRetirement |
+| 13. | The Distribution of Wealth and the Marginal Propensity to Consume | https://github.com/llorracc/cstwMPC |
+| 14. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
+| 15. | Endogenous Retirement: A Canonical Discrete-Continuous Problem | https://github.com/econ-ark/EndogenousRetirement |
 
-## REMARK Guidelines
-
-1. The only absolute requirements are:
-  - A `requirements.txt` file with pinned dependencies. Must be at the top directory level, or in a `binder/` directory.
-  - a `reproduce.sh` script that
-     - Installs the requirements
-     - Runs and reproduces all the results
-     
-2. Strongly recommended are:
-  - If reproduce.sh takes longer than a few minutes, a `reproduce_min.sh` that generates some interesting subset of results within a few minutes
-  - A Jupyter notebook that exposits the material being reproduced
-
-3. For a maximalist REMARK (the extra stuff is completely optional) included:
-  - A reproduce_text-etc.sh that generates the text
-  - A dashboard that creates interactive versions of interesting figures
 
 ## Replications and Reproductions
 
