@@ -15,8 +15,8 @@ The REMARK's repository must:
  2. In that repository at that release, there must be:
    - In either the top-level directory or a `binder/` directory, either:
      - installation files for `pip`:
-      - a `runtime.txt` containing the name of a python version, e.g. `python-3.9.0`
-      - a `requirements.txt` file with pinned dependencies (such as created by the command `pip freeze > requirements.txt`), or...
+       - a `runtime.txt` containing the name of a python version, e.g. `python-3.9.0`
+       - a `requirements.txt` file with pinned dependencies (such as created by the command `pip freeze > requirements.txt`), or...
      - installation files for conda:
       - an `environment.yml` file with pinned dependencies
    - A `reproduce.sh` script that
