@@ -1,0 +1,16 @@
+% The \commands below are required to allow sharing of the same base code via Github between TeXLive on a local machine and ShareLaTeX.  This is an ugly solution to the requirement that custom LaTeX packages be accessible, and that ShareLaTeX seems to ignore symbolic links (even if they are relative links to valid locations)
+\newcommand{\econtex}{\econtexRoot/texmf-local/tex/latex/econtex}
+\newcommand{\econtexSetup}{\econtexRoot/texmf-local/tex/latex/econtexSetup}
+\newcommand{\econtexShortcuts}{\econtexRoot/texmf-local/tex/latex/econtexShortcuts}
+\newcommand{\econtexBibMake}{\econtexRoot/texmf-local/tex/latex/econtexBibMake}
+\newcommand{\econtexBibStyle}{\econtexRoot/texmf-local/bibtex/bst/econtex}
+\providecommand{\EqDir}{\econtexRoot/Equations}
+\providecommand{\FigDir}{\econtexRoot/Figures}
+\providecommand{\CodeDir}{\econtexRoot/Code}
+\providecommand{\CodeDir}{\econtexRoot/Data}
+\providecommand{\SlideDir}{\econtexRoot/Slides}
+\providecommand{\TableDir}{\econtexRoot/Tables}
+\providecommand{\ResourcesDir}{\econtexRoot/Resources}
+%\providecommand{\ApndxDir}{.} % Appendices can be in a subdirectory (and this can be redefined to, say, \providecommand{\ApndxDir}{\econtexRoot/Appendices} only if they do not reference any resources (Tables, Equations, Code, etc) in any other directory
+
+  
