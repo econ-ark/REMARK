@@ -2,8 +2,8 @@
 ipython code.py
 
 # compile latex file
-pdflatex LiqConstr.tex
-bibtex LiqConstr
-pdflatex LiqConstr.tex
-pdflatex LiqConstr.tex
-rm LiqConstr.aux LiqConstr.bbl LiqConstr.blg LiqConstr.dep LiqConstr.log LiqConstr.out
+pdflatex ChangKim-LaborWedge.tex
+bibtex ChangKim-LaborWedge
+pdflatex ChangKim-LaborWedge.tex
+pdflatex ChangKim-LaborWedge.tex
+rm ChangKim-LaborWedge.aux ChangKim-LaborWedge.bbl ChangKim-LaborWedge.blg ChangKim-LaborWedge.dep ChangKim-LaborWedge.log ChangKim-LaborWedge.out
