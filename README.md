@@ -41,7 +41,7 @@ Editorial guidelines are [here](https://github.com/econ-ark/REMARK/blob/master/E
 | 10. | Optimal Financial Investment over the Life Cycle - Blog Post | https://github.com/econ-ark/PortfolioChoiceBlogPost |
 | 11. | SolvingMicroDSOPs | |
 | 12. | Sticky Expectations and Consumption Dynamics | https://github.com/llorracc/cAndCwithStickyE |
-| 13. | The Distribution of Wealth and the Marginal Propensity to Consume | https://github.com/llorracc/cstwMPC |
+| 13. | The Distribution of Wealth and the Marginal Propensity to Consume | https://github.com/econ-ark/DistributionOfWealth |
 | 14. | Analytically tractable model of the effects of nonfinancial risk on intertemporal choice | https://github.com/llorracc/ctDiscrete |
 | 15. | Endogenous Retirement: A Canonical Discrete-Continuous Problem | https://github.com/econ-ark/EndogenousRetirement |
 
