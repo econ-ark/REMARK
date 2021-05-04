@@ -20,7 +20,7 @@ remark-name: Carroll_1997_QJE # required
 title-original-paper: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    Carroll_1997_QJE.ipynb
+    Code/Python/Carroll_1997_QJE.ipynb
 dashboards: # path to any dahsboards within the repo - optional
 identifiers-paper: # required for Replications; optional for Reproductions
 date-published-original-paper: # required for Replications; optional for Reproductions
@@ -29,8 +29,6 @@ date-published-original-paper: # required for Replications; optional for Reprodu
 # Carroll_1997_QJE
 
 This is a replication of Carroll (1997), Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis.
-
-`do_all.py` reproduces all the results of the paper.
 
 ## References
 
