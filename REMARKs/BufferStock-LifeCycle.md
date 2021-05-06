@@ -14,19 +14,19 @@ authors: # required
     family-names: Son
     given-names: "Jeongwon (John)"
 # REMARK fields
-github_repo_url: https://github.com/econ-ark/Carroll_1997_QJE # required 
+github_repo_url: https://github.com/econ-ark/BufferStock-LifeCycle # required 
 commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
-remark-name: Carroll_1997_QJE # required 
+remark-name: BufferStock-LifeCycle # required 
 title-original-paper: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    Code/Python/Carroll_1997_QJE.ipynb
+    Code/Python/BufferStock-LifeCycle.ipynb
 dashboards: # path to any dahsboards within the repo - optional
 identifiers-paper: # required for Replications; optional for Reproductions
 date-published-original-paper: # required for Replications; optional for Reproductions
 ---
 
-# Carroll_1997_QJE
+# BufferStock-LifeCycle
 
 This is a replication of Carroll (1997), Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis.
 
