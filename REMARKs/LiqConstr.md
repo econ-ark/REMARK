@@ -39,10 +39,10 @@ remark-name: LiqConstr # required
 title-original-paper: Liquidity Constraints and Precautionary Saving # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    liqConstr.ipynb
+    LiqConstr.ipynb
 dashboards: # path to any dahsboards within the repo - optional
   - 
-    liqConstr-Dashboard.ipynb
+    LiqConstr-Dashboard.ipynb
 identifiers-paper: # required for Replications; optional for Reproductions
    - 
       type: url 
