@@ -4,8 +4,8 @@ tags:
   - Replication
   - Notebook
   - Blog
-remark-name: PortfolioChoiceBlogPost
-title-original-paper: Optimal Financial Investment over the Life Cycle
+remark-name: "PortfolioChoiceBlogPost"
+title: Optimal Financial Investment over the Life Cycle - Blog Post
 github_repo_url: https://github.com/econ-ark/PortfolioChoiceBlogPost
 authors: # required
   -
@@ -14,12 +14,11 @@ authors: # required
     orcid: "https://orcid.org/0000-0003-3732-9312"
 notebooks: # path to any notebooks within the repo - optional
   - PortfolioChoiceBlogPost.ipynb
-blog_link: https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html
 ---
 
 
 ## PortfolioChoiceBlogPost
 
-
-Blog post [https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html](https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html)
+A [blog post](https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html) showcasing use of HARK
+to the portfolio choice allocation problem.
 
