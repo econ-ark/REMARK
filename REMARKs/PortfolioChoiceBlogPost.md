@@ -7,7 +7,7 @@ tags:
 remark-name: "PortfolioChoiceBlogPost"
 title: Optimal Financial Investment over the Life Cycle - Blog Post
 github_repo_url: https://github.com/econ-ark/PortfolioChoiceBlogPost
-abstract: "The blog post is available at the link https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html"
+abstract: "The blog post is available at the link [https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html](https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html)."
 authors: # required
   -
     family-names: Carroll
