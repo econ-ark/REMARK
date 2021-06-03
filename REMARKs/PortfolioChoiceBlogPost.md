@@ -4,13 +4,14 @@ tags:
   - Replication
   - Notebook
   - Blog
-location_url: https://github.com/econ-ark/PortfolioChoiceBlogPost
-name: PortfolioChoiceBlogPost
-summary: 'Optimal Financial Investment over the Life Cycle'
-abstract: ''
-notebook: PortfolioChoiceBlogPost.ipynb
-authors:
-  - Christopher Carroll
+remark-name: PortfolioChoiceBlogPost
+title-original-paper: Optimal Financial Investment over the Life Cycle
+github_repo_url: https://github.com/econ-ark/PortfolioChoiceBlogPost
+authors: # required
+  -
+    family-names: Carroll
+    given-names: "Christopher D."
+    orcid: "https://orcid.org/0000-0003-3732-9312"
 notebooks: # path to any notebooks within the repo - optional
   - PortfolioChoiceBlogPost.ipynb
 blog_link: https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html
@@ -19,7 +20,6 @@ blog_link: https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlo
 
 ## PortfolioChoiceBlogPost
 
-Optimal Financial Investment over the Life Cycle.
 
-Blog post https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html
+Blog post [https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html](https://econ-ark.github.io/PortfolioChoiceBlogPost/PortfolioChoiceBlogPost.html)
 
