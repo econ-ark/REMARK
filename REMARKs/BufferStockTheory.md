@@ -13,7 +13,7 @@ date-released: 2020-09-14 # required
 identifiers: # optional
   - 
     type: url
-    value: "https://github.com/econ-ark/REMARK/master/REMARKs/BufferStockTheory.md"
+    value: "https://github.com/llorracc/BufferStockTheory"
   - 
     type: doi
     value: "10.5281/zenodo.1234"
@@ -33,7 +33,7 @@ notebooks: # path to any notebooks within the repo - optional
     Code/Python/BufferStockTheory.ipynb
 dashboards: # path to any dahsboards within the repo - optional
   - 
-    Code/Python/BufferStockTheory-Interactive-Dashboard.ipynb
+    BufferStockTheory-dashboard.ipynb
 identifiers-paper: # required for Replications; optional for Reproductions
    - 
       type: url 
