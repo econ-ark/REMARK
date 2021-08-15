@@ -13,18 +13,18 @@ date-released: 2020-09-14 # required
 identifiers: # optional
   - 
     type: url
-    value: "https://github.com/llorracc/BufferStockTheory"
+    value: "https://github.com/econ-ark/BufferStockTheory"
   - 
     type: doi
     value: "10.5281/zenodo.1234"
 keywords: # optional
   - Consumption
 message: "For a consumption/saving problem with transitory and permanent shocks and unbounded (CRRA) utility, this paper derives conditions under which a nondegenerate solution exists, and under which a target wealth ratio exists; all results are paired with illustrative numerical solutions." # required
-repository-code: "https://github.com/llorracc/BufferStockTheory" # optional
+repository-code: "https://github.com/econ-ark/BufferStockTheory" # optional
 title: "Theoretical Foundations of Buffer Stock Saving" # required
 version: "1.0" # required
 # REMARK fields
-github_repo_url: https://github.com/llorracc/BufferStockTheory # required 
+github_repo_url: https://github.com/econ-ark/BufferStockTheory # required 
 commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: BufferStockTheory # required 
 title-original-paper: Theoretical Foundations of Buffer Stock Saving # optional 
