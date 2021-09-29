@@ -1,7 +1,8 @@
 ---
 tags:
   - REMARK
-abstract: "This paper builds theoretical foundations for rigorous and intuitive understanding of 'buffer stock' saving models, pairing each theoretical result with a quantitative exploration.  After describing conditions under which the consumption function converges, the paper shows that 'target' saving behavior, which defines buffer stock saving, arises only under conditions strictly stronger than those that guarantee convergence of the consumption and value functions.  It also shows that average consumption growth equals average income growth in a small open economy populated by buffer stock savers.  Together, the (provided) numerical tools and (proven) analytical results constitute a comprehensive toolkit for understanding buffer stock models." # abstract: optional
+abstract: "‘Epidemiological’ models of belief formation put social interactions at their core; such models are the main (almost, the only) tool used by non-economists to study the dynamics of beliefs in populations. We survey the (comparatively) small literature in which economists attempting to model the consequences of beliefs about the future – ‘expectations’ – have employed what we view as a full-fledged epidemiological approach to explore an economic question. We draw connections to related work on narrative economics, news/rumor spreading, ‘contagion,’ and the spread of online content. Finally, we discuss a number of promising directions for future research.
+" # abstract: optional
 authors: # required
   -
     family-names: Carroll
