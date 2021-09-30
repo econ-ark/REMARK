@@ -24,7 +24,7 @@ keywords: # optional
   - Expectation
 message: "" # required
 repository-code: "https://github.com/llorracc/EpiExp" # optional
-title: "Epidemiology and Expectation Project" # required
+title: "Epidemiological Expectations in Economics" # required
 version: "1.0" # required
 # REMARK fields
 github_repo_url: https://github.com/llorracc/EpiExp # required 
