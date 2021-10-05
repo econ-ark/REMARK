@@ -24,7 +24,7 @@ from time import time                           # Timing utility
 # Import modules from core HARK libraries:
 import HARK.ConsumptionSaving.ConsIndShockModel as Model # The consumption-saving micro model
 from HARK.distribution import DiscreteDistribution         # Method for sampling from a discrete distribution
-from HARK.estimation import minimizeNelderMead, bootstrapSampleFromData # Estimation methods
+from HARK.estimation import minimize_nelder_mead, bootstrap_sample_from_data # Estimation methods
 
 # Find pathname to this file:
 my_file_path = os.path.dirname(os.path.abspath(__file__))
@@ -35,6 +35,12 @@ tables_dir = os.path.join(my_file_path, "../Tables/") # Relative directory for p
 figures_dir = os.path.join(my_file_path, "../Figures/") # Relative directory for primitive parameter files
 code_dir = os.path.join(my_file_path, "../Code/") # Relative directory for primitive parameter files
 
+
+sys.path.insert(0, calibration_dir)
+sys.path.insert(0, tables_dir)
+sys.path.insert(0, figures_dir)
+sys.path.insert(0, code_dir)
+sys.path.insert(0, my_file_path)
 
 # Need to rely on the manual insertion of pathnames to all files in do_all.py
 # NOTE sys.path.insert(0, os.path.abspath(tables_dir)), etc. may need to be
@@ -74,8 +80,8 @@ class TempConsumerType(Model.IndShockConsumerType):
         '''
         # Initialize a basic AgentType
         Model.IndShockConsumerType.__init__(self,cycles=cycles,time_flow=time_flow,**kwds)
-        self.addToTimeVary('DiscFac') # This estimation uses age-varying discount factors as
-        self.delFromTimeInv('DiscFac')# estimated by Cagetti (2003), so switch from time_inv to time_vary
+        self.add_to_time_vary('DiscFac') # This estimation uses age-varying discount factors as
+        self.del_from_time_inv('DiscFac')# estimated by Cagetti (2003), so switch from time_inv to time_vary
 
     def simBirth(self,which_agents):
         '''
@@ -101,13 +107,18 @@ class TempConsumerType(Model.IndShockConsumerType):
 
 # Make a lifecycle consumer to be used for estimation, including simulated shocks (plus an initial distribution of wealth)
 EstimationAgent = TempConsumerType(**Params.init_consumer_objects)   # Make a TempConsumerType for estimation
-EstimationAgent(T_sim = EstimationAgent.T_cycle+1)                   # Set the number of periods to simulate
+EstimationAgent.T_sim = EstimationAgent.T_cycle+1                  # Set the number of periods to simulate
+# TempConsumerType object not callable
+#EstimationAgent(T_sim = EstimationAgent.T_cycle+1)                   # Set the number of periods to simulate
+
+
+
 EstimationAgent.track_vars = ['bNrm']                             # Choose to track bank balances as wealth
 EstimationAgent.aNrmInit = DiscreteDistribution(
     Params.initial_wealth_income_ratio_probs,
     Params.initial_wealth_income_ratio_vals,
     seed=Params.seed).draw(N=Params.num_agents)    # Draw initial assets for each consumer
-EstimationAgent.makeShockHistory()
+EstimationAgent.make_shock_history()
 
 # Define the objective function for the simulated method of moments estimation
 def smmObjectiveFxn(DiscFacAdj, CRRA,
@@ -171,13 +182,16 @@ def smmObjectiveFxn(DiscFacAdj, CRRA,
         return 1e30
 
     # Update the agent with a new path of DiscFac based on this DiscFacAdj (and a new CRRA)
-    agent(DiscFac = [b*DiscFacAdj for b in Params.DiscFac_timevary], CRRA = CRRA)
+    #agent(DiscFac = [b*DiscFacAdj for b in Params.DiscFac_timevary], CRRA = CRRA)
+    agent.DiscFac, agent.CRRA = [b*DiscFacAdj for b in Params.DiscFac_timevary] ,CRRA
+
+
 
     # Solve the model for these parameters, then simulate wealth data
     agent.solve()        # Solve the microeconomic model
     agent.unpack("cFunc") # "Unpack" the consumption function for convenient access
     max_sim_age = max([max(ages) for ages in map_simulated_to_empirical_cohorts])+1
-    agent.initializeSim()                     # Initialize the simulation by clearing histories, resetting initial values
+    agent.initialize_sim()                     # Initialize the simulation by clearing histories, resetting initial values
     agent.simulate(max_sim_age)               # Simulate histories of consumption and wealth
     sim_w_history = agent.history['bNrm']        # Take "wealth" to mean bank balances before receiving labor income
 
@@ -235,7 +249,7 @@ def calculateStandardErrorsByBootstrap(initial_estimate,N,seed=0,verbose=False):
         t_start = time()
 
         # Bootstrap a new dataset by resampling from the original data
-        bootstrap_data = (bootstrapSampleFromData(Data.scf_data_array,seed=seed_list[n])).T
+        bootstrap_data = (bootstrap_sample_from_data(Data.scf_data_array,seed=seed_list[n])).T
         w_to_y_data_bootstrap = bootstrap_data[0,]
         empirical_groups_bootstrap = bootstrap_data[1,]
         empirical_weights_bootstrap = bootstrap_data[2,]
@@ -248,7 +262,7 @@ def calculateStandardErrorsByBootstrap(initial_estimate,N,seed=0,verbose=False):
                                                                                    empirical_groups = empirical_groups_bootstrap)
 
         # Estimate the model with the bootstrap data and add to list of estimates
-        this_estimate = minimizeNelderMead(smmObjectiveFxnBootstrap,initial_estimate)
+        this_estimate = minimize_nelder_mead(smmObjectiveFxnBootstrap,initial_estimate)
         estimate_list.append(this_estimate)
         t_now = time()
 
@@ -296,7 +310,7 @@ def main(estimate_model=local_estimate_model, compute_standard_errors=local_comp
         print('Now estimating the model using Nelder-Mead from an initial guess of ' + str(initial_guess) + '...')
         print('--------------------------------------------------------------------------------')            
         t_start_estimate = time()
-        model_estimate = minimizeNelderMead(smmObjectiveFxnReduced,initial_guess,verbose=True)
+        model_estimate = minimize_nelder_mead(smmObjectiveFxnReduced,initial_guess,verbose=True)
         t_end_estimate = time()
         time_to_estimate = t_end_estimate-t_start_estimate
         print('Time to execute all:', round(time_to_estimate/60.,2), 'min,', time_to_estimate, 'sec')
