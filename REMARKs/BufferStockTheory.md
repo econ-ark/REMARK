@@ -2,14 +2,14 @@
 tags:
   - REMARK
   - Reproduction
-abstract: "This paper builds theoretical foundations for rigorous and intuitive understanding of 'buffer stock' saving models, pairing each theoretical result with a quantitative exploration.  After describing conditions under which the consumption function converges, the paper shows that 'target' saving behavior, which defines buffer stock saving, arises only under conditions strictly stronger than those that guarantee convergence of the consumption and value functions.  It also shows that average consumption growth equals average income growth in a small open economy populated by buffer stock savers.  Together, the (provided) numerical tools and (proven) analytical results constitute a comprehensive toolkit for understanding buffer stock models." # abstract: optional
+abstract: "This paper builds foundations for rigorous and intuitive understanding of `buffer stock' saving models (Bewley (1977)-like models with a wealth target), pairing each theoretical result with quantitative illustrations.  After describing conditions under which a consumption function exists, the paper articulates stricter `Growth Impatience' conditions that guarantee alternative forms of stability --- either at the population level, or for individual consumers.  Together, the numerical tools and analytical results constitute a comprehensive toolkit for understanding buffer stock models." # abstract: optional
 authors: # required
   -
     family-names: Carroll
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 cff-version: "1.1.0" # required 
-date-released: 2020-09-14 # required
+date-released: 2020-10-11 # required
 identifiers: # optional
   - 
     type: url
@@ -30,7 +30,7 @@ remark-name: BufferStockTheory # required
 title-original-paper: Theoretical Foundations of Buffer Stock Saving # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    Code/Python/BufferStockTheory.ipynb
+    BufferStockTheory.ipynb
 dashboards: # path to any dahsboards within the repo - optional
   - 
     BufferStockTheory-dashboard.ipynb
