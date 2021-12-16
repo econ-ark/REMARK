@@ -15,6 +15,7 @@ authors:
 DOI: 
 ---
 
+Update: The results of this paper are now generated in an updated repository using a more modern version of HARK, [DistributionOfWealth](https://github.com/econ-ark/DistributionOfWealth). Any followup work should build on the updated code in that repository.
 
 
 # cstwMPC is a Replication of the results in 
@@ -24,12 +25,11 @@ DOI:
 
 The main results in that paper were generated using the Mathematica that can be executed by running from the command line 
 
-`./Code/Matheamtica/DoAll.m`
+`./Code/Mathematica/DoAll.m`
 
 or by opening the corresponding notebook file `./Code/Matheamtica/DoAll.nb`
 
 The Mathematica results have been replicated using the HARK toolkit.  See the README.md file in the repo for details.
-
 
 
 
