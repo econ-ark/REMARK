@@ -17,17 +17,17 @@ date-released: 2021-09-29 # required
 identifiers: # optional
   - 
     type: url
-    value: "https://github.com/llorracc/EpiExp"
+    value: "https://github.com/econ-ark/EpiExp"
 
 keywords: # optional
   - Epidemiology
   - Expectation
 message: "" # required
-repository-code: "https://github.com/llorracc/EpiExp" # optional
+repository-code: "https://github.com/econ-ark/EpiExp" # optional
 title: "Epidemiological Expectations in Economics" # required
 version: "1.0" # required
 # REMARK fields
-github_repo_url: https://github.com/llorracc/EpiExp # required 
+github_repo_url: https://github.com/econ-ark/EpiExp # required 
 commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: EpiExp # required 
 notebooks: # path to any notebooks within the repo - optional
