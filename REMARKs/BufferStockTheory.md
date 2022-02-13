@@ -31,6 +31,7 @@ title-original-paper: Theoretical Foundations of Buffer Stock Saving # optional
 notebooks: # path to any notebooks within the repo - optional
   - 
     BufferStockTheory.ipynb
+    Code/Python/BufferStockTheory-Problems.ipynb
 dashboards: # path to any dahsboards within the repo - optional
   - 
     BufferStockTheory-dashboard.ipynb
