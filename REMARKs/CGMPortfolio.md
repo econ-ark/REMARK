@@ -22,7 +22,7 @@ keywords: # optional
   - Consumption
   - Life Cycle
 message: "For a consumption/saving problem with transitory and permanent shocks and unbounded (CRRA) utility, this paper derives conditions under which a nondegenerate solution exists, and under which a target wealth ratio exists; all results are paired with illustrative numerical solutions." # required
-repository-code: "https://github.com/llorracc/BufferStockTheory" # optional
+repository-code: "https://github.com/econ-ark/BufferStockTheory" # optional
 title: "REMARK: Consumption and Portfolio Choice Over the Life Cycle" # required
 version: "1.0" # required
 # REMARK fields
