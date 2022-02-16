@@ -1,7 +1,6 @@
 ---
 tags:
-  - Teaching
-  - Problems
+  - REMARK
 abstract: "This adds some PhD student problems to the BufferStockTheory repo" # abstract: optional
 authors: # required
   -
@@ -29,7 +28,6 @@ title-original-paper: Theoretical Foundations of Buffer Stock Saving # optional
 notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/BufferStockTheory-Problems.ipynb
-    BufferStockTheory.ipynb
 identifiers-paper: # required for Replications; optional for Reproductions
    - 
       type: url 
