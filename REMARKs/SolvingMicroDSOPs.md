@@ -34,7 +34,7 @@ remark-name: SolvingMicroDSOPs # required
 title-original-paper: Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    SolvingMicroDSOPs.ipynb
+    Code/Python/SolvingMicroDSOPs-Python.ipynb
 dashboards: # path to any dahsboards within the repo - optional
    - 
       type: url 
