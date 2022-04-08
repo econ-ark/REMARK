@@ -34,7 +34,7 @@ github_repo_url: https://github.com/econ-ark/EpiExp # required
 commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: SolvingMicroDSOPs # required 
 notebooks: # path to any notebooks within the repo - optional
-  - SolvingMicroDSOPs.ipynb
+  - Code/Python/SolvingMicroDSOPs-Python.ipynb
 date-published-original-paper: 2020-09-14 # required for Replications; optional for Reproductions
 ---
 
