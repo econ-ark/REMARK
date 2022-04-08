@@ -30,7 +30,7 @@ repository-code: "https://github.com/econ-ark/SolvingMicroDSOPs" # optional
 title: "Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems" # required
 version: "1.0" # required
 # REMARK fields
-github_repo_url: https://github.com/econ-ark/EpiExp # required 
+github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required 
 commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: SolvingMicroDSOPs # required 
 notebooks: # path to any notebooks within the repo - optional
