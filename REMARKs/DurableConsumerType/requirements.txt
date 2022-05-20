@@ -1,0 +1,7 @@
+econ-ark==0.10.7
+numpy==1.19.1
+# voila==0.1.22
+# ipywidgets==7.5.1
+matplotlib==3.3.1
+EconModel==0.11
+ConSav==0.1
