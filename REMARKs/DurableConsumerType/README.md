@@ -33,7 +33,7 @@ reference: # required for Replications; optional for Reproductions
 
 
 
-# KrusellSmith
+# DurableConsumerType
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/DurableConsumerType/HEAD)
 
