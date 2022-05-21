@@ -1,4 +1,91 @@
+"""
+ConsAggShockModel, but with flat income tax rates and lump-sum transfers
+"""
+
+
+import numpy as np
+import scipy.stats as stats
+from HARK.interpolation import (
+    LinearInterp,
+    LinearInterpOnInterp1D,
+    ConstantFunction,
+    IdentityFunction,
+    VariableLowerBoundFunc2D,
+    BilinearInterp,
+    LowerEnvelope2D,
+    UpperEnvelope,
+    MargValueFuncCRRA,
+    ValueFuncCRRA
+)
+from HARK.utilities import (
+    CRRAutility,
+    CRRAutilityP,
+    CRRAutilityPP,
+    CRRAutilityP_inv,
+    CRRAutility_invP,
+    CRRAutility_inv,
+    make_grid_exp_mult,
+)
+from HARK.distribution import (
+    MarkovProcess,
+    MeanOneLogNormal,
+    Uniform,
+    combine_indep_dstns,
+    calc_expectation
+)
+from HARK.ConsumptionSaving.ConsIndShockModel import (
+    ConsumerSolution,
+    IndShockConsumerType,
+    init_idiosyncratic_shocks,
+)
+from HARK import MetricObject, Market, AgentType
+from copy import deepcopy
+import matplotlib.pyplot as plt
+
+
+from HARK.ConsumptionSaving.ConsAggShockModel import (AggShockConsumerType,
+    CobbDouglasEconomy,
+    init_agg_shocks,
+    init_cobb_douglas,
+    solveConsAggShock,
+    AggregateSavingRule
+)
+
+
+class ValueFunc2D(MetricObject):
+    """
+    A class for representing a value function in models (with CRRA utility).
+    """
+
+    distance_criteria = ["cFunc", "CRRA"]
+
+    def __init__(self, cFunc, CRRA):
+        """
+        Constructor for a new value function object.
+        Parameters
+        ----------
+        cFunc : function
+            A real function representing the marginal value function composed
+            with the inverse marginal utility function, defined on normalized individual market
+            resources and aggregate market resources-to-labor ratio: uP_inv(vPfunc(m,M)).
+            Called cFunc because when standard envelope condition applies,
+            uP_inv(vPfunc(m,M)) = cFunc(m,M).
+        CRRA : float
+            Coefficient of relative risk aversion.
+        Returns
+        -------
+        new instance of MargValueFunc
+        """
+        self.cFunc = deepcopy(cFunc)
+        self.CRRA = CRRA
+
+    def __call__(self, m, M):
+        return utility(self.cFunc(m, M), gam=self.CRRA)
+    
+
 # Make a dictionary to specify an aggregate shocks consumer with taxes and transfers
+
+
 init_agg_shocks_tax = init_agg_shocks.copy()
 init_agg_shocks_tax["tax_rate"] = 0.0
 

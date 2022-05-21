@@ -1,3 +1,4 @@
+hark == 0.12
 matplotlib
 numpy
 ipywidgets
