@@ -1,4 +1,4 @@
-hark == 0.12
+econ-ark == 0.12
 matplotlib
 numpy
 ipywidgets
