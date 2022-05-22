@@ -201,6 +201,7 @@ def create(ufunc, use_inv_w=False):
 
 negm_upperenvelope = create(func_nopar, use_inv_w=True)
 
+
 def obj_adj(d, x, inv_v_keep, grid_d, grid_m):
     """ evaluate bellman equation """
 
@@ -389,6 +390,7 @@ class DurableConsumerType(IndShockConsumerType):
         Adjusting
         '''
 
+
         # a) keeper problem: keep durable stock and consume everything else
         shape = (len(self.nNrmGrid),len(self.mNrmGrid))
         cFuncKeep_array = np.zeros(shape)
@@ -401,9 +403,9 @@ class DurableConsumerType(IndShockConsumerType):
         exFuncKeep_array = cFuncKeep_array + dFuncKeep_array
 
         # Consumption Functions
-        cFunc_terminal_keep = BilinearInterp(cFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
-        dFunc_terminal_keep = BilinearInterp(dFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
-        exFunc_terminal_keep = BilinearInterp(exFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
+        cFuncKeep_terminal = BilinearInterp(cFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
+        dFuncKeep_terminal = BilinearInterp(dFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
+        exFuncKeep_terminal = BilinearInterp(exFuncKeep_array, self.nNrmGrid, self.mNrmGrid)
 
         # Value Functions (negative inverse of utility function)
         # i) empty container
@@ -424,15 +426,15 @@ class DurableConsumerType(IndShockConsumerType):
                 inv_marg_u_keep[i_d, i_m] = 1.0 / marg_func_nopar(cFuncKeep_array[i_d, i_m], self.nNrmGrid[i_d],
                                                                            self.d_ubar, self.alpha, self.CRRA)
         # iii) Make Functions
-        vFunc_terminal_keep = BilinearInterp(inv_v_keep, self.nNrmGrid, self.mNrmGrid)
-        uPFunc_terminal_keep = BilinearInterp(inv_marg_u_keep, self.nNrmGrid, self.mNrmGrid)
+        vFuncKeep_terminal = BilinearInterp(inv_v_keep, self.nNrmGrid, self.mNrmGrid)
+        uPFuncKeep_terminal = BilinearInterp(inv_marg_u_keep, self.nNrmGrid, self.mNrmGrid)
 
         # b) adjuster problem:
         cFuncAdj_array = self.alpha * self.xNrmGrid
         dFuncAdj_array = (1 - self.alpha) * self.xNrmGrid
-        cFunc_terminal_adj = LinearInterp(self.xNrmGrid, cFuncAdj_array)
-        dFunc_terminal_adj = LinearInterp(self.xNrmGrid, dFuncAdj_array)
-        exFunc_terminal_adj = LinearInterp(self.xNrmGrid, self.xNrmGrid)
+        cFuncAdj_terminal = LinearInterp(self.xNrmGrid, cFuncAdj_array)
+        dFuncAdj_terminal = LinearInterp(self.xNrmGrid, dFuncAdj_array)
+        exFuncAdj_terminal = LinearInterp(self.xNrmGrid, self.xNrmGrid)
 
         # value functions: negative inverse of utility function
         adj_shape = len(self.xNrmGrid)
@@ -449,8 +451,8 @@ class DurableConsumerType(IndShockConsumerType):
             inv_marg_u_adj[i_x] = 1.0 / marg_func_nopar(cFuncAdj_array[i_x], dFuncAdj_array[i_x], self.d_ubar, self.alpha, self.CRRA)
 
         # Interpolate
-        vFunc_terminal_adj = LinearInterp(self.xNrmGrid, inv_v_adj)
-        uPFunc_terminal_adj = LinearInterp(self.xNrmGrid, inv_marg_u_adj)
+        vFuncAdj_terminal = LinearInterp(self.xNrmGrid, inv_v_adj)
+        uPFuncAdj_terminal = LinearInterp(self.xNrmGrid, inv_marg_u_adj)
 
         # c) Create Consumption Function:
         # Using: x = (1 - tau)*d + m.
@@ -463,17 +465,17 @@ class DurableConsumerType(IndShockConsumerType):
         for i_m in range(len(self.mNrmGrid)):
             for i_d in range(len(self.nNrmGrid)):
                 i_x = self.mNrmGrid[i_m] + (1 - self.adjC) * self.nNrmGrid[i_d]
-                adjust = vFunc_terminal_keep(self.nNrmGrid[i_d], self.mNrmGrid[i_m]) - self.tol <= vFunc_terminal_adj(i_x)
+                adjust = vFuncKeep_terminal(self.nNrmGrid[i_d], self.mNrmGrid[i_m]) - self.tol <= vFuncAdj_terminal(i_x)
 
                 if adjust:
-                    cFunc_array[i_d][i_m] = cFunc_terminal_adj(i_x)
-                    dFunc_array[i_d][i_m] = dFunc_terminal_adj(i_x)
-                    vFunc_array[i_d][i_m] = vFunc_terminal_adj(i_x)
+                    cFunc_array[i_d][i_m] = cFuncAdj_terminal(i_x)
+                    dFunc_array[i_d][i_m] = dFuncAdj_terminal(i_x)
+                    vFunc_array[i_d][i_m] = vFuncAdj_terminal(i_x)
                     adjusting_array[i_d][i_m] = 1
                 else:
-                    cFunc_array[i_d][i_m] = cFunc_terminal_keep(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
-                    dFunc_array[i_d][i_m] = dFunc_terminal_keep(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
-                    vFunc_array[i_d][i_m] = vFunc_terminal_keep(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
+                    cFunc_array[i_d][i_m] = cFuncKeep_terminal(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
+                    dFunc_array[i_d][i_m] = dFuncKeep_terminal(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
+                    vFunc_array[i_d][i_m] = vFuncKeep_terminal(self.nNrmGrid[i_d], self.mNrmGrid[i_m])
                     adjusting_array[i_d][i_m] = 0
         exFunc_array = cFunc_array + dFunc_array
 
@@ -483,18 +485,19 @@ class DurableConsumerType(IndShockConsumerType):
         exFunc_terminal = BilinearInterp(exFunc_array, self.nNrmGrid, self.mNrmGrid)
         vFunc_terminal = BilinearInterp(vFunc_array, self.nNrmGrid, self.mNrmGrid)
         adjusting_terminal = BilinearInterp(adjusting_array, self.nNrmGrid, self.mNrmGrid)
+        
         # c)
         self.solution_terminal = DurableConsumerSolution(
-            cFuncKeep = cFunc_terminal_keep,
-            cFuncAdj = cFunc_terminal_adj,
-            dFuncKeep = dFunc_terminal_keep,
-            dFuncAdj = dFunc_terminal_adj,
-            exFuncKeep = exFunc_terminal_keep,
-            exFuncAdj=exFunc_terminal_adj,
-            vFuncKeep=vFunc_terminal_keep,
-            vFuncAdj = vFunc_terminal_adj,
-            uPFuncKeep=uPFunc_terminal_keep,
-            uPFuncAdj = uPFunc_terminal_adj,
+            cFuncKeep = cFuncKeep_terminal,
+            cFuncAdj = cFuncAdj_terminal,
+            dFuncKeep = dFuncKeep_terminal,
+            dFuncAdj = dFuncAdj_terminal,
+            exFuncKeep = exFuncKeep_terminal,
+            exFuncAdj = exFuncAdj_terminal,
+            vFuncKeep = vFuncKeep_terminal,
+            vFuncAdj = vFuncAdj_terminal,
+            uPFuncKeep = uPFuncKeep_terminal,
+            uPFuncAdj = uPFuncAdj_terminal,
             cFunc = cFunc_terminal,
             dFunc = dFunc_terminal,
             exFunc = exFunc_terminal,
@@ -955,73 +958,7 @@ def solve_DurableConsumer(
     invwFunc = BilinearInterp(invwFunc_array, nNrmGrid, aNrmGrid)
     qFunc = BilinearInterp(qFunc_array, nNrmGrid, aNrmGrid)
 
-    '''
-    #### ALTERNATIVE: Produces the same results, but much slower: from 5.7 sec to 116sec
-    post_shape = (len(nNrmGrid), len(aNrmGrid))
-    
-    invwFunc_array = np.zeros(post_shape)
-    qFunc_array =  np.zeros(post_shape)
-    w = np.zeros(post_shape)
-
-    inv_v_keep_plus = np.zeros(len(aNrmGrid))
-    inv_v_adj_plus = np.zeros(len(aNrmGrid))
-    inv_marg_u_keep_plus = np.zeros(len(aNrmGrid))
-    inv_marg_u_adj_plus = np.zeros(len(aNrmGrid))
-
-
-    for i_d in range(len(nNrmGrid)):
-        for ishock in range(iShock):
-            n_plus = ((1 - dDepr) * nNrmGrid[i_d]) / (PermShkValsNext[ishock])
-            m_plus = (Rfree * aNrmGrid + PermShkValsNext[ishock] * TranShkValsNext[ishock]) / (
-                PermShkValsNext[ishock])  # y_plus #R*a-grid + y_plus
-            x_plus = m_plus + (1 - adjC) * n_plus
-
-            for i_a in range(len(m_plus)):
-                inv_v_keep_plus[i_a] = (vFuncKeep_next(n_plus, m_plus[i_a]))
-                inv_v_adj_plus[i_a] = (vFuncAdj_next(x_plus[i_a]))
-
-                inv_marg_u_keep_plus[i_a] = (uPFuncKeep_next(n_plus, m_plus[i_a]))
-                inv_marg_u_adj_plus[i_a] = (uPFuncAdj_next(x_plus[i_a]))
-
-            # extremely small differences across inv_v_keep_plus_alt and inv_v_keep_plus
-            # extremely small differences across invwFunc_array_alt - invwFunc_array
-            # extremely small differences across qFunc_array_alt - qFunc_alt
-            #for i_a in range(len(aNrmGrid)):
-
-                # keep = inv_v_keep_plus[i_a] > inv_v_adj_plus[i_a]
-                # if keep:
-                #     v_plus = -1 / inv_v_keep_plus[i_a]
-                #     marg_u_plus = 1 / inv_marg_u_keep_plus[i_a]
-                # else:
-                #     v_plus = -1 / inv_v_adj_plus[i_a]
-                #     marg_u_plus = 1 / inv_marg_u_adj_plus[i_a]
-                #
-                # w[i_d, i_a] += ShkPrbsNext[ishock] * DiscFac * v_plus  # weighted value function
-                # qFunc_array[i_d, i_a] += ShkPrbsNext[
-                #                              ishock] * DiscFac * Rfree * marg_u_plus  # weighted post decision function
-
-                if vFuncKeep_next(n_plus, m_plus[i_a]) > vFuncAdj_next(x_plus[i_a]):
-                    v_plus = -1 / vFuncKeep_next(n_plus, m_plus[i_a])
-                    marg_u_plus = 1 / uPFuncKeep_next(n_plus, m_plus[i_a])
-
-                else:
-                    v_plus = -1 / vFuncAdj_next(x_plus[i_a])
-                    marg_u_plus = 1 / uPFuncAdj_next(x_plus[i_a])
-
-                w[i_d, i_a] += ShkPrbsNext[ishock] * DiscFac * v_plus  # weighted value function
-                qFunc_array[i_d, i_a] += ShkPrbsNext[
-                                             ishock] * DiscFac * Rfree * marg_u_plus  # weighted post decision function
-
-        # vi. transform post decision value function
-        #for i_a in range(len(aNrmGrid)):
-        #    invwFunc_array[i_d, i_a] = -1 / w[i_a]
-    invwFunc_array = -1/w
-
-    # ix. Interpolate and make functions
-    invwFunc = BilinearInterp(invwFunc_array, nNrmGrid, aNrmGrid)
-    qFunc = BilinearInterp(qFunc_array, nNrmGrid, aNrmGrid)
-    '''
-            ####################################################################################################################
+    ####################################################################################################################
     # 4. Solve Keeper Problem
     '''
     Solve the keeper problem on a grid over the pre-decision states $n_t,m_t$ where the combined EGM and 
@@ -1070,17 +1007,8 @@ def solve_DurableConsumer(
             dFuncKeep_array[i_d, i_m] = nNrmGrid[i_d]
     vFuncKeep_array = -1 / v_ast_vec
 
-    ### CHECK vFuncKeep --> not equivalent to: TODO: VFUNC IN TERMINAL WRONG?!
-    vFuncKeep_array_aux_test = func_nopar(cFuncKeep_array, dFuncKeep_array, d_ubar, alpha, CRRA)
-    vFuncKeep_array_test = -1 / vFuncKeep_array_aux_test
-
-    vFuncKeep_array_aux_test2 = np.zeros(keep_shape)
-    for i_d in range(len(nNrmGrid)):
-        for i_m in range(len(mNrmGrid)):
-            vFuncKeep_array_aux_test2[i_d, i_m] = func_nopar(cFuncKeep_array[i_d, i_m], dFuncKeep_array[i_d, i_m], d_ubar, alpha, CRRA)
 
     ### Make Functions
-
     exFuncKeep_array = cFuncKeep_array + dFuncKeep_array
     cFuncKeep = BilinearInterp(cFuncKeep_array, nNrmGrid, mNrmGrid)
     dFuncKeep = BilinearInterp(dFuncKeep_array, nNrmGrid, mNrmGrid)
@@ -1093,7 +1021,7 @@ def solve_DurableConsumer(
     '''
     Solve the adjuster problem using interpolation of the keeper value function found in step 4.
     In step 4, we found the optimal consumption given each combination of durable stock (n) and market resources.
-    Now, we want to find the optimal value of (d) given cash on hand: m = d + x.
+    Now, we want to find the optimal value of (d) given cash on hand: m = x - d.
     
     Inputs:
     vFuncKeep
@@ -1113,17 +1041,16 @@ def solve_DurableConsumer(
 
     dFuncAdj_array = np.zeros(adjust_shape)
     dFuncAdj_array_opt = np.zeros(adjust_shape)
-    dFuncAdj_array_opt2 = np.zeros(adjust_shape)
     cFuncAdj_array = np.zeros(adjust_shape)
     cFuncAdj_array_opt = np.zeros(adjust_shape)
-    cFuncAdj_array_opt2 = np.zeros(adjust_shape)
+    exFuncAdj_array = np.zeros(adjust_shape)
 
     # loop over x state
     for i_x in range(len(xNrmGrid)):
 
         # a. cash-on-hand
         x = xNrmGrid[i_x]
-        if i_x == 0:
+        if x == 0:
             dFuncAdj_array[i_x] = 0
             cFuncAdj_array[i_x] = 0
             inv_v_adj[i_x] = 0
@@ -1142,53 +1069,32 @@ def solve_DurableConsumer(
             dFuncAdj_array[i_x] = optimizer(obj_adj, d_low, d_high,
                                args=(x, inv_v_keep, nNrmGrid, mNrmGrid), tol=tol)
 
-            '''
-            # Alternative: Use scipy.optimize
-            x0 = np.mean([d_low, d_high]) # starting point
-            #x0 = (alpha/1-alpha)*(Rfree/(Rfree - 1 + dDepr)) * cFuncKeep(x,x)
-            sol = sp.optimize.minimize(lambda d: -vFuncKeep(d, x-d),x0) #, bounds=b)
-            dFuncAdj_array_opt[i_x] = sol.x
-    
-            sol2 = sp.optimize.minimize(lambda d: -vFuncKeep(d, x-d),x0, method = 'Nelder-Mead', tol = tol)
-            dFuncAdj_array_opt2[i_x] = sol2.x
-
-            # With adjustment costs:
-            # sol = sp.optimize.minimize(lambda d: -vFuncKeep(d, x-(1-adjC)*d),x0)
-            '''
-
-            # Added Borrowing Constraint:
+        # Added Borrowing Constraint:
         if BoroCnstdNrm > dFuncAdj_array[i_x]:
+            print('Constraint')
             dFuncAdj_array[i_x] = BoroCnstdNrm
 
         # c. optimal value
         m = x - dFuncAdj_array[i_x] # This is correct, it is not: x - (1 - adjC) * dFuncAdj_array[i_x]
         cFuncAdj_array[i_x] = cFuncKeep(dFuncAdj_array[i_x], m) # Evaluate cFunc at x and m
+        exFuncAdj_array[i_x] = cFuncAdj_array[i_x] + dFuncAdj_array[i_x]
+
+        # Add additional optimizer to reduce error
+        ex = exFuncAdj_array[i_x]
+        x0 = (1 - alpha) * ex
+        b = [(0, ex)]
+        sol_opt = sp.optimize.minimize(lambda d: -func_nopar(ex - d, d, d_ubar, alpha, CRRA), x0, bounds=b)
+        dFuncAdj_array[i_x] = sol_opt.x
+        cFuncAdj_array[i_x] = ex - dFuncAdj_array[i_x]
+
         inv_v_adj[i_x] = -obj_adj(dFuncAdj_array[i_x], x, inv_v_keep, nNrmGrid, mNrmGrid)
-        inv_v_adj_alt[i_x] = vFuncKeep(dFuncAdj_array[i_x], x - dFuncAdj_array[i_x])
         inv_marg_u[i_x] = 1 / marg_func_nopar(cFuncAdj_array[i_x], dFuncAdj_array[i_x], d_ubar, alpha, CRRA)
-
-        cFuncAdj_array_opt[i_x] = cFuncKeep(dFuncAdj_array_opt[i_x], m)  # Evaluate cFunc at x and m
-        cFuncAdj_array_opt2[i_x] = cFuncKeep(dFuncAdj_array_opt2[i_x], m)  # Evaluate cFunc at x and m
-    exFuncAdj_array = cFuncAdj_array + dFuncAdj_array
-
-    # print('mean squared error')
-    # print(np.mean((cFuncAdj_array - dFuncAdj_array) ** 2))
-    # print(np.mean((cFuncAdj_array_opt - dFuncAdj_array_opt)**2))
-    # print(np.mean((cFuncAdj_array_opt2 - dFuncAdj_array_opt2) ** 2))
 
     # Create Functions
     cFuncAdj = LinearInterp(xNrmGrid, cFuncAdj_array)
     dFuncAdj = LinearInterp(xNrmGrid, dFuncAdj_array)
     exFuncAdj = LinearInterp(xNrmGrid, exFuncAdj_array)
     vFuncAdj = LinearInterp(xNrmGrid, inv_v_adj)
-
-    # TODO: DEBUG:
-    # vFuncKeep maybe off?
-    # utility is NOT maximized!
-    # check = func_nopar((cFuncAdj_array[10] + dFuncAdj_array[10]) / 2, (cFuncAdj_array[10] + dFuncAdj_array[10]) / 2, 0,
-    #                    0.5, 2) - func_nopar(cFuncAdj_array[10],  dFuncAdj_array[10], 0,
-    #                    0.5, 2)
-    # if not a bug: make an additional adjustment
 
     ####################################################################################################################
     # 6. Create Consumption Function:
