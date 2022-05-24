@@ -148,7 +148,7 @@ class AggShockConsumerType_tax(AggShockConsumerType):
 
         # calculates lump-sum transfer by multiplying tax rate to to (capital + labor) income
         taxrevenue = np.mean(self.tax_rate * ((ReffNow - 1) * aNrmPrev + self.shocks['TranShk']))
-        transfers = taxrevenue * (1 - 0.05)
+        transfers = taxrevenue
         return transfers
 
     def update_solution_terminal(self):
