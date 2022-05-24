@@ -4,9 +4,13 @@
 # Import IndShockConsumerType
 import HARK
 import sys
-from HARK.ConsumptionSaving.ConsAggShockModel import (AggShockConsumerType,
-                                                      CobbDouglasEconomy)
-from ConsAggShockModel_tax import (AggShockConsumerType_tax, CobbDouglasEconomy_tax)
+from HARK.ConsumptionSaving.ConsAggShockModel import (AggShockConsumerType, CobbDouglasEconomy, init_agg_shocks,
+    init_cobb_douglas,
+    solveConsAggShock,
+    AggregateSavingRule
+)
+from ConsAggShockModel_tax import *
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -16,6 +20,8 @@ import statsmodels.api as sm
 from time import process_time
 def mystr(number):
     return "{:.4f}".format(number)
+
+
 
 
 # **Krusell and Rios-Rull's parameters for income and wealth distribution:**
@@ -127,43 +133,80 @@ EconomyExample.make_AggShkHist()
 
 # Solve for aggregate shock consumer model
 AggShockAgent_tax.solve()
-AggShockAgent_tax.track_vars = ['aNrm','pLvl','mNrm','cNrm','TranShk']
-
+AggShockAgent_tax.track_vars = ['pLvl','TranShk']
 
 # Solve the "macroeconomic" model by searching for a "fixed point dynamic rule"
 print("Now solving for the equilibrium of a Cobb-Douglas economy.  This might take a few minutes...")
 EconomyExample.solve()
 
+AggShockAgent_tax.unpack('cFunc')
 
-# AggShockAgent_tax.unpack('cFunc')
-#
-# print("Consumption function at each aggregate market resources-to-labor ratio gridpoint:")
-# m_grid = np.linspace(0, 10, 200)
-# for M in AggShockAgent_tax.Mgrid.tolist():
-#     mMin = AggShockAgent_tax.solution[0].mNrmMin(M)
-#     c_at_this_M = AggShockAgent_tax.cFunc[0](m_grid + mMin, M * np.ones_like(m_grid))
-#     plt.plot(m_grid + mMin, c_at_this_M)
-#     plt.ylim(0.0, 3.5)
-# plt.show()
-#
-# AggShockAgent_tax.unpack('vFunc')
-#
-# print("Value function at each aggregate market resources-to-labor ratio gridpoint:")
-# m_grid = np.linspace(0, 10, 200)
-# for M in AggShockAgent_tax.Mgrid.tolist():
-#     mMin = AggShockAgent_tax.solution[0].mNrmMin(M)+0.5
-#     v_at_this_M = AggShockAgent_tax.vFunc[0](m_grid + mMin, M * np.ones_like(m_grid))
-#     plt.plot(m_grid + mMin, v_at_this_M)
-# plt.show()
-#
-#
-# # Code for finding optimal tax rate given vFunc of median AggShockConsumerType agent in Cobb-Douglas Economy
-#
-# # Put this in loop in order to find optimal tax rate for median (wealth) voter
+print("Consumption function at each aggregate market resources-to-labor ratio gridpoint:")
+m_grid = np.linspace(0, 5, 200)
+for M in AggShockAgent_tax.Mgrid.tolist():
+    mMin = AggShockAgent_tax.solution[0].mNrmMin(M)
+    c_at_this_M = AggShockAgent_tax.cFunc[0](m_grid + mMin, M * np.ones_like(m_grid))
+    plt.plot(m_grid + mMin, c_at_this_M)
+plt.show()
+
+AggShockAgent_tax.unpack('vFunc')
+
+print("Value function at each aggregate market resources-to-labor ratio gridpoint:")
+m_grid = np.linspace(0, 5, 200)
+for M in AggShockAgent_tax.Mgrid.tolist():
+    mMin = AggShockAgent_tax.solution[0].mNrmMin(M)+0.5
+    v_at_this_M = AggShockAgent_tax.vFunc[0](m_grid + mMin, M * np.ones_like(m_grid))
+    plt.plot(m_grid + mMin, v_at_this_M)
+plt.show()
+
+# Normalized market resources of each agent
+sim_market_resources = AggShockAgent_tax.state_now['mNrm']
+
+# Normalized assets of each agent
+sim_wealth = AggShockAgent_tax.state_now['aNrm']
+
+# Summary Statistics
+
+# Lump-sum transfers are calculated through AggShockConsumerType_tax.calc_transfers() method:
+print("The lump-sum transfer in terms of permanent income is: " + str(AggShockAgent_tax.calc_transfers()))
+
+print("The mean of individual market resources is " + str(sim_market_resources.mean()) + "; the standard deviation is "
+      + str(sim_market_resources.std()) + "; the median is " + str(np.median(sim_market_resources)) + ".")
+print("The mean of individual wealth is " + str(sim_wealth.mean()) + "; the standard deviation is "
+      + str(sim_wealth.std()) + "; the median is " + str(np.median(sim_wealth)) + ".")
+
+print("The median level of market resources is: " + str(np.median(AggShockAgent_tax.state_now['mNrm'])))
+
+# Lorenz Curve of Wealth Distribution
+
+from HARK.datasets import load_SCF_wealth_weights
+from HARK.utilities import get_lorenz_shares, get_percentiles
+
+SCF_wealth, SCF_weights = load_SCF_wealth_weights()
+
+pctiles = np.linspace(0.001,0.999,200)
+
+SCF_Lorenz_points = get_lorenz_shares(SCF_wealth,weights=SCF_weights,percentiles=pctiles)
+sim_Lorenz_points = get_lorenz_shares(sim_wealth,percentiles=pctiles)
+plt.plot(pctiles,pctiles,'-r')
+plt.plot(pctiles,SCF_Lorenz_points,'--k')
+plt.plot(pctiles,sim_Lorenz_points,'-b')
+plt.xlabel('Percentile of net worth')
+plt.ylabel('Cumulative share of wealth')
+plt.show(block=False)
 
 rates = 20
 tax_rates = np.linspace(0.00, 0.95, num=rates)
-v_at_median_wealth = []
+
+v_at_p90_wealth = [] # Vector for value function of 90th percentile wealth agent at each level of flat income tax rate
+v_at_p80_wealth = [] # Vector for value function of 80th percentile wealth agent at each level of flat income tax rate
+v_at_p70_wealth = [] # Vector for value function of 70th percentile wealth agent at each level of flat income tax rate
+v_at_p60_wealth = [] # Vector for value function of 60th percentile wealth agent at each level of flat income tax rate
+v_at_median_wealth = [] # Vector for value function of median wealth agent at each level of flat income tax rate
+v_at_p40_wealth = [] # Vector for value function of 40th percentile wealth agent at each level of flat income tax rate
+v_at_p30_wealth = [] # Vector for value function of 30th percentile wealth agent at each level of flat income tax rate
+v_at_p20_wealth = [] # Vector for value function of 20th percentile wealth agent at each level of flat income tax rate
+v_at_p10_wealth = [] # Vector for value function of 10th percentile wealth agent at each level of flat income tax rate
 
 for tau in tax_rates:
 
@@ -176,58 +219,125 @@ for tau in tax_rates:
     AggShockAgent_tax_tau.solve()
     AggShockAgent_tax_tau.initialize_sim()
     AggShockAgent_tax_tau.simulate()
-    AggShockAgent_tax_tau.track_vars = ['aNrm','pLvl','mNrm','cNrm','TranShk']
+    AggShockAgent_tax_tau.track_vars = ['aNrm','pLvl','mNrm','TranShk']
     EconomyExample_tau.solve()
     AggShockAgent_tax_tau.unpack('vFunc')
 
     sim_market_resources_tau = AggShockAgent_tax_tau.state_now['mNrm']
-
     sim_wealth_tau = AggShockAgent_tax_tau.state_now['aNrm']
+    
+    print("The flat income tax rate is: " + mystr(AggShockAgent_tax_tau.tax_rate))
 
-    print("The lump-sum transfer in terms of permanent income is: " + str(AggShockAgent_tax_tau.calc_transfers()))
+    print("The lump-sum transfer in terms of permanent income is: " + mystr(AggShockAgent_tax_tau.calc_transfers()))
 
-    print("The mean of individual market resources is " + str(sim_market_resources_tau.mean()) + "; the standard deviation is "
-          + str(sim_market_resources_tau.std()) + "; the median is " + str(np.median(sim_market_resources_tau)) + ".")
-    print("The mean of individual wealth is " + str(sim_wealth_tau.mean()) + "; the standard deviation is "
-          + str(sim_wealth_tau.std()) + "; the median is " + str(np.median(sim_wealth_tau)) + ".")
-
-    print("The median level of market resources is: " + str(np.median(AggShockAgent_tax_tau.state_now['mNrm'])))
-    print("And also with median wealth + income: " + str(np.median(sim_wealth_tau + sim_income_tau)))
-
-
-    # print("The mean of post-tax individual income is " + str(sim_post_income_tau.mean()) + "; the standard deviation is "
-    #       + str(sim_post_income_tau.std()) + "; the median is " + str(np.median(sim_post_income_tau)) + ".")
-    # print("The aggregate pre-tax wealth-income ratio is " + str(sim_wealth_tau.mean() / sim_pre_income_tau.mean()) + ".")
-    # print("The aggregate post-tax wealth-income ratio is " + str(sim_wealth_tau.mean() / sim_post_income_tau.mean()) + ".")
-
-    # Tax rate as determined by median agent (pre-tax)'s wealth and income
-
+    print("The mean of individual wealth is " + mystr(sim_wealth_tau.mean()) + "; the standard deviation is "
+          + str(sim_wealth_tau.std()) + "; the median is " + mystr(np.median(sim_wealth_tau)) + ".")
+    print("The mean of individual market resources is " + mystr(sim_market_resources_tau.mean()) + "; the standard deviation is "
+          + str(sim_market_resources_tau.std()) + "; the median is " + mystr(np.median(sim_market_resources_tau)) + ".")
+    print("The 90th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,90)) + ".")
+    print("The 80th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,80)) + ".")
+    print("The 70th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,70)) + ".")
+    print("The 60th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,60)) + ".")
+    print("The median of individual wealth is " + mystr(np.median(sim_wealth_tau)) + ".")
+    print("The 40th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,40)) + ".")
+    print("The 30th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,30)) + ".")
+    print("The 20th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,20)) + ".")
+    print("The 10th percentile of individual wealth is " + mystr(np.percentile(sim_wealth_tau,10)) + ".\n")
+    
+    # Tax rate as determined by agent (pre-tax)'s wealth and income
+    sim_p90_wealth_tau = np.percentile(sim_wealth_tau,90)
+    sim_p90_market_resources_tau = np.percentile(sim_market_resources_tau,90)
+    sim_p80_wealth_tau = np.percentile(sim_wealth_tau,80)
+    sim_p80_market_resources_tau = np.percentile(sim_market_resources_tau,80)
+    sim_p70_wealth_tau = np.percentile(sim_wealth_tau,70)
+    sim_p70_market_resources_tau = np.percentile(sim_market_resources_tau,70)
+    sim_p60_wealth_tau = np.percentile(sim_wealth_tau,60)
+    sim_p60_market_resources_tau = np.percentile(sim_market_resources_tau,60)
     sim_median_wealth_tau = np.median(sim_wealth_tau)
-    # sim_median_income_tau = np.median(sim_income_tau)
     sim_median_market_resources_tau = np.median(sim_market_resources_tau)
-
-    # Find value function of median wealth agent/voter
-    # vFunc arguments: Median agent's level of market resources
+    sim_p40_wealth_tau = np.percentile(sim_wealth_tau,40)
+    sim_p40_market_resources_tau = np.percentile(sim_market_resources_tau,40)
+    sim_p30_wealth_tau = np.percentile(sim_wealth_tau,30)
+    sim_p30_market_resources_tau = np.percentile(sim_market_resources_tau,30)
+    sim_p20_wealth_tau = np.percentile(sim_wealth_tau,20)
+    sim_p20_market_resources_tau = np.percentile(sim_market_resources_tau,20)
+    sim_p10_wealth_tau = np.percentile(sim_wealth_tau,10)
+    sim_p10_market_resources_tau = np.percentile(sim_market_resources_tau,10)
+    # Find value function of post-tax Xth-percentile wealth agent/voter, with X taking values from 10 to 90
+    # vFunc arguments: Each agent's level of market resources
     # and median agent's capital-labor ratio (assumed as 1.0 for now)
-    v_at_median_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_median_market_resources_tau,
-                                                            1.0)
+    v_at_p90_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p90_market_resources_tau, 1.0)
+    v_at_p80_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p80_market_resources_tau, 1.0)
+    v_at_p70_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p70_market_resources_tau, 1.0)
+    v_at_p60_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p60_market_resources_tau, 1.0)
+    v_at_median_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_median_market_resources_tau, 1.0)
+    v_at_p40_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p40_market_resources_tau, 1.0)
+    v_at_p30_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p30_market_resources_tau, 1.0)
+    v_at_p20_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p20_market_resources_tau, 1.0)
+    v_at_p10_wealth_tau = AggShockAgent_tax_tau.vFunc[0](sim_p10_market_resources_tau, 1.0)
 
+    v_at_p90_wealth.append(v_at_p90_wealth_tau)
+    v_at_p80_wealth.append(v_at_p80_wealth_tau)
+    v_at_p70_wealth.append(v_at_p70_wealth_tau)
+    v_at_p60_wealth.append(v_at_p60_wealth_tau)
     v_at_median_wealth.append(v_at_median_wealth_tau)
+    v_at_p40_wealth.append(v_at_p40_wealth_tau)
+    v_at_p30_wealth.append(v_at_p30_wealth_tau)
+    v_at_p20_wealth.append(v_at_p20_wealth_tau)
+    v_at_p10_wealth.append(v_at_p10_wealth_tau)
 
-    print("The market resources of the median agent is "
-          + str(mystr(sim_median_market_resources_tau))
-          + ".\n The value function for the median-wealth voter at tax rate "
-          + str(mystr(AggShockAgent_tax_tau.tax_rate))
-          + " is " + str(mystr(v_at_median_wealth_tau)) + ".")
-
-
+# Create graph of value function of agent with median level of wealth for each tax rate from 0.00 to 0.95 (in increments of 0.05)
 print(v_at_median_wealth)
 print(mystr(np.max(v_at_median_wealth)))
 optimal_tax_rate = tax_rates[v_at_median_wealth.index(np.max(v_at_median_wealth))]
 print("The optimal tax rate for the median voter is " + str(mystr(optimal_tax_rate)) + ".")
+
 
 plt.figure(figsize=(7,4))
 plt.plot(tax_rates, v_at_median_wealth, 'b-', label = 'Value function of median wealth agent')
 plt.xlabel('Flat income tax rate')
 plt.ylabel('Value function of median wealth agent')
 plt.show()
+
+
+
+
+plt.figure(figsize=(13,6))
+plt.plot(tax_rates, v_at_p90_wealth, 'r--', label = 'Value function of p90 wealth agent')
+plt.plot(tax_rates, v_at_p80_wealth, 'g--', label = 'Value function of p80 wealth agent')
+plt.plot(tax_rates, v_at_p70_wealth, 'b--', label = 'Value function of p70 wealth agent')
+plt.plot(tax_rates, v_at_p60_wealth, 'y--', label = 'Value function of p60 wealth agent')
+plt.plot(tax_rates, v_at_median_wealth, 'k-', label = 'Value function of median wealth agent')
+plt.plot(tax_rates, v_at_p40_wealth, 'r-', label = 'Value function of p40 wealth agent')
+plt.plot(tax_rates, v_at_p30_wealth, 'g-', label = 'Value function of p30 wealth agent')
+plt.plot(tax_rates, v_at_p20_wealth, 'b-', label = 'Value function of p20 wealth agent')
+plt.plot(tax_rates, v_at_p10_wealth, 'y-', label = 'Value function of p10 wealth agent')
+
+plt.xlabel('Flat income tax rate')
+plt.ylabel('Value function of agents')
+plt.legend()
+plt.show()
+
+
+
+
+optimal_tax_rate_p90 = tax_rates[v_at_p90_wealth.index(np.max(v_at_p90_wealth))]
+optimal_tax_rate_p80 = tax_rates[v_at_p80_wealth.index(np.max(v_at_p80_wealth))]
+optimal_tax_rate_p70 = tax_rates[v_at_p70_wealth.index(np.max(v_at_p70_wealth))]
+optimal_tax_rate_p60 = tax_rates[v_at_p60_wealth.index(np.max(v_at_p60_wealth))]
+optimal_tax_rate_median = tax_rates[v_at_median_wealth.index(np.max(v_at_median_wealth))]
+optimal_tax_rate_p40 = tax_rates[v_at_p40_wealth.index(np.max(v_at_p40_wealth))]
+optimal_tax_rate_p30 = tax_rates[v_at_p30_wealth.index(np.max(v_at_p30_wealth))]
+optimal_tax_rate_p20 = tax_rates[v_at_p20_wealth.index(np.max(v_at_p20_wealth))]
+optimal_tax_rate_p10 = tax_rates[v_at_p10_wealth.index(np.max(v_at_p10_wealth))]
+
+print("The optimal tax rate for the 90th percentile voter is " + str(mystr(optimal_tax_rate_p90)) + ".")
+print("The optimal tax rate for the 80th percentile voter is " + str(mystr(optimal_tax_rate_p80)) + ".")
+print("The optimal tax rate for the 70th percentile voter is " + str(mystr(optimal_tax_rate_p70)) + ".")
+print("The optimal tax rate for the 60th percentile voter is " + str(mystr(optimal_tax_rate_p60)) + ".")
+print("The optimal tax rate for the median voter is " + str(mystr(optimal_tax_rate_median)) + ".")
+print("The optimal tax rate for the 40th percentile voter is " + str(mystr(optimal_tax_rate_p40)) + ".")
+print("The optimal tax rate for the 30th percentile voter is " + str(mystr(optimal_tax_rate_p30)) + ".")
+print("The optimal tax rate for the 20th percentile voter is " + str(mystr(optimal_tax_rate_p20)) + ".")
+print("The optimal tax rate for the 10th percentile voter is " + str(mystr(optimal_tax_rate_p10)) + ".")
+
