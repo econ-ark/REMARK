@@ -2,7 +2,7 @@
 This file contains classes and functions for representing, solving, and simulating
 a consumer type with idiosyncratic shocks to permanent and transitory income,
 who can consume durable and non-durable goods. There is an adjustment cost for
-purchasing durable goods.
+adjusting the durable stock as well as a depreciation rate.
 
 Author:
 Adrian Monninger
@@ -12,30 +12,11 @@ and Jeppe Druedahl: https://github.com/NumEconCopenhagen/ConsumptionSavingNotebo
 
 Structure is based on ConsRiskyContribModel from Mateo
 
-###
 ########################################################################################################################
 TODO:
-- cFuncAdj != dFuncAdj for alpha = 0.5, adjustment cost = 0, depreciation = 1 --> use a different optimization method? (For Jeppe it is also not the same)
-- vFuncAdj != vFuncKeep for alpha = 1. Error e^-16
 - unpack cFunc in lifecycle
 - add MPC
-- replace utility functions from jeppe with own
 - replace upper envelope theorem with DCEGM
-
-
-Chris:
-- Remark
-- Review each others work
-- Kyung Woong--> David
-- David --> Me
-- Me --> Kyung Woong
-
-- Use Jeppe's values and compare! cFuncAdj != dFuncAdj for alpha = 0.5
-- exact same gridpoints!
-- if the same: why optimizer is strange for some values
-- By friday Morning: fixed and review
-- post final version: next tuesday
-
 """
 
 import numpy as np
@@ -45,39 +26,18 @@ from HARK.interpolation import LinearInterp, BilinearInterp
 # Additional:
 from HARK.core import MetricObject, NullFunc # Basic HARK features
 from copy import deepcopy
-from HARK.ConsumptionSaving.ConsIndShockModel import (
-    utility,  # CRRA utility function
-    utility_inv,  # Inverse CRRA utility function
-)
+from HARK.ConsumptionSaving.ConsIndShockModel import utility
+
 # From consav
 from consav import linear_interp
 
 import scipy as sp
 ########################################################################################################################
-### Additional functions
-def function(d, x, inv_v_keep):
-    m = x - d
-    n = d
-    return -inv_v_keep(n, m)
-
-### Functions we need:
+### Additional Functions we need:
 def func_nopar(c,d,d_ubar,alpha,rho): # U(C,D)
     dtot = d+d_ubar
     c_total = c**alpha*dtot**(1.0-alpha)
     return c_total**(1-rho)/(1-rho)
-
-def marg_func_nopar(c,d,d_ubar,alpha,rho): # U(C,D) wrt C
-    dtot = d+d_ubar
-    c_power = alpha*(1.0-rho)-1.0
-    d_power = (1.0-alpha)*(1.0-rho)
-    return alpha*(c**c_power)*(dtot**d_power)
-
-def inv_marg_func(q,d,d_ubar,alpha,rho): # U(C,D) wrt C inverse
-    dtot = d+d_ubar
-    c_power = alpha*(1.0-rho)-1.0
-    d_power = (1.0-alpha)*(1.0-rho)
-    denom = alpha*dtot**d_power
-    return (q/denom)**(1.0/c_power)
 
 def create(ufunc, use_inv_w=False):
     """ create upperenvelope function from the utility function ufunc
@@ -280,14 +240,21 @@ init_durable = dict(
         "dDepr": 0.1, # Depreciation Rate of Durable Stock
         "adjC": 0.15, # Adjustment costs
         "d_ubar": 1e-2, # Minimum durable stock for utility function
-        "dNrmMin": 0.001, # For Grids
-        "dNrmMax": 20,
-        "dNrmCount": 48,
-        "xNrmMin": 0.001,
-        "xNrmMax": 100 + 20, # mMax = 100 + dNrmMax
-        "xNrmCount": 48,
-        "BoroCnstdNrm": 0,
-        "tol": 1e-08,
+        # For Grids
+        "nNrmMin": 0.0,
+        "nNrmMax": 10, #5,
+        "nNrmCount": 100,
+        "mNrmMin": 0.0,
+        "mNrmMax": 10,
+        "mNrmCount": 100,
+        "xNrmMin": 0.0,
+        "xNrmMax": 10,  # xMax = mNrmMax + (1 - adjC)* nNrmMax
+        "xNrmCount": 100,
+        "aNrmMin": 0.0,
+        "aNrmMax": 11,  #xNrmMax+1.0
+        "aNrmCount": 100,
+        "BoroCnstdNrm": 0,  # Borrowing Constraint of durable goods.
+        "tol": 1e-08, # Tolerance for optimizer/ Acceptable difference before switching from adjuster to keeper
     }
 )
 
@@ -300,9 +267,15 @@ class DurableConsumerType(IndShockConsumerType):
         "nNrmMin",
         "nNrmMax",
         "nNrmCount",
+        "mNrmMin",
+        "mNrmMax",
+        "mNrmCount",
         "xNrmMin",
         "xNrmMax",
         "xNrmCount",
+        "aNrmMin",
+        "aNrmMax",
+        "aNrmCount",
         "BoroCnstdNrm",
         "tol"
     ]
@@ -323,10 +296,22 @@ class DurableConsumerType(IndShockConsumerType):
 
         self.time_inv = deepcopy(self.time_inv_)
 
-        #self.def_utility_funcs()
+        self.def_utility_funcs()
         # Set the solver for the portfolio model, and update various constructed attributes
         self.solve_one_period = solve_DurableConsumer #DurableConsumerSolver #make_one_period_oo_solver(DurableConsumerSolver)
         self.update()
+
+    def def_utility_funcs(self):
+        # i. U(C,D)
+        self.u_inner = lambda C, D, d_ubar, alpha: C ** alpha * (D + d_ubar) ** (1 - alpha)
+        self.CRRAutility = lambda C, D: utility(self.u_inner(C, D, self.d_ubar, self.alpha), self.CRRA)
+
+        # ii. uPC U(C,D) wrt C
+        self.CRRAutilityP = lambda C, D: (
+                    (self.alpha * C ** (self.alpha * (1 - self.CRRA) - 1)) * (D + self.d_ubar) ** ((1 - self.alpha) * (1 - self.CRRA)))
+
+        # iii. Inverse uPC U(C,D) wrt C
+        self.CRRAutilityP_inv = lambda C, D: ((C/(self.alpha*(D+self.d_ubar) ** ((1 - self.alpha) * (1 - self.CRRA))))**(1/(self.alpha*(1 - self.CRRA) - 1)))
 
     def pre_solve(self):
         self.update_solution_terminal()
@@ -365,29 +350,54 @@ class DurableConsumerType(IndShockConsumerType):
     def update_solution_terminal(self):
         '''
         Solves the terminal period. As there is no bequest, the agent consumes all income.
-        Nevertheless, it can be still split into durable and non-durable consumption. Note also that
-        the agent has a durable stock.
+        Market resources and durable stock can be split into durable and non-durable consumption.
 
-        Keepers problem: consume every market resource (m) given durable stock (d)
+        Keepers problem: consume every market resource (m) given durable stock (d).
 
         Adjuster problem: Calculate optimal share of durables which is c = alpha*xNrmGrid; d = (1-alpha)*xNrmGrid
 
         Optimal Solution: Use either keeper or adjuster solution depending on the higher utility.
+
         :return:
-        cFuncKeep
-        cFuncAdj
-        cFunc
-        dFuncKeep
-        dFuncAdj
-        dFunc
-        exFuncKeep
-        exFuncAdj
-        exFunc
-        vFuncKeep
-        vFunkAdj
-        uPFuncKeep
-        uPFuncAdj
-        Adjusting
+        cFunc : function
+            The consumption function for this period, defined over durable stock and market
+            resources: c = cFunc(n,m).
+        dFunc: function
+            The durable consumption function for this period, defined over durable stock and
+            market resources: d = dFunc(n,m)
+        exFunc: function
+            The total expenditure function for this period, defined over durable stock and
+            market resources: ex = exFunc(n,m)
+        vFunc : function
+            The beginning-of-period value function for this period, defined over durable stock
+            and market resources: v = vFunc(n,m).
+        cFuncKeep : function
+            The consumption function for this periods' keeper problem, defined over durable stock and market
+            resources: c = cFunc(n,m).
+        dFuncKeep: function
+            The durable consumption function for this periods' keeper problem, defined over durable stock and
+            market resources: d = dFunc(n,m).
+        exFuncKeep: function
+            The total expenditure function for this periods' keeper problem, defined over durable stock and
+            market resources: ex = exFunc(n,m)
+        vFuncKeep : function
+            The beginning-of-period value function for this periods' keeper problem, defined over durable stock
+            and market resources: v = vFunc(n,m).
+        cFuncAdj : function
+            The consumption function for this periods' adjuster problem, defined over sum of durable stock and market
+            resources: c = cFunc(x).
+        dFuncAdj: function
+            The durable consumption function for this periods' adjuster problem, defined over sum of durable stock and
+            market resources: d = dFunc(x)
+        exFuncAdj: function
+            The total expenditure function for this periods' adjuster problem, defined over sum of durable stock and
+            market resources: ex = exFunc(x)
+        vFuncAdj : function
+            The beginning-of-period value function for this periods' adjuster problem, defined over sum of durable stock
+            and market resources: v = vFunc(x).
+        adjusting : function
+            The adjusting function for this period indicates if for a given durable stock and market resources, the agent
+            adjusts the durable stock or not: adjusting = adjusting(n,m).
         '''
 
 
@@ -421,10 +431,10 @@ class DurableConsumerType(IndShockConsumerType):
                     inv_v_keep[i_d, i_m] = 0
                     inv_marg_u_keep[i_d, i_m] = 0
                     continue
-                v_keep = func_nopar(cFuncKeep_array[i_d, i_m], self.nNrmGrid[i_d], self.d_ubar, self.alpha, self.CRRA)
+                v_keep = self.CRRAutility(cFuncKeep_array[i_d, i_m], self.nNrmGrid[i_d])
                 inv_v_keep[i_d, i_m] = -1.0 / v_keep
-                inv_marg_u_keep[i_d, i_m] = 1.0 / marg_func_nopar(cFuncKeep_array[i_d, i_m], self.nNrmGrid[i_d],
-                                                                           self.d_ubar, self.alpha, self.CRRA)
+                inv_marg_u_keep[i_d, i_m] = 1.0 / self.CRRAutilityP(cFuncKeep_array[i_d, i_m], self.nNrmGrid[i_d])
+
         # iii) Make Functions
         vFuncKeep_terminal = BilinearInterp(inv_v_keep, self.nNrmGrid, self.mNrmGrid)
         uPFuncKeep_terminal = BilinearInterp(inv_marg_u_keep, self.nNrmGrid, self.mNrmGrid)
@@ -446,9 +456,9 @@ class DurableConsumerType(IndShockConsumerType):
                 inv_v_adj[i_x] = 0
                 inv_marg_u_adj[i_x] = 0
                 continue
-            v_adj = func_nopar(self.xNrmGrid[i_x] - dFuncAdj_array[i_x], dFuncAdj_array[i_x], self.d_ubar, self.alpha, self.CRRA)
+            v_adj = self.CRRAutility(self.xNrmGrid[i_x] - dFuncAdj_array[i_x], dFuncAdj_array[i_x])
             inv_v_adj[i_x] = -1.0 / v_adj
-            inv_marg_u_adj[i_x] = 1.0 / marg_func_nopar(cFuncAdj_array[i_x], dFuncAdj_array[i_x], self.d_ubar, self.alpha, self.CRRA)
+            inv_marg_u_adj[i_x] = 1.0 / self.CRRAutilityP(cFuncAdj_array[i_x], dFuncAdj_array[i_x])
 
         # Interpolate
         vFuncAdj_terminal = LinearInterp(self.xNrmGrid, inv_v_adj)
@@ -841,17 +851,16 @@ def solve_DurableConsumer(
         tol, # tolerance for optimization function and when to adjust vs keep
 ):
     ####################################################################################################################
-    # 1. Update utility functions: TODO: change functions below to use these
+    # 1. Update utility functions:
     # i. U(C,D)
     u_inner = lambda C, D, d_ubar, alpha: C ** alpha * (D + d_ubar) ** (1 - alpha)
-    #func_nopar = lambda C, D: utility(u_inner(C, D, d_ubar, alpha), CRRA)
+    CRRAutility = lambda C, D: utility(u_inner(C, D, d_ubar, alpha), CRRA)
 
-    # ii. Inverse U(C,D)
-    u_inner_inv = lambda C, D, d_ubar, alpha: (C ** alpha * (D + d_ubar) ** (1 - alpha)) ** (-1)
-    u_inv = lambda C, D: utility_inv(u_inner_inv(C, D, d_ubar, alpha), CRRA)
+    # ii. uPC U(C,D) wrt C
+    CRRAutilityP = lambda C, D: ((alpha * C ** (alpha * (1 - CRRA) - 1)) * (D + d_ubar) ** ((1 - alpha) * (1 - CRRA)))
 
-    # iii. uPC U(C,D) wrt C
-    uPC = lambda C, D: ((alpha * C ** (alpha * (1 - CRRA) - 1)) * (D + d_ubar) ** ((1 - alpha) * (1 - CRRA)))
+    # iii. Inverse uPC U(C,D) wrt C
+    CRRAutilityP_inv = lambda C, D: ((C/(alpha*(D+d_ubar) ** ((1 - alpha) * (1 - CRRA))))**(1/(alpha*(1 - CRRA) - 1)))
 
     ####################################################################################################################
     # 1) Shock values:
@@ -901,7 +910,6 @@ def solve_DurableConsumer(
     qFunc_array = np.zeros(post_shape)
 
     w = np.zeros(post_shape)
-    #w = np.zeros(len(aNrmGrid))
     ### ii. Loop states
     # allocate temporary containers
     m_plus = np.zeros(len(aNrmGrid))
@@ -979,9 +987,7 @@ def solve_DurableConsumer(
     # Empty container:
     keep_shape = (len(nNrmGrid), len(mNrmGrid))
 
-    vFuncKeep_array = np.zeros(keep_shape)
     invPUKeep_array = np.zeros(keep_shape)
-    vFuncKeep_array_alt = np.zeros(keep_shape)
     dFuncKeep_array = np.zeros(keep_shape)
 
     cFuncKeep_array = np.zeros(post_shape)
@@ -994,7 +1000,7 @@ def solve_DurableConsumer(
 
         # use euler equation
         for i_a in range(len(aNrmGrid)):
-            q_c[i_d, i_a] = inv_marg_func(qFunc(nNrmGrid[i_d], aNrmGrid[i_a]), d_keep, d_ubar, alpha, CRRA)
+            q_c[i_d, i_a] = CRRAutilityP_inv(qFunc(nNrmGrid[i_d], aNrmGrid[i_a]), d_keep)
             q_m[i_d, i_a] = aNrmGrid[i_a] + q_c[i_d, i_a]
 
         # upperenvelope
@@ -1003,7 +1009,8 @@ def solve_DurableConsumer(
 
         # negative inverse
         for i_m in range(len(mNrmGrid)):
-            invPUKeep_array[i_d, i_m] = 1 / marg_func_nopar(cFuncKeep_array[i_d, i_m], d_keep, d_ubar, alpha, CRRA)
+            # invPUKeep_array[i_d, i_m] = 1 / marg_func_nopar(cFuncKeep_array[i_d, i_m], d_keep, d_ubar, alpha, CRRA)
+            invPUKeep_array[i_d, i_m] = 1 / CRRAutilityP(cFuncKeep_array[i_d, i_m], d_keep)
             dFuncKeep_array[i_d, i_m] = nNrmGrid[i_d]
     vFuncKeep_array = -1 / v_ast_vec
 
@@ -1040,9 +1047,7 @@ def solve_DurableConsumer(
     inv_v_keep = vFuncKeep_array
 
     dFuncAdj_array = np.zeros(adjust_shape)
-    dFuncAdj_array_opt = np.zeros(adjust_shape)
     cFuncAdj_array = np.zeros(adjust_shape)
-    cFuncAdj_array_opt = np.zeros(adjust_shape)
     exFuncAdj_array = np.zeros(adjust_shape)
 
     # loop over x state
@@ -1061,7 +1066,9 @@ def solve_DurableConsumer(
         # special case if alpha = 1
         if alpha == 1:
             dFuncAdj_array[i_x] = 0
-
+            m = x - dFuncAdj_array[i_x]
+            cFuncAdj_array[i_x] = cFuncKeep(dFuncAdj_array[i_x], m)
+            exFuncAdj_array[i_x] = cFuncAdj_array[i_x] + dFuncAdj_array[i_x]
         else:
             d_low = np.fmin(x / 2, 1e-8)
             #d_low = np.fmin(x / 2, 0)
@@ -1069,26 +1076,27 @@ def solve_DurableConsumer(
             dFuncAdj_array[i_x] = optimizer(obj_adj, d_low, d_high,
                                args=(x, inv_v_keep, nNrmGrid, mNrmGrid), tol=tol)
 
+            # c. optimal value
+            m = x - dFuncAdj_array[i_x] # This is correct, it is not: x - (1 - adjC) * dFuncAdj_array[i_x]
+            cFuncAdj_array[i_x] = cFuncKeep(dFuncAdj_array[i_x], m) # Evaluate cFunc at x and m
+            exFuncAdj_array[i_x] = cFuncAdj_array[i_x] + dFuncAdj_array[i_x]
+
+            # Add additional optimizer to reduce error: we know that
+            # d/c = ((1 - alpha) / alpha) * (Rfree / (Rfree - 1 + dDepr))
+            # ex - c = ((1 - alpha) / alpha) * (Rfree / (Rfree - 1 + dDepr))) * c
+            # ex = ((1 - alpha) / alpha) * (Rfree / (Rfree - 1 + dDepr)) + 1) * c
+            # c = ex/((1 - alpha / (alpha) * (Rfree / (Rfree - 1 + dDepr)) + 1)
+            ex = exFuncAdj_array[i_x]
+            cFuncAdj_array[i_x] = ex/(((1 - alpha) / alpha) * (Rfree / (Rfree - 1 + dDepr)) + 1)
+            dFuncAdj_array[i_x] = ex - cFuncAdj_array[i_x]
+
         # Added Borrowing Constraint:
         if BoroCnstdNrm > dFuncAdj_array[i_x]:
-            print('Constraint')
             dFuncAdj_array[i_x] = BoroCnstdNrm
-
-        # c. optimal value
-        m = x - dFuncAdj_array[i_x] # This is correct, it is not: x - (1 - adjC) * dFuncAdj_array[i_x]
-        cFuncAdj_array[i_x] = cFuncKeep(dFuncAdj_array[i_x], m) # Evaluate cFunc at x and m
-        exFuncAdj_array[i_x] = cFuncAdj_array[i_x] + dFuncAdj_array[i_x]
-
-        # Add additional optimizer to reduce error
-        ex = exFuncAdj_array[i_x]
-        x0 = (1 - alpha) * ex
-        b = [(0, ex)]
-        sol_opt = sp.optimize.minimize(lambda d: -func_nopar(ex - d, d, d_ubar, alpha, CRRA), x0, bounds=b)
-        dFuncAdj_array[i_x] = sol_opt.x
-        cFuncAdj_array[i_x] = ex - dFuncAdj_array[i_x]
+            cFuncAdj_array[i_x] = exFuncAdj_array[i_x] - dFuncAdj_array[i_x]
 
         inv_v_adj[i_x] = -obj_adj(dFuncAdj_array[i_x], x, inv_v_keep, nNrmGrid, mNrmGrid)
-        inv_marg_u[i_x] = 1 / marg_func_nopar(cFuncAdj_array[i_x], dFuncAdj_array[i_x], d_ubar, alpha, CRRA)
+        inv_marg_u[i_x] = 1 / CRRAutilityP(cFuncAdj_array[i_x], dFuncAdj_array[i_x])
 
     # Create Functions
     cFuncAdj = LinearInterp(xNrmGrid, cFuncAdj_array)
