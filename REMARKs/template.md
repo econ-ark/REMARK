@@ -1,11 +1,13 @@
 ---
-# CFF Requires fileds
+# CFF required fields
 cff-version: 1.1.0
 message: If you use this software, please cite it as below.
 authors:
   - family-names: Holmes
     given-names: Mycroft
+	orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: My Research Tool
+abstract: Replication of Paper X
 version: 1.0.4 # Version of the software released
 date-released: 2017-12-18
 
@@ -25,14 +27,16 @@ references: # Formatted metadata of original paper, from BibTex
     title: "Title of original paper" # required
     doi: "Original paper DOI" # optional
     date: 20XX-XX-XX
-    publisher : "Publisher information"
+    publisher: "Publisher information"
 repository: "URL of repository" # optional
 
-# Econ-ARK website fields? 
+# Econ-ARK website fields 
 github_repo_url: Link to git repo hosting the code # required 
 remark-name: template # required
-title-original-paper: Name of the paper if available # optional 
-
+#title-original-paper: Name of the paper if available # optional 
+notebooks:  # path to any notebooks within the repo - optional
+  - path_to_notebook.ipynb
+  
 dashboards: # path to any dashboards within the repo - optional
   - 
     path_to_dashboard.ipynb
@@ -64,3 +68,9 @@ keywords: # optional
 ---
 
 # Template metadata for REMARKs
+
+Abstract
+
+## References
+
+Reference in APA style

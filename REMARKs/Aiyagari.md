@@ -1,27 +1,18 @@
 ---
-tags:
-  - REMARK
-  - Notebook
+# CFF required fields
+cff-version: "1.1.0"
 authors:
   -
     family-names: Huang
     given-names: Zixuan 
 #    orcid: "https://orcid.org/0000-0003-3732-9312"
-cff-version: "1.1.0"
-abstract: "Aiyagari (1994) Replication"
 title: "AiyagariIdiosyncratic"
-version: "1.0"
-# REMARK fields
-github_repo_url: https://github.com/econ-ark/KrusellSmith
-notebooks: # path to any notebooks within the repo - optional
-  - 
-    Code/Python/KrusellSmith.ipynb
-remark-name: KrusellSmith # required 
+abstract: "Aiyagari (1994) Replication"
+
+# REMARK required fields
+remark-version: "1.0"
 reference: # required for Replications; optional for Reproductions
-   - title: "Income and Wealth Heterogeneity in the Macroeconomy"
-   - 
-      type: doi
-      value: https://doi.org/10.1086/250034
+   - type: article
    - authors:
         -
           family-names: Krusell
@@ -29,6 +20,23 @@ reference: # required for Replications; optional for Reproductions
         -
           family-names: "Smith, Jr."
           given-names: "Anthony A."
+    title: "Income and Wealth Heterogeneity in the Macroeconomy"
+	doi: https://doi.org/10.1086/250034
+	date: 1998
+	publisher: Journal of political Economy
+
+# Econ-ARK website fields
+github_repo_url: https://github.com/econ-ark/KrusellSmith	
+remark-name: KrusellSmith # required 
+notebooks: # path to any notebooks within the repo - optional
+  - 
+    Code/Python/KrusellSmith.ipynb
+
+tags:
+  - REMARK
+  - Notebook
+
+
 ---
 
 

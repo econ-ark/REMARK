@@ -1,7 +1,6 @@
 ---
-tags:
-  - REMARK
-abstract: # abstract: optional
+# CFF required fields
+cff-version: TBD
 authors: # required
   -
     family-names: Carroll
@@ -13,17 +12,32 @@ authors: # required
   - 
     family-names: Son
     given-names: "Jeongwon (John)"
-# REMARK fields
+title: BufferStock-LifeCycle
+
+# REMARK required fields
+remark-version: 1.0
+references:
+	- type: article
+	  authors:
+	    -
+		  family-names: Carroll
+		  given-names: "Christopher D."
+		  orcid: "https://orcid.org/0000-0003-3732-9312"
+	  title: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis
+	  doi: https://doi.org/10.1162/003355397555109
+	  date: 1997-02-01
+	  publisher: The Quarterly Journal of Economics
+	  
+# Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/BufferStock-LifeCycle # required 
-commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: BufferStock-LifeCycle # required 
-title-original-paper: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/BufferStock-LifeCycle.ipynb
-dashboards: # path to any dahsboards within the repo - optional
-identifiers-paper: # required for Replications; optional for Reproductions
-date-published-original-paper: # required for Replications; optional for Reproductions
+
+tags:
+  - REMARK
+  - Notebook
 ---
 
 # BufferStock-LifeCycle

@@ -1,8 +1,6 @@
 ---
-tags:
-  - REMARK
-  - Reproduction
-abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
+# CFF required fields
+cff-version: "" # required 
 authors: # required
   -  
     family-names: Carroll
@@ -24,33 +22,48 @@ authors: # required
     family-names: White
     given-names: "Matthew"
     orcid: "https://orcid.org/"
-cff-version: "" # required 
-date-released:  # required
-identifiers: # optional
-  - 
-    type: url
-    value: "https://github.com/llorracc/cAndCwithStickyE"
-  - 
-    type: doi
-    value: "TODO"
-keywords: # optional
-message: "" # required
-version: "" # required
-# REMARK fields
+title:  cAndCwithStickyE
+abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
+
+# REMARK required fields
+remark-version: 1.0
+references: 
+  - type: article
+    authors: # required
+	  -
+		family-names: Carroll
+		given-names: "Christopher D."
+		orcid: "https://orcid.org/0000-0003-3732-9312"
+	  -
+		family-names: Crawley
+		given-names: "Edmund"
+		orcid: "https://orcid.org/"
+      -
+		family-names: Slacalek
+		given-names: "Jiri"
+		orcid: "https://orcid.org/"
+      -
+		family-names: Kiichi
+		given-names: "Tokuoka"
+		orcid: "https://orcid.org/"
+	  -
+		family-names: White
+		given-names: "Matthew"
+		orcid: "https://orcid.org/"
+	title: Sticky Expectations and Consumption Dynamics
+	doi: DOI: 10.1257/mac.20180286
+	date: 2020-07
+	publisher: American Economic Journal: Macroeconomics
+
+# Econ-ARK website fields 
 github_repo_url: https://github.com/llorracc/cAndCwithStickyE # required 
-commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: cAndCwithStickyE # required 
-title-original-paper: # optional 
-notebooks: # path to any notebooks within the repo - optional
-dashboards: # path to any dahsboards within the repo - optional
-identifiers-paper: # required for Replications; optional for Reproductions
-   - 
-      type: url 
-      value: 
-   - 
-      type: doi
-      value: 
-date-published-original-paper: # required for Replications; optional for Reproductions
+
+
+tags:
+  - REMARK
+  - Reproduction
+
 ---
 # cAndCwithStickyE is a Reproduction 
 
@@ -67,4 +80,8 @@ Any of these can be run using ipython from the command line, for example:
 ipython do_min.py
 
 In all cases, there should be a message that indicates how long it takes to run the code on a particular computer with a particular configuration.
+
+## References
+
+Carroll, C. D., Crawley, E., Slacalek, J., Tokuoka, K., & White, M. N. (2020). Sticky expectations and consumption dynamics. American economic journal: macroeconomics, 12(3), 40-76.
 
