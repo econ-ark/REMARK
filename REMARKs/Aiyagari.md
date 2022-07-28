@@ -5,24 +5,24 @@ authors: # required
   -
     family-names: Huang
     given-names: Zixuan 
-title: "AiyagariIdiosyncratic" # required
-abstract: "Aiyagari (1994) Replication" # optional
+title: AiyagariIdiosyncratic # required
+abstract: Aiyagari (1994) Replication # optional
 
 # REMARK required fields
-remark-version: "1.0" # required - specify version of REMARK standard used
+remark-version: 1.0 # required - specify version of REMARK standard used
 reference: # required for replications; optional for reproductions; BibTex data from original paper
-   - type: article
-   - authors:
-        -
-          family-names: Krusell
-          given-names: Per
-        -
-          family-names: "Smith, Jr."
-          given-names: "Anthony A."
+  - type: article
+    authors: # required
+      -
+        family-names: Krusell
+        given-names: Per
+      -
+        family-names: "Smith, Jr."
+        given-names: "Anthony A."
     title: "Income and Wealth Heterogeneity in the Macroeconomy"
-	doi: https://doi.org/10.1086/250034
-	date: 1998
-	publisher: Journal of political Economy
+    doi: https://doi.org/10.1086/250034
+    date: 1998
+    publisher: Journal of political Economy
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/KrusellSmith # required 	
@@ -34,8 +34,6 @@ notebooks: # path to any notebooks within the repo - optional
 tags:
   - REMARK
   - Notebook
-
-
 ---
 
 
