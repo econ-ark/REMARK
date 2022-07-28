@@ -1,17 +1,16 @@
 ---
 # CFF required fields
-cff-version: "1.1.0"
-authors:
+cff-version: 1.1.0 # required (don't change)
+authors: # required
   -
     family-names: Huang
     given-names: Zixuan 
-#    orcid: "https://orcid.org/0000-0003-3732-9312"
-title: "AiyagariIdiosyncratic"
-abstract: "Aiyagari (1994) Replication"
+title: "AiyagariIdiosyncratic" # required
+abstract: "Aiyagari (1994) Replication" # optional
 
 # REMARK required fields
-remark-version: "1.0"
-reference: # required for Replications; optional for Reproductions
+remark-version: "1.0" # required - specify version of REMARK standard used
+reference: # required for replications; optional for reproductions; BibTex data from original paper
    - type: article
    - authors:
         -
@@ -26,7 +25,7 @@ reference: # required for Replications; optional for Reproductions
 	publisher: Journal of political Economy
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/KrusellSmith	
+github_repo_url: https://github.com/econ-ark/KrusellSmith # required 	
 remark-name: KrusellSmith # required 
 notebooks: # path to any notebooks within the repo - optional
   - 

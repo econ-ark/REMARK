@@ -1,16 +1,16 @@
 ---
 # CFF Required fields
-cff-version:
+cff-version: 1.1.0 # required (don't change):
 authors: # required
   -
     family-names: Acalin
     given-names: "Julien"
-    orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: BlanchardPA2019
+    orcid: "https://orcid.org/0000-0002-6137-0537"
+title: BlanchardPA2019 # required
 
 # REMARK fields
 remark-version: 1.1 # required
-references:
+references:  # required for replications; optional for reproductions; BibTex data from original paper
 	- type: Presidential Address
 	  authors: # required
 	  -

@@ -1,6 +1,6 @@
 ---
 # CFF required fields
-cff-version: TBD
+cff-version: 1.1.0 # required (don't change)
 authors: # required
   -
     family-names: Carroll

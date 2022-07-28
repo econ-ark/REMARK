@@ -13,7 +13,7 @@ abstract: "This paper builds foundations for rigorous and intuitive understandin
 
 # REMARK required fields
 remark-version: "1.0" # required
-references: # Formatted metadata of original paper, from BibTex
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
 	authors: # required
   -

@@ -1,19 +1,19 @@
 ---
 # CFF required fields
-cff-version: 1.1.0
-message: If you use this software, please cite it as below.
-authors:
+cff-version: 1.1.0 # required (don't change)
+message: If you use this software, please cite it as below. # optional
+authors: # required
   - family-names: Holmes
     given-names: Mycroft
 	orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: My Research Tool
-abstract: Replication of Paper X
-version: 1.0.4 # Version of the software released
-date-released: 2017-12-18
+title: My Research Tool # required
+abstract: Replication of Paper X # optional
+version: 1.0.4 # optional Version of the software released
+date-released: 2017-12-18 # required
 
 # REMARK required fields
 remark-version: "" # required - specify version of REMARK standard used
-references: # Formatted metadata of original paper, from BibTex
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
       -
@@ -26,14 +26,14 @@ references: # Formatted metadata of original paper, from BibTex
         orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
     title: "Title of original paper" # required
     doi: "Original paper DOI" # optional
-    date: 20XX-XX-XX
+    date: 20XX-XX-XX # required
     publisher: "Publisher information"
-repository: "URL of repository" # optional
+repository: "URL of repository" # optional (when original paper has own repository)
 
 # Econ-ARK website fields 
 github_repo_url: Link to git repo hosting the code # required 
 remark-name: template # required
-#title-original-paper: Name of the paper if available # optional 
+title-original-paper: Name of the paper if available # optional 
 notebooks:  # path to any notebooks within the repo - optional
   - path_to_notebook.ipynb
   
@@ -60,6 +60,7 @@ identifiers: # optional
   - 
     type: doi
     value: "DOI link if available"
+
 keywords: # optional
   - Econ-ARK
   - Sample
