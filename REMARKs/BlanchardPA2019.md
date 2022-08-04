@@ -11,17 +11,17 @@ title: BlanchardPA2019 # required
 # REMARK fields
 remark-version: 1.1 # required
 references:  # required for replications; optional for reproductions; BibTex data from original paper
-	- type: Presidential Address
-	  authors: # required
-	  -
-		  family-names: Blanchard
-		  given-names: Olivier
-		  orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-	  title: Public Debt and Low Interest Rates
-	  doi: 10.1257/aer.109.4.1197
-	  date: 2019-04
-	  publisher: American Economic Review
-	  
+  - type: Presidential Address
+    authors: # required
+      -
+        family-names: "Blanchard"
+        given-names: "Olivier"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "Public Debt and Low Interest Rates" # required
+    doi: "https://doi.org/10.1257/aer.109.4.1197" # optional
+    date: 2019-04 # required
+    publisher: American Economic Review
+
 # Econ-ARK website fields?
 github_repo_url: https://github.com/econ-ark/BlanchardPA2019 # required
 remark-name: BlanchardPA2019 # required 
