@@ -15,7 +15,7 @@ abstract: "This paper builds foundations for rigorous and intuitive understandin
 remark-version: "1.0" # required
 references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
-	authors: # required
+    authors: # required
   -
     family-names: Carroll
     given-names: "Christopher D."
@@ -42,19 +42,13 @@ identifiers-paper: # required for Replications; optional for Reproductions
       value: https://llorracc.github.io/BufferStockTheory
    - 
       type: doi
-      value: 
+      value: "https://doi.org/10.5281/zenodo.4088918"
 date-published-original-paper: 2020-09-14 # required for Replications; optional for Reproductions
 
 tags:
   - REMARK
   - Reproduction
-identifiers: # optional
-  - 
-    type: url
-    value: "https://github.com/econ-ark/BufferStockTheory"
-  - 
-    type: doi
-    value: "10.5281/zenodo.1234"
+
 keywords: # optional
   - Consumption
 
