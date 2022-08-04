@@ -12,20 +12,20 @@ abstract: "Income and wealth heterogeneity in the macroeconomy"
 remark-version: "1.0"
 references:
   - type: article
-    authors:
-	  -
-	    family-names: "Krusell"
-		given-names: "Per"
-		orcid: ""
-	  -
-	    family-names: "Smith, Jr."
-		given-names: "Anthony A."
-		orcid: ""
-	title: "Income and Wealth Heterogeneity in the Macroeconomy"
-	doi: https://doi.org/10.1086/250034
-	date: 1998-10
-	publisher: Journal of Political Economy
-	
+    authors: # required
+      -
+        family-names: "Krusell"
+        given-names: "Per"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Smith, Jr."
+        given-names: "Anthony A."
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "Income and Wealth Heterogeneity in the Macroeconomy" # required
+    doi: "https://doi.org/10.1086/250034" # optional
+    date: 1998-10 # required
+    publisher: "Journal of Political Economy"
+
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/KrusellSmith
 remark-name: KrusellSmith # required 
