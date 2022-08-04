@@ -6,11 +6,11 @@ authors: # required
   -
     family-names: "Velásquez-Giraldo"
     given-names: "Mateo"
-	orcid: 0000-0001-7243-6776
+    orcid: 0000-0001-7243-6776
   -
     family-names: "Zahn"
     given-names: "Matthew"
-	orcid: 0000-0003-1148-2036
+    orcid: 0000-0003-1148-2036
 title: "REMARK: Consumption and Portfolio Choice Over the Life Cycle" # required
 abstract: "This REMARK is an attempt to reproduce the main results of Cocco, Gomes, & Maenhout (2005), 'Consumption and Portfolio Choice Over the Life Cycle' (https://academic.oup.com/rfs/article-abstract/18/2/491/1599892)" # abstract: optional
 date-released: 2020-08-13 # required
@@ -23,15 +23,15 @@ references: # Formatted metadata of original paper, from BibTex
       -
         family-names: "Cocco"
         given-names: "Joao F."
-        orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
       -
         family-names: "Gomes"
         given-names: "Francisco J."
-        orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-	  -
-		family-names: "Maenhout"
-		given-names: "Pascal J."
-		orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Maenhout"
+        given-names: "Pascal J."
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
     title: "Consumption and Portfolio Choice over the Life Cycle" # required
     doi: "https://doi.org/10.1093/rfs/hhi017" # optional
     date: 2005-02-10
