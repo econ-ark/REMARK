@@ -2,7 +2,7 @@
 # CFF required fields
 cff-version: "1.1.0" # required 
 message: "Repository to reproduce results and text of paper" # required
-uthors: # required
+authors: # required
   -
     family-names: Carroll
     given-names: "Christopher D."
@@ -20,20 +20,20 @@ date-released: 2021-09-29 # required
 remark-version: "1.0"
 references:
   - type: Handbook Chapter
-    authors:
-	  -
-	    family-names: Carroll
-		given-names: "Christopher D."
-		orcid: "https://orcid.org/0000-0003-3732-9312"
-	  -
-	    family-names: Wang
-		given-names: Tao
-		orcid: "https://orcid.org/0000-0003-4806-8592"
-	title: "Epidemiological Expectations in Economics"
-	doi: TBD
-	date: 2022-03-22
-	publisher: TBD
-	
+    authors: # required
+      -
+        family-names: "Carroll"
+        given-names: "Christopher D."
+        orcid: "https://orcid.org/0000-0003-3732-9312"
+      -
+        family-names: "Wang"
+        given-names: "Tao"
+        orcid: "https://orcid.org/0000-0003-4806-8592"
+    title: "Epidemiological Expectations in Economics" # required
+    # doi: "Original paper DOI" # optional
+    date: 2022-03-22 # required
+    # publisher: "Publisher information"
+
 # Econ-ARK website fields
 github_repo_url: "https://github.com/econ-ark/EpiExp"
 Remark-name: EpiExp
@@ -43,8 +43,7 @@ notebooks:
 identifiers-paper:
   -
     type: doi
-	value: 10.5281/zenodo.6363390
-
+    value: https://doi.org/10.5281/zenodo.6363391
 tags:
   - REMARK
 
