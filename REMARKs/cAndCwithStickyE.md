@@ -1,6 +1,6 @@
 ---
 # CFF required fields
-cff-version: "" # required 
+cff-version: 1.1.0 # required (don't change)
 authors: # required
   -  
     family-names: Carroll
@@ -9,19 +9,19 @@ authors: # required
   -
     family-names: Crawley
     given-names: "Edmund"
-    orcid: "https://orcid.org/"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
     family-names: Slacalek
     given-names: "Jiri"
-    orcid: "https://orcid.org/"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
     family-names: Kiichi
     given-names: "Tokuoka"
-    orcid: "https://orcid.org/"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
     family-names: White
     given-names: "Matthew"
-    orcid: "https://orcid.org/"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title:  cAndCwithStickyE
 abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
 
@@ -30,30 +30,30 @@ remark-version: 1.0
 references: 
   - type: article
     authors: # required
-	  -
-		family-names: Carroll
-		given-names: "Christopher D."
-		orcid: "https://orcid.org/0000-0003-3732-9312"
-	  -
-		family-names: Crawley
-		given-names: "Edmund"
-		orcid: "https://orcid.org/"
       -
-		family-names: Slacalek
-		given-names: "Jiri"
-		orcid: "https://orcid.org/"
+        family-names: "Carroll"
+        given-names: "Christopher D."
+        orcid: "https://orcid.org/0000-0003-3732-9312"
       -
-		family-names: Kiichi
-		given-names: "Tokuoka"
-		orcid: "https://orcid.org/"
-	  -
-		family-names: White
-		given-names: "Matthew"
-		orcid: "https://orcid.org/"
-	title: Sticky Expectations and Consumption Dynamics
-	doi: DOI: 10.1257/mac.20180286
-	date: 2020-07
-	publisher: American Economic Journal: Macroeconomics
+        family-names: "Crawley"
+        given-names: "Edmund"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Slacalek"
+        given-names: "Jiri"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Kiichi"
+        given-names: "Tokuoka"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "White"
+        given-names: "Matthew N."
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "TSticky Expectations and Consumption Dynamics" # required
+    doi: "https://doi.org/10.1257/mac.20180286" # optional
+    date: 2020-07 # required
+    publisher: "American Economic Journal: Macroeconomics"	
 
 # Econ-ARK website fields 
 github_repo_url: https://github.com/llorracc/cAndCwithStickyE # required 
