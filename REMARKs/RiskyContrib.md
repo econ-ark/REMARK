@@ -19,15 +19,20 @@ date-released: 2021-06-17 # required
 
 # REMARK required fields
 remark-version: "v1.0.1" # required
-references:
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
-	authors: 
-	  -
-	    family-names "Velásquez-Giraldo"
-		given-names: "Mateo"
-		orcid: https://orcid.org/0000-0001-7243-6776
-	title:  "A Two-Asset Savings Model with an Income-Contribution Scheme"
-	doi: "10.5281/zenodo.4977915"
+    authors: # required
+      -
+        family-names: "Velásquez-Giraldo"
+        given-names: "Mateo"
+        orcid: https://orcid.org/0000-0001-7243-6776
+      -
+        family-names: "Author 2 Last Name"
+        given-names: "Author 2 First Name"
+        orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "A Two-Asset Savings Model with an Income-Contribution Scheme" # required
+    doi: "https://zenodo.org/badge/DOI/10.5281/zenodo.4974234.svg" # optional
+
 # Econ-ARK website fields
 github_repo_url: https://github.com/Mv77/RiskyContrib # required
 remark-name: RiskyContrib # required
