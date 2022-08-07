@@ -24,29 +24,29 @@ abstract: "To predict the eﬀects of the 2020 U.S. CARES Act on consumption, we
 
 # REMARK required fields
 remark-version: "1.0" # required
-references: #
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
-    authors:
-	  -
-	    family-names: Carroll
-		given-names: "Christopher D."
-		orcid: "https://orcid.org/0000-0003-3732-9312"
-	  -
-		family-names: Crawley
-	   	given-names: Edmund
-		orcid: "https://orcid.org"
-	  -
-		family-names: Slacalek
-		given-names: Jiri
-		orcid: "https://orcid.org"
-	  -
-	    family-names: White
-		given-names: "Matthew N."
-		orcid: "https://orcid.org"
-	title: "Modeling the Consumption Response to the CARES Act"
-	doi: DOI 10.3386/w27876
-	date: 2020-09-14
-	publisher: NBER
+    authors: # required
+      -
+        family-names: "Carroll"
+        given-names: "Christopher D."
+        orcid: "https://orcid.org/0000-0003-3732-9312"
+      -
+        family-names: "Crawley"
+        given-names: "Edmund"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Slacalek"
+        given-names: "Jiri"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "White"
+        given-names: "Matthew N."
+        orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "Modeling the Consumption Response to the CARES Act" # required
+    doi: "https://doi.org/10.3386/w27876" # optional
+    date: 2020-09-14 # required
+    publisher: "NBER"
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/Pandemic # required 
@@ -54,7 +54,7 @@ remark-name: Pandemic # required
 dashboards: # path to any dahsboards within the repo - optional
   - 
     Code/Python/dashboard.ipynb
-	
+
 tags:
   - REMARK
   - Notebook
