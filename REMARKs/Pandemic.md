@@ -10,15 +10,15 @@ authors: # required
   -
     family-names: Crawley
     given-names: Edmund
-    orcid: "https://orcid.org"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
     family-names: Slacalek
     given-names: Jiri
-    orcid: "https://orcid.org"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
     family-names: White
     given-names: "Matthew N."
-    orcid: "https://orcid.org"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: "Modeling the Consumption Response to the CARES Act" # required
 abstract: "To predict the eﬀects of the 2020 U.S. CARES Act on consumption, we extend a model that matches responses of households to past consumption stimulus packages. The extension allows us to account for two novel features of the coronavirus crisis. First, during the lockdown, many types of spending are undesirable or impossible. Second, some of the jobs that disappear during the lockdown will not reappear when it is lifted. We estimate that, if the lockdown is short-lived, the combination of expanded unemployment insurance beneﬁts and stimulus payments should be suﬃcient to allow a swift recovery in consumer spending to its pre-crisis levels. If the lockdown lasts longer, an extension of enhanced unemployment beneﬁts will likely be necessary if consumption spending is to recover." # abstract: optional
 
@@ -42,7 +42,7 @@ references: # required for replications; optional for reproductions; BibTex data
       -
         family-names: "White"
         given-names: "Matthew N."
-        orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
     title: "Modeling the Consumption Response to the CARES Act" # required
     doi: "https://doi.org/10.3386/w27876" # optional
     date: 2020-09-14 # required
