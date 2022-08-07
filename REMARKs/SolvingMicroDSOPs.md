@@ -18,14 +18,14 @@ date-released: 2021-02-20 # required
 remark-version: "1.0" # required
 references:
   - type: TBD
-    authors:
-	  -
-	    family-names: Carroll
-		given-names: "Christopher D."
-		orcid: "https://orcid.org/0000-0003-3732-9312"
-	title: "Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems"
-repository: "https://github.com/econ-ark/SolvingMicroDSOPs" # optional
-		
+    authors: # required
+      -
+        family-names: "Carroll"
+        given-names: "Christopher D."
+        orcid: "https://orcid.org/0000-0003-3732-9312"
+    title: "Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems"
+    repository: "https://github.com/econ-ark/SolvingMicroDSOPs" # optional
+
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required 
 remark-name: SolvingMicroDSOPs # required 
