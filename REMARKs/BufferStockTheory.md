@@ -16,14 +16,14 @@ remark-version: "1.0" # required
 references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
-      -
-		family-names: "Carroll"
-		given-names: "Christopher D."
-		orcid: "https://orcid.org/0000-0003-3732-9312"
+    -
+      family-names: "Carroll"
+      given-names: "Christopher D."
+      orcid: "https://orcid.org/0000-0003-3732-9312"
     title: Theoretical Foundations of Buffer Stock Saving
     doi: "https://doi.org/10.5281/zenodo.4088918" # optional
-#    date: 20XX-XX-XX
-#    publisher : "Publisher information"
+    #    date: 20XX-XX-XX
+    #    publisher : "Publisher information"
 repository: https://github.com/econ-ark/BufferStockTheory # optional
 
 # Econ-ARK website fields? 
