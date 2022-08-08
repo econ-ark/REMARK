@@ -5,7 +5,7 @@ authors: # required
   -
     family-names: "Huang"
     given-names: "Zixuan" 
-	# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: AiyagariIdiosyncratic # required
 abstract: Aiyagari (1994) Replication # optional
 
@@ -17,11 +17,11 @@ reference: # required for replications; optional for reproductions; BibTex data 
       -
         family-names: "Krusell"
         given-names: "Per"
-		# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+        # orcid: https://orcid.org/XXXX-XXXX-XXXX-XXXX
       -
         family-names: "Smith, Jr."
         given-names: "Anthony A."
-		# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+        # orcid: https://orcid.org/XXXX-XXXX-XXXX-XXXX
     title: "Income and Wealth Heterogeneity in the Macroeconomy"
     doi: https://doi.org/10.1086/250034
     date: 1998
