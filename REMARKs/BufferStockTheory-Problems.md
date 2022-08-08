@@ -14,7 +14,7 @@ date-released: 2022-01-24 # required
 # REMARK required fields
 remark-version: "1.0" # required
 references: # required for replications; optional for reproductions; BibTex data from original paper
-  - type: TBD
+  - type: exercise
     authors: # required
     -
       family-names: "Carroll"
@@ -52,8 +52,4 @@ keywords: # optional
 ---
 # BufferStockTheory-Problems
 
-This adds some PhD student problems to the BufferStockTheory repo
-
-## References
-
-TBD
+This adds some PhD student problems to the BufferStockTheory repo.
