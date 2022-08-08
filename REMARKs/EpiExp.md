@@ -18,7 +18,7 @@ date-released: 2021-09-29 # required
 # REMARK required fields
 remark-version: "1.0"
 references:
-  - type: Handbook Chapter
+  - type: Handbook-Chapter
     authors: # required
       -
         family-names: "Carroll"
@@ -56,3 +56,4 @@ keywords: # optional
 # EpiExp
 
 ## References
+Carroll, C., Wang, T. (forthcoming). Epidemiological Expectations in Economics. Handbook of Economic Expectations.
