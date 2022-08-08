@@ -1,5 +1,0 @@
-econ-ark==0.12.0
-numpy==1.19.1
-matplotlib==3.3.1
-EconModel==0.11
-ConSav==0.1
