@@ -31,12 +31,13 @@ references: # required for replications; optional for reproductions; BibTex data
 
 # Econ-ARK website fields 
 github_repo_url: "https://github.com/econ-ark/REMARK" # required 
-remark-name: GanongNoelUI # required
-title-original-paper: Consumer Spending During Unemployment: Positive and Normative Implications # optional 
+remark-name: "GanongNoelUI" # required
+title-original-paper: "Consumer Spending During Unemployment: Positive and Normative Implications" # optional 
 
 tags:  # Use the relavent tags
   - REMARK
   - Replication
+
 ---
   
   Analysis of Models for "Consumer Spending During Unemployment: Positive and Normative Implications"
