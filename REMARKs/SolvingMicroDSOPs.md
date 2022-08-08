@@ -17,7 +17,7 @@ date-released: 2021-02-20 # required
 # REMARK required fields
 remark-version: "1.0" # required
 references:
-  - type: TBD
+  - type: lecture-notes
     authors: # required
       -
         family-names: "Carroll"
