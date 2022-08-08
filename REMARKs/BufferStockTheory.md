@@ -55,7 +55,3 @@ keywords: # optional
 ---
 # BufferstockTheory
 "This paper builds foundations for rigorous and intuitive understanding of `buffer stock' saving models (Bewley (1977)-like models with a wealth target), pairing each theoretical result with quantitative illustrations.  After describing conditions under which a consumption function exists, the paper articulates stricter `Growth Impatience' conditions that guarantee alternative forms of stability --- either at the population level, or for individual consumers.  Together, the numerical tools and analytical results constitute a comprehensive toolkit for understanding buffer stock models.
-
-## References
-
-TBD
