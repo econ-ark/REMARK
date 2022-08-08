@@ -2,27 +2,27 @@
 # CFF required fields
 cff-version: 1.1.0 # required (don't change)
 authors: # required
-  -  
-    family-names: Carroll
+  -
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
   -
-    family-names: Crawley
+    family-names: "Crawley"
     given-names: "Edmund"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Slacalek
+    family-names: "Slacalek"
     given-names: "Jiri"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Kiichi
+    family-names: "Kiichi"
     given-names: "Tokuoka"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: White
+    family-names: "White"
     given-names: "Matthew"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title:  cAndCwithStickyE
+title:  cAndCwithStickyE # required
 abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
 
 # REMARK required fields
@@ -50,7 +50,7 @@ references:
         family-names: "White"
         given-names: "Matthew N."
         # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-    title: "TSticky Expectations and Consumption Dynamics" # required
+    title: "Sticky Expectations and Consumption Dynamics" # required
     doi: "https://doi.org/10.1257/mac.20180286" # optional
     date: 2020-07 # required
     publisher: "American Economic Journal: Macroeconomics"	
@@ -59,8 +59,7 @@ references:
 github_repo_url: https://github.com/llorracc/cAndCwithStickyE # required 
 remark-name: cAndCwithStickyE # required 
 
-
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Reproduction
 

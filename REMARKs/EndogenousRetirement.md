@@ -2,13 +2,13 @@
 # CFF required fields
 cff-version: 1.1.0 # required (don't change)
 authors: # required
-  - family-names: Carroll
-    given-names: Christopher D.
+  - family-names: "Carroll"
+    given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: EndogenousRetirement # required
 
 # REMARK required fields
-remark-version: "1.0"
+remark-version: "1.0" # required - specify version of REMARK standard used
 references:
   - type: article
     authors: # required
@@ -22,12 +22,12 @@ references:
     # publisher: ""
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/EndogenousRetirement
-remark-name: EndogeneousRetirement
-notebook:
+github_repo_url: https://github.com/econ-ark/EndogenousRetirement # required
+remark-name: EndogeneousRetirement # required
+notebook: # path to any notebooks within the repo - optional
   - Endogenous-Retirement.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Reproduction
 ---

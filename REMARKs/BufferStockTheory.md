@@ -1,10 +1,10 @@
 ---
 # CFF required fields
-cff-version: "1.1.0" # required 
+cff-version: "1.1.0" # required (don't change)
 message: "For a consumption/saving problem with transitory and permanent shocks and unbounded (CRRA) utility, this paper derives conditions under which a nondegenerate solution exists, and under which a target wealth ratio exists; all results are paired with illustrative numerical solutions." # required
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: BufferStockTheory # required
@@ -16,12 +16,12 @@ remark-version: "1.0" # required
 references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
-  -
-    family-names: Carroll
-    given-names: "Christopher D."
-    orcid: "https://orcid.org/0000-0003-3732-9312"
+      -
+		family-names: "Carroll"
+		given-names: "Christopher D."
+		orcid: "https://orcid.org/0000-0003-3732-9312"
     title: Theoretical Foundations of Buffer Stock Saving
-#    doi: "Original paper DOI" # optional
+    doi: "https://doi.org/10.5281/zenodo.4088918" # optional
 #    date: 20XX-XX-XX
 #    publisher : "Publisher information"
 repository: https://github.com/econ-ark/BufferStockTheory # optional
@@ -45,7 +45,7 @@ identifiers-paper: # required for Replications; optional for Reproductions
       value: "https://doi.org/10.5281/zenodo.4088918"
 date-published-original-paper: 2020-09-14 # required for Replications; optional for Reproductions
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Reproduction
 

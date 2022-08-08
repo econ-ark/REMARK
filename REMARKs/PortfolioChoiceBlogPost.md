@@ -2,7 +2,7 @@
 # CFF required fields
 cff-version: 1.1.0 # required (don't change)
 authors: # required
-  - family-names: Carroll
+  - family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: Optimal Financial Investment over the Life Cycle - Blog Post

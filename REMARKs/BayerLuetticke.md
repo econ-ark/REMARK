@@ -3,19 +3,19 @@
 cff-version: 1.1.0 # required (don't change)
 authors: # required
   -
-    family-names: Lee
-    given-names: Seungcheol
+    family-names: "Lee"
+    given-names: "Seungcheol"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Park
-    given-names:  Seungmoon 
+    family-names: "Park"
+    given-names:  "Seungmoon" 
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: "Solving heterogeneous agent models in discrete time with many idiosyncratic states by perturbation methods" # required
 abstract: "Code that solves models from the paper of Bayer and Luetikke, \"Solving heterogeneous agent models in discrete time with many idiosyncratic states by perturbation methods\"." # optional
 date-released: 2021-02-02 # required
 
 # REMARK required fields
-remark-version: 1.0
+remark-version: 1.0 # required - specify version of REMARK standard used
 references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
@@ -37,7 +37,6 @@ remark-name: BayerLuetticke # required
 tags: # Use the relavent tags
   - REMARK
   - Reproduction
-    
 ---
 
 # Bayer Luetticke (2018)

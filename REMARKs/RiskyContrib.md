@@ -1,6 +1,6 @@
 ---
 # CFF required fields
-cff-version: "1.1.0" # required
+cff-version: "1.1.0" # required (don't change)
 authors: # required
   -
     family-names: "Velásquez-Giraldo"
@@ -14,7 +14,7 @@ save using two different assets---one risky and the other risk-free---to insure
 against fluctuations in his income, but faces frictions to transferring funds between
 assets. The flexibility of its implementation and its inclusion in the HARK
 toolkit will allow users to adapt the model to realistic life-cycle calibrations, and
-also to embedded it in heterogeneous-agents macroeconomic models."
+also to embedded it in heterogeneous-agents macroeconomic models." # optional
 date-released: 2021-06-17 # required
 
 # REMARK required fields
@@ -40,7 +40,7 @@ notebooks: # path to any notebooks within the repo - optional
   -
     Code/Python/RiskyContrib.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
 
 keywords: # optional

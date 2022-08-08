@@ -1,22 +1,22 @@
 ---
 # CFF required fields
-cff-version: "1.1.0" # required 
+cff-version: "1.1.0" # required (don't change)
 message: "To predict the eﬀects of the 2020 U.S. CARES Act on consumption, we extend a model that matches responses of households to past consumption stimulus packages; all results are paired with illustrative numerical solutions." # required
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
   -
-    family-names: Crawley
-    given-names: Edmund
+    family-names: "Crawley"
+    given-names: "Edmund"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Slacalek
-    given-names: Jiri
+    family-names: "Slacalek"
+    given-names: "Jiri"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: White
+    family-names: "White"
     given-names: "Matthew N."
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: "Modeling the Consumption Response to the CARES Act" # required
@@ -55,7 +55,7 @@ dashboards: # path to any dahsboards within the repo - optional
   - 
     Code/Python/dashboard.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Notebook
 

@@ -52,7 +52,7 @@ identifiers-paper: # required for Replications; optional for Reproductions
       value: https://doi.org/10.1093/rfs/hhi017
 date-published-original-paper: 2005-02-10 # required for Replications; optional for Reproductions
 
-tags:
+tags: # Use the relavent tags
   - REMARK
 
 identifiers: # optional

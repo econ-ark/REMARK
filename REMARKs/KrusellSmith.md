@@ -1,16 +1,16 @@
 ---
 # CFF required fields
-cff-version: "1.1.0"
-authors:
-  - family-names: Carroll
+cff-version: "1.1.0" # required (don't change)
+authors: # required
+  - family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
-title: "KrusellSmith"
-abstract: "Income and wealth heterogeneity in the macroeconomy"
+title: "KrusellSmith" # required
+abstract: "Income and wealth heterogeneity in the macroeconomy" # optional
 
 # REMARK required fields
-remark-version: "1.0"
-references:
+remark-version: "1.0" # required - specify version of REMARK standard used
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
       -
@@ -33,7 +33,7 @@ notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/KrusellSmith.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Notebook
 

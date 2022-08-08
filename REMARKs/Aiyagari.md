@@ -3,8 +3,9 @@
 cff-version: 1.1.0 # required (don't change)
 authors: # required
   -
-    family-names: Huang
-    given-names: Zixuan 
+    family-names: "Huang"
+    given-names: "Zixuan" 
+	# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: AiyagariIdiosyncratic # required
 abstract: Aiyagari (1994) Replication # optional
 
@@ -14,11 +15,13 @@ reference: # required for replications; optional for reproductions; BibTex data 
   - type: article
     authors: # required
       -
-        family-names: Krusell
-        given-names: Per
+        family-names: "Krusell"
+        given-names: "Per"
+		# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
       -
         family-names: "Smith, Jr."
         given-names: "Anthony A."
+		# orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
     title: "Income and Wealth Heterogeneity in the Macroeconomy"
     doi: https://doi.org/10.1086/250034
     date: 1998
@@ -31,7 +34,7 @@ notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/KrusellSmith.ipynb
 
-tags:
+tags: # Use the relavent tag
   - REMARK
   - Notebook
 ---

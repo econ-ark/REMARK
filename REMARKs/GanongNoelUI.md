@@ -1,5 +1,40 @@
 ---
-tags:
+# CFF required fields
+cff-version: 1.1.0 # required (don't change)
+# message: If you use this software, please cite it as below. # optional
+authors: # required
+  - family-names: "Ganong"
+    given-names: "Peter"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+  - family-names: "Noel"
+    given-names: "Pascal"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+title: GanongNoelUI # required
+
+# REMARK required fields
+remark-version: "1.0" # required - specify version of REMARK standard used
+references: # required for replications; optional for reproductions; BibTex data from original paper
+  - type: article
+    authors: # required
+      -
+        family-names: "Ganong"
+        given-names: "Peter"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+      -
+        family-names: "Noel"
+        given-names: "Pascal"
+        # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    title: "Consumer Spending During Unemployment: Positive and Normative Implications" # required
+    doi: "https://doi.org/10.1257/aer.20170537" # optional
+    date: 2019-07 # required
+    publisher: "The American Economic Review"
+
+# Econ-ARK website fields 
+github_repo_url: "https://github.com/econ-ark/REMARK" # required 
+remark-name: GanongNoelUI # required
+title-original-paper: Consumer Spending During Unemployment: Positive and Normative Implications # optional 
+
+tags:  # Use the relavent tags
   - REMARK
   - Replication
 ---
@@ -56,3 +91,6 @@ To simply replicate the results, it is sufficient to run one of the scripts abov
  * `est_models_in/` contains `initial_conditions_master.json` for estimating the models in the paper. csv files in the directory are examples of different initial conditions for model estimation. Convert to JSON for estimation using function in `estimate_models_helper.py` 
 * `est_models_out` logs final estimates as JSON files when estimating preference parameters for multiple models at the same time on a cluste. Convert to csv using function in `estimate_models_helper.py` 
 
+## References
+
+Ganong, P., & Noel, P. (2019). Consumer spending during unemployment: Positive and normative implications. American economic review, 109(7), 2383-2424.

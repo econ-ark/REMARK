@@ -1,10 +1,10 @@
 ---
 # CFF required fields
-cff-version: "1.1.0" # required 
+cff-version: "1.1.0" # required (don't change)
 message: "BufferStockTheory problems in notebook context" # required
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: "Theoretical Foundations of Buffer Stock Saving: Problems" # required
@@ -12,16 +12,16 @@ abstract: "This adds some PhD student problems to the BufferStockTheory repo" # 
 date-released: 2022-01-24 # required
 
 # REMARK required fields
-remark-version: "1.0" # required
+remark-version: "1.0" # required - specify version of REMARK standard used
 references:
-	- type: TBD
-	  authors: # required
-	-
-	  family-names: Carroll
-      given-names: "Christopher D."
-      orcid: "https://orcid.org/0000-0003-3732-9312"
+  - type: TBD
+    authors: # required
+	    -
+		  family-names: "Carroll"
+		  given-names: "Christopher D."
+		  orcid: "https://orcid.org/0000-0003-3732-9312"
 	title:  Theoretical Foundations of Buffer Stock Saving
-	doi: TBD
+	doi: https://doi.org/10.5281/zenodo.4088918
 	date: TBD
 	publisher: TBD
 repository: "https://github.com/econ-ark/BufferStockTheory" # optional
@@ -40,11 +40,12 @@ identifiers-paper: # required for Replications; optional for Reproductions
       value: https://llorracc.github.io/BufferStockTheory
    - 
       type: doi
-      value: 
+      value: https://doi.org/10.5281/zenodo.4088918
 date-published-original-paper: 2022-01-24 # required for Replications; optional for Reproductions
 
-tags:
+tags: # Use the relavent tags
   - REMARK
+
 keywords: # optional
   - Problems
 

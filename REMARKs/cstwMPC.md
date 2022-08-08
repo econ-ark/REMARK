@@ -4,19 +4,19 @@ cff-version: 1.1.0 # required (don't change)
 message: The results of this paper are now generated in an updated repository using a more modern version of HARK, https://github.com/econ-ark/DistributionOfWealthMPC. Any followup work should build on the updated code in that repository. # optional
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
   -
-    family-names: Slacalek
+    family-names: "Slacalek"
     given-names: "Jiri"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Kiichi
+    family-names: "Kiichi"
     given-names: "Tokuoka"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: White
+    family-names: "White"
     given-names: "Matthew"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: DistributionOfWealthMPC
@@ -51,13 +51,22 @@ references:
 github_repo_url: https://github.com/econ-ark/DistributionOfWealthMPC
 remark-name: DistributionofWealthMPC
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Replication
 ---
 
 
 # DistributionofWealthMPC 
+Update: The results of this paper are now generated in an updated repository using a more modern version of HARK, [DistributionOfWealth](https://github.com/econ-ark/DistributionOfWealth). Any followup work should build on the updated code in that repository.
+
+The main results in that paper were generated using the Mathematica that can be executed by running from the command line 
+
+`./Code/Mathematica/DoAll.m`
+
+or by opening the corresponding notebook file `./Code/Matheamtica/DoAll.nb`
+
+The Mathematica results have been replicated using the HARK toolkit.  See the README.md file in the repo for details.
 
 ## References
 

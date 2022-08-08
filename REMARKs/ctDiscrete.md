@@ -1,16 +1,16 @@
 ---
 # CFF required fields
 cff-version: 1.1.0 # required (don't change)
-#message: If you use this software, please cite it as below.
-authors:
-  - family-names: Carroll
-    given-names: Christopher D.
+#message: If you use this software, please cite it as below. # optional
+authors: # required
+  - family-names: "Carroll"
+    given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
-title: ctDiscrete
-abstract: 'Analytically tractable model of the effects of nonfinancial risk on intertemporal choice'
+title: ctDiscrete # required
+abstract: 'Analytically tractable model of the effects of nonfinancial risk on intertemporal choice'  # optional
 
 # REMARK required fields
-remark-version: "1.0"
+remark-version: "1.0"  # required - specify version of REMARK standard used
 references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
@@ -28,12 +28,12 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: "NBER"
 
 # Econ-ARK website fields
-github_repo_url:  https://github.com/llorracc/ctDiscrete
-remark-name: ctDiscrete
+github_repo_url:  https://github.com/llorracc/ctDiscrete # required
+remark-name: ctDiscrete # required
 notebooks:  # path to any notebooks within the repo - optional
   - Code/HARK/Examples/ctDiscrete/TractableBufferStockModel.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Replication
 ---

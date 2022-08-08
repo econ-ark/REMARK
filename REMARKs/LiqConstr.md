@@ -4,15 +4,15 @@ cff-version: "1.1.0" # required
 message: "This paper shows that liquidity constraints and precautionary saving are closely related to each other, since both can be thought of is \"counterclockwise concavifications\" of the consumption function.; all results are paired with illustrative numerical solutions." # required
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
   -
-    family-names: Kimball
+    family-names: "Kimball"
     given-names: "Miles S."
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   -
-    family-names: Holm
+    family-names: "Holm"
     given-names: "Martin B."
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: "Liquidity Constraints and Precautionary Saving" # required
@@ -20,10 +20,10 @@ abstract: "We provide the analytical explanation of strong interactions between 
 date-released: 2020-09-14 # required
 
 # REMARK required fields
-remark-version: "1.0"
-references:
+remark-version: "1.0" # required - specify version of REMARK standard used
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
-    authors: 
+    authors: # required
       -
         family-names: "Carroll"
         given-names: "Christopher D."
@@ -39,7 +39,7 @@ references:
     title: "Liquidity Constraints and Precautionary Savings" # required
     doi: "https://doi.org/10.1016/j.jet.2021.105276" # optional
     date: 2021-07 # required
-    publisher: "Journal of Economic Theory"
+    publisher: "Journal of Economic Theory" #optional
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/llorracc/LiqConstr # required 
@@ -50,7 +50,7 @@ notebooks: # path to any notebooks within the repo - optional
 dashboards: # path to any dahsboards within the repo - optional
   - 
     LiqConstr-Dashboard.ipynb
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Reproduction
 

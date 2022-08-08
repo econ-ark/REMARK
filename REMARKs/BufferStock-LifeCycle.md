@@ -17,7 +17,7 @@ authors: # required
 title: BufferStock-LifeCycle # required
 
 # REMARK required fields
-remark-version: 1.0
+remark-version: 1.0 # required - specify version of REMARK standard used
 references:
   - type: article
     authors: # required
@@ -37,7 +37,7 @@ notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/BufferStock-LifeCycle.ipynb
 
-tags:
+tags: # Use the relavent tags
   - REMARK
   - Notebook
 ---
