@@ -1,29 +1,45 @@
 ---
-tags:
-  - REMARK
-abstract: # abstract: optional
+# CFF required fields
+cff-version: 1.1.0 # required (don't change)
 authors: # required
   -
-    family-names: Carroll
+    family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
   - 
-    family-names: Yusuf
+    family-names: "Yusuf"
     given-names: "Suha Kulu"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
   - 
-    family-names: Son
+    family-names: "Son"
     given-names: "Jeongwon (John)"
-# REMARK fields
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+title: BufferStock-LifeCycle # required
+
+# REMARK required fields
+remark-version: 1.0 # required - specify version of REMARK standard used
+references:
+  - type: article
+    authors: # required
+      -
+        family-names: "Carroll"
+        given-names: "Christopher D."
+        orcid: "https://orcid.org/0000-0003-3732-9312"
+    title: "Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis" # required
+    doi: "https://doi.org/10.1162/003355397555109" # optional
+    date: 1997-02-01 # required
+    publisher: "The Quarterly Journal of Economics"
+
+# Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/BufferStock-LifeCycle # required 
-commit: # Git commit number that the REMARK will always use; required for "frozen" remarks, optional for "draft" remarks
 remark-name: BufferStock-LifeCycle # required 
-title-original-paper: Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis # optional 
 notebooks: # path to any notebooks within the repo - optional
   - 
     Code/Python/BufferStock-LifeCycle.ipynb
-dashboards: # path to any dahsboards within the repo - optional
-identifiers-paper: # required for Replications; optional for Reproductions
-date-published-original-paper: # required for Replications; optional for Reproductions
+
+tags: # Use the relavent tags
+  - REMARK
+  - Notebook
 ---
 
 # BufferStock-LifeCycle
