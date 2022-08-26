@@ -6,6 +6,7 @@ authors: # required
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: EndogenousRetirement # required
+abtract: Endogenous Retirement: A Canonical Discrete-Continuous Problem. This REMARK demonstrates a solution to the difficult problem of solving for the optimal retirement date given that consumption and asset choices are continuous.
 
 # REMARK required fields
 remark-version: "1.0" # required - specify version of REMARK standard used
@@ -34,3 +35,4 @@ tags: # Use the relavent tags
 
 # Endogenous Retirement: A Canonical Discrete-Continuous Problem
 
+This REMARK demonstrates a solution to the difficult problem of solving for the optimal retirement date given that consumption and asset choices are continuous.

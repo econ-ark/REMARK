@@ -20,6 +20,7 @@ authors: # required
     given-names: "Matthew"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: DistributionOfWealthMPC
+abstract: Replication codes for: Carroll, C., Slacalek, J., Tokuoka, K., & White, M. N. (2017). The distribution of wealth and the marginal propensity to consume. Quantitative Economics, 8(3), 977-1020.
 
 # REMARK required fields
 remark-version: 2.0

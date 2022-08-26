@@ -7,6 +7,7 @@ authors: # required
     given-names: "Julien"
     orcid: https://orcid.org/0000-0002-6137-0537
 title: BlanchardPA2019 # required
+abstract: This notebook fully replicates the analysis of the stochastic overlapping generations (OLG) model developed by Blanchard in his presidential address during the AEA meetings 2019. # optional
 
 # REMARK fields
 remark-version: 1.1 # required - specify version of REMARK standard used
