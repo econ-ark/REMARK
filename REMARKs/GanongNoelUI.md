@@ -10,7 +10,7 @@ authors: # required
     given-names: "Pascal"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
 title: GanongNoelUI # required
-abstract: Analysis of Models for "Consumer Spending During Unemployment: Positive and Normative Implications"
+abstract: Analysis of Models for "Consumer Spending During Unemployment- Positive and Normative Implications"
 
 # REMARK required fields
 remark-version: "1.0" # required - specify version of REMARK standard used
