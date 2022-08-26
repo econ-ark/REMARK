@@ -21,5 +21,3 @@ jobs:
         dst_repo_name: econ-ark.org
         dst_branch: master
         src_branch: master
-    - name: Keepalive Workflow
-      uses: gautamkrishnar/keepalive-workflow@1.0.9
