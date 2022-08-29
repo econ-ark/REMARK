@@ -5,7 +5,11 @@ authors: # required
   -
     family-names: "Huang"
     given-names: "Zixuan" 
-    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX" 
+  -
+    family-names: "Sun"
+    given-names: "Mingzuo" 
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX" 
 title: AiyagariIdiosyncratic # required
 abstract: Aiyagari (1994) Replication # optional
 
@@ -15,24 +19,20 @@ reference: # required for replications; optional for reproductions; BibTex data 
   - type: article
     authors: # required
       -
-        family-names: "Krusell"
-        given-names: "Per"
+        family-names: "Aiyagari"
+        given-names: "S. Rao"
         # orcid: https://orcid.org/XXXX-XXXX-XXXX-XXXX
-      -
-        family-names: "Smith, Jr."
-        given-names: "Anthony A."
-        # orcid: https://orcid.org/XXXX-XXXX-XXXX-XXXX
-    title: "Income and Wealth Heterogeneity in the Macroeconomy"
-    doi: https://doi.org/10.1086/250034
-    date: 1998
-    publisher: Journal of political Economy
+    title: "Uninsured Idiosyncratic Risk and Aggregate Saving"
+    doi: https://doi.org/10.2307/2118417
+    date: 1994
+    publisher: The Quarterly Journal of Economics
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/KrusellSmith # required 	
-remark-name: KrusellSmith # required 
+github_repo_url: https://github.com/econ-ark/REMARK/tree/master/REMARKs/AiyagariIdiosyncratic # required 	
+remark-name: AiyagariIdiosyncratic # required 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    Code/Python/KrusellSmith.ipynb
+    Aiyagari1994QJE.ipynb
 
 tags: # Use the relavent tag
   - REMARK
@@ -41,13 +41,11 @@ tags: # Use the relavent tag
 
 
 
-# KrusellSmith
+# AiyagariIdiosyncratic
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/KrusellSmith/HEAD)
-
-This is a Replication of Krusell and Smith, 1998.
+This is a Replication of S. Rao Aiyagari (1994).
 
 
 ## References
 
-Krusell, P., & Smith, Jr, A. A. (1998). Income and wealth heterogeneity in the macroeconomy. Journal of political Economy, 106(5), 867-896.
+Aiyagari, S. R. (1994). Uninsured idiosyncratic risk and aggregate saving. The Quarterly Journal of Economics, 109(3), 659-684.
