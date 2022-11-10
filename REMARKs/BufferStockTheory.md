@@ -9,7 +9,7 @@ authors: # required
     orcid: "https://orcid.org/0000-0003-3732-9312"
 title: BufferStockTheory # required
 date-released: 2020-10-11 # required
-abstract: "This paper builds foundations for rigorous and intuitive understanding of `buffer stock' saving models (Bewley (1977)-like models with a wealth target), pairing each theoretical result with quantitative illustrations.  After describing conditions under which a consumption function exists, the paper articulates stricter `Growth Impatience' conditions that guarantee alternative forms of stability --- either at the population level, or for individual consumers.  Together, the numerical tools and analytical results constitute a comprehensive toolkit for understanding buffer stock models." # abstract: optional
+abstract: "This paper builds foundations for rigorous and intuitive understanding of 'buffer stock' saving models (Bewley (1977)-like models with a wealth target), pairing each theoretical result with quantitative illustrations.  After describing conditions under which a consumption function exists, the paper articulates stricter Growth Impatience' conditions that guarantee alternative forms of stability --- either at the population level, or for individual consumers.  Together, the numerical tools and analytical results constitute a comprehensive toolkit for understanding buffer stock models." # abstract: optional
 
 # REMARK required fields
 remark-version: "1.0" # required
