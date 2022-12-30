@@ -58,15 +58,9 @@ tags: # Use the relavent tags
 
 
 # DistributionofWealthMPC 
-Update: The results of this paper are now generated in an updated repository using a more modern version of HARK, [DistributionOfWealth](https://github.com/econ-ark/DistributionOfWealth). Any followup work should build on the updated code in that repository.
+The results of the paper [The Distribution of Wealth and the MPC](https://onlinelibrary.wiley.com/doi/abs/10.3982/QE694) now generated in an updated repository using a more modern version of HARK, [DistributionOfWealthMPC](https://github.com/econ-ark/DistributionOfWealthMPC). Any followup work should build on the updated code in that repository.
 
-The main results in that paper were generated using the Mathematica that can be executed by running from the command line 
-
-`./Code/Mathematica/DoAll.m`
-
-or by opening the corresponding notebook file `./Code/Matheamtica/DoAll.nb`
-
-The Mathematica results have been replicated using the HARK toolkit.  See the README.md file in the repo for details.
+You should be able to reproduce all the results using the `reproduce.sh` script.
 
 ## References
 
