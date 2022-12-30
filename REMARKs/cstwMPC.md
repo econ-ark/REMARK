@@ -49,7 +49,7 @@ references:
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/DistributionOfWealthMPC
-remark-name: DistributionofWealthMPC
+remark-name: DistributionOfWealthMPC
 
 tags: # Use the relavent tags
   - REMARK
@@ -57,10 +57,10 @@ tags: # Use the relavent tags
 ---
 
 
-# DistributionofWealthMPC 
-Update: The results of this paper are now generated in an updated repository using a more modern version of HARK, [DistributionOfWealth](https://github.com/econ-ark/DistributionOfWealth). Any followup work should build on the updated code in that repository.
+# DistributionOfWealthMPC 
+The results of this paper are now generated in an updated repository using a more modern version of HARK, [DistributionOfWealth](https://github.com/econ-ark/DistributionOfWealth). Any followup work should build on the updated code in that repository.
 
-The main results in that paper were generated using the Mathematica that can be executed by running from the command line 
+The main results in that paper were generated using Mathematica code that can be executed by running from the command line 
 
 `./Code/Mathematica/DoAll.m`
 
