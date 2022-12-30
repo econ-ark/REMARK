@@ -48,10 +48,10 @@ references:
     publisher: Quantitative Economics
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/DistributionOfWealthMPC
-remark-name: DistributionOfWealthMPC
+github_repo_url: https://github.com/llorracc/cstwMPC
+remark-name: cstwMPC
 
-tags: # Use the relavent tags
+tags: # Use the relevant tags
   - REMARK
   - Replication
 ---
