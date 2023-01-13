@@ -24,13 +24,13 @@ references:
         given-names: "Christopher D."
         orcid: "https://orcid.org/0000-0003-3732-9312"
     title: "Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems"
-    repository: "https://github.com/econ-ark/SolvingMicroDSOPs" # optional
+    repository: "https://github.com/llorracc/SolvingMicroDSOPs" # optional
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required 
 remark-name: SolvingMicroDSOPs # required 
 notebooks: # path to any notebooks within the repo - optional
-  - Code/Python/SolvingMicroDSOPs-Python.ipynb
+  - SolvingMicroDSOPs-Python.ipynb
        
 identifiers: # optional
   - 
