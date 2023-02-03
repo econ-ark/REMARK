@@ -31,7 +31,7 @@ github_repo_url: https://github.com/AMonninger/DurableConsumerType_REMARK # requ
 remark-name: DurableConsumerType# required 
 notebooks: # path to any notebooks within the repo - optional
   - 
-    Code/Python/DurableModel_Notebook.ipynb
+    code/python/DurableModel_Notebook.ipynb
 
 tags: # Use the relavent tag
   - REMARK
