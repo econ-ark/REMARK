@@ -27,7 +27,7 @@ references:
     repository: "https://github.com/llorracc/SolvingMicroDSOPs" # optional
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required 
+github_repo_url: https://github.com/llorracc/SolvingMicroDSOPs # required 
 remark-name: SolvingMicroDSOPs # required 
 notebooks: # path to any notebooks within the repo - optional
   - SolvingMicroDSOPs.ipynb
