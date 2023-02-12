@@ -30,7 +30,7 @@ references:
 github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required 
 remark-name: SolvingMicroDSOPs # required 
 notebooks: # path to any notebooks within the repo - optional
-  - SolvingMicroDSOPs-Python.ipynb
+  - SolvingMicroDSOPs.ipynb
        
 identifiers: # optional
   - 
