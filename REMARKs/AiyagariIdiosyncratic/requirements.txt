@@ -1,7 +1,0 @@
-git+https://github.com/econforge/dolark
-dolo===0.4.9.15
-altair
-tabulate
-matplotlib
-numpy
-openpyxl
