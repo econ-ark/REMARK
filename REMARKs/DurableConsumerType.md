@@ -28,7 +28,7 @@ repository: "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks" # 
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/AMonninger/DurableConsumerType_REMARK # required 	
-remark-name: DurableConsumerType# required 
+remark-name: DurableConsumerType # required 
 notebooks: # path to any notebooks within the repo - optional
   - 
     code/python/DurableModel_Notebook.ipynb
