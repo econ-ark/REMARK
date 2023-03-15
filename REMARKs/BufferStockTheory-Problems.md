@@ -24,7 +24,6 @@ references: # required for replications; optional for reproductions; BibTex data
     doi: "https://doi.org/10.5281/zenodo.4088918" # optional
     #    date: 20XX-XX-XX
     #    publisher : "Publisher information"
-repository: https://github.com/econ-ark/BufferStockTheory # optional
 
 # Econ-ARK website fields? 
 github_repo_url: https://github.com/econ-ark/BufferStockTheory # required 

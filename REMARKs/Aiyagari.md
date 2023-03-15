@@ -15,7 +15,7 @@ abstract: Aiyagari (1994) Replication # optional
 
 # REMARK required fields
 remark-version: 1.0 # required - specify version of REMARK standard used
-reference: # required for replications; optional for reproductions; BibTex data from original paper
+references: # required for replications; optional for reproductions; BibTex data from original paper
   - type: article
     authors: # required
       -
