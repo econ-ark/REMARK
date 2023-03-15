@@ -34,7 +34,7 @@ references: # required for replications; optional for reproductions; BibTex data
     doi: "https://zenodo.org/badge/DOI/10.5281/zenodo.4974234.svg" # optional
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/Mv77/RiskyContrib # required
+github_repo_url: https://github.com/econ-ark/RiskyContrib # required
 remark-name: RiskyContrib # required
 notebooks: # path to any notebooks within the repo - optional
   -

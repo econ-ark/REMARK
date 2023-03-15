@@ -56,7 +56,7 @@ references:
     publisher: "American Economic Journal: Macroeconomics"
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/llorracc/cAndCwithStickyE # required
+github_repo_url: https://github.com/econ-ark/cAndCwithStickyE # required
 remark-name: cAndCwithStickyE # required
 
 tags: # Use the relavent tags

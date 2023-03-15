@@ -28,7 +28,7 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: "NBER"
 
 # Econ-ARK website fields
-github_repo_url:  https://github.com/llorracc/ctDiscrete # required
+github_repo_url:  https://github.com/econ-ark/ctDiscrete # required
 remark-name: ctDiscrete # required
 notebooks:  # path to any notebooks within the repo - optional
   - Code/HARK/Examples/ctDiscrete/TractableBufferStockModel.ipynb

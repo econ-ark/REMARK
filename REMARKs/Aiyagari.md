@@ -28,7 +28,7 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: The Quarterly Journal of Economics
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/econ-ark/REMARK/tree/master/REMARKs/AiyagariIdiosyncratic # required 	
+github_repo_url: https://github.com/econ-ark/Aiyagari-Idiosyncratic # required 	
 remark-name: AiyagariIdiosyncratic # required 
 notebooks: # path to any notebooks within the repo - optional
   - 
