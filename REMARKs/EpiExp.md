@@ -35,7 +35,7 @@ references:
 
 # Econ-ARK website fields
 github_repo_url: "https://github.com/econ-ark/EpiExp"
-Remark-name: EpiExp
+remark-name: EpiExp
 notebooks:
   - SIR_Ndlib.ipynb
 

@@ -1,6 +1,6 @@
 ---
 # CFF required fields
-cff-version: "1.1.0" # required 
+cff-version: "1.1.0" # required
 authors: # required
   -
     family-names: "Carroll"
@@ -27,13 +27,13 @@ references:
     repository: "https://github.com/llorracc/SolvingMicroDSOPs" # optional
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/llorracc/SolvingMicroDSOPs # required 
-remark-name: SolvingMicroDSOPs # required 
+github_repo_url: https://github.com/econ-ark/SolvingMicroDSOPs # required
+remark-name: SolvingMicroDSOPs # required
 notebooks: # path to any notebooks within the repo - optional
   - SolvingMicroDSOPs.ipynb
-       
+
 identifiers: # optional
-  - 
+  -
     type: url
     value: "https://llorracc.github.io/SolvingMicroDSOPs"
 
@@ -45,7 +45,7 @@ tags:
 
 keywords: # optional
   - Consumption
-  - Saving 
+  - Saving
 ---
 
 # Solution Methods for Microeconomic Dynamic Stochastic Optimization Problems

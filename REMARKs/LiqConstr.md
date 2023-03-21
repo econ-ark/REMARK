@@ -42,7 +42,7 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: "Journal of Economic Theory" #optional
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/llorracc/LiqConstr # required 
+github_repo_url: https://github.com/econ-ark/LiqConstr # required 
 remark-name: LiqConstr # required 
 notebooks: # path to any notebooks within the repo - optional
   - 

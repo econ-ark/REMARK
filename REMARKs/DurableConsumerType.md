@@ -27,8 +27,8 @@ reference: # required for replications; optional for reproductions; BibTex data 
 repository: "https://github.com/NumEconCopenhagen/ConsumptionSavingNotebooks" # optional (when original paper has own repository)
 
 # Econ-ARK website fields
-github_repo_url: https://github.com/AMonninger/DurableConsumerType_REMARK # required 	
-remark-name: DurableConsumerType# required 
+github_repo_url: https://github.com/econ-ark/DurableConsumerType_REMARK # required 	
+remark-name: DurableConsumerType # required 
 notebooks: # path to any notebooks within the repo - optional
   - 
     code/python/DurableModel_Notebook.ipynb
