@@ -31,7 +31,7 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: "The American Economic Review"
 
 # Econ-ARK website fields 
-github_repo_url: "https://github.com/econ-ark/REMARK" # required 
+github_repo_url: "https://github.com/econ-ark/GanongNoelUI" # required 
 remark-name: "GanongNoelUI" # required
 title-original-paper: "Consumer Spending During Unemployment: Positive and Normative Implications" # optional 
 
