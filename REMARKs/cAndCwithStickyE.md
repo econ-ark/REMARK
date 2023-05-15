@@ -22,7 +22,7 @@ authors: # required
     family-names: "White"
     given-names: "Matthew"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title:  cAndCwithStickyE # required
+title: "Sticky Expectations and Consumption Dynamics" # required
 abstract: "Sticky Expectations and Consumption Dynamics." # abstract: optional
 
 # REMARK required fields

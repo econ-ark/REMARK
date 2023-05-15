@@ -19,7 +19,7 @@ authors: # required
     family-names: "White"
     given-names: "Matthew"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: DistributionOfWealthMPC
+title: "The distribution of wealth and the marginal propensity to consume"
 
 # REMARK required fields
 remark-version: 2.0

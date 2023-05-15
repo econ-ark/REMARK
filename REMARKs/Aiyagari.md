@@ -10,7 +10,7 @@ authors: # required
     family-names: "Sun"
     given-names: "Mingzuo" 
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX" 
-title: AiyagariIdiosyncratic # required
+title: "Uninsured Idiosyncratic Risk and Aggregate Saving" # required
 abstract: Aiyagari (1994) Replication # optional
 
 # REMARK required fields

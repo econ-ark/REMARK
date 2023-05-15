@@ -6,7 +6,7 @@ authors: # required
     family-names: "Acalin"
     given-names: "Julien"
     orcid: https://orcid.org/0000-0002-6137-0537
-title: BlanchardPA2019 # required
+title: "Public Debt and Low Interest Rates" # required
 abstract: This notebook fully replicates the analysis of the stochastic overlapping generations (OLG) model developed by Blanchard in his presidential address during the AEA meetings 2019. # optional
 
 # REMARK fields

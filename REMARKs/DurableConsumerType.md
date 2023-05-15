@@ -6,7 +6,7 @@ authors: # required
     family-names: "Monninger"
     given-names: "Adrian B." 
     orcid: "https://orcid.org/0000-0001-5978-5621"
-title: DurableConsumerType # required
+title: "A Guide on Solving Non-convex Consumption-Saving Models" # required
 abstract: This REMARK replicates Druedahl, J. (2021). A guide on solving non-convex consumption-saving models.
  # optional
 date-released: 2022-09-01 # required

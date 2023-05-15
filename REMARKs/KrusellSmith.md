@@ -5,7 +5,7 @@ authors: # required
   - family-names: "Carroll"
     given-names: "Christopher D."
     orcid: "https://orcid.org/0000-0003-3732-9312"
-title: "KrusellSmith" # required
+title: "Income and Wealth Heterogeneity in the Macroeconomy" # required
 abstract: "Income and wealth heterogeneity in the macroeconomy" # optional
 
 # REMARK required fields

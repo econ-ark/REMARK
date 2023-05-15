@@ -14,7 +14,7 @@ authors: # required
     family-names: "Son"
     given-names: "Jeongwon (John)"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: BufferStock-LifeCycle # required
+title: "Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis" # required
 abstract: This is a replication of Carroll (1997), Buffer-Stock Saving and the Life Cycle/Permanent Income Hypothesis. # optional
 
 # REMARK required fields
