@@ -29,7 +29,7 @@ references: # required for replications; optional for reproductions; BibTex data
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/econ-ark/Aiyagari-Idiosyncratic # required 	
-remark-name: AiyagariIdiosyncratic # required 
+remark-name: Aiyagari-Idiosyncratic # required 
 notebooks: # path to any notebooks within the repo - optional
   - 
     Aiyagari1994QJE.ipynb
