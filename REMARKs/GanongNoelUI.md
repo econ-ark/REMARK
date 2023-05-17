@@ -9,7 +9,7 @@ authors: # required
   - family-names: "Noel"
     given-names: "Pascal"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: GanongNoelUI # required
+title: "Consumer Spending during Unemployment: Positive and Normative Implications" # required
 abstract: Analysis of Models for "Consumer Spending During Unemployment- Positive and Normative Implications"
 
 # REMARK required fields
@@ -31,7 +31,7 @@ references: # required for replications; optional for reproductions; BibTex data
     publisher: "The American Economic Review"
 
 # Econ-ARK website fields 
-github_repo_url: "https://github.com/econ-ark/REMARK" # required 
+github_repo_url: "https://github.com/econ-ark/GanongNoelUI" # required 
 remark-name: "GanongNoelUI" # required
 title-original-paper: "Consumer Spending During Unemployment: Positive and Normative Implications" # optional 
 
