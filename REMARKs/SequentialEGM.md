@@ -38,10 +38,7 @@ remark-version: 1.0 # required - specify version of REMARK standard used
 github_repo_url: https://github.com/alanlujan91/SequentialEGM
 remark-name: "Sequential Endogenous Grid Method"
 notebooks: 
-  - code/EGMN/example_ConsLaborPortfolioModel.ipynb
-  - code/EGMN/example_ConsLaborSeparableModel.ipynb
   - code/EGMN/example_ConsPensionModel.ipynb
-  - code/EGMN/example_GaussianProcessRegression.ipynb
 
 tags: # Use the relavent tag
   - REMARK
