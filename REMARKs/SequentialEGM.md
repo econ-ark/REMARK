@@ -46,6 +46,10 @@ notebooks:
 tags: # Use the relavent tag
   - REMARK
   - Notebook
+
+identifiers-paper:
+   - type: url 
+     value: https://alanlujan91.github.io/SequentialEGM/egmn/
 ---
 
 # EGM^n The Sequential Endogenous Grid Method"
