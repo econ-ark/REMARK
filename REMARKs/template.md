@@ -6,7 +6,7 @@ authors: # required
   - family-names: Holmes
     given-names: Mycroft
     orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
-title: My Research Tool # required
+title: My Research Tool Example # required
 abstract: Replication of Paper X # optional
 version: 1.0.4 # optional Version of the software released
 date-released: 2017-12-18 # required
