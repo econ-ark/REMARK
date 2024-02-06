@@ -5,7 +5,7 @@ message: "If you use this software, please cite it as below."
 authors:
   - family-names: "Lujan"
     given-names: "Alan"
-title: "EGM^n: The Sequential Endogenous Grid Method"
+title: "EGM$^n$: The Sequential Endogenous Grid Method"
 abstract: |
      Heterogeneous agent models with multiple decisions are often
      solved using inefficient grid search methods that require many
@@ -36,7 +36,7 @@ remark-version: 1.0 # required - specify version of REMARK standard used
 
 # Econ-ARK website fields
 github_repo_url: https://github.com/alanlujan91/SequentialEGM
-remark-name: "Sequential Endogenous Grid Method"
+remark-name: "SequentialEGM"
 notebooks: 
   - code/EGMN/example_ConsPensionModel.ipynb
 
@@ -49,7 +49,7 @@ identifiers-paper:
      value: https://alanlujan91.github.io/SequentialEGM/egmn/
 ---
 
-# EGM^n The Sequential Endogenous Grid Method"
+# EGM$^n$ The Sequential Endogenous Grid Method"
 
 Heterogeneous agent models with multiple decisions are often
 solved using inefficient grid search methods that require many
@@ -71,5 +71,5 @@ heterogeneous agent models with multiple decisions in a fraction
 of the time and with less computational resources than are
 required by standard methods currently used. Software to
 reproduce these methods is available under the
-https://econ-ark.org/ project for the python programming
+<https://econ-ark.org/> project for the python programming
 language.
