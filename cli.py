@@ -175,7 +175,6 @@ if __name__ == '__main__':
     # build
     build_parser = subparsers.add_parser('build')
     build_parser.add_argument('type', choices=['docker', 'conda'])
-    build_parser.add_argument('--dry-run', action='store_true')
     build_parser.add_argument('--jobs', '-J', default=4, type=int)
 
     build_group = build_parser.add_mutually_exclusive_group(required=True)
