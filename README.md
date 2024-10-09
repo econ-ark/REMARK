@@ -11,7 +11,10 @@ This leads to a lack of trust in the research, which can have a negative impact 
 
 Other disciplines have adapted to modern software development methods, and it is time for Economics to catch up.
 
-To address the problem discussed above, Econ-ARK has been working on developing a set of standards and tools for reproducibility in our own work in Economics. Our reproducibility initiative is called REMARK, which stands for "R[eplications/eproductions] and Explorations Made using ARK". The term REMARK is used to represent the standard, as well as any project that follows the standard. The objective of REMARKs is to be self-contained and complete projects, whose contents should be executable by anyone on any computer that meets a minimal set of requirements and software.
+To address the problem discussed above, Econ-ARK has been working on developing a set of standards and tools for reproducibility in our own work in Economics.
+Our reproducibility initiative is called REMARK, which stands for "R[eplications/eproductions] and Explorations Made using ARK".
+The term REMARK is used to represent the standard, as well as any project that follows the standard.
+The objective of REMARKs is to be self-contained and complete projects, whose contents should be executable by anyone on any computer that meets a minimal set of requirements and software.
 
 The REMARK standard is focused on 3 key principles:
 
