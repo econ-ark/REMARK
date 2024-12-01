@@ -43,6 +43,8 @@ def parse_paths_from_standard(text):
 
     d = Path()
     for prev, cur in zip(*(islice(it, i, None) for i, it in enumerate(tee(lines, 2)))):
+        if not cur.strip() or cur.startswith('#'):
+            continue
         _, _, prev_part = prev.partition('--')
         _, _, cur_part = cur.partition('--')
         cur_part, prev_part = cur_part.strip(), prev_part.strip()
@@ -120,19 +122,19 @@ def clean_docker(image_name):
     return run(cmd, encoding='utf-8')
 
 def build_conda(local_repo):
-    cmd = ['conda', 'env', 'update', '-f', 'binder/environment.yml', '--prefix', './condaenv']
+    cmd = ['conda', 'env', 'update', '-f', 'binder/environment.yml', '--prefix', './.condaenv']
     proc = run(cmd, stdout=PIPE, stderr=STDOUT, encoding='utf-8', cwd=local_repo)
     if proc.returncode == 0:
-        with open(local_repo / 'condaenv' / '.gitignore', 'w') as f:
+        with open(local_repo / '.condaenv' / '.gitignore', 'w') as f:
             f.write('*')
     return proc
 
 def execute_conda(local_repo):
-    cmd = ['conda', 'run', '-p', './condaenv', getenv('SHELL', default='/bin/bash'), 'reproduce.sh']
+    cmd = ['conda', 'run', '-p', './.condaenv', getenv('SHELL', default='/bin/bash'), 'reproduce.sh']
     return run(cmd, stdout=PIPE, stderr=STDOUT, encoding='utf-8', cwd=local_repo)
 
 def clean_conda(local_repo):
-    cmd = ['conda', 'env', 'remove', '--prefix', './condaenv', '--yes', '--quiet']
+    cmd = ['conda', 'env', 'remove', '--prefix', './.condaenv', '--yes', '--quiet']
     return run(cmd, encoding='utf-8', cwd=local_repo)
 
 if __name__ == '__main__':
@@ -149,6 +151,7 @@ if __name__ == '__main__':
     for p in git_root.joinpath('REMARKs').glob('*.yml'):
         with open(p) as f:
             data = safe_load(f)
+            data['name'] = p.stem
             metadata[p.stem] = Metadata(
                 local=repo_home / data['name'],
                 remote=data['remote'],
@@ -170,6 +173,7 @@ if __name__ == '__main__':
     lint_group = lint_parser.add_mutually_exclusive_group(required=True)
     lint_group.add_argument('remark', nargs='*', default=[])
     lint_group.add_argument('--all', action='store_true')
+    lint_parser.add_argument('--include-optional', action='store_true')
 
 
     # build
@@ -219,11 +223,21 @@ if __name__ == '__main__':
         to_lint = metadata.keys() if args.all else args.remark
         with open(git_root / 'STANDARD.md') as f:
             standard = re.search(
-                f'## the remark standard.*```(.*?)```',
+                f'```\n\..*?```',
                 f.read(),
                 flags=re.I | re.DOTALL
-            ).group(1).strip()
-        requirements = [*parse_paths_from_standard(standard)]
+            ).group(0).strip('`').strip()
+
+        if args.include_optional:
+            requirements = [
+                p.with_name(p.name.rstrip('?')) for p in parse_paths_from_standard(standard)
+            ]
+        else:
+            requirements = [
+                p for p in parse_paths_from_standard(standard)
+                if not p.name.endswith('?')
+            ]
+
         for remark in to_lint:
             mdata = metadata[remark]
             messages = []
@@ -335,7 +349,7 @@ if __name__ == '__main__':
             report_dir = remark_home / 'logs'
             for log_file in sorted(report_dir.glob(f'*/*{name}*_rc.log')):
                 name, log_type, _ = log_file.name.rsplit('_', maxsplit=2)
-                results[log_file.parent.name][name][log_type] = log_file.read_text()
+                results[log_file.parent.name][name][log_type] = log_file.read_text().strip()
 
         for log_type, logs in results.items():
             padding = max(len(k) for k in logs)
