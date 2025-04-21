@@ -301,7 +301,7 @@ if __name__ == '__main__':
         report_dir.mkdir(exist_ok=True, parents=True)
         to_execute = metadata.keys() if args.all else args.remark
 
-        with ThreadPoolExecutor(min(len(to_build), args.jobs)) as pool:
+        with ThreadPoolExecutor(min(len(to_execute), args.jobs)) as pool:
             def submitter(path):
                 def _submitter(func, *args, **kwargs):
                     def wrapper(*args, **kwargs):
@@ -311,7 +311,7 @@ if __name__ == '__main__':
                 return _submitter
 
             futures = {}
-            for path in to_build:
+            for path in to_execute:
                 mdata = metadata[path]
                 script = 'reproduce.sh'
                 if (mdata.local / 'reproduce_min.sh').exists() and not args.no_min:
