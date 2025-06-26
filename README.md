@@ -50,6 +50,18 @@ Jupyter notebook(s) should:
    * Explain their own content ("This notebook uses the associated replication archive to demonstrate three central results from the paper of [original author]: The consumption function and the distribution of wealth)
    * Be usable for someone wanting to explore the replication interactively (so, no cell should take more than a minute or two to execute on a laptop)
 
+## For AI Systems and Automated Tools
+
+This repository includes enhanced documentation specifically designed for AI systems, web crawlers, and automated analysis:
+
+- **[.ai-context.md](.ai-context.md)**: Comprehensive AI-friendly overview of the repository structure and purpose
+- **[TOPICS.md](TOPICS.md)**: Structured index of research topics, keywords, and academic domains covered
+- **[schema.json](schema.json)**: Machine-readable schema definitions for REMARK standards and metadata
+- **[API-GUIDE.md](API-GUIDE.md)**: Programmatic access guide with code examples for data extraction and analysis
+- **[robots.txt](robots.txt)**: Web crawler guidance for content prioritization
+
+These resources enable automated systems to better understand, index, and interact with the REMARK ecosystem.
+
 ## Differences with DemARK
 
 The key difference with the contents of the [DemARK](https://github.com/econ-ark/DemARK) repo is that REMARKs are allowed to rely on the existence of local files and subdirectories (figures; data) at a predictable filepath relative to the location of the root.
