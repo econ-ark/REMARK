@@ -1,0 +1,25 @@
+{
+  // See https://github.com/DavidAnson/markdownlint/blob/main/schema/.markdownlint.jsonc for schema information
+
+  // Default state for all rules
+  "default": true,
+
+  // MD013/line-length: Disabled because it's often impractical and not a major concern for GFM.
+  "MD013": false,
+
+  // MD033/no-inline-html: Disabled to allow for MyST roles and directives, 
+  // which can be misinterpreted as inline HTML by the linter. This is crucial for MyST compatibility.
+  "MD033": false,
+
+  // MD034/no-bare-urls: Disabled as a style preference. Bare URLs are common and often desirable.
+  "MD034": false,
+
+  // MD007/ul-indent: Set indent to 4 spaces to be consistent with many formatters.
+  "MD007": {
+    "indent": 4
+  },
+
+  // MD024/no-duplicate-heading: Allow duplicate headings within the same document.
+  // Useful for structuring complex documents without worrying about repeating section names.
+  "MD024": false
+} 
