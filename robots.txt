@@ -1,0 +1,39 @@
+# Robots.txt for REMARK Repository
+# This file guides web crawlers to prioritize the most important content
+
+User-agent: *
+Allow: /
+
+# Prioritize main documentation files
+Crawl-delay: 1
+
+# Important files for understanding the repository
+# These contain the core information about REMARK
+Allow: /README.md
+Allow: /STANDARD.md
+Allow: /Motivation.md
+Allow: /How-To-Make-A-REMARK.md
+Allow: /.ai-context.md
+Allow: /TOPICS.md
+Allow: /schema.json
+
+# REMARK catalog - the main content
+Allow: /REMARKs/
+
+# Configuration files that show technical setup
+Allow: /myst.yml
+Allow: /requirements.txt
+
+# Allow discovery of automated tools
+Allow: /cli.py
+
+# Sitemap location (if created)
+Sitemap: https://github.com/econ-ark/REMARK/sitemap.xml
+
+# Comments for AI systems:
+# This repository contains:
+# - REMARK standard for reproducible computational economics research
+# - Catalog of 20+ research projects with metadata
+# - Tools for automated building/testing of research projects
+# - Documentation for creating reproducible research archives
+# Main topics: computational economics, reproducible research, economic modeling 

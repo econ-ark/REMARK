@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/econ-ark/REMARK/schema.json",
+  "title": "REMARK Standard Schema",
+  "description": "Schema for REMARK (Replications/reproductions and Explorations Made using ARK) projects",
+  "version": "1.0.0",
+  "type": "object",
+  "definitions": {
+    "remarkMetadata": {
+      "type": "object",
+      "required": ["name", "remote", "title"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Short identifier for the REMARK",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "remote": {
+          "type": "string",
+          "format": "uri",
+          "description": "GitHub repository URL",
+          "pattern": "^https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title of the REMARK"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version tag",
+          "pattern": "^v?\\d+\\.\\d+\\.\\d+.*$"
+        }
+      }
+    },
+    "remarkStandard": {
+      "type": "object",
+      "description": "Required files and structure for REMARK compliance",
+      "properties": {
+        "requiredFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "reproduce.sh",
+            "CITATION.cff",
+            "binder/environment.yml"
+          ]
+        },
+        "optionalFiles": {
+          "type": "array", 
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "reproduce_min.sh"
+          ]
+        },
+        "reproductionRequirements": {
+          "type": "object",
+          "properties": {
+            "hasTaggedRelease": {
+              "type": "boolean",
+              "description": "Must have at least one tagged release"
+            },
+            "hasReproducScript": {
+              "type": "boolean", 
+              "description": "Must have executable reproduce.sh script"
+            },
+            "hasEnvironmentConfig": {
+              "type": "boolean",
+              "description": "Must have binder/environment.yml with pinned dependencies"
+            },
+            "hasCitation": {
+              "type": "boolean",
+              "description": "Must have valid CITATION.cff file"
+            }
+          }
+        }
+      }
+    },
+    "contentTypes": {
+      "type": "string",
+      "enum": ["exploration", "replication", "reproduction"],
+      "description": "Type of REMARK content"
+    },
+    "techStack": {
+      "type": "object",
+      "properties": {
+        "primaryLanguage": {
+          "type": "string",
+          "description": "Primary programming language used"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of key dependencies"
+        },
+        "environmentType": {
+          "type": "string", 
+          "enum": ["conda", "docker", "pip"],
+          "description": "Type of environment specification"
+        }
+      }
+    }
+  },
+  "properties": {
+    "remark": {
+      "$ref": "#/definitions/remarkMetadata"
+    },
+    "standard": {
+      "$ref": "#/definitions/remarkStandard"
+    },
+    "contentType": {
+      "$ref": "#/definitions/contentTypes"
+    },
+    "technology": {
+      "$ref": "#/definitions/techStack"
+    },
+    "catalog": {
+      "type": "object",
+      "description": "Information about the REMARK catalog",
+      "properties": {
+        "totalREMARKs": {
+          "type": "integer",
+          "description": "Total number of cataloged REMARKs"
+        },
+        "catalogURL": {
+          "type": "string",
+          "format": "uri",
+          "default": "https://econ-ark.org/materials/?select=REMARK"
+        },
+        "submissionProcess": {
+          "type": "string",
+          "description": "How to submit new REMARKs",
+          "default": "Pull request to econ-ark/REMARK repository"
+        }
+      }
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords for search and categorization",
+      "default": [
+        "computational economics",
+        "reproducibility", 
+        "econ-ark",
+        "research archive",
+        "academic reproducibility",
+        "economic modeling",
+        "code sharing",
+        "research transparency"
+      ]
+    }
+  }
+} 
