@@ -1,0 +1,314 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/econ-ark/REMARK/ai-enhanced-schema.json",
+  "title": "Enhanced REMARK Schema for AI Systems",
+  "description": "Comprehensive schema for REMARK projects optimized for AI discovery and search engine indexing",
+  "version": "2.0.0",
+  "type": "object",
+  "definitions": {
+    "aiMetadata": {
+      "type": "object",
+      "description": "AI-specific metadata for enhanced discoverability",
+      "properties": {
+        "aiDescription": {
+          "type": "string",
+          "description": "AI-optimized description of the research",
+          "minLength": 100,
+          "maxLength": 500
+        },
+        "researchDomain": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "consumption-theory",
+              "portfolio-choice", 
+              "macroeconomic-modeling",
+              "wealth-distribution",
+              "behavioral-economics",
+              "monetary-policy",
+              "fiscal-policy",
+              "labor-economics",
+              "international-economics"
+            ]
+          }
+        },
+        "methodology": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "dynamic-programming",
+              "numerical-methods",
+              "monte-carlo-simulation", 
+              "endogenous-grid-methods",
+              "value-function-iteration",
+              "policy-function-iteration",
+              "perturbation-methods",
+              "projection-methods",
+              "finite-element-methods"
+            ]
+          }
+        },
+        "difficultyLevel": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Complexity level for educational use"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Required background knowledge"
+        },
+        "learningObjectives": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "What users will learn from this REMARK"
+        },
+        "relatedPapers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string"},
+              "authors": {"type": "array", "items": {"type": "string"}},
+              "year": {"type": "integer"},
+              "doi": {"type": "string"},
+              "relationship": {
+                "type": "string",
+                "enum": ["replicates", "extends", "applies", "compares", "builds-upon"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "technicalSpecs": {
+      "type": "object",
+      "description": "Detailed technical specifications",
+      "properties": {
+        "computationalComplexity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "very-high"],
+          "description": "Computational resource requirements"
+        },
+        "executionTime": {
+          "type": "object",
+          "properties": {
+            "estimatedMinutes": {"type": "number"},
+            "hardwareSpecs": {"type": "string"},
+            "parallelizable": {"type": "boolean"}
+          }
+        },
+        "dataRequirements": {
+          "type": "object",
+          "properties": {
+            "dataSources": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {"type": "string"},
+                  "url": {"type": "string", "format": "uri"},
+                  "accessType": {
+                    "type": "string",
+                    "enum": ["public", "api-key-required", "institutional", "proprietary"]
+                  },
+                  "updateFrequency": {"type": "string"}
+                }
+              }
+            },
+            "dataSize": {"type": "string"},
+            "internetRequired": {"type": "boolean"}
+          }
+        },
+        "outputTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "figures", "tables", "datasets", "models", 
+              "interactive-plots", "dashboards", "reports"
+            ]
+          }
+        }
+      }
+    },
+    "reproducibilityScore": {
+      "type": "object",
+      "description": "Quantitative reproducibility assessment",
+      "properties": {
+        "standardCompliance": {
+          "type": "object",
+          "properties": {
+            "hasTaggedRelease": {"type": "boolean"},
+            "hasReproduceScript": {"type": "boolean"},
+            "hasEnvironmentSpec": {"type": "boolean"},
+            "hasCitationFile": {"type": "boolean"},
+            "hasDocumentation": {"type": "boolean"},
+            "hasTests": {"type": "boolean"}
+          }
+        },
+        "reproducibilityIndex": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Overall reproducibility score (0-100)"
+        },
+        "lastVerified": {
+          "type": "string",
+          "format": "date",
+          "description": "Last successful reproduction verification"
+        }
+      }
+    },
+    "academicContext": {
+      "type": "object",
+      "description": "Academic and educational context",
+      "properties": {
+        "courseIntegration": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "courseLevel": {
+                "type": "string",
+                "enum": ["undergraduate", "graduate", "phd", "postdoc"]
+              },
+              "subject": {"type": "string"},
+              "topics": {"type": "array", "items": {"type": "string"}},
+              "assignmentType": {
+                "type": "string", 
+                "enum": ["homework", "project", "exam", "demonstration"]
+              }
+            }
+          }
+        },
+        "researchApplications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "policy-analysis", "forecasting", "model-validation",
+              "sensitivity-analysis", "robustness-testing", 
+              "extension-platform", "benchmarking"
+            ]
+          }
+        },
+        "industryRelevance": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "central-banking", "financial-services", "consulting",
+              "government-policy", "insurance", "investment-management"
+            ]
+          }
+        }
+      }
+    },
+    "aiTrainingData": {
+      "type": "object",
+      "description": "Information for AI model training",
+      "properties": {
+        "codeExamples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "language": {"type": "string"},
+              "functionality": {"type": "string"},
+              "codeSnippet": {"type": "string"},
+              "explanation": {"type": "string"}
+            }
+          }
+        },
+        "conceptExplanations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "concept": {"type": "string"},
+              "definition": {"type": "string"},
+              "mathematicalForm": {"type": "string"},
+              "intuition": {"type": "string"},
+              "applications": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "commonQuestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {"type": "string"},
+              "answer": {"type": "string"},
+              "category": {
+                "type": "string",
+                "enum": ["setup", "usage", "theory", "troubleshooting", "extensions"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "remark": {
+      "$ref": "schema.json#/definitions/remarkMetadata",
+      "description": "Standard REMARK metadata"
+    },
+    "aiEnhanced": {
+      "$ref": "#/definitions/aiMetadata",
+      "description": "AI-specific enhancements"
+    },
+    "technical": {
+      "$ref": "#/definitions/technicalSpecs",
+      "description": "Detailed technical specifications"
+    },
+    "reproducibility": {
+      "$ref": "#/definitions/reproducibilityScore",
+      "description": "Reproducibility assessment"
+    },
+    "academic": {
+      "$ref": "#/definitions/academicContext",
+      "description": "Academic and educational context"
+    },
+    "aiTraining": {
+      "$ref": "#/definitions/aiTrainingData",
+      "description": "Data for AI model training"
+    },
+    "searchOptimization": {
+      "type": "object",
+      "description": "Search engine optimization metadata",
+      "properties": {
+        "primaryKeywords": {
+          "type": "array",
+          "items": {"type": "string"},
+          "maxItems": 10
+        },
+        "secondaryKeywords": {
+          "type": "array", 
+          "items": {"type": "string"},
+          "maxItems": 20
+        },
+        "semanticTags": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Semantic web tags for linked data"
+        },
+        "alternativeNames": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Alternative names and synonyms"
+        }
+      }
+    }
+  },
+  "required": ["remark"],
+  "additionalProperties": true
+} 

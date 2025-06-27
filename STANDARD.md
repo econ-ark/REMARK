@@ -6,7 +6,7 @@ A REMARK refers to an open git repository that is indexed in this repository wit
 
 ### Minimal Repository Structure
 
-```
+```bash
 .
 |-- reproduce.sh
 |-- reproduce_min.sh?
@@ -34,7 +34,7 @@ A REMARK refers to an open git repository that is indexed in this repository wit
       - Optionally, you may include any other files as part of the [binder configuration specification](https://mybinder.readthedocs.io/en/latest/using/config_files.html)
     - A `reproduce.sh` script that:
       - Runs and reproduces all the results. If this script fails, your reproduction is assumed to not have worked.
-    - Optionally: `reproduce_min.sh` 
+    - Optionally: `reproduce_min.sh`
         - You may include this file if your full `reproduce.sh` takes ≥5 minutes to run on your local machine.
 3. Include a valid [CITATION.cff](https://citation-file-format.github.io/) document with bibliographic metadata for the repository.
     - To create a CITATION.cff file, you may use the [citation file format initializer](https://citation-file-format.github.io/cff-initializer-javascript/#/start)
@@ -45,6 +45,5 @@ To index your repository as a REMARK, please file a Pull Request in [this reposi
 Your Pull Request should either create a new catalog entry or increment the existing version entry for your REMARK.
 
 Once you open a Pull Request, the Econ-ARK team will review your submission to ensure that your `reproduce.sh` script
-is able to run in the provided environment. If you would like to test this process on your own, you may clone this 
+is able to run in the provided environment. If you would like to test this process on your own, you may clone this
 repository, update the cataloged version, and build/execute your REMARK using the provided `cli.py` script.
-

@@ -16,13 +16,14 @@ REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMAR
 
 The REMARK catalog and Econ-ARK website configuration will be maintained by Editors.
 
-Editorial guidelines are [here](https://github.com/econ-ark/REMARK/blob/master/EDITORIAL.md).
+[Editorial guidelines are here](https://github.com/econ-ark/REMARK/blob/master/EDITORIAL.md).
 
 ## For Maintainers
 
 **Command Line Interface** `cli.py`
 
 `cli.py` is an automated tool that facilitates:
+
 - cloning of REMARK repositories
 - linting (detection of missing files from a given REMARK)
 - building conda environments/docker images
@@ -75,7 +76,7 @@ python cli.py build conda {remark_name}  # build conda environments for one or m
 python cli.py build docker {remark_name} # build docker image(s) for one or more REMARK(s)
 ```
 
-The primary difference between `conda` and `docker` for builds are that `docker` will be more flexible for multilanguage REMARKs. It leverages 
+The primary difference between `conda` and `docker` for builds are that `docker` will be more flexible for multilanguage REMARKs. It leverages
 repo2docker (same tool that mybinder uses) to create docker images from repositories.
 
 **Execute**

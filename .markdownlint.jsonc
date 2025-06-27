@@ -21,5 +21,9 @@
 
   // MD024/no-duplicate-heading: Allow duplicate headings within the same document.
   // Useful for structuring complex documents without worrying about repeating section names.
-  "MD024": false
+  "MD024": false,
+
+  // MD036/no-emphasis-as-heading: Disabled to allow emphasis text that might look like headings.
+  // This prevents false positives when using bold/italic text for emphasis rather than structure.
+  "MD036": false
 } 
