@@ -122,12 +122,12 @@ This is the **core integration script** that:
 1. **Clones REMARK catalog**: Gets the current list of all REMARKs
 2. **Reads catalog entries**: Extracts repository URLs from `REMARKs/*.yml` files
 3. **Clones individual repositories**: Downloads each research project (using `--sparse` clone)
-4. **Merges metadata**: Combines data from:
-   - `CITATION.cff` (bibliographic metadata) - **REQUIRED for website generation**
-   - `REMARK.md` (website-specific fields + content) - **OPTIONAL for website generation**
+4. **Merges metadata**: Combines data from two key source files:
+   - `CITATION.cff` (bibliographic metadata)
+   - `REMARK.md` (website-specific fields + abstract/body content)
 5. **Generates material files**: Creates `_materials/{name}.md` for Jekyll
 
-**🚨 IMPORTANT**: This script only requires `CITATION.cff` to generate website content. It does NOT require `reproduce.sh`, `binder/environment.yml`, or other REMARK compliance files.
+**🚨 IMPORTANT**: This script only requires `CITATION.cff` to generate a basic webpage. For a rich, descriptive page, `REMARK.md` is essential. The script specifically looks for these two file names and ignores other markdown files (e.g., `README.md` or legacy `{name}.md` files) for website content generation.
 
 #### Step 3: Jekyll Site Generation
 
