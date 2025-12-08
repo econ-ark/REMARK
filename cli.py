@@ -257,7 +257,7 @@ if __name__ == '__main__':
                     ('CITATION.cff', None, 'CITATION.cff required'),
                 ]
             },
-            3: {  # Published REMARK
+            3: {  # Published REMARK (LCD)
                 'required': [
                     Path('Dockerfile'),
                     Path('reproduce.sh'),
@@ -268,10 +268,10 @@ if __name__ == '__main__':
                     Path('binder/environment.yml'),
                 ],
                 'checks': [
-                    ('README.md', 100, 'README must be ≥100 lines with 7 sections'),
+                    ('README.md', 100, 'README must be comprehensive (≥100 lines)'),
                     ('Dockerfile', None, 'Dockerfile must exist'),
-                    ('REMARK.md', None, 'REMARK.md with DOI required'),
-                    ('CITATION.cff', None, 'CITATION.cff with DOI required'),
+                    ('REMARK.md', None, 'REMARK.md with tier: 3 metadata'),
+                    ('CITATION.cff', None, 'CITATION.cff with citation info'),
                 ]
             }
         }
@@ -306,22 +306,22 @@ if __name__ == '__main__':
                         except Exception as e:
                             warnings.append(f'{filename}: Could not count lines - {e}')
                 
-                # Check for DOI in Tier 3
+                # Check for tier specification in Tier 3 (DOI now optional/recommended)
                 if tier == 3:
                     if filename == 'CITATION.cff' and filepath.exists():
                         try:
                             with open(filepath, 'r') as f:
                                 content = f.read()
                                 if 'doi:' not in content.lower() and '10.' not in content:
-                                    warnings.append('CITATION.cff: No DOI found (required for Tier 3)')
+                                    warnings.append('CITATION.cff: No DOI found (recommended for Tier 3, required for publication)')
                         except Exception as e:
-                            warnings.append(f'CITATION.cff: Could not check for DOI - {e}')
+                            pass
                     
                     if filename == 'REMARK.md' and filepath.exists():
                         try:
                             with open(filepath, 'r') as f:
                                 content = f.read()
-                                if 'tier: 3' not in content.lower():
+                                if 'tier: 3' not in content.lower() and 'tier:3' not in content.lower():
                                     warnings.append('REMARK.md: Should specify "tier: 3"')
                         except Exception as e:
                             pass

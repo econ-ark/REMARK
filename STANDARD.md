@@ -19,9 +19,9 @@ REMARKs are organized into **three progressive tiers** that build on Docker-base
 - **Typical Use**: Working papers, dissertation chapters, mature research projects
 
 ### **Tier 3: Published REMARK**
-- **Focus**: Publication-ready research archive with permanent DOI
-- **Philosophy**: "You can cite my work permanently with confidence"
-- **Typical Use**: Published papers, final dissertations, citable archives
+- **Focus**: Ready for submission to ANY top economics journal (LCD requirements)
+- **Philosophy**: "Meets minimum requirements for all major journals"
+- **Typical Use**: Papers ready for journal submission, final dissertations
 
 **Key principle**: Each tier builds on the previous. All tiers prioritize computational reproducibility; **none require LaTeX document reproduction**.
 
@@ -125,79 +125,159 @@ REMARKs are organized into **three progressive tiers** that build on Docker-base
 
 6. **Organized code structure**: Logical file organization, meaningful names
 
-**Not Required** (Tier 3 only):
-- Zenodo DOI
-- Data Availability Statement
-- Formal Data Citations section
-- Computational Requirements (exact versions)
-- Output Mapping (code → specific tables/figures)
-- Academic metadata (abstract, JEL codes)
+**Not Required** (Tier 3+ Enhanced only):
+- Zenodo DOI (recommended for Tier 3, required for Enhanced)
+- Strict 7-section README structure (content matters more than format)
+- CSV-only data (any accessible format OK)
+- Exact patch-level version pinning (major versions sufficient)
+- Multiple platform testing (one platform sufficient for Tier 3)
+- Output mapping table (clear documentation sufficient)
 
 ---
 
-## Tier 3: Published REMARK
+## Tier 3: Published REMARK (LCD Definition)
 
-### Publication-Ready Repository Structure
+### Journal-Ready Repository Structure
 
 ```bash
 .
 |-- Dockerfile
 |-- reproduce.sh
 |-- reproduce_min.sh?
-|-- README.md         # ≥100 lines with 7 required sections
-|-- REMARK.md         # Enhanced metadata with DOI
-|-- CITATION.cff      # Enhanced with DOI and metadata
+|-- README.md         # Comprehensive (≥100 lines recommended)
+|-- REMARK.md         # Metadata with tier: 3
+|-- CITATION.cff      # Citation information
 |-- LICENSE
 `-- binder/
     `-- environment.yml
 ```
 
+### Core Principle
+
+**"If it meets Tier 3, it will satisfy the MINIMUM requirements for submission to ANY top economics journal"**
+
+Tier 3 represents the **least common denominator (LCD)** across:
+- American Economic Review (AER)
+- Quantitative Economics (QE)
+- Econometrica (ECMA)
+- Review of Economic Studies (REStud)
+- Journal of Political Economy (JPE)
+- Quarterly Journal of Economics (QJE)
+- Review of Economics and Statistics (REStat)
+
 ### Tier 3 Requirements
 
 **All Tier 2 requirements PLUS**:
 
-1. **Zenodo DOI**: Permanent archive on Zenodo
-   - DOI in CITATION.cff
-   - DOI badge in README
-   - GitHub release created
+#### 1. **Comprehensive README**
+README with all essential reproduction information:
+- Project title and authors
+- Software requirements with major versions (e.g., Python 3.9)
+- Installation instructions
+- Reproduction instructions (step-by-step how to run)
+- Expected runtime estimates
+- Data access information
+- Citation information
 
-2. **Complete README** with 7 required sections:
-   - All Tier 2 sections PLUS:
-   - **Data Availability Statement**: Access procedures, restrictions, costs
-   - **Computational Requirements**: Exact versions, hardware, runtime, OS tested
-   - **Output Mapping**: Which code generates which table/figure
-   - **Data Citations**: Dedicated references section with bibliographic format
+**Format**: Markdown acceptable  
+**Structure**: Flexible - content matters more than specific sections  
+**Length**: ≥100 lines typical for comprehensive coverage  
+**Acceptable**: Can link to separate documents (INSTALLATION.md, etc.)
 
-3. **Plain-text data** (strict):
-   - CSV/TXT/JSON required for ALL shareable data
-   - Proprietary formats may supplement but cannot replace
-   - Variable documentation (codebooks) required
+#### 2. **Complete Software Environment Specification**
+Document all software needed to reproduce results:
+- Programming language with major version (Python 3.9, R 4.1)
+- Critical research packages with exact versions (econ-ark==0.14.1)
+- Supporting packages can use ranges (numpy>=1.24,<2)
+- Operating system tested on
 
-4. **Exact version specification**:
-   - Exact Python/R version documented
-   - Exact versions for critical research packages
-   - README documents tested versions
+**Formats**: environment.yml, requirements.txt, pyproject.toml, Dockerfile, or README  
+**NOT Required**: Exact patch versions for all packages, strict lockfiles
 
-5. **Code portability**:
-   - No hardcoded absolute paths
-   - Relative paths from repository root
-   - Forward slashes for cross-platform compatibility
-   - Tested on multiple platforms
+#### 3. **Data Availability Compliance**
+Data included OR complete access instructions:
 
-6. **Data transformation documentation**:
-   - All data cleaning/transformation code included
-   - Clear workflow documentation
-   - Separation from analysis code
+**If Data Included**:
+- Any commonly accessible format: CSV, .dta (Stata), .xlsx (Excel), etc.
+- Variable documentation (codebook, labels, or README)
+- Data citations
 
-7. **Academic metadata** in CITATION.cff or paper:
-   - Abstract (≤150 words)
-   - Keywords (3-8)
-   - JEL codes (up to 3)
+**If Data Restricted**:
+- Clear access instructions (where, how, cost)
+- Test/synthetic data for code verification
+- Documentation of restrictions
 
-8. **Production-quality reproduction script**:
-   - Orchestrates all steps
-   - Generates log files
-   - Cross-platform compatible
+**NOT Required**: CSV-only format (proprietary formats acceptable if common)
+
+#### 4. **Tested Reproduction Verification**
+Author has verified reproduction works:
+- Code runs without errors
+- Produces expected outputs
+- Tested on at least one platform
+- README states testing was performed
+- Known issues documented
+
+**Acceptable**: Single platform testing (multiple recommended but not required)
+
+#### 5. **Complete Analysis Code**
+All code to reproduce results included:
+- Data cleaning/processing code
+- Main analysis code
+- Figure/table generation code
+- Helper functions and utilities
+- Comments explaining non-obvious logic
+- Clear entry points (main.py, reproduce.sh)
+
+**NOT Required**: Specific directory structure, unit tests, type annotations
+
+#### 6. **Accessible Public Repository**
+Code available on publicly accessible platform:
+- GitHub/GitLab (public repository)
+- Zenodo, figshare, OSF
+- Journal-hosted repositories
+- Institutional repositories
+
+**NOT Required**: Specific platform, DOI (though recommended)
+
+#### 7. **Replication-Permissive License**
+LICENSE file permitting research use:
+- Apache 2.0, MIT, BSD, CC-BY, or other OSI-approved
+- Must permit running code for verification
+- Must permit academic replication
+- Must permit modification for research
+
+#### 8. **Citation Information**
+Clear citation instructions in any standard format:
+- CITATION.cff file (recommended)
+- Citation block in README
+- CITATION.txt or CITATION.md
+- BibTeX entry in README
+
+**Must Include**: Authors, title, year, repository URL  
+**Optional** (add after publication): Paper DOI, journal info
+
+---
+
+### What's Recommended (Not Required)
+
+These are **best practices** but NOT minimum LCD requirements:
+
+- **Zenodo DOI**: Excellent for permanence (journals use different platforms)
+- **Exact version pinning**: Good for long-term reproducibility (ranges acceptable)
+- **CSV-only data**: Best for longevity (.dta, .xlsx acceptable)
+- **Specific README structure**: Helpful (content matters more than format)
+- **Multiple platform testing**: Ideal (one platform sufficient)
+- **Output mapping table**: Clear (explicit mapping not universal)
+
+---
+
+### For Stricter Journals (Tier 3+ Enhanced)
+
+Some journals have MORE stringent requirements. See separate guide:
+**"Tier-3-Enhanced-Guide.md"** for upgrades needed for:
+- Quantitative Economics (QE): Requires Zenodo DOI, 7-section README, CSV data
+- American Economic Review (AER): Requires openICPSR archival
+- Journal-specific templates and formats
 
 ---
 
@@ -282,23 +362,25 @@ cd REMARK
 
 ## Tier Comparison Summary
 
-| Requirement | Tier 1 | Tier 2 | Tier 3 |
-|-------------|--------|--------|--------|
+| Requirement | Tier 1 | Tier 2 | Tier 3 (LCD) |
+|-------------|--------|--------|--------------|
 | Dockerfile | ✅ | ✅ | ✅ |
 | reproduce.sh | ✅ | ✅ | ✅ |
 | README length | ≥50 lines | ≥100 lines | ≥100 lines |
 | Docker instructions | ✅ | ✅ | ✅ |
 | LICENSE | ✅ | ✅ | ✅ |
 | REMARK.md | ❌ | ✅ | ✅ |
-| CITATION.cff | ❌ | ✅ | ✅ Enhanced |
+| CITATION.cff | ❌ | ✅ | ✅ |
 | Parameter Guide | ❌ | ✅ | ✅ |
-| Plain-text data | ❌ | Scripts OK | CSV required |
+| Data format | Any | CSV or accessible | Any accessible format |
 | Code comments | Basic | ✅ | ✅ |
-| Zenodo DOI | ❌ | ❌ | ✅ Required |
-| Data Avail. Statement | ❌ | ❌ | ✅ |
-| Exact versions | ❌ | ❌ | ✅ |
-| Cross-platform | Docker only | Docker only | ✅ |
-| Academic metadata | ❌ | ❌ | ✅ |
+| Software versions | Any | Documented | Major + critical exact |
+| Testing | Docker | Docker | ≥1 platform verified |
+| Data access info | No | Helpful | Required in README |
+| Citation info | No | Yes | Yes (flexible format) |
+| **DOI** | **No** | **No** | **Recommended (not required)** |
+| **Exact version pinning** | **No** | **No** | **Major + critical only** |
+| **CSV-only data** | **No** | **No** | **No (.dta/.xlsx OK)** |
 
 ---
 
