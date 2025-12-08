@@ -225,10 +225,16 @@ if __name__ == '__main__':
         to_lint = metadata.keys() if args.all else args.remark
         with open(git_root / 'STANDARD.md') as f:
             standard = re.search(
-                f'```\n\..*?```',
+                f'```[^\n]*\n\..*?```',
                 f.read(),
                 flags=re.I | re.DOTALL
-            ).group(0).strip('`').strip()
+            )
+            if standard is None:
+                print('ERROR: Could not find file structure in STANDARD.md')
+                print('Expected code block starting with a dot (.) for file tree')
+                import sys
+                sys.exit(1)
+            standard = standard.group(0).strip('`').strip()
 
         if args.include_optional:
             requirements = [
