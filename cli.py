@@ -183,6 +183,7 @@ if __name__ == '__main__':
     lint_parser = subparsers.add_parser('lint', help='check compatibility of REMARK repositories against STANDARD.md')
     add_remark_arg_group(lint_parser)
     lint_parser.add_argument('--include-optional', action='store_true', help='include optional files when checking against STANDARD.md')
+    lint_parser.add_argument('--tier', type=int, choices=[1, 2, 3], default=2, help='REMARK tier to check against (1=Docker, 2=Reproducible, 3=Published). Default: 2')
 
     # build
     build_parser = subparsers.add_parser('build', help='build docker images/conda environments for REMARK repositories')
@@ -223,39 +224,128 @@ if __name__ == '__main__':
 
     elif args.action == 'lint':
         to_lint = metadata.keys() if args.all else args.remark
-        with open(git_root / 'STANDARD.md') as f:
-            standard = re.search(
-                f'```\n\..*?```',
-                f.read(),
-                flags=re.I | re.DOTALL
-            ).group(0).strip('`').strip()
-
-        if args.include_optional:
-            requirements = [
-                p.with_name(p.name.rstrip('?')) for p in parse_paths_from_standard(standard)
-            ]
-        else:
-            requirements = [
-                p for p in parse_paths_from_standard(standard)
-                if not p.name.endswith('?')
-            ]
+        
+        # Define tier-specific requirements
+        tier_requirements = {
+            1: {  # Docker REMARK
+                'required': [
+                    Path('Dockerfile'),
+                    Path('reproduce.sh'),
+                    Path('README.md'),
+                    Path('LICENSE'),
+                    Path('binder/environment.yml'),
+                ],
+                'checks': [
+                    ('README.md', 50, 'README must be ≥50 lines'),
+                    ('Dockerfile', None, 'Dockerfile must exist'),
+                ]
+            },
+            2: {  # Reproducible REMARK
+                'required': [
+                    Path('Dockerfile'),
+                    Path('reproduce.sh'),
+                    Path('README.md'),
+                    Path('REMARK.md'),
+                    Path('CITATION.cff'),
+                    Path('LICENSE'),
+                    Path('binder/environment.yml'),
+                ],
+                'checks': [
+                    ('README.md', 100, 'README must be ≥100 lines'),
+                    ('Dockerfile', None, 'Dockerfile must exist'),
+                    ('REMARK.md', None, 'REMARK.md metadata required'),
+                    ('CITATION.cff', None, 'CITATION.cff required'),
+                ]
+            },
+            3: {  # Published REMARK
+                'required': [
+                    Path('Dockerfile'),
+                    Path('reproduce.sh'),
+                    Path('README.md'),
+                    Path('REMARK.md'),
+                    Path('CITATION.cff'),
+                    Path('LICENSE'),
+                    Path('binder/environment.yml'),
+                ],
+                'checks': [
+                    ('README.md', 100, 'README must be ≥100 lines with 7 sections'),
+                    ('Dockerfile', None, 'Dockerfile must exist'),
+                    ('REMARK.md', None, 'REMARK.md with DOI required'),
+                    ('CITATION.cff', None, 'CITATION.cff with DOI required'),
+                ]
+            }
+        }
+        
+        tier = args.tier
+        requirements = tier_requirements[tier]['required']
+        checks = tier_requirements[tier]['checks']
+        
+        # Optional files for all tiers
+        optional_files = [Path('reproduce_min.sh')]
 
         for path in to_lint:
             mdata = metadata[path]
             messages = []
+            warnings = []
 
+            # Check required files
             for req in requirements:
                 if not mdata.local.joinpath(req).exists():
                     messages.append(f'missing {req}')
 
-            if messages:
-                print(
-                    f' {path} '.center(50, '-'),
-                    mdata.local,
-                    *(f'- {m}' for m in messages),
-                    sep='\n',
-                    end='\n'*2,
-                )
+            # Perform additional checks
+            for filename, min_lines, message in checks:
+                filepath = mdata.local / filename
+                if filepath.exists():
+                    if min_lines and filename.endswith('.md'):
+                        try:
+                            with open(filepath, 'r') as f:
+                                lines = len([l for l in f.readlines() if l.strip()])
+                            if lines < min_lines:
+                                messages.append(f'{filename}: {lines} lines < {min_lines} required')
+                        except Exception as e:
+                            warnings.append(f'{filename}: Could not count lines - {e}')
+                
+                # Check for DOI in Tier 3
+                if tier == 3:
+                    if filename == 'CITATION.cff' and filepath.exists():
+                        try:
+                            with open(filepath, 'r') as f:
+                                content = f.read()
+                                if 'doi:' not in content.lower() and '10.' not in content:
+                                    warnings.append('CITATION.cff: No DOI found (required for Tier 3)')
+                        except Exception as e:
+                            warnings.append(f'CITATION.cff: Could not check for DOI - {e}')
+                    
+                    if filename == 'REMARK.md' and filepath.exists():
+                        try:
+                            with open(filepath, 'r') as f:
+                                content = f.read()
+                                if 'tier: 3' not in content.lower():
+                                    warnings.append('REMARK.md: Should specify "tier: 3"')
+                        except Exception as e:
+                            pass
+
+            # Check for optional files
+            if args.include_optional:
+                for opt in optional_files:
+                    if not mdata.local.joinpath(opt).exists():
+                        warnings.append(f'optional: {opt} not found')
+
+            if messages or warnings:
+                print(f' {path} (Tier {tier}) '.center(50, '-'))
+                print(mdata.local)
+                if messages:
+                    print('Errors:')
+                    for m in messages:
+                        print(f'  ❌ {m}')
+                if warnings:
+                    print('Warnings:')
+                    for w in warnings:
+                        print(f'  ⚠️  {w}')
+                print()
+            else:
+                print(f'✅ {path} (Tier {tier}): All requirements met')
 
     elif args.action == 'build':
         report_dir = remark_home / 'logs' / 'build'
