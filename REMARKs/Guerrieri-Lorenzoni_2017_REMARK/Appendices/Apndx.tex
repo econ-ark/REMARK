@@ -1,0 +1,46 @@
+\input{./econtexRoot}\documentclass[../CGMPortfolio.tex]{subfiles}
+\input{\econtexRoot/\ApndxDir/onlyinsubfile.tex}\begin{document}
+
+This Appendix derives the first order conditions that characterizes the solution to the agent's problem.
+\\
+\\
+Dropping the subscript $i$, the problem in bellman form is 
+\begin{align*}
+    &V_{t}(b_{t}, \theta_{t}) = \max _{c_{t}, n_{t}} \& U(c_{t}, n_{t})+\beta E[V_{t+1}(b_{t+1}, \theta_{t+1}) | \theta_{t}].
+\end{align*}
+
+The first order conditions for consumption and labor are 
+\begin{align*}
+&U_{c}(c_{t},n_{t}) = \beta R_{t} E[{V^{b}_{t+1}}(b_{t+1},\theta_{t+1})|\theta_{t}] \\
+&U_{n}(c_{t},n_{t}) = -\beta \theta_{t} R_{t} E[{V^{b}_{t+1}}(b_{t+1},\theta_{t+1})|\theta_{t}].
+\end{align*}
+
+Combining these two FOCs, we obtain 
+\begin{align*}
+    U_{n}(c_{t},n_{t})= - \theta_{t} U_{c}(c_{t},n_{t}).
+\end{align*}
+
+
+
+
+Let $\underline{V}_{t}\left(b_{t}, \theta_{t}, c_{t}, n_{t}\right)=U\left(c_{t}, n_{t}\right)+\beta E\left[V_{t+1}\left(b_{t+1}, \theta_{t+1}\right) \mid \theta_{t}\right]$. It follows that
+\begin{align*}
+    &\underline{V}_{t}^{b}\left(b_{t}, \theta_{t}, c_{t}, n_{t}\right)=\beta E\left[V_{t+1}^{b}\left(b_{t+1}, \theta_{t+1}\right) \mid \theta_{t}\right]\\
+    &\underline{V}_{t}\left(b_{t}, \theta_{t}, c_{t}\left(b_{t}\right), n_{t}\left(b_{t}\right)\right)=V_{t}\left(b_{t}, \theta_{t}\right).
+\end{align*}
+
+Since $c'_{t}(b_{t})=0$ and $n'_{t}(b_{t})=0$, then 
+\begin{align*}
+    &\underline{V^{b}}_{t}(b_{t}, \theta_{t} , c_{t}(b_{t}) , n_{t}(b_{t})) = V^{b}_{t}(b_{t}, \theta_{t}), \text{ so} \\
+    &V^{b}_{t}(b_{t}, \theta_{t})=  \beta E\left[V_{t+1}^{b}\left(b_{t+1}, \theta_{t+1}\right) \mid \theta_{t}\right].
+\end{align*}
+
+Combining with the Consumption FOC,
+\begin{align*}
+    &V^{b}_{t}(b_{t}, \theta_{t}) = U_{c}(c_{t},n_{t}) \\
+    &U_{c}(c_{t},n_{t}) = \beta R_{t} \mathbb{E} \left( U_{c}(c_{t+1},n_{t+1}) \right).
+\end{align*}
+
+
+
+\end{document}
