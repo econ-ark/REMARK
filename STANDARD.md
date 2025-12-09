@@ -46,10 +46,12 @@ A REMARK refers to an open git repository that is indexed in this repository wit
     - **Specific Git Tag Required**: The Zenodo archive must correspond to a specific git tag (e.g., `v1.0.0`)
     - **Version Verification**: The tag provides cryptographic proof that the econ-ark fork matches your Zenodo archive exactly
     
-    **Process for Published REMARKs**:
+    **📋 Complete Step-by-Step Guide**: See [ZENODO-GUIDE.md](ZENODO-GUIDE.md) for detailed instructions with troubleshooting
+    
+    **Quick Process Summary**:
     1. Create a git tag for the version to archive: `git tag -a v1.0.0 -m "Published version"`
     2. Push the tag to GitHub: `git push origin v1.0.0`
-    3. Enable Zenodo-GitHub integration (see [GitHub-Zenodo guide](https://guides.github.com/activities/citable-code/))
+    3. Enable Zenodo-GitHub integration (see [ZENODO-GUIDE.md](ZENODO-GUIDE.md) for detailed setup)
     4. Create a GitHub release from that tag, which triggers Zenodo archival
     5. Obtain the Zenodo DOI from the archived version
     6. Add the DOI to your CITATION.cff: `doi: 10.5281/zenodo.XXXXXX`
@@ -60,6 +62,8 @@ A REMARK refers to an open git repository that is indexed in this repository wit
     - The commit SHA-1 hash provides cryptographic verification
     - Anyone can verify versions match by comparing commit hashes
     - This guarantees: econ-ark fork = Zenodo archive = your tagged version
+    
+    **Timeline**: 30-45 minutes following the [ZENODO-GUIDE.md](ZENODO-GUIDE.md) checklist
 
 ## Submitting a REMARK
 
