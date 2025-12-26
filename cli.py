@@ -224,11 +224,15 @@ if __name__ == '__main__':
     elif args.action == 'lint':
         to_lint = metadata.keys() if args.all else args.remark
         with open(git_root / 'STANDARD.md') as f:
-            standard = re.search(
-                f'```\n\..*?```',
+            match = re.search(
+                r'```\w*\n\..*?```',
                 f.read(),
                 flags=re.I | re.DOTALL
-            ).group(0).strip('`').strip()
+            )
+            if match:
+                standard = match.group(0).strip('`').strip()
+            else:
+                raise ValueError("Could not find file structure in STANDARD.md")
 
         if args.include_optional:
             requirements = [
