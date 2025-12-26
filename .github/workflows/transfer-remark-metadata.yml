@@ -2,7 +2,7 @@ name: Copy metadata
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 8 * * *'
@@ -20,4 +20,4 @@ jobs:
         dst_owner: econ-ark
         dst_repo_name: econ-ark.org
         dst_branch: master
-        src_branch: master
+        src_branch: main

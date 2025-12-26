@@ -12,6 +12,27 @@ The standard is focused on 3 key principles:
 
 Detailed technical instructions for using an existing REMARK or contributing a new REMARK can be found in `How-To-Make-A-REMARK.md` in this directory.
 
+## Getting Started
+
+### For REMARK Authors
+
+- **[STANDARD.md](STANDARD.md)** - Complete REMARK requirements and specifications
+- **[How-To-Make-A-REMARK.md](How-To-Make-A-REMARK.md)** - General guide for creating REMARKs
+- **[ZENODO-GUIDE.md](ZENODO-GUIDE.md)** - Step-by-step guide for obtaining a Zenodo DOI (Published REMARKs)
+- **[WORKFLOW.md](WORKFLOW.md)** - Detailed workflow documentation
+
+### Quick Start
+
+1. **Standard REMARK** (basic reproducible project):
+   - Follow [STANDARD.md](STANDARD.md) requirements
+   - Create `reproduce.sh`, `CITATION.cff`, `binder/environment.yml`
+   - Submit via pull request
+
+2. **Published REMARK** (permanent archival with DOI):
+   - Meet all Standard REMARK requirements
+   - Follow [ZENODO-GUIDE.md](ZENODO-GUIDE.md) to obtain DOI (30-45 minutes)
+   - Submit via pull request with DOI
+
 ## Description
 
 Types of content include (see below for elaboration):
