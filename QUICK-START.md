@@ -239,6 +239,14 @@ python cli.py pull REMARKs/your-project.yml
 python cli.py lint REMARKs/your-project.yml
 ```
 
+### 3.4 Option: Have an AI generate a compliance checklist
+
+You can use an AI to evaluate your draft and get a checklist of requirements
+satisfied and remaining to-do items. The recommended workflow (clone this
+repo, symlink your draft into the clone, then ask the AI to evaluate the
+linked repo) and a copy-paste prompt are in
+**[guides/ai-compliance-check.md](guides/ai-compliance-check.md)**.
+
 ## Step 4: Tag a Release
 
 Create a tagged release on GitHub:

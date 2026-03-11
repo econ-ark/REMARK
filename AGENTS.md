@@ -78,6 +78,19 @@ All tiers require: tagged release, `Dockerfile`, `reproduce.sh`, `LICENSE`,
   econ-ark.org repo) and REMARK validation (`cli.py` here) are independent.
   A repo can appear on the website without full REMARK compliance.
 
+## Evaluating a Linked Draft REMARK
+
+When the user has created a **symlink** in this repo to their draft REMARK
+and asks you to evaluate it:
+
+1. Read [STANDARD.md](STANDARD.md) and the contents of the linked directory.
+2. For each tier (1, 2, 3), produce: (1) a checklist of requirements
+   **already satisfied**, and (2) a checklist of **remaining items to do**.
+
+See [guides/ai-compliance-check.md](guides/ai-compliance-check.md) for the
+full prompt text and workflow so the user can reuse the same instructions
+in another session if needed.
+
 ## Key Files for Understanding the System
 
 | File | Purpose |

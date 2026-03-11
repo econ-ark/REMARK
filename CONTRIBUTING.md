@@ -7,6 +7,12 @@ Thank you for your interest in contributing to the REMARK catalog!
 If you have a reproducible computational economics project you would like
 to add to the catalog:
 
+**Check your draft before submitting.** You can have an AI generate a
+tier-by-tier compliance checklist before you submit. The AI needs access
+to both your draft repo and this REMARK repo simultaneously; the guide
+explains two symlink strategies and includes a copy-paste prompt. See
+**[Check your draft with AI](guides/ai-compliance-check.md)**.
+
 1. Ensure your project meets the requirements in [STANDARD.md](STANDARD.md)
    for your target tier.
 2. Follow the step-by-step instructions in

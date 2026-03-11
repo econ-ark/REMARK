@@ -33,6 +33,7 @@ This repository is part of the [Econ-ARK](https://econ-ark.org/) project:
 
 - **[STANDARD.md](STANDARD.md)** - Complete REMARK requirements and specifications
 - **[How-To-Make-A-REMARK.md](How-To-Make-A-REMARK.md)** - General guide for creating REMARKs
+- **[Check your draft with AI](guides/ai-compliance-check.md)** - Use an AI to generate a tier compliance checklist for your draft REMARK
 - **[ZENODO-GUIDE.md](ZENODO-GUIDE.md)** - Step-by-step guide for obtaining a Zenodo DOI (Published REMARKs)
 - **[WORKFLOW.md](WORKFLOW.md)** - Detailed workflow documentation
 
