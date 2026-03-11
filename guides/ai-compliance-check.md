@@ -58,8 +58,11 @@ workspace if your tool supports that.
 
 This is the default recommendation because it also lets you run `cli.py
 lint`, which expects to find the draft inside the REMARK working tree.
-Create the symlink inside `_linked/` so it is ignored by git (see
-.gitignore).
+Create the symlink inside `_linked/` so it is ignored by git. This
+repository's `.gitignore` already includes `_linked/`, so your symlink
+will not be committed. If you create the symlink in a different location
+in your local REMARK clone, add that path to the REMARK clone's
+`.gitignore` so the symlink is not committed when you later pull or push.
 
 1. **Clone the REMARK repo** and `cd` into the clone:
 
@@ -113,6 +116,11 @@ as its working directory.
    cd /path/to/your-draft-remark
    ln -s ~/REMARK REMARK-catalog
    ```
+
+   **Add the symlink to your draft repo's `.gitignore`** so that when
+   your repo is incorporated as a REMARK (e.g. submitted to the catalog
+   or pushed to GitHub), the symlink is not committed. For example add
+   a line: `REMARK-catalog` (or whatever name you used for the symlink).
 
 3. **Open your draft repo** as the workspace. The AI can now read your
    files directly and access `REMARK-catalog/STANDARD.md` via the link.
