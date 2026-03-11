@@ -702,3 +702,9 @@ $RECYCLE.BIN/
 *.tmp
 # MyST build outputs
 _build
+method-of-moderation
+SolvingMicroDSOPs*
+HAFiscal*
+MethodOfModeration*
+.cursor*
+.specstory/**
