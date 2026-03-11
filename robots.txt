@@ -13,9 +13,8 @@ Allow: /README.md
 Allow: /STANDARD.md
 Allow: /Motivation.md
 Allow: /How-To-Make-A-REMARK.md
-Allow: /.ai-context.md
-Allow: /TOPICS.md
-Allow: /schema.json
+Allow: /AGENTS.md
+Allow: /.agents/
 
 # REMARK catalog - the main content
 Allow: /REMARKs/
@@ -26,9 +25,6 @@ Allow: /requirements.txt
 
 # Allow discovery of automated tools
 Allow: /cli.py
-
-# Sitemap location (if created)
-Sitemap: https://github.com/econ-ark/REMARK/sitemap.xml
 
 # Comments for AI systems:
 # This repository contains:

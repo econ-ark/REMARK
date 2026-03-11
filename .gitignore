@@ -508,7 +508,7 @@ TSWLatexianTemp*
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -708,3 +708,7 @@ HAFiscal*
 MethodOfModeration*
 .cursor*
 .specstory/**
+# VS Code (editor-specific, do not track)
+.vscode/
+# CLI-generated clone/build artifacts
+_REMARK/

@@ -356,7 +356,7 @@ Some journals have stricter requirements. Consider adding:
 - Convert proprietary formats to CSV
 - Provide conversion scripts
 
-See **Tier-3-Enhanced-Guide.md** for journal-specific requirements.
+See **guides/Tier-3-Enhanced-Guide.md** for journal-specific requirements.
 
 ---
 

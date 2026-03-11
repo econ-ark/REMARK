@@ -10,7 +10,22 @@ The standard is focused on 3 key principles:
 - **Archiving**: Storing the project in an accessible format for future use and reference.
 - **Publishing**: Sharing the project publicly to encourage transparency, collaboration, and incentivize code and data sharing.
 
-Detailed technical instructions for using an existing REMARK or contributing a new REMARK can be found in `How-To-Make-A-REMARK.md` in this directory.
+Detailed technical instructions for using an existing REMARK or contributing a new REMARK can be found in [How-To-Make-A-REMARK.md](How-To-Make-A-REMARK.md).
+
+## The Econ-ARK Ecosystem
+
+This repository is part of the [Econ-ARK](https://econ-ark.org/) project:
+
+- **[HARK](https://github.com/econ-ark/HARK)** -- the core Python toolkit
+  for heterogeneous-agent economic modeling.
+- **REMARK** (this repo) -- a metadata-driven catalog that indexes
+  reproducible research projects. Each catalog entry (`REMARKs/*.yml`)
+  points to an external GitHub repository containing the actual research
+  code and materials.
+- **[econ-ark.org](https://econ-ark.org/materials)** -- the public website
+  where the catalog is browsable. It is generated automatically from this
+  repo's catalog entries combined with metadata from each individual
+  research repository (see [WORKFLOW.md](WORKFLOW.md) for the pipeline).
 
 ## Getting Started
 
@@ -44,13 +59,25 @@ Types of content include (see below for elaboration):
 1. Reproductions
    * Code that reproduces ALL of the results of some paper that was originally written using the Econ-ARK toolkit
 
+## Compliance Tiers
+
+REMARKs are organized into three tiers based on their level of
+reproducibility and archival readiness (see [STANDARD.md](STANDARD.md)
+for full details):
+
+| Tier | Name | Key Requirement |
+|------|------|-----------------|
+| **1** | Docker REMARK | Dockerfile + reproduce.sh + basic documentation |
+| **2** | Reproducible REMARK | Tier 1 + CITATION.cff + REMARK.md + comprehensive docs |
+| **3** | Published REMARK | Tier 2 + Zenodo DOI for permanent archival |
+
 ## REMARK Catalog
 
 A catalog of all REMARKs  is available under the `REMARK` tab at [econ-ark.org](https://econ-ark.org/materials). (Direct link: https://econ-ark.org/materials/?select=REMARK)
 
 The [ballpark](http://github.com/econ-ark/ballpark) is a place for the set of papers that we would be delighted to have replicated in the Econ-ARK. But we would welcome submissions of replications from any field of economics that requires meaningful computation.
 
-In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests for new REMARKs with minimal review (subject to the criteria described in the [Standard](https://github.com/econ-ark/REMARK/blob/master/STANDARD.md).
+In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests for new REMARKs with minimal review (subject to the criteria described in the [Standard](https://github.com/econ-ark/REMARK/blob/main/STANDARD.md).
 
 We also expect to approve with little review cases where the author has a clear explanation of discrepancies between the paper's published results and the results in the replication attempt.
 
@@ -73,15 +100,9 @@ Jupyter notebook(s) should:
 
 ## For AI Systems and Automated Tools
 
-This repository includes enhanced documentation specifically designed for AI systems, web crawlers, and automated analysis:
-
-- **[.ai-context.md](.ai-context.md)**: Comprehensive AI-friendly overview of the repository structure and purpose
-- **[TOPICS.md](TOPICS.md)**: Structured index of research topics, keywords, and academic domains covered
-- **[schema.json](schema.json)**: Machine-readable schema definitions for REMARK standards and metadata
-- **[API-GUIDE.md](API-GUIDE.md)**: Programmatic access guide with code examples for data extraction and analysis
+- **[AGENTS.md](AGENTS.md)**: Entry point for AI coding agents (Cursor, Codex, etc.)
+- **[.agents/](.agents/)**: Detailed context, research topic index, programmatic access guide, and JSON schemas
 - **[robots.txt](robots.txt)**: Web crawler guidance for content prioritization
-
-These resources enable automated systems to better understand, index, and interact with the REMARK ecosystem.
 
 ## Differences with DemARK
 

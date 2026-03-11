@@ -95,7 +95,7 @@ All REMARKs must meet these fundamental requirements:
 - **Specific Git Tag**: The Zenodo archive must correspond to a specific git tag (e.g., `v1.0.0`)
 - **Version Verification**: The tag provides cryptographic proof that the econ-ark fork matches your Zenodo archive exactly
 
-**📋 Complete Step-by-Step Guide**: See [ZENODO-GUIDE.md](ZENODO-GUIDE.md) for detailed instructions with troubleshooting
+**Complete Step-by-Step Guide**: See [ZENODO-GUIDE.md](ZENODO-GUIDE.md) for detailed instructions with troubleshooting
 
 **Quick Process Summary**:
 1. Create a git tag for the version to archive: `git tag -a v1.0.0 -m "Published version"`

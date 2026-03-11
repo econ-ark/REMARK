@@ -2,14 +2,45 @@
 
 The REMARK editor role is responsible for:
 
-1. Guaranteeing that listed REMARKs are compliant
-with the REMARK standard
+1. Guaranteeing that listed REMARKs are compliant with the
+   [REMARK standard](STANDARD.md).
 
-2. Adding the metadata needed for the REMARK to be
-published to the Econ-ARK website.
+2. Adding the metadata needed for the REMARK to be published
+   to the Econ-ARK website.
 
-## Indexing the site
+## Reviewing a Submission
 
-To index a REMARK on the website, add:
-  1. A markdown file with all the required metadata about the REMARK. A template for the metadata file with the required fields is in [this repository](https://github.com/econ-ark/REMARK/blob/master/REMARKs/template.md).
-     - Note: markdown file's `Version` field must correspond to the the tag of the release (see above).
+When an author submits a pull request adding a new `REMARKs/{name}.yml`
+catalog entry:
+
+1. Verify the linked repository meets the requirements for the claimed
+   tier (see [STANDARD.md](STANDARD.md)).
+2. Run `python cli.py lint REMARKs/{name}.yml` to check compliance
+   automatically.
+3. Confirm `reproduce.sh` executes successfully in the provided
+   environment.
+4. Check that `CITATION.cff` and `REMARK.md` (if required by the
+   target tier) are present and well-formed.
+
+## Indexing a REMARK on the Website
+
+The Econ-ARK website at [econ-ark.org/materials](https://econ-ark.org/materials)
+is generated automatically from this repository's catalog entries combined
+with metadata from each individual REMARK repository. See
+[WORKFLOW.md](WORKFLOW.md) for the full pipeline.
+
+To add a REMARK to the catalog, merge the PR that adds its
+`REMARKs/{name}.yml` file. The website will update within 24 hours
+via the automated workflow.
+
+Each catalog entry is a YAML file with at minimum:
+
+```yaml
+name: project-name
+remote: https://github.com/org/repo
+title: Human Readable Title
+```
+
+The website generation script (`populate_remarks.py` in the econ-ark.org
+repo) reads `CITATION.cff` and `REMARK.md` from each linked repository
+to build the material pages.

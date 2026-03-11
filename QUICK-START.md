@@ -18,19 +18,27 @@ This guide walks you through creating and submitting a REMARK (Replication/Explo
 
 ## Step 1: Understand REMARK Standards
 
-A REMARK must have these **required files**:
+All REMARKs must have these **required files** (see [STANDARD.md](STANDARD.md)
+for the full specification):
 
 ```
 your-project/
+├── Dockerfile                # Containerized execution (repo2docker-compatible)
 ├── reproduce.sh              # Script that reproduces ALL results
-├── CITATION.cff              # Bibliographic metadata  
-├── REMARK.md                 # Website metadata + abstract
+├── README.md                 # Project documentation (>= 50 lines for Tier 1)
+├── LICENSE                   # Distribution terms
+├── CITATION.cff              # Bibliographic metadata (Tier 2+; recommended for Tier 1)
+├── REMARK.md                 # Website metadata + abstract (Tier 2+)
 └── binder/
     └── environment.yml       # Environment specification
 ```
 
 **Optional but recommended:**
 - `reproduce_min.sh` - Quick demo version (if full version >5 minutes)
+
+REMARKs are organized into three compliance tiers. This guide targets
+**Tier 2** (Reproducible REMARK). See [STANDARD.md](STANDARD.md) for
+Tier 1 (minimal) and Tier 3 (published with Zenodo DOI) requirements.
 
 ## Step 2: Create Required Files
 
@@ -266,7 +274,7 @@ title: Your Project Title
 ```bash
 git add REMARKs/your-project-name.yml
 git commit -m "Add your-project-name REMARK"
-git push origin master
+git push origin main
 ```
 
 2. Create Pull Request on GitHub with description:
@@ -278,9 +286,12 @@ git push origin master
 **Brief Description:** One sentence describing your contribution
 
 ### Compliance Checklist
+- [x] `Dockerfile` present
 - [x] `reproduce.sh` script works
-- [x] `CITATION.cff` with complete metadata
-- [x] `REMARK.md` with website content
+- [x] `LICENSE` file present
+- [x] `README.md` meets minimum line count for target tier
+- [x] `CITATION.cff` with complete metadata (required for Tier 2+)
+- [x] `REMARK.md` with website content (required for Tier 2+)
 - [x] `binder/environment.yml` with pinned dependencies
 - [x] Tagged release (v1.0.0)
 - [x] All results reproduce successfully
@@ -321,18 +332,20 @@ Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-
 ### Code Organization
 ```
 your-project/
+├── Dockerfile          # Required: containerized execution
+├── reproduce.sh        # Required: main reproduction script
+├── reproduce_min.sh    # Optional: quick demo
+├── README.md           # Required: project documentation
+├── LICENSE             # Required: distribution terms
+├── CITATION.cff        # Required for Tier 2+
+├── REMARK.md           # Required for Tier 2+
 ├── code/               # Analysis scripts
-├── data/              # Small data files or download scripts
-├── figures/           # Generated figures
-├── notebooks/         # Jupyter notebooks  
-├── results/           # Analysis outputs
-├── reproduce.sh       # Main reproduction script
-├── reproduce_min.sh   # Quick demo (optional)
-├── CITATION.cff       # Metadata
-├── REMARK.md          # Website content
-├── README.md          # GitHub documentation
+├── data/               # Small data files or download scripts
+├── figures/            # Generated figures
+├── notebooks/          # Jupyter notebooks
+├── results/            # Analysis outputs
 └── binder/
-    └── environment.yml
+    └── environment.yml # Required: environment specification
 ```
 
 ### Documentation Tips
