@@ -49,8 +49,8 @@ of these you can access and whether you need me to use a different
 workspace layout or point you at specific paths.
 ```
 
-Replace `[SYMLINK_NAME]` with the name of the symlink (e.g. `MyDraftRemark`
-or `REMARK-catalog`). If the AI reports that it cannot see one of the
+Replace `[SYMLINK_NAME]` with the path to the linked repo (e.g.
+`_linked/MyDraftRemark` or `REMARK-catalog`). If the AI reports that it cannot see one of the
 repos, try the other strategy or open both folders in a multi-root
 workspace if your tool supports that.
 
@@ -58,6 +58,8 @@ workspace if your tool supports that.
 
 This is the default recommendation because it also lets you run `cli.py
 lint`, which expects to find the draft inside the REMARK working tree.
+Create the symlink inside `_linked/` so it is ignored by git (see
+.gitignore).
 
 1. **Clone the REMARK repo** and `cd` into the clone:
 
@@ -66,16 +68,18 @@ lint`, which expects to find the draft inside the REMARK working tree.
    cd REMARK
    ```
 
-2. **Create a symbolic link** to your draft. Use as the link name the
-   same `name` you will use in `REMARKs/{name}.yml`:
+2. **Create a symbolic link** to your draft inside the ignored `_linked/`
+   directory. Use as the link name the same `name` you will use in
+   `REMARKs/{name}.yml`:
 
    ```bash
-   ln -s /absolute/path/to/your-draft-remark MyDraftRemark
+   mkdir -p _linked
+   ln -s /absolute/path/to/your-draft-remark _linked/MyDraftRemark
    ```
 
 3. **Open the REMARK clone** as the workspace in your AI environment.
    The AI can now read `STANDARD.md` directly and inspect your draft
-   under `MyDraftRemark/`.
+   under `_linked/MyDraftRemark/`.
 
 4. **(Optional)** Add a temporary catalog entry so you can also run
    the CLI linter:
@@ -117,7 +121,7 @@ as its working directory.
 
 | | Strategy A (REMARK is root) | Strategy B (draft is root) |
 |-|---------------------------|--------------------------|
-| **AI reads your draft** | Via symlink (may not be indexed by some tools) | Directly (full indexing) |
+| **AI reads your draft** | Via symlink at `_linked/` (git-ignored) | Directly (full indexing) |
 | **AI reads STANDARD.md** | Directly | Via symlink |
 | **`cli.py lint` works** | Yes | No |
 | **Best when** | You want both AI + CLI checks | Your tool does not index symlinks well |
@@ -129,9 +133,9 @@ files through the symlink, switch to Strategy B and point the AI at
 ## Prompt to Give the AI
 
 After setting up either strategy, paste the following into your AI
-assistant. Substitute **\[NAME]** with the symlink or directory name
-for your draft (e.g. `MyDraftRemark` in Strategy A, or `.` in
-Strategy B), and **\[TARGET_TIER]** with 1, 2, or 3.
+assistant. Substitute **\[NAME]** with the path to your draft (e.g.
+`_linked/MyDraftRemark` in Strategy A, or `.` in Strategy B), and
+**\[TARGET_TIER]** with 1, 2, or 3.
 
 ```
 I have created a symbolic link named [NAME] in this repository that

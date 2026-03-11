@@ -712,3 +712,5 @@ MethodOfModeration*
 .vscode/
 # CLI-generated clone/build artifacts
 _REMARK/
+# User-created symlinks for AI compliance check (see guides/ai-compliance-check.md)
+_linked/
