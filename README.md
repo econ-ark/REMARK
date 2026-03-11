@@ -41,7 +41,7 @@ This repository is part of the [Econ-ARK](https://econ-ark.org/) project:
 
 1. **Standard REMARK** (basic reproducible project):
    - Follow [STANDARD.md](STANDARD.md) requirements
-   - Create `reproduce.sh`, `CITATION.cff`, `binder/environment.yml`
+   - Create `reproduce.sh`, `CITATION.cff`, `binder/environment.yml`, and a lockfile with pinned dependencies
    - Submit via pull request
 
 2. **Published REMARK** (permanent archival with DOI):

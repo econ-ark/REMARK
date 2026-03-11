@@ -168,7 +168,8 @@ Summary of requirements (see [STANDARD.md](../STANDARD.md) for full text):
 
 | Area | All tiers | Tier 1 | Tier 2 | Tier 3 |
 |------|-----------|--------|--------|--------|
-| **Base** | Tagged release; Dockerfile; reproduce.sh; README.md; LICENSE; binder/environment.yml | README >= 50 lines | README >= 100 lines; REMARK.md; CITATION.cff required | Tier 2 + REMARK.md with `tier: 3`; Zenodo DOI; git tag matching archive |
+| **Base files** | Tagged release; Dockerfile; reproduce.sh; README.md; LICENSE; binder/environment.yml | README >= 50 lines | README >= 100 lines; REMARK.md; CITATION.cff required | Tier 2 + REMARK.md with `tier: 3`; Zenodo DOI; git tag matching archive |
+| **Pinned deps** | Lockfile with exact versions committed (uv.lock, poetry.lock, compiled requirements.txt, fully pinned environment.yml, or conda-lock.yml) | same | same | same |
 | **Optional** | reproduce_min.sh | CITATION.cff recommended | -- | -- |
 
 The AI reads STANDARD.md and your repo to fill in the checklist; there

@@ -65,7 +65,8 @@ REMARKs are organized into three compliance tiers (defined in `STANDARD.md`):
 | **Tier 3** | Published REMARK | + Zenodo DOI + specific git tag |
 
 All tiers require: tagged release, `Dockerfile`, `reproduce.sh`, `LICENSE`,
-`binder/environment.yml`.
+`binder/environment.yml`, and a committed lockfile with pinned dependency
+versions (`uv.lock`, `poetry.lock`, compiled `requirements.txt`, etc.).
 
 ## Common Pitfalls
 

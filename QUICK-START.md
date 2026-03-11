@@ -29,8 +29,10 @@ your-project/
 ├── LICENSE                   # Distribution terms
 ├── CITATION.cff              # Bibliographic metadata (Tier 2+; recommended for Tier 1)
 ├── REMARK.md                 # Website metadata + abstract (Tier 2+)
+├── pyproject.toml            # Dependency specification (if using uv/poetry)
+├── uv.lock                   # Lockfile with pinned versions (or poetry.lock, etc.)
 └── binder/
-    └── environment.yml       # Environment specification
+    └── environment.yml       # Environment specification / adapter
 ```
 
 **Optional but recommended:**
@@ -154,9 +156,61 @@ List the data sources used:
 If you use this code, please cite both this repository and the original paper(s).
 ```
 
-### 2.4 Create `binder/environment.yml`
+### 2.4 Pin Your Dependencies
 
-Specify your computational environment:
+Every REMARK must have a **lockfile** (or equivalent) that records exact
+versions for all dependencies. This prevents future package releases from
+silently breaking your results.
+
+**Recommended approach -- `uv` (new projects):**
+
+1. Add a `pyproject.toml` with your dependencies:
+
+```toml
+[project]
+name = "your-project"
+requires-python = ">=3.10"
+dependencies = [
+    "econ-ark>=0.14",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "jupyter",
+]
+```
+
+2. Generate and commit the lockfile:
+
+```bash
+uv lock            # creates uv.lock with exact resolved versions
+git add uv.lock    # commit the lockfile!
+```
+
+3. Create `binder/environment.yml` as a minimal adapter:
+
+```yaml
+name: your-project
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+    - uv
+```
+
+4. In `reproduce.sh`, install from the lockfile:
+
+```bash
+#!/bin/bash
+uv sync --locked
+uv run python code/main.py
+```
+
+**Alternative -- fully pinned conda environment (no extra tool):**
+
+If you prefer plain conda, pin every version directly in
+`binder/environment.yml`:
 
 ```yaml
 name: your-project
@@ -164,18 +218,20 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
+  - python=3.9.18
   - numpy=1.21.0
   - pandas=1.3.0
   - matplotlib=3.4.2
   - jupyter=1.0.0
   - pip
   - pip:
-    - econ-ark==0.12.0  # If using HARK
+    - econ-ark==0.12.0
     - specific-package==1.2.3
 ```
 
-**Pin your versions** for reproducibility!
+Other acceptable tools include `poetry` (with `poetry.lock`), `pip-tools`
+(with a compiled `requirements.txt`), or `conda-lock`. See
+[STANDARD.md](STANDARD.md) for the full specification.
 
 ### 2.5 Optional: Create `reproduce_min.sh`
 
@@ -300,7 +356,8 @@ git push origin main
 - [x] `README.md` meets minimum line count for target tier
 - [x] `CITATION.cff` with complete metadata (required for Tier 2+)
 - [x] `REMARK.md` with website content (required for Tier 2+)
-- [x] `binder/environment.yml` with pinned dependencies
+- [x] `binder/environment.yml` present
+- [x] Lockfile with pinned dependencies committed (uv.lock, poetry.lock, etc.)
 - [x] Tagged release (v1.0.0)
 - [x] All results reproduce successfully
 ```
@@ -324,7 +381,8 @@ Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-
 **Solution:** Use `python cli.py lint` to identify missing files
 
 ### Issue: Environment specification problems
-**Solution:** Pin all package versions in `binder/environment.yml`
+**Solution:** Use `uv lock` (or equivalent) to generate a lockfile with exact
+pinned versions, then commit it. See section 2.4 and [STANDARD.md](STANDARD.md).
 
 ### Issue: Large data files
 **Solution:** 
@@ -347,13 +405,15 @@ your-project/
 ├── LICENSE             # Required: distribution terms
 ├── CITATION.cff        # Required for Tier 2+
 ├── REMARK.md           # Required for Tier 2+
+├── pyproject.toml      # Recommended: dependency specification (uv/poetry)
+├── uv.lock             # Required: lockfile with pinned versions
 ├── code/               # Analysis scripts
 ├── data/               # Small data files or download scripts
 ├── figures/            # Generated figures
 ├── notebooks/          # Jupyter notebooks
 ├── results/            # Analysis outputs
 └── binder/
-    └── environment.yml # Required: environment specification
+    └── environment.yml # Required: environment specification / adapter
 ```
 
 ### Documentation Tips
@@ -363,7 +423,10 @@ your-project/
 - **Hardware requirements** - Note if special requirements exist
 
 ### Reproducibility Tips
-- **Pin all versions** in environment.yml
+- **Pin all versions** via a lockfile (`uv.lock`, `poetry.lock`, etc.) --
+  this is a requirement, not just a suggestion
+- **Commit the lockfile** to your repository so reviewers and users get
+  the exact same dependency versions
 - **Document data sources** with URLs and access dates
 - **Test on different systems** if possible
 - **Clear error messages** in scripts

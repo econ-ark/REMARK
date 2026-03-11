@@ -45,7 +45,10 @@ The repository catalogs three types of computational economics projects:
 ## Compliance Tiers (from STANDARD.md)
 
 REMARKs are organized into three tiers. All tiers require: tagged release,
-`Dockerfile`, `reproduce.sh`, `README.md`, `LICENSE`, `binder/environment.yml`.
+`Dockerfile`, `reproduce.sh`, `README.md`, `LICENSE`, `binder/environment.yml`,
+and a committed lockfile with pinned dependency versions (e.g. `uv.lock`,
+`poetry.lock`, compiled `requirements.txt`, fully pinned `environment.yml`,
+or `conda-lock.yml`). `uv` is recommended for new projects; see `STANDARD.md`.
 
 | Tier | Name | Additional Requirements |
 |------|------|------------------------|
