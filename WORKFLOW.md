@@ -223,17 +223,18 @@ The `populate_remarks.py` script combines metadata with this priority:
 
 ### For New REMARKs
 
-1. **Prepare repository** meeting REMARK standards
-2. **Submit PR** to REMARK repo adding `REMARKs/{name}.yml`
-3. **Editorial review** checks compliance
-4. **Merge PR** adds to catalog
-5. **Automated integration** generates website content
+1. **Prepare repository** meeting REMARK standards (your repo stays under your GitHub identity).
+2. **Submit PR** to REMARK repo adding `REMARKs/{name}.yml` that points to your repository.
+3. **Editorial review** checks compliance (e.g. `cli.py lint`, `reproduce.sh` runs).
+4. **Merge PR** adds the entry to the catalog.
+5. **On acceptance**, Econ-ARK will create a fork of your repository to preserve the state at which it was tested and verified to work; the catalog (and website) will then point to that fork until you submit a new version. You keep full ownership and can submit updated versions later.
+6. **Automated integration** (e.g. `populate_remarks.py`) generates website content from the catalog; your REMARK appears on econ-ark.org/materials (typically within 24 hours), serving content from the fork.
 
 ### For Updates
 
-1. **Update individual repository** (tag new release)
-2. **Website auto-updates** within 24 hours via scheduled workflow
-3. **Manual trigger** available via GitHub Actions
+1. **Update your repository** (e.g. tag a new release).
+2. **Submit a PR** to REMARK that updates the catalog entry for the new version.
+3. Econ-ARK **will** update the fork (and the website will continue to show the fork) as long as `reproduce.sh` runs successfully and the revised draft still meets REMARK requirements.
 
 ## Common Issues and Solutions
 

@@ -71,7 +71,12 @@ or `conda-lock.yml`). `uv` is recommended for new projects; see `STANDARD.md`.
 
 ## Governance & Quality Control
 
-- Pull request-based submission process
+- Pull request-based submission process: authors add a catalog entry
+  (`REMARKs/{name}.yml`) pointing to their repo via PR; on acceptance,
+  Econ-ARK will fork the author's repo and the catalog/website point to that
+  fork until the author submits a new version; Econ-ARK will then update the
+  fork as long as `reproduce.sh` runs and the draft still meets REMARK requirements.
+  Authors keep ownership.
 - Editorial review for standard compliance
 - Public catalog at econ-ark.org/materials
 - Minimal review for successful replications

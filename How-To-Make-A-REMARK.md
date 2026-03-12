@@ -12,6 +12,8 @@ your own.
 
 REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMARK/blob/main/STANDARD.md).
 
+To submit your REMARK, open a pull request to this repository that adds a catalog entry (`REMARKs/your-project-name.yml`) pointing to your repository. You keep ownership of your repo. On acceptance, Econ-ARK will fork your repository and the website will point to that fork until you submit a new version; when you do, we will update the fork as long as `reproduce.sh` runs and the draft still meets REMARK requirements. See [STANDARD.md](STANDARD.md) § Submitting a REMARK.
+
 ## For Editors
 
 The REMARK catalog and Econ-ARK website configuration will be maintained by Editors.

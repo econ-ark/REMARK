@@ -42,12 +42,12 @@ This repository is part of the [Econ-ARK](https://econ-ark.org/) project:
 1. **Standard REMARK** (basic reproducible project):
    - Follow [STANDARD.md](STANDARD.md) requirements
    - Create `reproduce.sh`, `CITATION.cff`, `binder/environment.yml`, and a lockfile with pinned dependencies
-   - Submit via pull request
+   - Submit via pull request (add `REMARKs/your-project.yml` pointing to your repo). On acceptance, Econ-ARK will fork your repo and the website will point to that fork until you submit a new version; when you do, we will update as long as `reproduce.sh` runs and the draft still meets REMARK requirements. You keep ownership.
 
 2. **Published REMARK** (permanent archival with DOI):
-   - Meet all Standard REMARK requirements
-   - Follow [ZENODO-GUIDE.md](ZENODO-GUIDE.md) to obtain DOI (30-45 minutes)
-   - Submit via pull request with DOI
+   - Meet all Standard REMARK requirements first
+   - **Then** obtain a Zenodo DOI using [ZENODO-GUIDE.md](ZENODO-GUIDE.md) (30–45 min)—this should be the **last step** before you submit
+   - Submit via pull request with the DOI. On acceptance, Econ-ARK will fork your repo and the website will point to that fork until you submit a new version; when you do, we will update as long as `reproduce.sh` runs and the draft still meets REMARK requirements. You keep ownership.
 
 ## Description
 
@@ -78,7 +78,7 @@ A catalog of all REMARKs  is available under the `REMARK` tab at [econ-ark.org](
 
 The [ballpark](http://github.com/econ-ark/ballpark) is a place for the set of papers that we would be delighted to have replicated in the Econ-ARK. But we would welcome submissions of replications from any field of economics that requires meaningful computation.
 
-In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests for new REMARKs with minimal review (subject to the criteria described in the [Standard](https://github.com/econ-ark/REMARK/blob/main/STANDARD.md).
+In cases where the replication's author is satisfied that the main results of the paper have been successfully replicated, we expect to approve pull requests for new REMARKs with minimal review (subject to the criteria described in the [Standard](https://github.com/econ-ark/REMARK/blob/main/STANDARD.md)). On acceptance, Econ-ARK will fork your repository and the website will point to that fork until you submit a new version; when you do, we will update the fork as long as `reproduce.sh` runs and the revised draft still meets REMARK requirements. You keep full ownership.
 
 We also expect to approve with little review cases where the author has a clear explanation of discrepancies between the paper's published results and the results in the replication attempt.
 

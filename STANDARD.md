@@ -158,6 +158,8 @@ that satisfies requirement 3 above.
 
 **Complete Step-by-Step Guide**: See [ZENODO-GUIDE.md](ZENODO-GUIDE.md) for detailed instructions with troubleshooting
 
+**When to obtain the Zenodo DOI:** Do this **only after** your REMARK fully meets all Tier 2 requirements (reproduce.sh works, documentation complete, tagged release, etc.). Obtaining the Zenodo DOI should be the **very last thing** you do before submitting your REMARK for incorporation into the Econ-ARK ecosystem—so the archived version matches what you submit.
+
 **Quick Process Summary**:
 1. Create a git tag for the version to archive: `git tag -a v1.0.0 -m "Published version"`
 2. Push the tag to GitHub: `git push origin v1.0.0`
@@ -179,9 +181,35 @@ that satisfies requirement 3 above.
 
 ## Submitting a REMARK
 
-To index your repository as a REMARK, please file a Pull Request in [this repository](https://github.com/econ-ark/REMARK).
-Your Pull Request should either create a new catalog entry or increment the existing version entry for your REMARK.
+### What you do
 
-Once you open a Pull Request, the Econ-ARK team will review your submission to ensure that your `reproduce.sh` script
-is able to run in the provided environment. If you would like to test this process on your own, you may clone this
-repository, update the cataloged version, and build/execute your REMARK using the provided `cli.py` script.
+1. **Fork this repository** (the REMARK catalog: [github.com/econ-ark/REMARK](https://github.com/econ-ark/REMARK)).
+2. **Add a catalog entry** for your REMARK: create or update a file under `REMARKs/` (e.g. `REMARKs/your-project-name.yml`) that points to **your** repository. The entry stays minimal, for example:
+
+   ```yaml
+   name: your-project-name
+   remote: https://github.com/your-username/your-repo
+   title: Your Project Title
+   ```
+
+   Use your own GitHub (or organization) URL—the REMARK content stays under your account.
+3. **Open a Pull Request** against the REMARK repository with that single change (the new or updated `.yml` file).
+
+**Tier 3 (Published REMARK) authors:** Complete all Tier 3 requirements and obtain your Zenodo DOI **before** opening the pull request. Getting the Zenodo DOI should be the last step before you submit—once you have the DOI and have added it to your CITATION.cff, you are ready to submit.
+
+You do **not** transfer your repository to Econ-ARK. You do **not** need to fork your own repo into the econ-ark organization. You only add a pointer (the catalog entry) in the REMARK catalog.
+
+### What happens on acceptance
+
+Once your Pull Request is accepted and merged:
+
+- The Econ-ARK team **will** create a **fork** of your repository under the econ-ark organization. That fork preserves the state of your repo at the point where it was tested and verified to work.
+- The catalog (and thus the website at econ-ark.org/materials) **will point to the fork**, not your original repo, until there is a newly released version. That way users always see the tested, verified snapshot.
+- **You keep full ownership of your repository** and can continue to develop it, fix bugs, or add features.
+- If you release an updated version (e.g. a new tag), submit a follow-up PR to the REMARK catalog. Econ-ARK **will** update the fork (and the catalog will continue to point to it) as long as `reproduce.sh` runs successfully and the revised draft still meets the requirements for your target tier.
+
+So: you notify the REMARK team when you have a REMARK ready for inclusion by submitting the catalog PR; if it is assessed as meeting the requirements for your target tier, acceptance means it is listed, forked by Econ-ARK, and the website points to the fork until you submit a new version—at which point we will update as long as reproduction and compliance still hold.
+
+### Review and testing
+
+When you open a Pull Request, the Econ-ARK team will review your submission and ensure that your `reproduce.sh` script runs successfully in the provided environment. If you would like to test this process on your own, you may clone this repository, add a temporary catalog entry for your REMARK, and build/execute it using the provided `cli.py` script.

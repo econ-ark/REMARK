@@ -2,7 +2,7 @@
 
 **Complete step-by-step guide for obtaining a permanent Zenodo DOI for your REMARK**
 
-For Published REMARKs, a permanent Zenodo DOI is required. This guide walks you through the entire process.
+For Published REMARKs (Tier 3), a permanent Zenodo DOI is required. **Obtain your Zenodo DOI only after your REMARK is otherwise complete**—it should be the **very last thing you do** before submitting your REMARK for incorporation into the Econ-ARK ecosystem. That way the archived version matches exactly what you submit. This guide walks you through the process.
 
 ---
 
@@ -21,7 +21,7 @@ For Published REMARKs, a permanent Zenodo DOI is required. This guide walks you 
 
 Before starting, ensure you have:
 
-- ✅ A REMARK repository that meets Standard REMARK requirements
+- ✅ A REMARK repository that **fully meets** Standard (Tier 2) REMARK requirements and is ready to submit—Zenodo DOI is the last step before submission
 - ✅ GitHub repository is public (Zenodo cannot archive private repos)
 - ✅ No uncommitted changes in your repository
 - ✅ `CITATION.cff` file with complete metadata
@@ -589,6 +589,10 @@ Plan carefully before creating releases.
 
 **A**: No. Zenodo DOI is **only required for Published REMARKs**. Standard REMARKs can be submitted without a DOI.
 
+### Q: When should I obtain my Zenodo DOI?
+
+**A**: **Only after** your REMARK fully meets all other Tier 3 requirements (reproduce.sh works, documentation complete, tagged release, etc.). Obtaining the Zenodo DOI should be the **very last thing** you do before submitting your REMARK for incorporation into the Econ-ARK ecosystem—so the archived version matches exactly what you submit.
+
 ### Q: Can I use a different archive service?
 
 **A**: Zenodo is preferred for REMARKs because:
@@ -603,9 +607,9 @@ Other services (Figshare, OSF) can work but require manual steps.
 ### Q: What's the difference between the econ-ark fork and Zenodo?
 
 **A**: 
-- **econ-ark fork**: Live repository that can be updated
-- **Zenodo archive**: Frozen snapshot at specific version
-- Both should have identical content at the tagged commit
+- **econ-ark fork**: Created by Econ-ARK on acceptance to preserve the state at which the REMARK was tested and verified. The catalog and website point to this fork until the author submits a new version; Econ-ARK will then update the fork as long as `reproduce.sh` runs and the draft still meets REMARK requirements.
+- **Zenodo archive**: Frozen snapshot at a specific version (immutable).
+- Both should have identical content at the tagged commit at the time of acceptance.
 
 ### Q: How do I cite a Zenodo-archived REMARK?
 

@@ -315,7 +315,13 @@ git push origin v1.0.0
 
 Or use GitHub's web interface: Releases → Create a new release
 
+**If you are targeting Tier 3 (Published REMARK):** Obtain your Zenodo DOI **now**—after this tag, and before you submit. Getting the Zenodo DOI should be the **very last thing** you do before submitting to the Econ-ARK catalog. Follow [ZENODO-GUIDE.md](ZENODO-GUIDE.md), then return here for Step 5.
+
 ## Step 5: Submit to REMARK Catalog
+
+**Tier 3 authors:** You should have already obtained your Zenodo DOI and added it to CITATION.cff (the last step before submitting). If not, complete [ZENODO-GUIDE.md](ZENODO-GUIDE.md) before opening your pull request.
+
+You will fork the **REMARK catalog** repo and add a single file (a `.yml` entry) that points to **your** repository. Your REMARK content stays under your GitHub account; you do not transfer or re-host your repo. After acceptance, Econ-ARK will fork your repo and the website will point to that fork until you submit a new version; when you do, we will update the fork as long as `reproduce.sh` works and the draft still meets REMARK requirements. Full details: [STANDARD.md](STANDARD.md) § Submitting a REMARK.
 
 ### 5.1 Fork the REMARK repository
 
@@ -370,7 +376,7 @@ Editors will:
 3. Check metadata completeness
 4. Provide feedback if changes needed
 
-Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-ark.org/materials) within 24 hours!
+On acceptance, your REMARK is added to the catalog and will appear on [econ-ark.org/materials](https://econ-ark.org/materials) (typically within 24 hours). Econ-ARK will create a fork of your repository to preserve the state at which it was tested and verified to work, and the website will point to that fork until you submit a new version. You keep full ownership of your repo. When you submit an updated version (e.g. a new tag), we will update the fork as long as `reproduce.sh` runs and the revised draft still meets REMARK requirements.
 
 ## Common Issues and Solutions
 

@@ -18,7 +18,13 @@ explains two symlink strategies and includes a copy-paste prompt. See
 2. Follow the step-by-step instructions in
    [QUICK-START.md](QUICK-START.md) or [How-To-Make-A-REMARK.md](How-To-Make-A-REMARK.md).
 3. Submit a pull request adding a `REMARKs/{your-project}.yml` catalog
-   entry to this repository.
+   entry to this repository. The entry points to **your** repository (your
+   GitHub identity); you keep ownership. On acceptance, Econ-ARK will fork
+   your repo to preserve the state at which it was tested and verified to
+   work; the catalog and website will then point to that fork until you
+   submit a new version. When you submit a new version, Econ-ARK will
+   update the fork as long as `reproduce.sh` runs and the draft still
+   meets REMARK requirements. See [STANDARD.md](STANDARD.md) § Submitting a REMARK.
 
 ## Improving This Repository
 

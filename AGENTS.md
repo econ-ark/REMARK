@@ -72,6 +72,12 @@ versions (`uv.lock`, `poetry.lock`, compiled `requirements.txt`, etc.).
 
 - **This is a catalog, not a code repository.** The actual model code lives in
   external repos. Do not look for economic model implementations here.
+- **Submission workflow:** Authors submit a PR adding a `REMARKs/{name}.yml` entry
+  that points to their repository (they keep ownership). On acceptance, Econ-ARK
+  will fork the author's repo; the catalog and website point to that fork until
+  the author submits a new version, at which point Econ-ARK will update the fork
+  as long as `reproduce.sh` runs and the draft still meets REMARK requirements.
+  See [STANDARD.md](STANDARD.md) § Submitting a REMARK.
 - **`_REMARK/`** is a temporary workspace created by `cli.py`. Ignore it.
 - **`REMARKs/` contains `.yml` files, not `.md` files.** The `.yml` files are
   the catalog entries; `.md` content lives in the individual research repos.
