@@ -508,7 +508,7 @@ TSWLatexianTemp*
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -702,3 +702,16 @@ $RECYCLE.BIN/
 *.tmp
 # MyST build outputs
 _build
+method-of-moderation
+SolvingMicroDSOPs*
+HAFiscal*
+MethodOfModeration*
+.cursor*
+.specstory/**
+# VS Code (editor-specific, do not track)
+.vscode/
+# CLI-generated clone/build artifacts
+_REMARK/
+# User-created symlinks for AI compliance check (see guides/ai-compliance-check.md)
+_linked/
+econ-ark.org

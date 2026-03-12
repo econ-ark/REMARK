@@ -32,7 +32,11 @@
 docker build -t [project-name]:latest .
 docker run --rm [project-name]:latest
 
-# Native
+# Native (uv -- recommended)
+uv sync --locked
+uv run ./reproduce.sh
+
+# Native (conda)
 conda env create -f binder/environment.yml
 conda activate [env-name]
 ./reproduce.sh
@@ -47,11 +51,11 @@ conda activate [env-name]
 ### Core Software
 
 - **Python**: 3.9+ (tested with 3.9.6)
-- **Key Packages** (tested versions):
-  - `econ-ark==0.14.1` (exact - critical for results)
-  - `numpy>=1.24,<2` (range acceptable)
-  - `pandas>=2.0` (range acceptable)
-  - See `binder/environment.yml` for complete list
+- **Key Packages** (exact pinned versions from lockfile):
+  - `econ-ark==0.14.1`
+  - `numpy==1.26.4`
+  - `pandas==2.2.1`
+  - See `uv.lock` (or equivalent lockfile) for the complete resolved set
 
 ### Platform Compatibility
 
@@ -170,7 +174,9 @@ If data requires external access:
 │   ├── figures/                 # Generated figures
 │   └── tables/                  # Generated tables
 ├── binder/
-│   └── environment.yml          # Complete environment spec
+│   └── environment.yml          # Environment spec / adapter
+├── pyproject.toml               # Dependency specification (if using uv/poetry)
+├── uv.lock                      # Lockfile with pinned versions
 ├── Dockerfile                   # Docker configuration
 ├── reproduce.sh                 # Master reproduction script
 ├── reproduce_min.sh             # Quick verification
@@ -356,7 +362,7 @@ Some journals have stricter requirements. Consider adding:
 - Convert proprietary formats to CSV
 - Provide conversion scripts
 
-See **Tier-3-Enhanced-Guide.md** for journal-specific requirements.
+See **guides/Tier-3-Enhanced-Guide.md** for journal-specific requirements.
 
 ---
 
