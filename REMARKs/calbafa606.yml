@@ -1,19 +1,2 @@
-name: calbafa606
-title: "Monetary Policy Surprises and Macroeconomic Outcomes in Mexico"
-author: "Carlos Alba"
-
-description: >
-  This project studies the effects of high-frequency monetary policy surprises,
-  decomposed into target rate and forward guidance shocks, on macroeconomic and financial variables.
-
-repo_url: https://github.com/Calbafa/calbafa606
-
-category: monetary
-
-tags:
-  - monetary policy
-  - high-frequency identification
-  - forward guidance
-  - empirical macro
-
-status: in-progress
+remote: https://github.com/Calbafa/calbafa606
+title: "Disentangling Monetary Policy, Central Bank Information, and Response-to-News Shocks: Evidence from Mexico"
