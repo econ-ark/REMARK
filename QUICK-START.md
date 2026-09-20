@@ -18,19 +18,29 @@ This guide walks you through creating and submitting a REMARK (Replication/Explo
 
 ## Step 1: Understand REMARK Standards
 
-A REMARK must have these **required files**:
+All REMARKs must have these **required files** (see [STANDARD.md](STANDARD.md)
+for the full specification):
 
 ```
 your-project/
+├── Dockerfile                # Containerized execution (repo2docker-compatible)
 ├── reproduce.sh              # Script that reproduces ALL results
-├── CITATION.cff              # Bibliographic metadata  
-├── REMARK.md                 # Website metadata + abstract
+├── README.md                 # Project documentation (>= 50 lines for Tier 1)
+├── LICENSE                   # Distribution terms
+├── CITATION.cff              # Bibliographic metadata (Tier 2+; recommended for Tier 1)
+├── REMARK.md                 # Website metadata + abstract (Tier 2+)
+├── pyproject.toml            # Dependency specification (if using uv/poetry)
+├── uv.lock                   # Lockfile with pinned versions (or poetry.lock, etc.)
 └── binder/
-    └── environment.yml       # Environment specification
+    └── environment.yml       # Environment specification / adapter
 ```
 
 **Optional but recommended:**
 - `reproduce_min.sh` - Quick demo version (if full version >5 minutes)
+
+REMARKs are organized into three compliance tiers. This guide targets
+**Tier 2** (Reproducible REMARK). See [STANDARD.md](STANDARD.md) for
+Tier 1 (minimal) and Tier 3 (published with Zenodo DOI) requirements.
 
 ## Step 2: Create Required Files
 
@@ -146,9 +156,61 @@ List the data sources used:
 If you use this code, please cite both this repository and the original paper(s).
 ```
 
-### 2.4 Create `binder/environment.yml`
+### 2.4 Pin Your Dependencies
 
-Specify your computational environment:
+Every REMARK must have a **lockfile** (or equivalent) that records exact
+versions for all dependencies. This prevents future package releases from
+silently breaking your results.
+
+**Recommended approach -- `uv` (new projects):**
+
+1. Add a `pyproject.toml` with your dependencies:
+
+```toml
+[project]
+name = "your-project"
+requires-python = ">=3.10"
+dependencies = [
+    "econ-ark>=0.14",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "jupyter",
+]
+```
+
+2. Generate and commit the lockfile:
+
+```bash
+uv lock            # creates uv.lock with exact resolved versions
+git add uv.lock    # commit the lockfile!
+```
+
+3. Create `binder/environment.yml` as a minimal adapter:
+
+```yaml
+name: your-project
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+    - uv
+```
+
+4. In `reproduce.sh`, install from the lockfile:
+
+```bash
+#!/bin/bash
+uv sync --locked
+uv run python code/main.py
+```
+
+**Alternative -- fully pinned conda environment (no extra tool):**
+
+If you prefer plain conda, pin every version directly in
+`binder/environment.yml`:
 
 ```yaml
 name: your-project
@@ -156,18 +218,20 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.9
+  - python=3.9.18
   - numpy=1.21.0
   - pandas=1.3.0
   - matplotlib=3.4.2
   - jupyter=1.0.0
   - pip
   - pip:
-    - econ-ark==0.12.0  # If using HARK
+    - econ-ark==0.12.0
     - specific-package==1.2.3
 ```
 
-**Pin your versions** for reproducibility!
+Other acceptable tools include `poetry` (with `poetry.lock`), `pip-tools`
+(with a compiled `requirements.txt`), or `conda-lock`. See
+[STANDARD.md](STANDARD.md) for the full specification.
 
 ### 2.5 Optional: Create `reproduce_min.sh`
 
@@ -231,6 +295,14 @@ python cli.py pull REMARKs/your-project.yml
 python cli.py lint REMARKs/your-project.yml
 ```
 
+### 3.4 Option: Have an AI generate a compliance checklist
+
+You can use an AI to evaluate your draft and get a checklist of requirements
+satisfied and remaining to-do items. The recommended workflow (clone this
+repo, symlink your draft into the clone, then ask the AI to evaluate the
+linked repo) and a copy-paste prompt are in
+**[guides/ai-compliance-check.md](guides/ai-compliance-check.md)**.
+
 ## Step 4: Tag a Release
 
 Create a tagged release on GitHub:
@@ -243,7 +315,13 @@ git push origin v1.0.0
 
 Or use GitHub's web interface: Releases → Create a new release
 
+**If you are targeting Tier 3 (Published REMARK):** Obtain your Zenodo DOI **now**—after this tag, and before you submit. Getting the Zenodo DOI should be the **very last thing** you do before submitting to the Econ-ARK catalog. Follow [ZENODO-GUIDE.md](ZENODO-GUIDE.md), then return here for Step 5.
+
 ## Step 5: Submit to REMARK Catalog
+
+**Tier 3 authors:** You should have already obtained your Zenodo DOI and added it to CITATION.cff (the last step before submitting). If not, complete [ZENODO-GUIDE.md](ZENODO-GUIDE.md) before opening your pull request.
+
+You will fork the **REMARK catalog** repo and add a single file (a `.yml` entry) that points to **your** repository. Your REMARK content stays under your GitHub account; you do not transfer or re-host your repo. After acceptance, Econ-ARK will fork your repo and the website will point to that fork until you submit a new version; when you do, we will update the fork as long as `reproduce.sh` works and the draft still meets REMARK requirements. Full details: [STANDARD.md](STANDARD.md) § Submitting a REMARK.
 
 ### 5.1 Fork the REMARK repository
 
@@ -266,7 +344,7 @@ title: Your Project Title
 ```bash
 git add REMARKs/your-project-name.yml
 git commit -m "Add your-project-name REMARK"
-git push origin master
+git push origin main
 ```
 
 2. Create Pull Request on GitHub with description:
@@ -278,10 +356,14 @@ git push origin master
 **Brief Description:** One sentence describing your contribution
 
 ### Compliance Checklist
+- [x] `Dockerfile` present
 - [x] `reproduce.sh` script works
-- [x] `CITATION.cff` with complete metadata
-- [x] `REMARK.md` with website content
-- [x] `binder/environment.yml` with pinned dependencies
+- [x] `LICENSE` file present
+- [x] `README.md` meets minimum line count for target tier
+- [x] `CITATION.cff` with complete metadata (required for Tier 2+)
+- [x] `REMARK.md` with website content (required for Tier 2+)
+- [x] `binder/environment.yml` present
+- [x] Lockfile with pinned dependencies committed (uv.lock, poetry.lock, etc.)
 - [x] Tagged release (v1.0.0)
 - [x] All results reproduce successfully
 ```
@@ -294,7 +376,7 @@ Editors will:
 3. Check metadata completeness
 4. Provide feedback if changes needed
 
-Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-ark.org/materials) within 24 hours!
+On acceptance, your REMARK is added to the catalog and will appear on [econ-ark.org/materials](https://econ-ark.org/materials) (typically within 24 hours). Econ-ARK will create a fork of your repository to preserve the state at which it was tested and verified to work, and the website will point to that fork until you submit a new version. You keep full ownership of your repo. When you submit an updated version (e.g. a new tag), we will update the fork as long as `reproduce.sh` runs and the revised draft still meets REMARK requirements.
 
 ## Common Issues and Solutions
 
@@ -305,7 +387,8 @@ Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-
 **Solution:** Use `python cli.py lint` to identify missing files
 
 ### Issue: Environment specification problems
-**Solution:** Pin all package versions in `binder/environment.yml`
+**Solution:** Use `uv lock` (or equivalent) to generate a lockfile with exact
+pinned versions, then commit it. See section 2.4 and [STANDARD.md](STANDARD.md).
 
 ### Issue: Large data files
 **Solution:** 
@@ -321,18 +404,22 @@ Once approved, your REMARK will appear on [econ-ark.org/materials](https://econ-
 ### Code Organization
 ```
 your-project/
+├── Dockerfile          # Required: containerized execution
+├── reproduce.sh        # Required: main reproduction script
+├── reproduce_min.sh    # Optional: quick demo
+├── README.md           # Required: project documentation
+├── LICENSE             # Required: distribution terms
+├── CITATION.cff        # Required for Tier 2+
+├── REMARK.md           # Required for Tier 2+
+├── pyproject.toml      # Recommended: dependency specification (uv/poetry)
+├── uv.lock             # Required: lockfile with pinned versions
 ├── code/               # Analysis scripts
-├── data/              # Small data files or download scripts
-├── figures/           # Generated figures
-├── notebooks/         # Jupyter notebooks  
-├── results/           # Analysis outputs
-├── reproduce.sh       # Main reproduction script
-├── reproduce_min.sh   # Quick demo (optional)
-├── CITATION.cff       # Metadata
-├── REMARK.md          # Website content
-├── README.md          # GitHub documentation
+├── data/               # Small data files or download scripts
+├── figures/            # Generated figures
+├── notebooks/          # Jupyter notebooks
+├── results/            # Analysis outputs
 └── binder/
-    └── environment.yml
+    └── environment.yml # Required: environment specification / adapter
 ```
 
 ### Documentation Tips
@@ -342,7 +429,10 @@ your-project/
 - **Hardware requirements** - Note if special requirements exist
 
 ### Reproducibility Tips
-- **Pin all versions** in environment.yml
+- **Pin all versions** via a lockfile (`uv.lock`, `poetry.lock`, etc.) --
+  this is a requirement, not just a suggestion
+- **Commit the lockfile** to your repository so reviewers and users get
+  the exact same dependency versions
 - **Document data sources** with URLs and access dates
 - **Test on different systems** if possible
 - **Clear error messages** in scripts

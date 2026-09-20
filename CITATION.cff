@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use the REMARK standard or catalog, please cite it as below."
+title: "REMARK: R[eplications/eproductions] and Explorations Made using ARK"
+type: software
+authors:
+  - name: "Econ-ARK Team"
+repository-code: "https://github.com/econ-ark/REMARK"
+url: "https://econ-ark.org/materials"
+abstract: >-
+  A standard and catalog for ensuring computational reproducibility,
+  archiving, and sharing of research projects in economics. REMARKs are
+  self-contained projects that can be executed on any modern computer,
+  organized into three compliance tiers (Docker, Reproducible, Published).
+keywords:
+  - computational economics
+  - reproducible research
+  - economic modeling
+  - heterogeneous agents
+  - open science
+license: MIT

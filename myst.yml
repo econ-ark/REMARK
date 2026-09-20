@@ -5,16 +5,24 @@ project:
   title: REMARK
   subtitle: R[eplications/eproductions] and Explorations Made using ARK
   short_title: REMARK
-  # description:
-  # keywords: []
+  description: >-
+    A standard and catalog for reproducible computational economics research,
+    part of the Econ-ARK project.
+  keywords:
+    - computational economics
+    - reproducible research
+    - economic modeling
+    - heterogeneous agents
+    - dynamic programming
+    - open science
   authors: Econ-ARK Team
   github: https://github.com/econ-ark/REMARK
   license:
     content: CC-BY-4.0
     code: MIT
   open_access: true
-  thumbnail: econ-ark-logo.png
-  banner: econ-ark-logo.png
+  thumbnail: assets/econ-ark-logo.png
+  banner: assets/econ-ark-logo.png
   subject: Economics
   venue: Econ-ARK
   # To autogenerate a Table of Contents, run "myst init --write-toc"
@@ -27,35 +35,13 @@ project:
     - file: Installation.md
     - file: Motivation.md
     - file: STANDARD.md
-    - title: REMARK Catalog
-      children:
-        - file: REMARKs/Aiyagari.md
-        - file: REMARKs/BayerLuetticke.md
-        - file: REMARKs/beyond-the-streetlight.md
-        - file: REMARKs/BlanchardPA2019.md
-        - file: REMARKs/BufferStock-LifeCycle.md
-        - file: REMARKs/BufferStockTheory.md
-        - file: REMARKs/BufferStockTheory-Problems.md
-        - file: REMARKs/cAndCwithStickyE.md
-        - file: REMARKs/CGMPortfolio.md
-        - file: REMARKs/ctDiscrete.md
-        - file: REMARKs/deep-learning-euler-method-krusell-smith.md
-        - file: REMARKs/DistributionOfWealthMPC.md
-        - file: REMARKs/DurableConsumerType.md
-        - file: REMARKs/EndogenousRetirement.md
-        - file: REMARKs/EpiExp.md
-        - file: REMARKs/GanongNoelUI.md
-        - file: REMARKs/KrusellSmith.md
-        - file: REMARKs/LiqConstr.md
-        - file: REMARKs/Pandemic.md
-        - file: REMARKs/PortfolioChoiceBlogPost.md
-        - file: REMARKs/RiskyContrib.md
-        - file: REMARKs/SequentialEGM.md
-        - file: REMARKs/SolvingMicroDSOPs.md
-        - file: REMARKs/template.md
+    - file: WORKFLOW.md
+    - file: QUICK-START.md
+    - file: ZENODO-GUIDE.md
+    - file: CLI-GUIDE.md
 
 site:
   template: book-theme
   options:
-    favicon: econ-ark-logo.png
-    logo: econ-ark-logo.png
+    favicon: assets/econ-ark-logo.png
+    logo: assets/econ-ark-logo.png

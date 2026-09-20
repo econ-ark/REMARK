@@ -23,6 +23,11 @@ docker run --rm -v $(pwd)/output:/app/output [project-name]
 ### Native Installation
 
 ```bash
+# Option A: uv (recommended)
+uv sync --locked
+uv run ./reproduce.sh
+
+# Option B: conda
 conda env create -f binder/environment.yml
 conda activate [env-name]
 ./reproduce.sh
@@ -72,7 +77,20 @@ conda activate [env-name]
    docker build -t [project-name] .
    ```
 
-### Option 2: Conda/Native
+### Option 2: uv (Recommended)
+
+1. **Install uv**:
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+2. **Install pinned dependencies and run**:
+   ```bash
+   uv sync --locked
+   uv run ./reproduce.sh
+   ```
+
+### Option 3: Conda/Native
 
 1. **Install Conda**:
    - Download from https://docs.conda.io/en/latest/miniconda.html
@@ -161,7 +179,9 @@ If you prefer to run steps individually:
 │   ├── tables/              # Generated tables
 │   └── results/             # Numerical results
 ├── binder/
-│   └── environment.yml      # Environment specification
+│   └── environment.yml      # Environment specification / adapter
+├── pyproject.toml           # Dependency specification (if using uv/poetry)
+├── uv.lock                  # Lockfile with pinned versions
 ├── Dockerfile               # Docker configuration
 ├── reproduce.sh             # Main reproduction script
 ├── reproduce_min.sh         # Quick verification script

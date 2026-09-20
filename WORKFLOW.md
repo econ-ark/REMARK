@@ -4,7 +4,7 @@ This document provides a comprehensive overview of how the REMARK ecosystem work
 
 ## System Architecture Overview
 
-**⚠️ CRITICAL DISTINCTION**: The REMARK ecosystem has TWO SEPARATE SYSTEMS that serve different purposes:
+**CRITICAL DISTINCTION**: The REMARK ecosystem has TWO SEPARATE SYSTEMS that serve different purposes:
 
 1. **Website Generation System** (`populate_remarks.py`) - Generates econ-ark.org content
 2. **REMARK Validation System** (`cli.py`) - Validates research reproducibility standards
@@ -94,7 +94,7 @@ This repository provides analysis of...
 
 ### 3. Website Generation Process
 
-**🌐 WEBSITE GENERATION SYSTEM** (Primary: `populate_remarks.py`)
+**WEBSITE GENERATION SYSTEM** (Primary: `populate_remarks.py`)
 
 The econ-ark.org website is generated through an **automated pipeline** that is SEPARATE from the REMARK validation system:
 
@@ -127,7 +127,7 @@ This is the **core integration script** that:
    - `REMARK.md` (website-specific fields + abstract/body content)
 5. **Generates material files**: Creates `_materials/{name}.md` for Jekyll
 
-**🚨 IMPORTANT**: This script only requires `CITATION.cff` to generate a basic webpage. For a rich, descriptive page, `REMARK.md` is essential. The script specifically looks for these two file names and ignores other markdown files (e.g., `README.md` or legacy `{name}.md` files) for website content generation.
+**IMPORTANT**: This script only requires `CITATION.cff` to generate a basic webpage. For a rich, descriptive page, `REMARK.md` is essential. The script specifically looks for these two file names and ignores other markdown files (e.g., `README.md` or legacy `{name}.md` files) for website content generation.
 
 #### Step 3: Jekyll Site Generation
 
@@ -223,17 +223,18 @@ The `populate_remarks.py` script combines metadata with this priority:
 
 ### For New REMARKs
 
-1. **Prepare repository** meeting REMARK standards
-2. **Submit PR** to REMARK repo adding `REMARKs/{name}.yml`
-3. **Editorial review** checks compliance
-4. **Merge PR** adds to catalog
-5. **Automated integration** generates website content
+1. **Prepare repository** meeting REMARK standards (your repo stays under your GitHub identity).
+2. **Submit PR** to REMARK repo adding `REMARKs/{name}.yml` that points to your repository.
+3. **Editorial review** checks compliance (e.g. `cli.py lint`, `reproduce.sh` runs).
+4. **Merge PR** adds the entry to the catalog.
+5. **On acceptance**, Econ-ARK will create a fork of your repository to preserve the state at which it was tested and verified to work; the catalog (and website) will then point to that fork until you submit a new version. You keep full ownership and can submit updated versions later.
+6. **Automated integration** (e.g. `populate_remarks.py`) generates website content from the catalog; your REMARK appears on econ-ark.org/materials (typically within 24 hours), serving content from the fork.
 
 ### For Updates
 
-1. **Update individual repository** (tag new release)
-2. **Website auto-updates** within 24 hours via scheduled workflow
-3. **Manual trigger** available via GitHub Actions
+1. **Update your repository** (e.g. tag a new release).
+2. **Submit a PR** to REMARK that updates the catalog entry for the new version.
+3. Econ-ARK **will** update the fork (and the website will continue to show the fork) as long as `reproduce.sh` runs successfully and the revised draft still meets REMARK requirements.
 
 ## Common Issues and Solutions
 
@@ -259,7 +260,7 @@ The `populate_remarks.py` script combines metadata with this priority:
 
 ## Critical Understanding Points for AI Systems
 
-⚠️ **Warning for AI Analysis**: The REMARK ecosystem uses a **dual workflow system**:
+**Warning for AI Analysis**: The REMARK ecosystem uses a **dual workflow system**:
 
 1. **Primary**: `populate_remarks.py` script that reads `.yml` catalog files and generates content
 2. **Secondary**: `transfer-remark-metadata.yml` workflow for edge cases with manual `.md` files
@@ -284,13 +285,13 @@ The `populate_remarks.py` script combines metadata with this priority:
 
 This workflow ensures that the REMARK ecosystem maintains high standards for reproducibility while providing a seamless integration between distributed research repositories and the centralized discovery platform at econ-ark.org.
 
-## 🔧 REMARK Validation System vs 🌐 Website Generation System
+## REMARK Validation System vs Website Generation System
 
 ### Critical Distinction
 
 **These are TWO COMPLETELY SEPARATE SYSTEMS with different purposes and requirements:**
 
-| Aspect | 🌐 Website Generation (`populate_remarks.py`) | 🔧 REMARK Validation (`cli.py`) |
+| Aspect | Website Generation (`populate_remarks.py`) | REMARK Validation (`cli.py`) |
 |--------|-----------------------------------------------|----------------------------------|
 | **Purpose** | Generate econ-ark.org website content | Validate research reproducibility |
 | **Trigger** | Automatic (daily/push) | Manual (editor workflow) |
@@ -299,46 +300,46 @@ This workflow ensures that the REMARK ecosystem maintains high standards for rep
 | **Output** | `_materials/*.md` files for Jekyll | Validation reports and logs |
 | **Failure Impact** | Missing materials on website | Cannot reproduce research |
 
-### 🌐 Website Generation Requirements
+### Website Generation Requirements
 
 **Minimum for website appearance:**
 
-- ✅ `CITATION.cff` - Provides author, title, abstract, etc.
-- ✅ Valid repository URL in `REMARKs/*.yml`
+- `CITATION.cff` -- provides author, title, abstract, etc.
+- Valid repository URL in `REMARKs/*.yml`
 
 **Enhanced website features:**
 
-- ✅ `REMARK.md` - Adds website-specific metadata (notebooks, tags, custom content)
+- `REMARK.md` -- adds website-specific metadata (notebooks, tags, custom content)
 
 **NOT required for website:**
 
-- ❌ `reproduce.sh`
-- ❌ `binder/environment.yml`
-- ❌ `reproduce_min.sh`
+- `reproduce.sh`
+- `binder/environment.yml`
+- `reproduce_min.sh`
 
-### 🔧 REMARK Validation Requirements
+### REMARK Validation Requirements
 
 **Required for REMARK compliance (reproducibility):**
 
-- ✅ `reproduce.sh` - Must run and reproduce all results
-- ✅ `CITATION.cff` - Bibliographic metadata
-- ✅ `binder/environment.yml` - Environment specification
-- ✅ Tagged release
+- `reproduce.sh` -- must run and reproduce all results
+- `CITATION.cff` -- bibliographic metadata
+- `binder/environment.yml` -- environment specification
+- Tagged release
 
 **Optional for REMARK compliance:**
 
-- ✅ `reproduce_min.sh` - Quick demonstration version
+- `reproduce_min.sh` -- quick demonstration version
 
 ### Common Confusion Points
 
-**❌ WRONG**: "If `cli.py lint` shows missing files, the website won't work"
-**✅ CORRECT**: Website generation and REMARK validation are independent
+**WRONG**: "If `cli.py lint` shows missing files, the website won't work"
+**CORRECT**: Website generation and REMARK validation are independent.
 
-**❌ WRONG**: "All materials on the website are REMARK compliant"
-**✅ CORRECT**: Materials can appear on website without meeting full REMARK standards
+**WRONG**: "All materials on the website are REMARK compliant"
+**CORRECT**: Materials can appear on website without meeting full REMARK standards.
 
-**❌ WRONG**: "Website generation requires reproducibility files"
-**✅ CORRECT**: Website only needs bibliographic metadata (`CITATION.cff`)
+**WRONG**: "Website generation requires reproducibility files"
+**CORRECT**: Website only needs bibliographic metadata (`CITATION.cff`).
 
 ### Workflow Integration
 
@@ -364,7 +365,7 @@ Research Repository
 
 ### AI System Warning
 
-**🤖 FOR AI SYSTEMS**: Do not confuse these two systems. When analyzing REMARK compliance issues:
+**FOR AI SYSTEMS**: Do not confuse these two systems. When analyzing REMARK compliance issues:
 
 1. **First determine**: Are you looking at website generation issues or reproducibility validation issues?
 2. **Website problems**: Check `populate_remarks.py` logs, `CITATION.cff` files, `_materials/` generation

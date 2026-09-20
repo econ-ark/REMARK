@@ -10,13 +10,15 @@ Each project lives in its own repository. To make a new REMARK, you can start wi
 or from an example of a complete project using the toolkit, [BufferStockTheory](https://github.com/econ-ark/BufferStockTheory), whose content (code, text, figures, etc) you can replace with
 your own.
 
-REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMARK/blob/master/STANDARD.md).
+REMARKs should adhere to the [REMARK Standard](https://github.com/econ-ark/REMARK/blob/main/STANDARD.md).
+
+To submit your REMARK, open a pull request to this repository that adds a catalog entry (`REMARKs/your-project-name.yml`) pointing to your repository. You keep ownership of your repo. On acceptance, Econ-ARK will fork your repository and the website will point to that fork until you submit a new version; when you do, we will update the fork as long as `reproduce.sh` runs and the draft still meets REMARK requirements. See [STANDARD.md](STANDARD.md) § Submitting a REMARK.
 
 ## For Editors
 
 The REMARK catalog and Econ-ARK website configuration will be maintained by Editors.
 
-[Editorial guidelines are here](https://github.com/econ-ark/REMARK/blob/master/EDITORIAL.md).
+[Editorial guidelines are here](https://github.com/econ-ark/REMARK/blob/main/EDITORIAL.md).
 
 ## For Maintainers
 
