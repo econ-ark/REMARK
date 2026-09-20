@@ -19,7 +19,7 @@ from io import StringIO
 from os import environ
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from subprocess import run, PIPE, STDOUT
+from subprocess import run, PIPE, STDOUT, CalledProcessError
 from urllib.parse import urlsplit
 
 def concrete_path(path):
@@ -87,16 +87,27 @@ def parse_paths_from_standard(text):
 def git_exists(local_repo_path):
     return Path(local_repo_path).joinpath('.git').exists()
 
-def git_clone(local_repo_path, *, remote):
-    return run(
-        ['git', 'clone', '--depth', '1', '--single-branch', remote, local_repo_path]
-    )
+def git_clone(local_repo_path, *, remote, tag=None):
+    # A shallow single-branch clone is all lint/build/execute need, but it carries
+    # no tags, so a later `git checkout tags/<tag>` on it fails. When the catalog
+    # pins a tag, clone the tag itself: `--branch` accepts a tag and leaves HEAD
+    # detached at its commit.
+    cmd = ['git', 'clone', '--depth', '1', '--single-branch']
+    if tag:
+        cmd += ['--branch', tag]
+    return run([*cmd, remote, local_repo_path], check=True)
 
 def git_pull(local_repo_path):
-    return run(['git', 'pull'], cwd=local_repo_path)
+    return run(['git', 'pull'], cwd=local_repo_path, check=True)
+
+def git_fetch_tag(local_repo_path, *, tag):
+    # Bring (or refresh) one tag into an existing shallow clone, whichever commit
+    # it was cloned at.
+    refspec = f'+refs/tags/{tag}:refs/tags/{tag}'
+    return run(['git', 'fetch', '--depth', '1', 'origin', refspec], cwd=local_repo_path, check=True)
 
 def git_checkout(local_repo_path, *, identifier):
-    return run(['git', 'checkout', identifier], cwd=local_repo_path)
+    return run(['git', 'checkout', '--quiet', identifier], cwd=local_repo_path, check=True)
 
 def build_docker(local_repo, image_name):
     cmd = ['repo2docker', '--no-run', '--image-name', image_name, local_repo.resolve()]
@@ -210,17 +221,30 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.action == 'pull':
         to_pull = metadata.keys() if args.all else args.remark
+        failed = []
         for path in to_pull:
             mdata = metadata[path]
-            print(f'Updating {path} @ {mdata.local}')
-            if git_exists(mdata.local):
-                git_pull(mdata.local)
-            else:
-                git_clone(mdata.local, remote=mdata.remote)
+            tag = mdata.yaml.get('tag')
+            print(f'Updating {path} @ {mdata.local}' + (f' (tag {tag})' if tag else ''))
+            try:
+                if git_exists(mdata.local):
+                    if tag:
+                        git_fetch_tag(mdata.local, tag=tag)
+                    else:
+                        git_pull(mdata.local)
+                else:
+                    git_clone(mdata.local, remote=mdata.remote, tag=tag)
 
-            if 'tag' in mdata.yaml:
-                git_checkout(mdata.local, identifier=f'tags/{mdata.yaml["tag"]}')
+                if tag:
+                    git_checkout(mdata.local, identifier=f'tags/{tag}')
+            except CalledProcessError as e:
+                # Say so instead of silently leaving the clone on whatever it had:
+                # lint/execute would otherwise report the default branch as the tag.
+                print(f'ERROR: {path}: `{" ".join(map(str, e.cmd))}` exited {e.returncode}')
+                failed.append(str(path))
             print('-' * 20, end='\n\n')
+        if failed:
+            raise SystemExit('pull failed for: ' + ', '.join(failed))
 
     elif args.action == 'lint':
         to_lint = metadata.keys() if args.all else args.remark
