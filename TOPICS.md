@@ -45,7 +45,7 @@ This document provides a structured index of topics, keywords, and research doma
 
 #### Wealth and Distribution
 - **DistributionofWealthMPC**: Distribution of wealth and marginal propensity to consume
-- **Aiyagari-Idiosyncratic**: Idiosyncratic risk and wealth distribution
+- **Aiyagari1994QJE**: Uninsured idiosyncratic risk and aggregate saving (HARK and DolARK replications of Table II)
 
 #### Macroeconomic Models  
 - **KrusellSmith**: Income and wealth heterogeneity in macroeconomy
