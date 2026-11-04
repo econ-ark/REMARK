@@ -139,7 +139,12 @@ python cli.py execute conda --all --no-min
 
 # Parallel execution
 python cli.py execute conda --all --jobs 2
+
+# Limit each container (docker only): no network, 2 CPUs, 8 GB, 2 BLAS/OpenMP threads, one hour
+python cli.py execute --no-network --cpus 2 --memory 8g --threads 2 --timeout 3600 docker REMARKs/BufferStockTheory.yml
 ```
+
+Put options before `docker` or `conda`: the parser does not accept an option between the type and the REMARK paths.
 
 **Script selection:**
 
@@ -147,11 +152,19 @@ python cli.py execute conda --all --jobs 2
 2. Falls back to `reproduce.sh`
 3. `--no-min` forces `reproduce.sh`
 
+**How a docker execution runs:**
+
+- Without a terminal, so it works from CI, cron or a background job; the container is removed when it ends.
+- The checkout is mounted, writable, at the image's working directory, where repo2docker copied the repository, and the script runs there.
+- In repo2docker's `kernel` or `notebook` conda environment when the image has one; otherwise the script runs directly.
+- `--no-network`, `--cpus`, `--memory`, `--threads` and `--timeout` are off unless given. A REMARK stopped by `--timeout` returns 124.
+
 **Output:**
 
 - Logs stored in `_REMARK/logs/execute/`
 - Return codes tracked for success/failure
 - Stdout/stderr captured per REMARK
+- `build` and `execute` exit non-zero, naming the REMARKs that failed, when any of them does
 
 ### 5. View Logs
 
