@@ -55,8 +55,9 @@ python cli.py pull --all  # Updates existing repos
 
 - Creates `_REMARK/repos/` directory structure
 - Clones repositories from GitHub URLs in catalog
-- Checks out specific tags if specified in metadata
-- Updates existing repositories if already cloned
+- Checks out the tag pinned in the catalog entry (the clone is made at that tag; pulling again re-fetches it)
+- Updates existing repositories if already cloned (a clone left detached at a tag whose entry no longer pins one needs `python cli.py clean repo` first)
+- Exits non-zero, naming the entry, when any git step fails
 
 ### 2. Lint/Validate REMARKs
 
