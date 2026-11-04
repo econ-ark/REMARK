@@ -7,15 +7,19 @@ This guide documents how to programmatically interact with REMARK data, tools, a
 ### Key Data Locations
 ```
 REMARK/
-├── .ai-context.md          # AI-friendly repository summary
-├── schema.json             # Machine-readable schema definitions
-├── TOPICS.md               # Structured topic index
-├── cli.py                  # Automated CLI tool for REMARK operations
-├── REMARKs/                # REMARK metadata catalog
-│   ├── *.yml               # Individual REMARK metadata files
-│   └── template.md         # Metadata template
-├── myst.yml                # Documentation configuration
-└── requirements.txt        # Python dependencies
+├── AGENTS.md                       # AI agent entry point
+├── .agents/                        # Detailed AI context and schemas
+│   ├── context.md                  # Repository context
+│   ├── topics.md                   # Research topic index
+│   ├── api-guide.md                # This file
+│   └── schemas/                    # Machine-readable schemas
+│       ├── schema.json
+│       └── ai-enhanced-schema.json
+├── cli.py                          # Automated CLI tool
+├── REMARKs/                        # REMARK metadata catalog
+│   └── *.yml                       # Individual REMARK metadata files
+├── myst.yml                        # Documentation configuration
+└── requirements.txt                # Python dependencies
 ```
 
 ## Programmatic Data Access
@@ -56,7 +60,7 @@ import json
 
 def load_remark_schema():
     """Load the JSON schema for REMARK structure."""
-    with open('schema.json', 'r') as f:
+    with open('.agents/schemas/schema.json', 'r') as f:
         return json.load(f)
 
 schema = load_remark_schema()

@@ -53,8 +53,10 @@ docker run --rm -v $(pwd)/output:/app/output [project-name]
 ├── reproduce.sh            # Main reproduction script
 ├── README.md              # This file
 ├── LICENSE                # License terms
+├── pyproject.toml          # Dependency specification (if using uv/poetry)
+├── uv.lock                 # Lockfile with pinned versions
 ├── binder/
-│   └── environment.yml    # Python environment specification
+│   └── environment.yml    # Environment specification / adapter
 ├── code/                  # Analysis code
 ├── data/                  # Input data
 └── output/                # Generated results (created by reproduce.sh)
@@ -67,11 +69,13 @@ docker run --rm -v $(pwd)/output:/app/output [project-name]
 If you prefer not to use Docker:
 
 ```bash
-# Create conda environment
+# Option A: uv (recommended)
+uv sync --locked
+uv run ./reproduce.sh
+
+# Option B: conda
 conda env create -f binder/environment.yml
 conda activate [env-name]
-
-# Run analysis
 ./reproduce.sh
 ```
 
