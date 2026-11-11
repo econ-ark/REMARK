@@ -272,6 +272,40 @@ The format is `remark/schemas/execution-record.schema.json`, and a record that d
 
 A second `execute` starts from a checkout the first one wrote into, so its record says `dirty`; for a run of record, start from a fresh clone (`clean repo`, then `pull`).
 
+## Status Table
+
+One command reads every entry and writes a table of what each repository holds. Nothing is run, and nothing in the table is kept by hand:
+
+```bash
+python cli.py status --all                 # every public entry
+python cli.py status --all --private       # private entries too, where this machine can reach them
+python cli.py status REMARKs/BufferStockTheory.yml
+```
+
+**What it does:**
+
+- Pulls each entry at its pin, as `pull` does, and records the commit read and the newest commit on the remote, marking a remote that has moved on as `(newer)`.
+- Writes `status.md` and `status.json` into `_REMARK/status/` (or `--output`), with a row for every entry asked for. A private entry that was not asked for has a row that says only that it exists.
+- Exits non-zero, naming the entries, when one could not be read: its pull failed, no reader is installed for its kind, or its reader failed. The row is written all the same.
+
+**What a row says** comes from a reader chosen by the kind of unit, which a repository declares in the front matter of its `REMARK.md`:
+
+```yaml
+---
+kind: comparison
+---
+```
+
+- A repository that declares no kind is a `remark`. Its reader is built in and reports the highest tier whose required files the checkout holds.
+- Any other kind is read by a function that an installed package offers under the entry-point group `remark.status`, named for the kind. It receives the checkout and the entry, and returns a one-line `summary`, and optionally its own Markdown `table` and `data`. Each kind's table has the columns that suit it.
+
+```toml
+[project.entry-points."remark.status"]
+comparison = "some_package.status:read"
+```
+
+A run that read a private entry says so at the top of `status.md`, in `status.json` (`private_entries_read`) and on the terminal: those files hold what a private repository contains and are not for publication.
+
 ## Advanced Usage
 
 ### Working with Specific Versions
@@ -310,6 +344,7 @@ _REMARK/
 │   │   ├── .condaenv/       # Conda environment (if built)
 │   │   └── ...
 │   └── beyond-the-streetlight/
+├── status/                   # status.md and status.json, from `status`
 ├── logs/                     # The latest log and return code of each step
 │   ├── build/
 │   │   ├── BufferStockTheory_conda.log
