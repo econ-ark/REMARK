@@ -3,13 +3,14 @@ name: Tests
 # The remark package's tests: catalog, pull at the catalogued tag (against a local git
 # remote), lint, the records, the docker run command, real container runs, and real
 # repo2docker builds of a small image. GitHub's runners have docker and no terminal, so
-# the container tests also check that execute needs none.
+# the container tests also check that execute needs none. A change to the catalog runs
+# them too, since one test reads every entry of REMARKs/ for keys the catalog defines.
 on:
   pull_request:
-    paths: ['remark/**', 'cli.py', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml']
+    paths: ['remark/**', 'cli.py', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml', 'REMARKs/**']
   push:
     branches: [main]
-    paths: ['remark/**', 'cli.py', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml']
+    paths: ['remark/**', 'cli.py', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml', 'REMARKs/**']
   workflow_dispatch:
 
 jobs:

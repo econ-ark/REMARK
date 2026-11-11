@@ -12,7 +12,7 @@ from shutil import rmtree
 from subprocess import CalledProcessError
 
 from remark.actions import build, execute
-from remark.catalog import load_catalog
+from remark.catalog import load_catalog, KNOWN_KEYS
 from remark.conda import clean_conda
 from remark.docker import clean_docker
 from remark.git import pull_entry
@@ -28,7 +28,8 @@ def add_remark_arg_group(subparser, required=True):
         type=Path,
         help='path(s) to REMARK metadata files (located under REMARKs/*.yml).'
     )
-    group.add_argument('--all', action='store_true', help='pull/clone all REMARKs found in REMARKs/*.yml')
+    group.add_argument('--all', action='store_true', help='all REMARKs found in REMARKs/*.yml, except those marked private')
+    subparser.add_argument('--private', action='store_true', help='with --all, include the entries marked `private: true`')
     return group
 
 
@@ -84,7 +85,12 @@ def make_parser():
 def selected(parser, args, metadata, root):
     """The catalog keys the command names: all of them, or the files given."""
     if args.all:
-        return list(metadata.keys())
+        # An entry marked private names a repository most machines cannot reach: --all
+        # leaves it out and says so, rather than fail for everyone without access.
+        left_out = [key for key, mdata in metadata.items() if mdata.private and not args.private]
+        if left_out:
+            print('Left out, marked private (--private includes them): ' + ', '.join(key.stem for key in left_out))
+        return [key for key in metadata if key not in left_out]
     keys = []
     for p in args.remark:
         if not p.exists():
@@ -169,6 +175,8 @@ def main(argv=None, root=None):
                 # Say so instead of silently leaving the clone on whatever it had:
                 # lint/execute would otherwise report the default branch as the tag.
                 print(f'ERROR: {path}: `{" ".join(map(str, e.cmd))}` exited {e.returncode}')
+                if mdata.private:
+                    print('  The entry is marked private: git on this machine may not have access to it.')
                 failed.append(str(path))
             print('-' * 20, end='\n\n')
         if failed:
@@ -180,6 +188,9 @@ def main(argv=None, root=None):
         for path in to_do:
             mdata = metadata[path]
             messages, warnings = lint_repo(mdata.local, tier=tier, include_optional=args.include_optional)
+            # a misspelled key would be read as absent: `privat: true` would list the entry as public
+            messages = [f'catalog entry has an unknown key `{key}` (known: {", ".join(KNOWN_KEYS)})'
+                        for key in mdata.unknown_keys] + messages
             if messages or warnings:
                 print(f' {path} (Tier {tier}) '.center(50, '-'))
                 print(mdata.local)

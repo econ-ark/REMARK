@@ -79,6 +79,7 @@ python cli.py pull --all  # Updates existing repos
 - Clones repositories from GitHub URLs in catalog
 - Checks out the tag pinned in the catalog entry (the clone is made at that tag; pulling again re-fetches it)
 - Updates existing repositories if already cloned (a clone left detached at a tag whose entry no longer pins one needs `python cli.py clean repo` first)
+- With `--all`, leaves out the entries marked `private: true` and names them; `--private` includes them, and an entry named on the command line is always attempted. This holds for every command that takes `--all`.
 - Exits non-zero, naming the entry, when any git step fails
 
 ### 2. Lint/Validate REMARKs

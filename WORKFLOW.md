@@ -51,7 +51,11 @@ Each REMARK has a minimal YAML file containing:
 name: project-name              # Short identifier
 remote: https://github.com/...  # Repository URL  
 title: Human Readable Title     # Display name
+tag: v1.0.0                     # Optional: the release the entry pins
+private: true                   # Optional: the repository is not public yet
 ```
+
+An entry marked `private: true` records that a REMARK exists whose repository is not public yet. The entry itself is public, and the website shows nothing for it. When the repository becomes public, remove the line.
 
 **Critical Point**: The REMARK repository does NOT contain the full metadata - only the minimal catalog entry pointing to the actual research repository.
 

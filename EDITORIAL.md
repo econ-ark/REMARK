@@ -51,3 +51,27 @@ title: Human Readable Title
 The website generation script (`populate_remarks.py` in the econ-ark.org
 repo) reads `CITATION.cff` and `REMARK.md` from each linked repository
 to build the material pages.
+
+### Entries whose repository is not public yet
+
+A REMARK can be listed before its repository is public, so that the catalog
+stays the one list of every REMARK. Add `private: true` to its entry:
+
+```yaml
+name: project-name
+remote: https://github.com/org/repo
+title: Human Readable Title
+private: true
+```
+
+- That the entry exists, with its name, title and remote, is public. Nothing
+  else of the repository is, and the website shows nothing for the entry.
+- `cli.py` leaves such entries out of `--all` unless `--private` is given,
+  since most machines cannot reach them.
+- A misspelled key would be read as absent, listing the entry as public. `lint`
+  reports any key the catalog does not define, and the tests that run on a
+  pull request to `REMARKs/` fail on one.
+- When the repository becomes public, remove the line. Nothing else changes.
+- The first version of a new REMARK may live under one account and later move
+  to an author's. Update the entry's `remote` when it does; an entry is known
+  by its `name`, which does not change.
