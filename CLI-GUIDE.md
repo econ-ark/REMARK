@@ -32,7 +32,26 @@ Required dependencies:
 - PyYAML
 - Docker (for docker builds)
 - Conda (for conda builds)
-- repo2docker (for docker operations)
+- repo2docker (for docker operations); version 2025 and later needs Docker's buildx plugin (`docker-buildx` on Ubuntu)
+
+### As a package
+
+`cli.py` is a thin launcher for the `remark` package beside it, so `python cli.py ...` works from a checkout with nothing installed. Installing the package adds a `remark` command, which acts on the catalog in the current directory (or `--root <checkout>`), and makes each step importable:
+
+```bash
+pip install .                                                   # from a checkout
+pip install "econ-ark-remark @ git+https://github.com/econ-ark/REMARK@<tag>"   # pinned, elsewhere
+remark --root /path/to/REMARK lint --tier 1 --all
+```
+
+```python
+from remark.catalog import load_catalog     # REMARKs/*.yml -> Metadata
+from remark.git import pull_entry           # clone or update at the catalogued tag
+from remark.lint import lint_repo           # (errors, warnings) for a tier
+from remark.docker import build_docker, execute_docker
+```
+
+The tests (`pip install '.[test]'`, then `pytest`) run in CI on every pull request that touches the package; the container tests run wherever a docker daemon answers and are skipped elsewhere.
 
 ## Core Commands
 
@@ -76,10 +95,10 @@ python cli.py lint --all --include-optional
 
 **What it does:**
 
-- Parses `STANDARD.md` for required file structure
-- Checks each REMARK for missing required files
-- Reports compliance issues with specific missing files
-- Optionally validates optional files (ending with `?`)
+- Checks each REMARK for the files its tier requires (`--tier 1|2|3`, default 2; the lists are in `remark/lint.py`, following `STANDARD.md`)
+- Reports compliance issues with specific missing files, and README length
+- Optionally checks optional files (`reproduce_min.sh`)
+- Exits non-zero, naming the REMARKs with errors, when any has one; warnings alone do not fail it
 
 **🚨 CRITICAL**: Lint results show **REMARK COMPLIANCE** (reproducibility), NOT website functionality:
 
