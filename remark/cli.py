@@ -52,6 +52,7 @@ def make_parser():
     build_parser.add_argument('type', choices=['docker', 'conda'])
     build_parser.add_argument('--jobs', '-J', default=4, type=int)
     build_parser.add_argument('--no-host', action='store_true', help="leave this machine's name out of the record")
+    build_parser.add_argument('--environment', metavar='DIR', help='docker only: build the environment kept in this directory of each REMARK (its Dockerfile, or its binder files) instead of the REMARK\'s own')
     add_remark_arg_group(build_parser)
 
     # execute
@@ -60,6 +61,7 @@ def make_parser():
     execute_parser.add_argument('--jobs', '-J', default=4, type=int, help='number of REMARKs to execute in parallel')
     execute_parser.add_argument('--no-min', action='store_true', help='ignore reproduce_min.sh')
     execute_parser.add_argument('--no-host', action='store_true', help="leave this machine's name out of the record")
+    execute_parser.add_argument('--environment', metavar='DIR', help='docker only: run in the image built from this directory of each REMARK')
     caps = execute_parser.add_argument_group('docker only', 'limits on each container; none is set by default')
     caps.add_argument('--no-network', action='store_true', help='run with no network (docker run --network none)')
     caps.add_argument('--cpus', type=float, help='CPU limit for each container, such as 2')
@@ -197,13 +199,16 @@ def main(argv=None, root=None):
         if failed:
             raise SystemExit(f'lint (tier {tier}) found errors in: ' + ', '.join(failed))
 
+    elif args.action in ('build', 'execute') and args.type == 'conda' and args.environment:
+        parser.error('--environment applies to docker only')
+
     elif args.action == 'build':
         report_dir = remark_home / 'logs' / 'build'
         report_dir.mkdir(exist_ok=True, parents=True)
         items = [(path, metadata[path]) for path in to_do]
         func = lambda item: build(
-            item[1].local, args.type, name=item[1].image_name, remote=item[1].remote, tag=item[1].tag,
-            records_dir=records_home / item[1].name, host=not args.no_host,
+            item[1].local, args.type, environment=args.environment, name=item[1].image_name,
+            remote=item[1].remote, tag=item[1].tag, records_dir=records_home / item[1].name, host=not args.no_host,
         )
         report(report_dir, run_parallel(items, args.jobs, 'Building', func), args.type, args.jobs, 'build')
 
@@ -221,8 +226,8 @@ def main(argv=None, root=None):
 
         items = [(path, metadata[path]) for path in to_do]
         func = lambda item: execute(
-            item[1].local, args.type, script_for(item[1]), name=item[1].image_name, remote=item[1].remote,
-            tag=item[1].tag, records_dir=records_home / item[1].name, host=not args.no_host,
+            item[1].local, args.type, script_for(item[1]), environment=args.environment,
+            name=item[1].image_name, remote=item[1].remote, tag=item[1].tag, records_dir=records_home / item[1].name, host=not args.no_host,
             network=not args.no_network, cpus=args.cpus, memory=args.memory, threads=args.threads,
             timeout=args.timeout,
         )

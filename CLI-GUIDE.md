@@ -52,6 +52,8 @@ from remark.actions import build, execute   # each step, with its record
 from remark.records import validate         # check a record against the schema
 ```
 
+A project's own runner can call `execute` for its jobs. Beyond the command line's options it takes the script's `arguments`, an `environment` directory, and the settings of a run that keeps its outputs apart: `target` (where the checkout is mounted), `read_only`, `mounts` (such as `{'/out': job_folder}`), `tmpfs`, `variables` and `user` (`'host'` for the invoking user).
+
 The tests (`pip install '.[test]'`, then `pytest`) run in CI on every pull request that touches the package; the container tests run wherever a docker daemon answers and are skipped elsewhere.
 
 ## Core Commands
@@ -146,6 +148,18 @@ python cli.py build conda --all --jobs 8
 - Labels the image with the commit it was built at, since repo2docker copies the whole checkout into it
 
 Both kinds of build write an [execution record](#execution-records).
+
+**An environment in a directory of its own** (docker only). A repository can keep further environments beside its own, for instance one per solver, each in its own directory:
+
+```bash
+# Build, then run in, the environment kept in envs/solver of the REMARK
+python cli.py build --environment envs/solver docker REMARKs/BufferStockTheory.yml
+python cli.py execute --environment envs/solver docker REMARKs/BufferStockTheory.yml
+```
+
+- The directory is built alone: its `Dockerfile` by `docker build` when it has one, else its binder files by repo2docker. Nothing else of the checkout enters the image.
+- The image is named `econ-ark/<name>-<directory>:<hash>`, here `econ-ark/bufferstocktheory-envs-solver:<hash>`. Since the name says all the image depends on, a later commit that leaves the directory alone needs no rebuild.
+- The checkout is still mounted at run time, so the script and the code it runs are those of the checkout.
 
 ### 4. Execute REMARKs
 

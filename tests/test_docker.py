@@ -1,5 +1,6 @@
 """The docker run command, and real runs in a small image when a docker daemon is there."""
 
+import os
 import subprocess
 from pathlib import Path
 
@@ -18,6 +19,18 @@ def test_no_terminal_and_a_name(tmp_path):
     assert prefix[prefix.index('--name') + 1] == 'n' and '--rm' not in prefix and prefix[-1] == 'img'
     assert f'type=bind,source={tmp_path.resolve()},target=/w' in prefix
     assert prefix[prefix.index('--workdir') + 1] == '/w'
+
+
+def test_the_options_a_runner_turns_on(tmp_path):
+    prefix = docker_run_prefix(tmp_path, 'img', workdir='/src', name='n', read_only=True,
+                               mounts={'/out': tmp_path / 'job'}, tmpfs=['/tmp'],
+                               variables={'HOME': '/tmp'}, user='host')
+    assert f'type=bind,source={tmp_path.resolve()},target=/src,readonly' in prefix
+    assert f'type=bind,source={(tmp_path / "job").resolve()},target=/out' in prefix
+    assert prefix[prefix.index('--tmpfs') + 1] == '/tmp' and 'HOME=/tmp' in prefix
+    assert prefix[prefix.index('--user') + 1] == f'{os.getuid()}:{os.getgid()}' and prefix[-1] == 'img'
+    bare = docker_run_prefix(tmp_path, 'img', workdir='/w', name='n')
+    assert 'readonly' not in ' '.join(bare) and '--tmpfs' not in bare and '--user' not in bare
 
 
 def test_a_name_without_its_tag():
@@ -83,6 +96,23 @@ def test_exit_code_passes_through(tmp_path, image):
 def test_arguments_reach_the_script(tmp_path, image):
     proc = execute_docker(script(tmp_path, 'echo "$# $1 $2"\n'), image, 'run.sh', arguments=['--level', 'two words'])
     assert proc.stdout.strip() == '2 --level two words'
+
+
+@pytest.mark.docker
+@needs_docker
+def test_a_read_only_checkout_with_outputs_elsewhere(tmp_path, image):
+    repo, job = tmp_path / 'repo', tmp_path / 'job'
+    repo.mkdir()
+    job.mkdir()
+    script(repo, 'pwd; id -u; echo "home=$HOME"\ntouch here 2>/dev/null || echo "cannot write here"\n'
+                 'echo result > /out/result.txt; echo scratch > /tmp/scratch && echo "scratch written"\n')
+    proc = execute_docker(repo, image, 'run.sh', target='/src', read_only=True, mounts={'/out': job},
+                          tmpfs=['/tmp'], variables={'HOME': '/tmp'}, user='host', network=False)
+    assert proc.returncode == 0, proc.stdout
+    assert proc.stdout.split('\n')[:3] == ['/src', str(os.getuid()), 'home=/tmp']
+    assert 'cannot write here' in proc.stdout and 'scratch written' in proc.stdout
+    assert not (repo / 'here').exists()
+    assert (job / 'result.txt').read_text() == 'result\n' and (job / 'result.txt').stat().st_uid == os.getuid()
 
 
 @pytest.mark.docker
