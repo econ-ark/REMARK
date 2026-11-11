@@ -1,4 +1,5 @@
-"""The catalog: one YAML file per REMARK under REMARKs/, naming its remote, title and tag."""
+"""The catalog: one YAML file per REMARK under REMARKs/, naming its remote, title and tag,
+and saying so when the repository is not public yet."""
 
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -24,6 +25,12 @@ class Metadata:
     def tag(self):
         return self.yaml.get('tag')
 
+    @property
+    def private(self):
+        """True for an entry marked `private: true`: its repository is not public yet.
+        That the entry exists is public; the website shows nothing of it."""
+        return self.yaml.get('private', False)
+
     def flat(self):
         d = {**self.yaml, **asdict(self)}
         del d['yaml']
@@ -41,6 +48,8 @@ def load_catalog(root, repo_home):
         with open(p) as f:
             data = safe_load(f)
         data['name'] = p.stem
+        if not isinstance(data.get('private', False), bool):
+            raise ValueError(f'{p}: `private` must be true or false, not {data["private"]!r}')
         metadata[p.relative_to(root)] = Metadata(
             local=Path(repo_home) / data['name'],
             remote=data['remote'],

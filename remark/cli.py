@@ -28,7 +28,8 @@ def add_remark_arg_group(subparser, required=True):
         type=Path,
         help='path(s) to REMARK metadata files (located under REMARKs/*.yml).'
     )
-    group.add_argument('--all', action='store_true', help='pull/clone all REMARKs found in REMARKs/*.yml')
+    group.add_argument('--all', action='store_true', help='all REMARKs found in REMARKs/*.yml, except those marked private')
+    subparser.add_argument('--private', action='store_true', help='with --all, include the entries marked `private: true`')
     return group
 
 
@@ -84,7 +85,12 @@ def make_parser():
 def selected(parser, args, metadata, root):
     """The catalog keys the command names: all of them, or the files given."""
     if args.all:
-        return list(metadata.keys())
+        # An entry marked private names a repository most machines cannot reach: --all
+        # leaves it out and says so, rather than fail for everyone without access.
+        left_out = [key for key, mdata in metadata.items() if mdata.private and not args.private]
+        if left_out:
+            print('Left out, marked private (--private includes them): ' + ', '.join(key.stem for key in left_out))
+        return [key for key in metadata if key not in left_out]
     keys = []
     for p in args.remark:
         if not p.exists():
@@ -169,6 +175,8 @@ def main(argv=None, root=None):
                 # Say so instead of silently leaving the clone on whatever it had:
                 # lint/execute would otherwise report the default branch as the tag.
                 print(f'ERROR: {path}: `{" ".join(map(str, e.cmd))}` exited {e.returncode}')
+                if mdata.private:
+                    print('  The entry is marked private: git on this machine may not have access to it.')
                 failed.append(str(path))
             print('-' * 20, end='\n\n')
         if failed:
