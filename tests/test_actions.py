@@ -11,7 +11,8 @@ import pytest
 
 from conftest import git, repo2docker_available
 from remark import records
-from remark.actions import build, execute, environment_path, image_name
+from remark.actions import build, execute, environment_path, environment_spec, image_name
+from remark.records import RecordError
 from remark.cli import main
 from remark.docker import clean_docker, image_id, image_label, COMMIT_LABEL, ENVIRONMENT_LABEL
 
@@ -62,6 +63,25 @@ def test_environment_directory(tmp_path):
     assert image_name('econ-ark/thing', {'sha256': 'abcdef0123456789'}) == 'econ-ark/thing:abcdef012345'
 
 
+def test_an_environment_in_a_directory_of_its_own(tmp_path):
+    (tmp_path / 'binder').mkdir()
+    (tmp_path / 'envs' / 'Solver One').mkdir(parents=True)
+    (tmp_path / 'envs' / 'files').mkdir()
+    (tmp_path / 'envs' / 'Solver One' / 'Dockerfile').write_text('FROM scratch\n')
+    # the repository's own, however it is named: repo2docker on the whole checkout
+    for own in (None, '.', 'binder', 'binder/'):
+        assert environment_spec(tmp_path, own) == ('binder', 'repo2docker', True)
+    # a directory of its own: its Dockerfile when it has one, else its binder files
+    assert environment_spec(tmp_path, 'envs/Solver One/') == ('envs/Solver One', 'dockerfile', False)
+    assert environment_spec(tmp_path, 'envs/files') == ('envs/files', 'repo2docker', False)
+    for outside in ('envs/none', '../elsewhere', str(tmp_path / 'envs' / 'files')):
+        with pytest.raises(RecordError, match='not a directory of'):
+            environment_spec(tmp_path, outside)
+    spec = {'path': 'envs/Solver One', 'sha256': 'abcdef0123456789'}
+    assert image_name('econ-ark/thing', spec, whole=False) == 'econ-ark/thing-envs-solver-one:abcdef012345'
+    assert image_name('econ-ark/thing', spec) == 'econ-ark/thing:abcdef012345'
+
+
 def test_nothing_is_built_or_run_where_the_facts_cannot_be_read(tmp_path, checkout):
     for outcome in (build(tmp_path, 'conda'), execute(tmp_path, 'conda', 'reproduce.sh')):  # not a git repository
         assert outcome.returncode == 1 and outcome.record is None and 'not a git repository' in outcome.problem
@@ -71,9 +91,13 @@ def test_nothing_is_built_or_run_where_the_facts_cannot_be_read(tmp_path, checko
 
 
 def test_limits_are_refused_outside_docker(checkout):
-    for limit in ({'cpus': 2}, {'memory': '8g'}, {'threads': 2}, {'timeout': 60}, {'network': False}):
+    for limit in ({'cpus': 2}, {'memory': '8g'}, {'threads': 2}, {'timeout': 60}, {'network': False},
+                  {'read_only': True}, {'mounts': {'/out': checkout}}, {'environment': 'binder'}):
         outcome = execute(checkout, 'conda', 'reproduce.sh', **limit)
         assert outcome.returncode == 1 and 'docker only' in outcome.problem
+    assert 'docker only' in build(checkout, 'conda', environment='binder').problem
+    with pytest.raises(TypeError, match='readonly'):
+        execute(checkout, 'docker', 'reproduce.sh', readonly=True)  # a misspelled option is not dropped
 
 
 CONDA_STUB = """#!/bin/sh
@@ -204,6 +228,59 @@ def test_an_image_built_from_something_else_is_refused(checkout, name, tmp_path)
     assert image_id(first.image) == first.image
     clean_docker(name)
     assert image_id(first.image) is None and image_id(second.image) is None
+
+
+@pytest.mark.docker
+@needs_repo2docker
+def test_environments_in_directories_of_their_own(checkout, name, tmp_path):
+    folder, job = tmp_path / 'records', tmp_path / 'job'
+    job.mkdir()
+    (checkout / 'envs' / 'solver').mkdir(parents=True)
+    (checkout / 'envs' / 'solver' / 'Dockerfile').write_text('FROM bash:5.2\nENV SOLVER=one\n')
+    (checkout / 'envs' / 'files' / 'binder').mkdir(parents=True)
+    (checkout / 'envs' / 'files' / 'binder' / 'Dockerfile').write_text('FROM bash:5.2\nENV FILES=two\n')
+    (checkout / 'job.sh').write_text('echo "solver=${SOLVER:-} files=${FILES:-} level=$1" | tee /out/result.txt\n')
+    commit_all(checkout, 'two environments and a job')
+
+    # a Dockerfile directory: built alone, by docker
+    solver = build(checkout, 'docker', environment='envs/solver', name=name, records_dir=folder)
+    assert solver.returncode == 0 and solver.problem is None, solver.stdout
+    record = solver.record
+    assert record['environment']['path'] == 'envs/solver' and record['environment']['kind'] == 'dockerfile'
+    assert record['environment']['builder'] == record['where']['runtime']
+    assert record['image']['name'] == f'{name}-envs-solver:{record["environment"]["sha256"][:12]}'
+    assert image_label(solver.image, COMMIT_LABEL) is None  # it holds nothing of the checkout
+
+    # a directory of binder files: built alone, by repo2docker
+    files = build(checkout, 'docker', environment='envs/files', name=name, records_dir=folder)
+    assert files.returncode == 0 and files.problem is None, files.stdout
+    assert files.record['environment']['kind'] == 'repo2docker' and files.image != solver.image
+    assert files.record['image']['name'].startswith(f'{name}-envs-files:')
+
+    # the checkout moves on, the environments do not: no rebuild is asked for
+    (checkout / 'README.md').write_text('later\n')
+    commit_all(checkout, 'later')
+    contract = dict(name=name, records_dir=folder, target='/src', read_only=True, mounts={'/out': job},
+                    tmpfs=['/tmp'], variables={'HOME': '/tmp'}, user='host', network=False, jit_cache='cold')
+    ran = execute(checkout, 'docker', 'job.sh', arguments=['low'], environment='envs/solver', **contract)
+    assert ran.returncode == 0 and ran.stdout == 'solver=one files= level=low\n', ran.stdout
+    assert (job / 'result.txt').read_text() == ran.stdout
+    records.validate(ran.record)
+    assert ran.record['image'] == {'id': solver.image, 'build_record': solver.record_path.name}
+    assert ran.record['environment'] == solver.record['environment']
+    assert ran.record['conditions'] == {'network': False, 'jit_cache': 'cold'}
+    assert ran.record['repository']['dirty'] is False  # the checkout was read-only: nothing was written into it
+    other = execute(checkout, 'docker', 'job.sh', arguments=['low'], environment='envs/files', **contract)
+    assert other.returncode == 0 and other.stdout == 'solver= files=two level=low\n', other.stdout
+
+    # the environment changes: its image has another name, which nothing has yet
+    (checkout / 'envs' / 'solver' / 'Dockerfile').write_text('FROM bash:5.2\nENV SOLVER=three\n')
+    refused = execute(checkout, 'docker', 'job.sh', environment='envs/solver', **contract)
+    assert refused.returncode == 1 and 'build it first' in refused.problem
+
+    # clean finds every environment's images under the one name
+    clean_docker(name)
+    assert image_id(solver.image) is None and image_id(files.image) is None
 
 
 @pytest.mark.docker

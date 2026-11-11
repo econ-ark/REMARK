@@ -1,6 +1,8 @@
 """Building a REMARK's image with repo2docker and running its script in a container."""
 
+import os
 from json import loads
+from pathlib import Path
 from subprocess import run, PIPE, STDOUT, DEVNULL
 from uuid import uuid4
 
@@ -39,8 +41,20 @@ def image_label(image, label):
         return None
 
 
-def build_docker(local_repo, image_name, labels=None):
+def build_dockerfile(local_repo, image_name, directory, labels=None):
+    """Build the Dockerfile in `directory` of the checkout, with that directory alone as
+    the build's context, and name the image `image_name`. Returns the build's Run."""
+    cmd = ['docker', 'build', '--file', f'{directory}/Dockerfile', '--tag', image_name]
+    for label, value in {NAME_LABEL: without_tag(image_name), **(labels or {})}.items():
+        cmd += ['--label', f'{label}={value}']
+    return timed_run([*cmd, directory], cwd=local_repo)
+
+
+def build_docker(local_repo, image_name, labels=None, *, subdir=None):
     """Build the checkout's image with repo2docker and name it `image_name`. Returns the build's Run.
+
+    With `subdir`, repo2docker reads that directory of the checkout alone, and nothing
+    else of the checkout enters the image.
 
     The build always runs. repo2docker skips it whenever an image of the name it is given
     exists, which would leave an image built from an older commit in place; so it is given
@@ -54,6 +68,8 @@ def build_docker(local_repo, image_name, labels=None):
     cmd = ['repo2docker', '--no-run', '--image-name', scratch]
     for label, value in {NAME_LABEL: repository, **(labels or {})}.items():
         cmd += ['--label', f'{label}={value}']
+    if subdir:
+        cmd += ['--subdir', subdir]
     result = timed_run([*cmd, local_repo.resolve()])
     if result.returncode == 0:
         named = _docker('tag', scratch, image_name)
@@ -76,7 +92,8 @@ def image_workdir(image):
 
 
 def docker_run_prefix(local_repo, image, *, workdir, name, network=True, cpus=None,
-                      memory=None, threads=None):
+                      memory=None, threads=None, read_only=False, mounts=None, tmpfs=(),
+                      variables=None, user=None):
     """The `docker run` command up to and including the image, without the command to run.
 
     No -i/-t: docker refuses -t when stdin is not a terminal, so a terminal would make
@@ -84,12 +101,26 @@ def docker_run_prefix(local_repo, image, *, workdir, name, network=True, cpus=No
     timeout can kill it and its end can be read before it is removed. The checkout is
     mounted writable at `workdir`, where the script runs; existing reproduce.sh scripts
     write into it.
+
+    A runner that keeps its outputs apart turns the rest on: `read_only` mounts the
+    checkout read-only; `mounts` maps a path in the container to a host folder mounted
+    there writable, such as {'/out': job_folder}; `tmpfs` lists paths given a scratch
+    filesystem; `variables` sets environment variables; `user` runs as that user, 'host'
+    being the invoking one, so that what the run writes is the invoker's.
     """
     prefix = [
         'docker', 'run', '--init', '--name', name, '--entrypoint', '',
-        '--mount', f'type=bind,source={local_repo.resolve()},target={workdir}',
+        '--mount', f'type=bind,source={local_repo.resolve()},target={workdir}' + (',readonly' if read_only else ''),
         '--workdir', workdir,
     ]
+    for target, source in (mounts or {}).items():
+        prefix += ['--mount', f'type=bind,source={Path(source).resolve()},target={target}']
+    for path in tmpfs:
+        prefix += ['--tmpfs', path]
+    for variable, value in (variables or {}).items():
+        prefix += ['--env', f'{variable}={value}']
+    if user is not None:
+        prefix += ['--user', f'{os.getuid()}:{os.getgid()}' if user == 'host' else str(user)]
     if not network:
         prefix += ['--network', 'none']
     if cpus is not None:
@@ -124,8 +155,11 @@ def conda_prefix(image):
 
 
 def execute_docker(local_repo, image, script, *, arguments=(), network=True, cpus=None,
-                   memory=None, threads=None, timeout=None):
+                   memory=None, threads=None, timeout=None, target=None, **contract):
     """Run `bash <script> <arguments>` from the checkout at `local_repo` in `image`, a name or an ID.
+
+    The checkout is mounted at `target`, by default the image's working directory;
+    `contract` is docker_run_prefix's read_only, mounts, tmpfs, variables and user.
 
     Returns the Run: the combined output, the container's exit code, the time around the
     script's own container, and how it ended. A run stopped at `timeout` seconds has its
@@ -133,10 +167,10 @@ def execute_docker(local_repo, image, script, *, arguments=(), network=True, cpu
     when docker reports it, which it does not always do (it missed 1 of 40 on docker
     29.1.3); an unreported one is a 'signal', SIGKILL, like any other kill.
     """
-    workdir = image_workdir(image)
+    workdir = target or image_workdir(image)
     name = f'remark-{local_repo.name.lower()}-{uuid4().hex[:8]}'
     prefix = docker_run_prefix(local_repo, image, workdir=workdir, name=name,
-                               network=network, cpus=cpus, memory=memory, threads=threads)
+                               network=network, cpus=cpus, memory=memory, threads=threads, **contract)
     cmd = [*prefix, *conda_prefix(image), 'bash', script, *arguments]
     # Stopping the docker client leaves the container running: kill it by name.
     result = timed_run(cmd, timeout=timeout, on_timeout=lambda: _docker('kill', name))

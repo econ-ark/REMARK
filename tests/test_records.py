@@ -211,6 +211,14 @@ def test_records_that_match(repo):
     assert execution['$schema'] == records.schema_id() and execution['record_version'] == records.RECORD_VERSION
 
 
+def test_a_record_of_an_earlier_draft_is_still_read(repo):
+    # written by a project's runner under its own schema's name, before this schema had its number
+    record = records.execution_record(**blocks(repo, 'none'), script='reproduce.sh', extensions={'a-project': {}})
+    record.update({'$schema': 'https://example.org/a-project/runs.registry/0.1.0-draft.6.json',
+                   'record_version': '0.1.0-draft.4'})
+    records.validate(record)
+
+
 def test_records_that_are_refused(repo, tmp_path):
     def refused(record, what):
         with pytest.raises(RecordError, match=what):

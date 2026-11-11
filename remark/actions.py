@@ -11,9 +11,15 @@ A docker image is named for the hash of the environment's files, econ-ark/<name>
 so a checkout whose environment changed finds no image and must be built again. The
 image also carries the commit it was built at, since repo2docker copies the whole
 checkout into it: execute refuses an image built at another commit.
+
+A repository can keep further environments in directories of their own, each built with
+that directory alone as its context: `environment='envs/solver'` builds its Dockerfile,
+or its binder files when it has no Dockerfile, into econ-ark/<name>-envs-solver:<hash>.
+Such an image holds nothing else of the checkout, so its name says all it depends on.
 """
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -48,27 +54,48 @@ def default_name(local_repo):
     return f'econ-ark/{Path(local_repo).name.lower().replace(" ", "_")}'
 
 
-def image_name(repository_name, environment):
-    """The image's name for an environment: the first 12 digits of its hash as the tag."""
-    return f'{repository_name}:{environment["sha256"][:12]}'
+def environment_spec(local_repo, environment=None):
+    """Where an environment is and how it is built: (path, kind, whole).
+
+    With no `environment`, or binder or .binder, it is the repository's own: repo2docker
+    on the whole checkout, which it copies into the image (`whole` is True). Any other
+    directory is built alone: its Dockerfile when it has one, else its binder files.
+    """
+    if environment in (None, '', '.') or str(environment).strip('/') in ENVIRONMENT_DIRECTORIES:
+        return environment_path(local_repo), 'repo2docker', True
+    path = str(environment).strip('/')
+    if Path(path).is_absolute() or '..' in Path(path).parts or not Path(local_repo, path).is_dir():
+        raise RecordError(f'{environment} is not a directory of {local_repo}')
+    return path, 'dockerfile' if Path(local_repo, path, 'Dockerfile').is_file() else 'repo2docker', False
+
+
+def image_name(base, environment, whole=True):
+    """The image's name for an environment: the base name, the directory when it is not
+    the repository's own, and the first 12 digits of the environment's hash as the tag."""
+    slug = '' if whole else '-' + re.sub(r'[^a-z0-9_.]+', '-', environment['path'].lower()).strip('-.')
+    return f'{base}{slug}:{environment["sha256"][:12]}'
 
 
 def _refused(problem):
     return Outcome(returncode=1, stdout=problem + '\n', problem=problem)
 
 
-def _facts(local_repo, runtime, remote, tag, host):
-    """The repository, environment and machine blocks for a build or a run in `runtime`."""
+def _facts(local_repo, runtime, remote, tag, host, environment=None):
+    """The repository, environment and machine blocks for a build or a run in `runtime`,
+    and whether the environment's image holds the whole checkout."""
     repo = records.repository(local_repo, remote=remote, tag=tag)
     if runtime == 'docker':
         engine = records.docker_runtime()
         if engine is None:
             raise RecordError('the docker daemon does not answer')
-        env = records.environment(local_repo, repo, environment_path(local_repo), 'repo2docker',
-                                  records.tool_version('repo2docker'))
-        return repo, env, records.machine(engine, host=host)
+        path, kind, whole = environment_spec(local_repo, environment)
+        builder = engine if kind == 'dockerfile' else records.tool_version('repo2docker')
+        env = records.environment(local_repo, repo, path, kind, builder)
+        return repo, env, records.machine(engine, host=host), whole
+    if environment is not None:
+        raise RecordError('an environment in a directory of its own is built with docker only')
     env = records.environment(local_repo, repo, 'binder', 'host-conda', records.tool_version('conda'))
-    return repo, env, records.machine('none', host=host)
+    return repo, env, records.machine('none', host=host), True
 
 
 def _save(record, result, records_dir, kind):
@@ -103,10 +130,13 @@ def build_record_for(records_dir, image):
     return None
 
 
-def build(local_repo, runtime, *, name=None, remote=None, tag=None, records_dir=None, host=True):
+def build(local_repo, runtime, *, environment=None, name=None, remote=None, tag=None, records_dir=None,
+          host=True):
     """Build the checkout's environment: a docker image with repo2docker, or ./.condaenv with conda.
 
-    `runtime` is 'docker' or 'conda'. `name` is the images' name without a tag (default
+    `runtime` is 'docker' or 'conda'. `environment` is a directory of the checkout that
+    holds an environment of its own (docker only; see environment_spec); without it the
+    repository's own is built. `name` is the images' name without a tag (default
     econ-ark/<folder name>). `remote` and `tag` are the catalog's, for the record; the
     remote defaults to the clone's origin. With `records_dir`, the record and the build's
     log are written there.
@@ -118,13 +148,19 @@ def build(local_repo, runtime, *, name=None, remote=None, tag=None, records_dir=
     """
     local_repo = Path(local_repo)
     try:
-        repo, env, where = _facts(local_repo, runtime, remote, tag, host)
+        repo, env, where, whole = _facts(local_repo, runtime, remote, tag, host, environment)
     except (RecordError, OSError) as e:
         return _refused(f'not built: {e}')
     if runtime == 'docker':
-        named = image_name(name or default_name(local_repo), env)
-        result = docker.build_docker(local_repo, named, labels={docker.COMMIT_LABEL: repo['commit'],
-                                                               docker.ENVIRONMENT_LABEL: env['sha256']})
+        base = name or default_name(local_repo)
+        named = image_name(base, env, whole)
+        labels = {docker.NAME_LABEL: base, docker.ENVIRONMENT_LABEL: env['sha256']}
+        if whole:  # the image holds the checkout, so it is of this commit
+            result = docker.build_docker(local_repo, named, {**labels, docker.COMMIT_LABEL: repo['commit']})
+        elif env['kind'] == 'dockerfile':
+            result = docker.build_dockerfile(local_repo, named, env['path'], labels)
+        else:
+            result = docker.build_docker(local_repo, named, labels, subdir=env['path'])
         image = docker.image_id(named) if result.returncode == 0 else None
         if image is None:
             return Outcome(result.returncode or 1, result.stdout, problem='the build made no image')
@@ -141,25 +177,33 @@ def build(local_repo, runtime, *, name=None, remote=None, tag=None, records_dir=
     return out
 
 
-def execute(local_repo, runtime, script, *, arguments=(), image=None, name=None, remote=None, tag=None,
-            records_dir=None, host=True, network=True, cpus=None, memory=None, threads=None, timeout=None,
-            extensions=None):
+def execute(local_repo, runtime, script, *, arguments=(), environment=None, image=None, name=None, remote=None,
+            tag=None, records_dir=None, host=True, network=True, cpus=None, memory=None, threads=None,
+            timeout=None, extensions=None, jit_cache=None, **contract):
     """Run `script` from the checkout in its built environment and record the run.
 
-    `runtime` is 'docker' or 'conda'. For docker, the image is the one `build` named for
+    `runtime` is 'docker' or 'conda'. `environment` is as for `build`. For docker, the image is the one `build` named for
     the environment as it is now, or `image` (a name or an ID) when given; `network`,
     `cpus`, `memory`, `threads` and `timeout` limit the container and are docker's alone.
     `extensions` is a project's own part of the record, one object per namespace.
+    `contract` is execute_docker's target, read_only, mounts, tmpfs, variables and user,
+    for a runner whose jobs read the checkout and write elsewhere; `jit_cache` ('cold',
+    'warm' or 'none') is the caller's statement for the record, since a scratch
+    filesystem per run puts a just-in-time compiler's work into every duration.
 
     Returns an Outcome. Nothing runs, and `problem` says why, when the facts cannot be
     read, when there is no image for the environment as it is, or when the image was
     built by this tool at another commit.
     """
     local_repo = Path(local_repo)
-    if runtime != 'docker' and (not network or any(v is not None for v in (image, cpus, memory, threads, timeout))):
-        return _refused('not run: image, network, cpus, memory, threads and timeout apply to docker only')
+    unknown = set(contract) - {'target', 'read_only', 'mounts', 'tmpfs', 'variables', 'user'}
+    if unknown:
+        raise TypeError(f'execute() got unexpected keyword arguments: {", ".join(sorted(unknown))}')
+    if runtime != 'docker' and (not network or contract or any(
+            v is not None for v in (image, cpus, memory, threads, timeout))):
+        return _refused('not run: image, the limits and the mounts apply to docker only')
     try:
-        repo, env, where = _facts(local_repo, runtime, remote, tag, host)
+        repo, env, where, whole = _facts(local_repo, runtime, remote, tag, host, environment)
         conditions = {'network': bool(network)}
         if cpus is not None:
             conditions['cpus'] = cpus
@@ -169,12 +213,14 @@ def execute(local_repo, runtime, script, *, arguments=(), image=None, name=None,
             conditions['thread_variables'] = {variable: str(threads) for variable in docker.THREAD_VARIABLES}
         if timeout is not None:
             conditions['wall_seconds'] = timeout
+        if jit_cache is not None:
+            conditions['jit_cache'] = jit_cache
     except (RecordError, OSError) as e:
         return _refused(f'not run: {e}')
 
     image_block = None
     if runtime == 'docker':
-        wanted = image or image_name(name or default_name(local_repo), env)
+        wanted = image or image_name(name or default_name(local_repo), env, whole)
         found = docker.image_id(wanted)
         if found is None:
             return _refused(f'not run: no image {wanted} for {env["path"]} as it is at {repo["commit"][:12]}; '
@@ -188,7 +234,7 @@ def execute(local_repo, runtime, script, *, arguments=(), image=None, name=None,
         if build_record is not None:
             image_block['build_record'] = build_record.name
         result = docker.execute_docker(local_repo, found, script, arguments=arguments, network=network,
-                                       cpus=cpus, memory=memory, threads=threads, timeout=timeout)
+                                       cpus=cpus, memory=memory, threads=threads, timeout=timeout, **contract)
     else:
         found = None
         result = conda.execute_conda(local_repo, script, arguments=arguments)
