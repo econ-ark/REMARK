@@ -29,7 +29,7 @@ pip install -r requirements.txt
 Required dependencies:
 
 - Python 3.9+
-- PyYAML
+- PyYAML and jsonschema
 - Docker (for docker builds)
 - Conda (for conda builds)
 - repo2docker (for docker operations); version 2025 and later needs Docker's buildx plugin (`docker-buildx` on Ubuntu)
@@ -48,7 +48,8 @@ remark --root /path/to/REMARK lint --tier 1 --all
 from remark.catalog import load_catalog     # REMARKs/*.yml -> Metadata
 from remark.git import pull_entry           # clone or update at the catalogued tag
 from remark.lint import lint_repo           # (errors, warnings) for a tier
-from remark.docker import build_docker, execute_docker
+from remark.actions import build, execute   # each step, with its record
+from remark.records import validate         # check a record against the schema
 ```
 
 The tests (`pip install '.[test]'`, then `pytest`) run in CI on every pull request that touches the package; the container tests run wherever a docker daemon answers and are skipped elsewhere.
@@ -139,8 +140,12 @@ python cli.py build conda --all --jobs 8
 **Docker builds:**
 
 - Uses repo2docker (same as MyBinder)
-- Creates tagged Docker images
 - Supports multi-language REMARKs
+- Names the image `econ-ark/<name>:<hash>`, the hash being that of the environment's files (`binder/`, or the repository's root when there is none) as git records them
+- Always builds, even when an image of that name exists; docker's layer cache keeps a build that changes nothing short
+- Labels the image with the commit it was built at, since repo2docker copies the whole checkout into it
+
+Both kinds of build write an [execution record](#execution-records).
 
 ### 4. Execute REMARKs
 
@@ -177,13 +182,15 @@ Put options before `docker` or `conda`: the parser does not accept an option bet
 - The checkout is mounted, writable, at the image's working directory, where repo2docker copied the repository, and the script runs there.
 - In repo2docker's `kernel` or `notebook` conda environment when the image has one; otherwise the script runs directly.
 - `--no-network`, `--cpus`, `--memory`, `--threads` and `--timeout` are off unless given. A REMARK stopped by `--timeout` returns 124.
+- In the image built for the environment as the checkout has it now. If the environment's files changed since the build there is no such image, and if the checkout moved to another commit the image is of the old one: either way nothing runs, and the message says to build first.
 
 **Output:**
 
 - Logs stored in `_REMARK/logs/execute/`
 - Return codes tracked for success/failure
 - Stdout/stderr captured per REMARK
-- `build` and `execute` exit non-zero, naming the REMARKs that failed, when any of them does
+- An [execution record](#execution-records) for every run
+- `build` and `execute` exit non-zero, naming the REMARKs that failed or left no record, when any of them does
 
 ### 5. View Logs
 
@@ -218,12 +225,37 @@ Remove built environments and data:
 # Remove conda environments
 python cli.py clean conda --all
 
-# Remove docker images
+# Remove docker images: every image built for each REMARK, whatever its tag
 python cli.py clean docker --all
 
 # Remove cloned repositories
 python cli.py clean repo --all
 ```
+
+## Execution Records
+
+Every `build` and every `execute` writes a record of what it did, with its log beside it, in `_REMARK/records/<name>/`:
+
+```bash
+_REMARK/records/Aiyagari1994QJE/
+├── 20261111T181502Z_build.json
+├── 20261111T181502Z_build.log
+├── 20261111T182240Z_execution.json
+└── 20261111T182240Z_execution.log
+```
+
+A record holds facts read from git, the machine and the process, and nothing inferred:
+
+- **What ran:** the remote, the commit, the catalogued tag when the checkout is at it, and whether the working tree was dirty (with its tree as git would write it, when it was); the script; the environment's directory and the hash of its files; the image's ID and the build record it came from.
+- **Where and when:** the CPU, cores, memory, operating system, kernel and docker version; the limits set on the run; the start, the end and the duration. `--no-host` leaves the machine's name out.
+- **How it ended:** the exit code, and whether the script exited by itself, was stopped by `--timeout`, was killed by the memory limit, or by another signal. Docker does not report every memory-limit kill (it missed 1 of 40 in a test on docker 29.1.3); an unreported one is recorded as a `SIGKILL`.
+
+The format is `remark/schemas/execution-record.schema.json`, and a record that does not match it is never written. A project's own runner can write the same format and add fields of its own under `extensions`. Two limits to know:
+
+- A docker build that fails has no image, so it leaves a log and a return code but no record.
+- A record needs an `https` remote. For an entry whose remote is a local path, the step runs and the command then exits non-zero, saying that no record was written.
+
+A second `execute` starts from a checkout the first one wrote into, so its record says `dirty`; for a run of record, start from a fresh clone (`clean repo`, then `pull`).
 
 ## Advanced Usage
 
@@ -263,13 +295,15 @@ _REMARK/
 │   │   ├── .condaenv/       # Conda environment (if built)
 │   │   └── ...
 │   └── beyond-the-streetlight/
-└── logs/                     # Execution logs
-    ├── build/
-    │   ├── BufferStockTheory_conda.log
-    │   └── BufferStockTheory_conda_rc.log
-    └── execute/
-        ├── BufferStockTheory_conda.log
-        └── BufferStockTheory_conda_rc.log
+├── logs/                     # The latest log and return code of each step
+│   ├── build/
+│   │   ├── BufferStockTheory_conda.log
+│   │   └── BufferStockTheory_conda_rc.log
+│   └── execute/
+│       ├── BufferStockTheory_conda.log
+│       └── BufferStockTheory_conda_rc.log
+└── records/                  # A record and a log for every build and execution
+    └── BufferStockTheory/
 ```
 
 ## Error Handling

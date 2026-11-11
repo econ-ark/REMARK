@@ -1,0 +1,573 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/econ-ark/REMARK/execution-record/0.1.0.json",
+  "title": "Execution record",
+  "description": "Version 0.1.0. The record REMARK's tool writes for every build and every execution, and the core a project's own runner can share: nothing of any one project is in it. Two kinds of record, dispatched on `kind`: a build, written once per environment built, and an execution, written once per script run in one environment, referring to its build by the image identifier when it ran in a container. A project's own fields go under an execution's `extensions`, one object per namespace, which this schema leaves open. No `format` keyword is relied on: validators skip formats they cannot check, so timestamps and remotes are patterns. A duration is meaningful only with its `where` and `conditions`, and durations are taken from a monotonic clock.",
+  "type": "object",
+  "required": [
+    "kind"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": [
+        "build",
+        "execution"
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "kind": {
+        "const": "build"
+      }
+    }
+  },
+  "then": {
+    "$ref": "#/$defs/Build"
+  },
+  "else": {
+    "$ref": "#/$defs/Execution"
+  },
+  "$defs": {
+    "Version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.]+)?$",
+      "description": "The record schema's version, semantic; a newer schema still reads an older record. `$schema` says which document to check against."
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$|^[0-9a-f]{64}$",
+      "description": "A git object name, SHA-1 or SHA-256."
+    },
+    "Sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ImageId": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "The image ID from docker image inspect; the image's identity, since a name can move and a build is not bit-reproducible."
+    },
+    "Timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$",
+      "description": "RFC 3339 with an offset, Z allowed."
+    },
+    "Https": {
+      "type": "string",
+      "pattern": "^https://[^\\s]+$",
+      "description": "An https address; a remote is normalized to the form the catalog names."
+    },
+    "Recorder": {
+      "description": "The tool that wrote the record: REMARK's package or a project's runner.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "commit": {
+          "$ref": "#/$defs/Hash"
+        }
+      }
+    },
+    "Repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remote",
+        "commit",
+        "dirty"
+      ],
+      "properties": {
+        "remote": {
+          "$ref": "#/$defs/Https"
+        },
+        "commit": {
+          "$ref": "#/$defs/Hash"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag checked out, when the catalog pins one."
+        },
+        "dirty": {
+          "type": "boolean",
+          "description": "True when `git status --porcelain` was not empty: tracked changes, or untracked files that are not ignored. A finding is not made from a dirty run."
+        },
+        "worktree_tree": {
+          "$ref": "#/$defs/Hash",
+          "description": "When dirty, the tree of the working tree as it was, written through a temporary index so that the real index is neither read nor touched: `I=$(mktemp -u); GIT_INDEX_FILE=$I git add -A && GIT_INDEX_FILE=$I git write-tree; rm -f \"$I\"`. The variable must reach both commands; with it on `git add` alone, write-tree reads the real index and records the commit's tree, losing the dirty state without an error. The tree identifies the exact state and can be kept as a commit."
+        }
+      },
+      "if": {
+        "properties": {
+          "dirty": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "worktree_tree"
+        ]
+      }
+    },
+    "Environment": {
+      "description": "The specification an environment was built or created from, as git records it in the tree that ran. Its hash identifies the specification, not the result: builds are not bit-reproducible, and repo2docker copies the whole checkout into a REMARK's image, so an image depends on the commit as well.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The directory, relative to the repository's root, with '.' for the root itself: binder for a REMARK, or wherever a project keeps an environment's files."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "repo2docker",
+            "dockerfile",
+            "host-conda",
+            "host-uv"
+          ],
+          "description": "How the environment is built: an image by repo2docker from binder files; an image from a Dockerfile; a conda environment on the host; a uv project on the host."
+        },
+        "sha256": {
+          "$ref": "#/$defs/Sha256",
+          "description": "Over the files git records under the directory in the tree that ran: the commit's tree when the run was clean, the repository's worktree_tree when it was dirty, listed with `git ls-tree -r <tree> -- <path>`, never from the index or the files on disk, since the index can hold staged blobs and the bytes on disk can differ from the blob (line-ending conversion, clean and smudge filters, LFS). Each blob's bytes, read with `git cat-file blob <sha>`, or a symbolic link's text, is hashed alone with SHA-256; then the hash is SHA-256 of the listing of lines `<type> <mode> <sha256> <path>\\n`, type `blob` or `link`, mode as git records it (100644, 100755, 120000), the path relative to the directory with '/' separators, the lines sorted bytewise on the UTF-8 path. Two specifications can then be compared file by file."
+        },
+        "git_tree": {
+          "$ref": "#/$defs/Hash",
+          "description": "The same content as git names it: `git rev-parse <tree>:<path>`, with the tree the commit's or, when dirty, the worktree_tree."
+        },
+        "builder": {
+          "type": "string",
+          "description": "What built it, with its version: repo2docker 2026.4.0, docker 29.1.3, conda 24.x, uv 0.9.x."
+        }
+      }
+    },
+    "Where": {
+      "description": "The machine, and nothing about the run's settings, which are in `conditions`.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cpu",
+        "cores",
+        "memory_bytes",
+        "os",
+        "kernel",
+        "runtime"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "A name for the machine, or the continuous-integration runner's label; omitted when the operator prefers."
+        },
+        "cpu": {
+          "type": "string",
+          "description": "The CPU model string."
+        },
+        "cores": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The host's logical cores."
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The host's memory."
+        },
+        "os": {
+          "type": "string"
+        },
+        "kernel": {
+          "type": "string"
+        },
+        "runtime": {
+          "type": "string",
+          "description": "The container runtime and version, or 'none' for a build or run on the host."
+        },
+        "ci": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "run_id"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string"
+            },
+            "run_id": {
+              "type": "string"
+            },
+            "url": {
+              "$ref": "#/$defs/Https"
+            }
+          }
+        }
+      }
+    },
+    "Conditions": {
+      "description": "What the run was limited and set to.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "thread_variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The thread variables actually set, such as OMP_NUM_THREADS, OPENBLAS_NUM_THREADS and MKL_NUM_THREADS, which can differ."
+        },
+        "jit_cache": {
+          "type": "string",
+          "enum": [
+            "cold",
+            "warm",
+            "none"
+          ],
+          "description": "Whether a just-in-time compiler's cache was empty at the start, so that the duration includes compilation."
+        },
+        "cpus": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The CPU limit set on the run."
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The memory limit set on the run."
+        },
+        "wall_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "network": {
+          "type": "boolean",
+          "description": "False when the run had no network."
+        }
+      }
+    },
+    "When": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "started",
+        "ended",
+        "duration_seconds"
+      ],
+      "properties": {
+        "started": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "ended": {
+          "$ref": "#/$defs/Timestamp"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "From a monotonic clock around the build or the script alone."
+        }
+      }
+    },
+    "Termination": {
+      "type": "string",
+      "enum": [
+        "exited",
+        "timeout",
+        "oom",
+        "signal"
+      ],
+      "description": "How it ended: an exit of its own; stopped at the wall cap; killed by the memory cap, which docker inspect reports as OOMKilled; or by another signal, named in `signal`. An exit code of 137 alone cannot tell the last three apart."
+    },
+    "Image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "id"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The image's name and tag. REMARK's tool names an image econ-ark/<name>:<the first 12 digits of the environment's sha256>, so that an unchanged specification keeps its name; the name can move to a newer build, which is why the record keeps the id."
+        },
+        "id": {
+          "$ref": "#/$defs/ImageId"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "The registry digest, once pushed."
+        },
+        "registry": {
+          "type": "string",
+          "description": "Where it was pushed, such as ghcr.io/econ-ark."
+        }
+      }
+    },
+    "Build": {
+      "description": "One environment built or created from one specification at one commit: an image when where.runtime is a container runtime, a host environment when it is 'none'.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_version",
+        "kind",
+        "recorder",
+        "repository",
+        "environment",
+        "where",
+        "when",
+        "outcome"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "record_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "kind": {
+          "const": "build"
+        },
+        "recorder": {
+          "$ref": "#/$defs/Recorder"
+        },
+        "repository": {
+          "$ref": "#/$defs/Repository"
+        },
+        "environment": {
+          "$ref": "#/$defs/Environment"
+        },
+        "image": {
+          "$ref": "#/$defs/Image"
+        },
+        "where": {
+          "$ref": "#/$defs/Where"
+        },
+        "conditions": {
+          "$ref": "#/$defs/Conditions"
+        },
+        "when": {
+          "$ref": "#/$defs/When"
+        },
+        "outcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "exit_code",
+            "termination"
+          ],
+          "properties": {
+            "exit_code": {
+              "type": "integer"
+            },
+            "termination": {
+              "$ref": "#/$defs/Termination"
+            },
+            "signal": {
+              "type": "string"
+            },
+            "log": {
+              "type": "string",
+              "description": "The build log's path, relative to the record."
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "where": {
+            "properties": {
+              "runtime": {
+                "const": "none"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "image"
+        ]
+      }
+    },
+    "Execution": {
+      "description": "One script run once in one environment.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_version",
+        "kind",
+        "recorder",
+        "repository",
+        "script",
+        "environment",
+        "where",
+        "when",
+        "outcome"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "record_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "kind": {
+          "const": "execution"
+        },
+        "recorder": {
+          "$ref": "#/$defs/Recorder"
+        },
+        "run": {
+          "description": "The invocation this execution belongs to, when a tool runs many scripts at once, as a project's runner runs the jobs of an experiment.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "manifest": {
+              "type": "string",
+              "description": "The run's manifest, relative to the record."
+            }
+          }
+        },
+        "repository": {
+          "$ref": "#/$defs/Repository"
+        },
+        "script": {
+          "type": "string",
+          "description": "reproduce.sh, reproduce_min.sh, or the entry point run, relative to the repository's root."
+        },
+        "arguments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The script's arguments, if any."
+        },
+        "environment": {
+          "$ref": "#/$defs/Environment"
+        },
+        "image": {
+          "description": "Required when the run was in a container (where.runtime not 'none'); its build record carries the rest.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/ImageId"
+            },
+            "build_record": {
+              "type": "string",
+              "description": "The build record's path, relative to this record."
+            }
+          }
+        },
+        "where": {
+          "$ref": "#/$defs/Where"
+        },
+        "conditions": {
+          "$ref": "#/$defs/Conditions"
+        },
+        "when": {
+          "$ref": "#/$defs/When"
+        },
+        "outcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "exit_code",
+            "termination"
+          ],
+          "properties": {
+            "exit_code": {
+              "type": "integer"
+            },
+            "termination": {
+              "$ref": "#/$defs/Termination"
+            },
+            "signal": {
+              "type": "string",
+              "description": "The signal's name when termination is 'signal'."
+            },
+            "output_dir": {
+              "type": "string",
+              "description": "What outputs' paths are relative to: the job's output folder, or the checkout for a REMARK's reproduce.sh; itself relative to the record."
+            },
+            "outputs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "$ref": "#/$defs/Sha256"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            },
+            "log": {
+              "type": "string",
+              "description": "The log's path, relative to the record."
+            }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          },
+          "description": "A project's own fields, one object per namespace; the core never reads them."
+        }
+      },
+      "if": {
+        "properties": {
+          "where": {
+            "properties": {
+              "runtime": {
+                "const": "none"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "image"
+        ]
+      }
+    }
+  }
+}

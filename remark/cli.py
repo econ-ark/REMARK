@@ -11,9 +11,10 @@ from pathlib import Path
 from shutil import rmtree
 from subprocess import CalledProcessError
 
+from remark.actions import build, execute
 from remark.catalog import load_catalog
-from remark.conda import build_conda, execute_conda, clean_conda
-from remark.docker import build_docker, execute_docker, clean_docker
+from remark.conda import clean_conda
+from remark.docker import clean_docker
 from remark.git import pull_entry
 from remark.lint import lint_repo
 
@@ -50,6 +51,7 @@ def make_parser():
     build_parser = subparsers.add_parser('build', help='build docker images/conda environments for REMARK repositories')
     build_parser.add_argument('type', choices=['docker', 'conda'])
     build_parser.add_argument('--jobs', '-J', default=4, type=int)
+    build_parser.add_argument('--no-host', action='store_true', help="leave this machine's name out of the record")
     add_remark_arg_group(build_parser)
 
     # execute
@@ -57,6 +59,7 @@ def make_parser():
     execute_parser.add_argument('type', choices=['docker', 'conda'],  help='execute within a built docker image or a conda environment')
     execute_parser.add_argument('--jobs', '-J', default=4, type=int, help='number of REMARKs to execute in parallel')
     execute_parser.add_argument('--no-min', action='store_true', help='ignore reproduce_min.sh')
+    execute_parser.add_argument('--no-host', action='store_true', help="leave this machine's name out of the record")
     caps = execute_parser.add_argument_group('docker only', 'limits on each container; none is set by default')
     caps.add_argument('--no-network', action='store_true', help='run with no network (docker run --network none)')
     caps.add_argument('--cpus', type=float, help='CPU limit for each container, such as 2')
@@ -106,21 +109,33 @@ def run_parallel(items, jobs, label, func):
 
 
 def report(report_dir, metadata_items, kind, jobs, action):
-    """Write each REMARK's log and return code; exit non-zero naming any that failed."""
-    failed = []
-    for (path, mdata), proc in metadata_items:
+    """Write each REMARK's latest log and return code and say where its record is; exit
+    non-zero naming any that failed or that left no record."""
+    failed, unrecorded = [], []
+    for (path, mdata), out in metadata_items:
         remark_name = mdata.yaml['name']
         with open(report_dir / f'{remark_name}_{kind}.log', 'w') as f:
-            f.write(proc.stdout)
+            f.write(out.stdout)
         with open(report_dir / f'{remark_name}_{kind}_rc.log', 'w') as f:
-            f.write(str(proc.returncode))
-        print(f'{remark_name} → {proc.returncode}')
+            f.write(str(out.returncode))
+        print(f'{remark_name} → {out.returncode}')
+        if out.record_path:
+            print(f'  record: {out.record_path}')
+        if out.problem:
+            print(f'  {out.problem}')
         if jobs == 1:
-            print(proc.stdout)
-        if proc.returncode != 0:
+            print(out.stdout)
+        if out.returncode != 0:
             failed.append(remark_name)
+        elif out.record_path is None:
+            unrecorded.append(remark_name)
+    problems = []
     if failed:
-        raise SystemExit(f'{action} failed for: ' + ', '.join(sorted(failed)))
+        problems.append(f'{action} failed for: ' + ', '.join(sorted(failed)))
+    if unrecorded:
+        problems.append(f'{action} wrote no record for: ' + ', '.join(sorted(unrecorded)))
+    if problems:
+        raise SystemExit('; '.join(problems))
 
 
 def main(argv=None, root=None):
@@ -132,6 +147,7 @@ def main(argv=None, root=None):
 
     remark_home = root / '_REMARK'
     repo_home = remark_home / 'repos'
+    records_home = remark_home / 'records'
     repo_home.mkdir(exist_ok=True, parents=True)
     with open(remark_home / '.gitignore', 'w') as f:
         f.write('**')
@@ -185,10 +201,10 @@ def main(argv=None, root=None):
         report_dir = remark_home / 'logs' / 'build'
         report_dir.mkdir(exist_ok=True, parents=True)
         items = [(path, metadata[path]) for path in to_do]
-        if args.type == 'docker':
-            func = lambda item: build_docker(item[1].local, item[1].image_name)
-        else:
-            func = lambda item: build_conda(item[1].local)
+        func = lambda item: build(
+            item[1].local, args.type, name=item[1].image_name, remote=item[1].remote, tag=item[1].tag,
+            records_dir=records_home / item[1].name, host=not args.no_host,
+        )
         report(report_dir, run_parallel(items, args.jobs, 'Building', func), args.type, args.jobs, 'build')
 
     elif args.action == 'execute':
@@ -204,14 +220,12 @@ def main(argv=None, root=None):
             return 'reproduce.sh'
 
         items = [(path, metadata[path]) for path in to_do]
-        if args.type == 'docker':
-            func = lambda item: execute_docker(
-                local_repo=item[1].local, image_name=item[1].image_name, script=script_for(item[1]),
-                network=not args.no_network, cpus=args.cpus, memory=args.memory,
-                threads=args.threads, timeout=args.timeout,
-            )
-        else:
-            func = lambda item: execute_conda(local_repo=item[1].local, script=script_for(item[1]))
+        func = lambda item: execute(
+            item[1].local, args.type, script_for(item[1]), name=item[1].image_name, remote=item[1].remote,
+            tag=item[1].tag, records_dir=records_home / item[1].name, host=not args.no_host,
+            network=not args.no_network, cpus=args.cpus, memory=args.memory, threads=args.threads,
+            timeout=args.timeout,
+        )
         report(report_dir, run_parallel(items, args.jobs, 'Executing', func), args.type, args.jobs, 'execute')
 
     elif args.action == 'logs':

@@ -1,8 +1,9 @@
 name: Tests
 
 # The remark package's tests: catalog, pull at the catalogued tag (against a local git
-# remote), lint, the docker run command, and real container runs. GitHub's runners have
-# docker and no terminal, so the container tests also check that execute needs none.
+# remote), lint, the records, the docker run command, real container runs, and real
+# repo2docker builds of a small image. GitHub's runners have docker and no terminal, so
+# the container tests also check that execute needs none.
 on:
   pull_request:
     paths: ['remark/**', 'cli.py', 'tests/**', 'pyproject.toml', '.github/workflows/tests.yml']
@@ -22,5 +23,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install '.[test]'
+      - run: pip install '.[test]' jupyter-repo2docker
       - run: pytest -q

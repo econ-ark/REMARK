@@ -52,3 +52,7 @@ def docker_available():
     if shutil.which('docker') is None:
         return False
     return subprocess.run(['docker', 'info'], capture_output=True).returncode == 0
+
+
+def repo2docker_available():
+    return docker_available() and shutil.which('repo2docker') is not None
