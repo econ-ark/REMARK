@@ -128,14 +128,23 @@ def unread_row(entry):
             'commit': None, 'newest': None, 'ok': True, 'summary': 'private: not read'}
 
 
+def private_entries_read(rows):
+    """The names of the private entries whose repositories were read into these rows."""
+    return [row['name'] for row in rows if row['private'] and row['commit']]
+
+
 def _short(commit):
     return commit[:10] if commit else ''
 
 
 def markdown(rows, stamp):
     """The table, and under it each unit's own table from its reader."""
-    lines = ['# Status of the catalog', '', f'Read {stamp}. Nothing was run: each row is what the repository holds '
-             'at the commit read.', '',
+    lines = ['# Status of the catalog', '']
+    private = private_entries_read(rows)
+    if private:  # so that such a file is not published by habit
+        lines += ['> **Not for publication.** This file holds what was read from private repositories: '
+                  + ', '.join(private) + '.', '']
+    lines += [f'Read {stamp}. Nothing was run: each row is what the repository holds at the commit read.', '',
              '| entry | kind | pin | commit read | newest commit | private | status |',
              '|---|---|---|---|---|---|---|']
     for row in rows:
@@ -157,5 +166,6 @@ def write(rows, folder, stamp):
     folder.mkdir(parents=True, exist_ok=True)
     table, data = folder / 'status.md', folder / 'status.json'
     table.write_text(markdown(rows, stamp), encoding='utf-8')
-    data.write_text(json.dumps({'read': stamp, 'entries': rows}, indent=1, default=str) + '\n', encoding='utf-8')
+    data.write_text(json.dumps({'read': stamp, 'private_entries_read': private_entries_read(rows), 'entries': rows},
+                               indent=1, default=str) + '\n', encoding='utf-8')
     return table, data

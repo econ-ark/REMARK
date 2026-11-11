@@ -103,6 +103,23 @@ def test_readers_come_from_installed_packages(monkeypatch):
     assert found['remark']() is status.read_remark  # the built-in kind is not replaced
 
 
+def test_a_file_that_holds_private_results_says_so(catalog_root, origin, monkeypatch, capsys):
+    monkeypatch.chdir(catalog_root)
+    (catalog_root / 'REMARKs' / 'Secret.yml').write_text(
+        f'name: Secret\nremote: {origin.as_uri()}\ntitle: Secret\nprivate: true\n')
+    folder = catalog_root / '_REMARK' / 'status'
+    main(['status', '--all'])  # the private entry is not read: nothing to warn of
+    assert 'Not for publication' not in (folder / 'status.md').read_text()
+    assert json.loads((folder / 'status.json').read_text())['private_entries_read'] == []
+    assert 'not for publication' not in capsys.readouterr().out
+    main(['status', '--all', '--private'])
+    table = (folder / 'status.md').read_text()
+    assert table.splitlines()[2] == ('> **Not for publication.** This file holds what was read from private '
+                                     'repositories: Secret.')
+    assert json.loads((folder / 'status.json').read_text())['private_entries_read'] == ['Secret']
+    assert 'not for publication' in capsys.readouterr().out
+
+
 def test_the_command_writes_a_row_for_every_entry(catalog_root, origin, comparison, tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(catalog_root)
     nowhere = (tmp_path / 'not-reachable').as_uri()

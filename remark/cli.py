@@ -276,6 +276,8 @@ def main(argv=None, root=None):
                 rows.append(status.unread_row(mdata))  # it exists; nothing else is said of it
         table, data = status.write(rows, args.output or remark_home / 'status', now())
         print(f'\n{table.read_text()}\nWritten to {table} and {data}')
+        if status.private_entries_read(rows):
+            print('Both files hold what was read from private repositories: they are not for publication.')
         unread = [row['name'] for row in rows if not row['ok']]
         if unread:
             raise SystemExit('status could not read: ' + ', '.join(unread))

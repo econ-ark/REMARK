@@ -304,7 +304,7 @@ kind: comparison
 comparison = "some_package.status:read"
 ```
 
-The table of a private entry is written to this machine only. Publishing it is a separate decision.
+A run that read a private entry says so at the top of `status.md`, in `status.json` (`private_entries_read`) and on the terminal: those files hold what a private repository contains and are not for publication.
 
 ## Advanced Usage
 
