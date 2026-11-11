@@ -11,12 +11,14 @@ from pathlib import Path
 from shutil import rmtree
 from subprocess import CalledProcessError
 
+from remark import status
 from remark.actions import build, execute
 from remark.catalog import load_catalog, KNOWN_KEYS
 from remark.conda import clean_conda
 from remark.docker import clean_docker
 from remark.git import pull_entry
 from remark.lint import lint_repo
+from remark.records import now
 
 
 def add_remark_arg_group(subparser, required=True):
@@ -74,6 +76,11 @@ def make_parser():
     # log
     log_parser = subparsers.add_parser('logs', help='show most recent return codes from previous build/execute attempt')
     add_remark_arg_group(log_parser)
+
+    # status
+    status_parser = subparsers.add_parser('status', help='read every entry at its pin, running nothing, and write a table of what each repository holds')
+    status_parser.add_argument('--output', type=Path, help='folder for status.md and status.json (default: _REMARK/status)')
+    add_remark_arg_group(status_parser)
 
     # clean
     clean_parser = subparsers.add_parser('clean', help='remove build environments')
@@ -258,6 +265,20 @@ def main(argv=None, root=None):
             print(f'{log_type:-^{padding}}')
             for name, rc in logs.items():
                 print(f'{name: <{padding}} = {rc}')
+
+    elif args.action == 'status':
+        available, asked, rows = status.readers(), set(to_do), []
+        for path, mdata in metadata.items():  # in the catalog's order
+            if path in asked:
+                print(f'Reading {path} @ {mdata.local}')
+                rows.append(status.read_entry(mdata, available))
+            elif args.all and mdata.private:
+                rows.append(status.unread_row(mdata))  # it exists; nothing else is said of it
+        table, data = status.write(rows, args.output or remark_home / 'status', now())
+        print(f'\n{table.read_text()}\nWritten to {table} and {data}')
+        unread = [row['name'] for row in rows if not row['ok']]
+        if unread:
+            raise SystemExit('status could not read: ' + ', '.join(unread))
 
     elif args.action == 'clean':
         for path in to_do:
