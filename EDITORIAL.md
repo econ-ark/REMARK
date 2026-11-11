@@ -68,6 +68,9 @@ private: true
   else of the repository is, and the website shows nothing for the entry.
 - `cli.py` leaves such entries out of `--all` unless `--private` is given,
   since most machines cannot reach them.
+- A misspelled key would be read as absent, listing the entry as public. `lint`
+  reports any key the catalog does not define, and the tests that run on a
+  pull request to `REMARKs/` fail on one.
 - When the repository becomes public, remove the line. Nothing else changes.
 - The first version of a new REMARK may live under one account and later move
   to an author's. Update the entry's `remote` when it does; an entry is known

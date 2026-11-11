@@ -7,6 +7,9 @@ from pathlib import Path
 from yaml import safe_load
 
 
+KNOWN_KEYS = ('name', 'remote', 'title', 'tag', 'private')
+
+
 @dataclass
 class Metadata:
     remote: str
@@ -30,6 +33,11 @@ class Metadata:
         """True for an entry marked `private: true`: its repository is not public yet.
         That the entry exists is public; the website shows nothing of it."""
         return self.yaml.get('private', False)
+
+    @property
+    def unknown_keys(self):
+        """The entry's keys that the catalog does not define, such as a misspelled `private`."""
+        return sorted(key for key in self.yaml if key not in KNOWN_KEYS)
 
     def flat(self):
         d = {**self.yaml, **asdict(self)}

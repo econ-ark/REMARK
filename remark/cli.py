@@ -12,7 +12,7 @@ from shutil import rmtree
 from subprocess import CalledProcessError
 
 from remark.actions import build, execute
-from remark.catalog import load_catalog
+from remark.catalog import load_catalog, KNOWN_KEYS
 from remark.conda import clean_conda
 from remark.docker import clean_docker
 from remark.git import pull_entry
@@ -188,6 +188,9 @@ def main(argv=None, root=None):
         for path in to_do:
             mdata = metadata[path]
             messages, warnings = lint_repo(mdata.local, tier=tier, include_optional=args.include_optional)
+            # a misspelled key would be read as absent: `privat: true` would list the entry as public
+            messages = [f'catalog entry has an unknown key `{key}` (known: {", ".join(KNOWN_KEYS)})'
+                        for key in mdata.unknown_keys] + messages
             if messages or warnings:
                 print(f' {path} (Tier {tier}) '.center(50, '-'))
                 print(mdata.local)
