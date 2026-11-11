@@ -19,8 +19,9 @@ from io import StringIO
 from os import environ
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from subprocess import run, PIPE, STDOUT, CalledProcessError
+from subprocess import run, PIPE, STDOUT, DEVNULL, CalledProcessError, CompletedProcess, TimeoutExpired
 from urllib.parse import urlsplit
+from uuid import uuid4
 
 def concrete_path(path):
     p = Path(path)
@@ -113,34 +114,75 @@ def build_docker(local_repo, image_name):
     cmd = ['repo2docker', '--no-run', '--image-name', image_name, local_repo.resolve()]
     return run(cmd, stdout=PIPE, stderr=STDOUT, encoding='utf-8')
 
-def execute_docker(local_repo, image_name, script):
+def image_workdir(image_name):
+    # The image's working directory. repo2docker sets it to the directory it copied the
+    # repository into (its REPO_DIR, the image user's home by default), so mounting the
+    # checkout there lays it exactly where reproduce.sh expects to run.
+    proc = run(
+        ['docker', 'image', 'inspect', '--format', '{{.Config.WorkingDir}}', image_name],
+        stdout=PIPE, stderr=STDOUT, encoding='utf-8'
+    )
+    workdir = proc.stdout.strip() if proc.returncode == 0 else ''
+    # An image with no working directory, or with '/', which cannot be a mount target,
+    # gets the checkout at /remark.
+    return workdir if workdir not in ('', '/') else '/remark'
+
+def conda_prefix(docker_prefix):
     # repo2docker names the Python execution conda environment: "kernel" | "notebook"
     #   kernel is used if the notebook env has incompat libraries or Python version
     #   notebook should be used in other cases.
-    docker_prefix = [
-        'docker', 'run', '-it', '--entrypoint', '',
-        '--mount', f'type=bind,source={local_repo.resolve()},target={getenv("HOME")}',
-        image_name,
-    ]
-
-    envs_list_proc = run(
+    # An image built without conda (from a plain Dockerfile) has neither: run the script
+    # directly rather than fail on `conda env list`.
+    proc = run(
         [*docker_prefix, 'conda', 'env', 'list', '--json'],
-        stdout=PIPE, stderr=STDOUT, encoding='utf-8'
+        stdout=PIPE, stderr=PIPE, stdin=DEVNULL, encoding='utf-8'
     )
-    envs = loads(envs_list_proc.stdout)['envs']
-
-    priority = ['/srv/conda/envs/kernel', '/srv/conda/envs/notebook']
-    for prefix in priority:
+    try:
+        envs = loads(proc.stdout)['envs'] if proc.returncode == 0 else []
+    except (ValueError, KeyError):
+        envs = []
+    for prefix in ['/srv/conda/envs/kernel', '/srv/conda/envs/notebook']:
         if prefix in envs:
-            cmd_prefix = ['conda', 'run', '-p', prefix]
-            break
-    else:
-        cmd_prefix = []
+            return ['conda', 'run', '-p', prefix]
+    return []
 
-    return run(
-        [*docker_prefix, *cmd_prefix, 'bash', script],
-        stdout=PIPE, stderr=STDOUT, encoding='utf-8'
-    )
+THREAD_VARIABLES = ['OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS']
+
+def execute_docker(local_repo, image_name, script, *, network=True, cpus=None,
+                   memory=None, threads=None, timeout=None):
+    # Runs without a terminal (no -i/-t), so it works from CI, cron or a background job:
+    # `docker run -t` refuses to start when stdin is not a terminal. The container is
+    # removed when it ends. The checkout is mounted writable at the image's working
+    # directory; existing reproduce.sh scripts write into their checkout.
+    workdir = image_workdir(image_name)
+    name = f'remark-{local_repo.name.lower()}-{uuid4().hex[:8]}'
+    docker_prefix = [
+        'docker', 'run', '--rm', '--init', '--name', name, '--entrypoint', '',
+        '--mount', f'type=bind,source={local_repo.resolve()},target={workdir}',
+        '--workdir', workdir,
+    ]
+    if not network:
+        docker_prefix += ['--network', 'none']
+    if cpus is not None:
+        docker_prefix += ['--cpus', str(cpus)]
+    if memory is not None:
+        docker_prefix += ['--memory', str(memory)]
+    if threads is not None:
+        for variable in THREAD_VARIABLES:
+            docker_prefix += ['--env', f'{variable}={threads}']
+    docker_prefix.append(image_name)
+
+    cmd = [*docker_prefix, *conda_prefix(docker_prefix), 'bash', script]
+    try:
+        return run(cmd, stdout=PIPE, stderr=STDOUT, stdin=DEVNULL, encoding='utf-8', timeout=timeout)
+    except TimeoutExpired as e:
+        # Stopping the docker client leaves the container running: kill it by name.
+        run(['docker', 'kill', name], stdout=DEVNULL, stderr=DEVNULL)
+        output = e.stdout or ''
+        if isinstance(output, bytes):
+            output = output.decode('utf-8', errors='replace')
+        output += f'\nTIMEOUT: {script} was stopped after {timeout} s\n'
+        return CompletedProcess(cmd, 124, stdout=output)
 
 def clean_docker(image_name):
     cmd = ['docker', 'rmi', '--force', image_name]
@@ -207,6 +249,12 @@ if __name__ == '__main__':
     execute_parser.add_argument('type', choices=['docker', 'conda'],  help='execute within a built docker image or a conda environment')
     execute_parser.add_argument('--jobs', '-J', default=4, type=int, help='number of REMARKs to execute in parallel')
     execute_parser.add_argument('--no-min', action='store_true', help='ignore reproduce_min.sh')
+    caps = execute_parser.add_argument_group('docker only', 'limits on each container; none is set by default')
+    caps.add_argument('--no-network', action='store_true', help='run with no network (docker run --network none)')
+    caps.add_argument('--cpus', type=float, help='CPU limit for each container, such as 2')
+    caps.add_argument('--memory', help='memory limit for each container, such as 8g')
+    caps.add_argument('--threads', type=int, help='set OMP_NUM_THREADS, OPENBLAS_NUM_THREADS and MKL_NUM_THREADS')
+    caps.add_argument('--timeout', type=float, help='stop a REMARK after this many seconds; its return code is then 124')
     add_remark_arg_group(execute_parser)
 
     # log
@@ -394,6 +442,7 @@ if __name__ == '__main__':
                     fut = submitter(path)(build_conda, mdata.local)
                 futures[fut] = (mdata, args.type)
 
+        failed = []
         for comp in as_completed(futures):
             mdata, build_type = futures[comp]
             proc = comp.result()
@@ -409,8 +458,15 @@ if __name__ == '__main__':
             print(f'{remark_name} → {proc.returncode}')
             if args.jobs == 1:
                 print(proc.stdout)
+            if proc.returncode != 0:
+                failed.append(remark_name)
+        if failed:
+            raise SystemExit('build failed for: ' + ', '.join(sorted(failed)))
 
     elif args.action == 'execute':
+        if args.type == 'conda' and (args.no_network or any(
+                v is not None for v in (args.cpus, args.memory, args.threads, args.timeout))):
+            parser.error('--no-network, --cpus, --memory, --threads and --timeout apply to docker only')
         report_dir = remark_home / 'logs' / 'execute'
         report_dir.mkdir(exist_ok=True, parents=True)
         to_execute = metadata.keys() if args.all else args.remark
@@ -435,7 +491,12 @@ if __name__ == '__main__':
                         execute_docker,
                         local_repo=mdata.local,
                         image_name=mdata.image_name,
-                        script=script
+                        script=script,
+                        network=not args.no_network,
+                        cpus=args.cpus,
+                        memory=args.memory,
+                        threads=args.threads,
+                        timeout=args.timeout,
                     )
                 elif args.type == 'conda':
                     fut = submitter(path)(
@@ -446,6 +507,7 @@ if __name__ == '__main__':
                 futures[fut] = (mdata, args.type)
 
 
+        failed = []
         for comp in as_completed(futures):
             mdata, build_type = futures[comp]
             proc = comp.result()
@@ -461,6 +523,10 @@ if __name__ == '__main__':
             print(f'{remark_name} → {proc.returncode}')
             if args.jobs == 1:
                 print(proc.stdout)
+            if proc.returncode != 0:
+                failed.append(remark_name)
+        if failed:
+            raise SystemExit('execute failed for: ' + ', '.join(sorted(failed)))
 
     elif args.action == 'logs':
         results = defaultdict(lambda: defaultdict(dict))
