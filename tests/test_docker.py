@@ -7,9 +7,24 @@ from pathlib import Path
 import pytest
 
 from conftest import docker_available
-from remark.docker import docker_run_prefix, execute_docker, without_tag, THREAD_VARIABLES
+from remark.docker import docker_run_prefix, execute_docker, found_nothing, without_tag, THREAD_VARIABLES
 
 IMAGE = 'bash:5.2'  # small, and has no conda: the script runs directly
+
+
+def test_repo2docker_finding_nothing_is_known_in_both_its_forms():
+    # the ends of two real outputs, given a directory with nothing to build from and no fallback
+    newer = ('Picked Local content provider.\nUsing local repo /tmp/thing.\n'
+             'No environment specification found. See https://repo2docker.readthedocs.io/en/latest/configuration/'
+             ' for supported files.\n')  # 2026.4.0
+    older = ('Picked Local content provider.\nUsing local repo /tmp/thing.\nTraceback (most recent call last):\n'
+             '  File "site-packages/repo2docker/app.py", line 761, in build\n'
+             '    picked_buildpack = self.default_buildpack(\n'
+             "TypeError: 'NoneType' object is not callable\n")  # 2025.8.0, the newest on Python 3.9
+    assert found_nothing(newer) and found_nothing(older)
+    # another failure, and another TypeError, are not this
+    assert not found_nothing('Using PythonBuildPack builder\nERROR: failed to solve: process did not complete\n')
+    assert not found_nothing("TypeError: 'NoneType' object is not callable\n")
 
 
 def test_no_terminal_and_a_name(tmp_path):

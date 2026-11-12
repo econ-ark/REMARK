@@ -14,6 +14,21 @@ THREAD_VARIABLES = ['OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'
 COMMIT_LABEL = 'org.econ-ark.remark.commit'
 ENVIRONMENT_LABEL = 'org.econ-ark.remark.environment'
 NAME_LABEL = 'org.econ-ark.remark.name'
+# repo2docker's words when a directory holds none of the files it builds from and it has
+# been told to build nothing in that case (see build_docker).
+NOTHING_FOUND = 'No environment specification found'
+
+
+def found_nothing(output):
+    """Whether a repo2docker build that was given no fallback stopped because the
+    directory holds none of the files it builds from.
+
+    repo2docker 2026.4.0 says so, in NOTHING_FOUND. 2025.8.0, the newest that runs on
+    Python 3.9, stops at the same place with a TypeError instead, calling the fallback it
+    was not given. Neither makes an image.
+    """
+    return NOTHING_FOUND in output or (
+        'self.default_buildpack(' in output and "'NoneType' object is not callable" in output)
 
 
 def _docker(*args):
@@ -54,7 +69,11 @@ def build_docker(local_repo, image_name, labels=None, *, subdir=None):
     """Build the checkout's image with repo2docker and name it `image_name`. Returns the build's Run.
 
     With `subdir`, repo2docker reads that directory of the checkout alone, and nothing
-    else of the checkout enters the image.
+    else of the checkout enters the image. The directory must hold a file repo2docker
+    builds from (environment.yml, requirements.txt, ...). Where it finds none, repo2docker
+    by default builds a bare Python image all the same, which would then be recorded under
+    the hash of files it never read; here it is told to build nothing instead, so the
+    build fails, and found_nothing() knows its output.
 
     The build always runs. repo2docker skips it whenever an image of the name it is given
     exists, which would leave an image built from an older commit in place; so it is given
@@ -69,7 +88,7 @@ def build_docker(local_repo, image_name, labels=None, *, subdir=None):
     for label, value in {NAME_LABEL: repository, **(labels or {})}.items():
         cmd += ['--label', f'{label}={value}']
     if subdir:
-        cmd += ['--subdir', subdir]
+        cmd += ['--subdir', subdir, '--Repo2Docker.default_buildpack=None']
     result = timed_run([*cmd, local_repo.resolve()])
     if result.returncode == 0:
         named = _docker('tag', scratch, image_name)

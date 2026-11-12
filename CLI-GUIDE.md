@@ -159,6 +159,8 @@ python cli.py execute --environment envs/solver docker REMARKs/BufferStockTheory
 ```
 
 - The directory is built alone: its `Dockerfile` by `docker build` when it has one, else its binder files by repo2docker. Nothing else of the checkout enters the image.
+- Without a `Dockerfile`, the directory must hold a file repo2docker builds from, such as `environment.yml` or `requirements.txt`. It does not read `.python-version`, or a `pyproject.toml` that has no build system; a directory with nothing it reads is refused, and no image or record is made.
+- repo2docker installs from none of `uv.lock`, `poetry.lock`, `pdm.lock` and `pixi.lock`. A directory that holds one of them and no `Dockerfile` is refused before anything is built: its image would not be of the locked versions, though its record would carry the lock's hash. To build from a lock file, give the directory a `Dockerfile` that installs from it. This applies to a directory named with `--environment` only; the REMARK's own environment is built from `binder/` as before, whatever lock the repository's root holds.
 - The image is named `econ-ark/<name>-<directory>:<hash>`, here `econ-ark/bufferstocktheory-envs-solver:<hash>`. Since the name says all the image depends on, a later commit that leaves the directory alone needs no rebuild.
 - The checkout is still mounted at run time, so the script and the code it runs are those of the checkout.
 
