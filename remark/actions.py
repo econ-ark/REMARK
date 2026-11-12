@@ -184,7 +184,7 @@ def build(local_repo, runtime, *, environment=None, name=None, remote=None, tag=
         image = docker.image_id(named) if result.returncode == 0 else None
         if image is None:
             problem = 'the build made no image'
-            if not whole and env['kind'] == 'repo2docker' and docker.NOTHING_FOUND in result.stdout:
+            if not whole and env['kind'] == 'repo2docker' and docker.found_nothing(result.stdout):
                 problem = (f'repo2docker found nothing to build an environment from in {env["path"]}: it reads '
                            'environment.yml, requirements.txt and its other configuration files, and not '
                            '.python-version or a pyproject.toml without a build system. '

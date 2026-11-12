@@ -19,6 +19,18 @@ NAME_LABEL = 'org.econ-ark.remark.name'
 NOTHING_FOUND = 'No environment specification found'
 
 
+def found_nothing(output):
+    """Whether a repo2docker build that was given no fallback stopped because the
+    directory holds none of the files it builds from.
+
+    repo2docker 2026.4.0 says so, in NOTHING_FOUND. 2025.8.0, the newest that runs on
+    Python 3.9, stops at the same place with a TypeError instead, calling the fallback it
+    was not given. Neither makes an image.
+    """
+    return NOTHING_FOUND in output or (
+        'self.default_buildpack(' in output and "'NoneType' object is not callable" in output)
+
+
 def _docker(*args):
     return run(['docker', *args], stdout=PIPE, stderr=STDOUT, stdin=DEVNULL, encoding='utf-8', errors='replace')
 
@@ -61,7 +73,7 @@ def build_docker(local_repo, image_name, labels=None, *, subdir=None):
     builds from (environment.yml, requirements.txt, ...). Where it finds none, repo2docker
     by default builds a bare Python image all the same, which would then be recorded under
     the hash of files it never read; here it is told to build nothing instead, so the
-    build fails with NOTHING_FOUND in its output.
+    build fails, and found_nothing() knows its output.
 
     The build always runs. repo2docker skips it whenever an image of the name it is given
     exists, which would leave an image built from an older commit in place; so it is given
