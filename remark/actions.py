@@ -27,6 +27,10 @@ from remark import conda, docker, records
 from remark.records import RecordError
 
 ENVIRONMENT_DIRECTORIES = ('binder', '.binder')
+# Lock files repo2docker installs from none of (Pipfile.lock is the one it reads, as of
+# 2026.4.0). A directory it built that held one would be recorded under the lock's hash
+# while its image was of whatever versions the day's index gave.
+UNREAD_LOCKS = ('uv.lock', 'poetry.lock', 'pdm.lock', 'pixi.lock')
 
 
 @dataclass
@@ -60,13 +64,26 @@ def environment_spec(local_repo, environment=None):
     With no `environment`, or binder or .binder, it is the repository's own: repo2docker
     on the whole checkout, which it copies into the image (`whole` is True). Any other
     directory is built alone: its Dockerfile when it has one, else its binder files.
+
+    A directory left to repo2docker's own builders is refused when it holds one of
+    UNREAD_LOCKS: the lock would be in the environment's hash and in nothing installed.
+    A Dockerfile, the directory's or its binder folder's, is built as it is written, so
+    what it does with a lock is its author's.
     """
     if environment in (None, '', '.') or str(environment).strip('/') in ENVIRONMENT_DIRECTORIES:
         return environment_path(local_repo), 'repo2docker', True
     path = str(environment).strip('/')
-    if Path(path).is_absolute() or '..' in Path(path).parts or not Path(local_repo, path).is_dir():
+    directory = Path(local_repo, path)
+    if Path(path).is_absolute() or '..' in Path(path).parts or not directory.is_dir():
         raise RecordError(f'{environment} is not a directory of {local_repo}')
-    return path, 'dockerfile' if Path(local_repo, path, 'Dockerfile').is_file() else 'repo2docker', False
+    if (directory / 'Dockerfile').is_file():
+        return path, 'dockerfile', False
+    locks = [lock for lock in UNREAD_LOCKS if (directory / lock).is_file()]
+    if locks and not any((directory / binder / 'Dockerfile').is_file() for binder in ENVIRONMENT_DIRECTORIES):
+        raise RecordError(f'{path} holds {" and ".join(locks)}, which repo2docker does not install from: its image '
+                          'would not be of the locked versions. Give the directory a Dockerfile that installs '
+                          'from the lock')
+    return path, 'repo2docker', False
 
 
 def image_name(base, environment, whole=True):
@@ -144,7 +161,10 @@ def build(local_repo, runtime, *, environment=None, name=None, remote=None, tag=
     Returns an Outcome. Nothing is built, and `problem` says why, when the facts a record
     needs cannot be read: the checkout is not a git repository, git records no file under
     the environment's directory, or docker does not answer. A docker build that fails has
-    no image and so no record; its output is in `stdout`.
+    no image and so no record; its output is in `stdout`. A directory named as an
+    environment in which repo2docker finds nothing to build from fails so, rather than
+    yield a bare image recorded under the hash of files that were never read; one that
+    holds a lock file repo2docker does not install from is not built at all.
     """
     local_repo = Path(local_repo)
     try:
@@ -163,7 +183,13 @@ def build(local_repo, runtime, *, environment=None, name=None, remote=None, tag=
             result = docker.build_docker(local_repo, named, labels, subdir=env['path'])
         image = docker.image_id(named) if result.returncode == 0 else None
         if image is None:
-            return Outcome(result.returncode or 1, result.stdout, problem='the build made no image')
+            problem = 'the build made no image'
+            if not whole and env['kind'] == 'repo2docker' and docker.NOTHING_FOUND in result.stdout:
+                problem = (f'repo2docker found nothing to build an environment from in {env["path"]}: it reads '
+                           'environment.yml, requirements.txt and its other configuration files, and not '
+                           '.python-version or a pyproject.toml without a build system. '
+                           'A Dockerfile in the directory is built as it is written')
+            return Outcome(result.returncode or 1, result.stdout, problem=problem)
         image_block = {'name': named, 'id': image}
     else:
         result, image, image_block = conda.build_conda(local_repo), None, None

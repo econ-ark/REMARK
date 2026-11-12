@@ -82,6 +82,29 @@ def test_an_environment_in_a_directory_of_its_own(tmp_path):
     assert image_name('econ-ark/thing', spec) == 'econ-ark/thing:abcdef012345'
 
 
+def test_a_lock_repo2docker_does_not_install_from_is_refused(tmp_path):
+    locked = tmp_path / 'envs' / 'locked'
+    locked.mkdir(parents=True)
+    (locked / 'requirements.txt').write_text('cowsay\n')
+    assert environment_spec(tmp_path, 'envs/locked') == ('envs/locked', 'repo2docker', False)
+    # repo2docker would install cowsay at whatever version the day gives, and never open the lock
+    (locked / 'uv.lock').write_text('version = 1\n')
+    with pytest.raises(RecordError, match=r'envs/locked holds uv\.lock, which repo2docker does not install from'):
+        environment_spec(tmp_path, 'envs/locked')
+    (locked / 'poetry.lock').write_text('')
+    with pytest.raises(RecordError, match=r'holds uv\.lock and poetry\.lock'):
+        environment_spec(tmp_path, 'envs/locked')
+    # a Dockerfile is built as it is written: what it does with the lock is its author's
+    (locked / 'binder').mkdir()
+    (locked / 'binder' / 'Dockerfile').write_text('FROM scratch\n')
+    assert environment_spec(tmp_path, 'envs/locked') == ('envs/locked', 'repo2docker', False)
+    (locked / 'Dockerfile').write_text('FROM scratch\n')
+    assert environment_spec(tmp_path, 'envs/locked') == ('envs/locked', 'dockerfile', False)
+    # the repository's own environment is the whole checkout's, whose root may well hold a lock
+    (tmp_path / 'uv.lock').write_text('version = 1\n')
+    assert environment_spec(tmp_path) == ('.', 'repo2docker', True)
+
+
 def test_nothing_is_built_or_run_where_the_facts_cannot_be_read(tmp_path, checkout):
     for outcome in (build(tmp_path, 'conda'), execute(tmp_path, 'conda', 'reproduce.sh')):  # not a git repository
         assert outcome.returncode == 1 and outcome.record is None and 'not a git repository' in outcome.problem
@@ -281,6 +304,42 @@ def test_environments_in_directories_of_their_own(checkout, name, tmp_path):
     # clean finds every environment's images under the one name
     clean_docker(name)
     assert image_id(solver.image) is None and image_id(files.image) is None
+
+
+@pytest.mark.docker
+@needs_repo2docker
+def test_a_directory_repo2docker_finds_no_environment_in_is_not_built(checkout, name, tmp_path):
+    # Left to its default, repo2docker builds a bare Python image from such a directory and
+    # exits 0; the record would then carry the hash of files that nothing installed from.
+    folder, unread, locked = tmp_path / 'records', checkout / 'envs' / 'unread', checkout / 'envs' / 'locked'
+    unread.mkdir(parents=True)
+    (unread / 'pyproject.toml').write_text('[project]\nname = "unread"\nversion = "0"\ndependencies = ["cowsay==6.1"]\n')
+    (unread / '.python-version').write_text('3.12.3\n')
+    locked.mkdir()
+    (locked / 'requirements.txt').write_text('cowsay\n')
+    (locked / 'uv.lock').write_text('version = 1\n')
+    commit_all(checkout, 'two environments repo2docker cannot build as they are meant')
+    assert environment_spec(checkout, 'envs/unread') == ('envs/unread', 'repo2docker', False)
+
+    def images(directory):
+        listed = subprocess.run(['docker', 'images', '--quiet', '--filter', f'reference={name}-envs-{directory}'],
+                                capture_output=True, text=True)
+        return listed.stdout.split()
+
+    # nothing repo2docker builds from: repo2docker itself refuses, and there is no image to record
+    built = build(checkout, 'docker', environment='envs/unread', name=name, records_dir=folder)
+    assert built.returncode != 0 and built.image is None and built.record is None, built.stdout
+    assert 'found nothing to build an environment from in envs/unread' in built.problem
+    assert 'Dockerfile' in built.problem and images('unread') == []
+
+    # a lock repo2docker would not install from: nothing is built, or run
+    built = build(checkout, 'docker', environment='envs/locked', name=name, records_dir=folder)
+    assert built.returncode != 0 and built.image is None and built.record is None
+    assert built.problem.startswith('not built: envs/locked holds uv.lock') and images('locked') == []
+    assert 'repo2docker' not in built.stdout.replace(built.problem, '')  # it was never started
+    ran = execute(checkout, 'docker', 'reproduce.sh', environment='envs/locked', name=name, records_dir=folder)
+    assert ran.returncode != 0 and ran.record is None and 'envs/locked holds uv.lock' in ran.problem
+    assert not folder.exists() or list(folder.glob('*.json')) == []
 
 
 @pytest.mark.docker
