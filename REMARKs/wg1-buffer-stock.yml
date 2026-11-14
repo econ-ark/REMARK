@@ -1,0 +1,5 @@
+name: wg1-buffer-stock
+remote: https://github.com/llorracc/wg1-buffer-stock
+title: 'The buffer-stock model: a canonical model of SCE Working Group 1'
+tag: v0.1.0-draft.2
+private: true
