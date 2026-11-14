@@ -179,6 +179,25 @@ that satisfies requirement 3 above.
 
 **Use Case**: Suitable for research that is being submitted for publication or has been published, requiring permanent archival and citation support.
 
+## The `kind` Field
+
+The catalog can list repositories that are not REMARKs. A repository says what kind of thing it is with the optional `kind` field in the front matter of its `REMARK.md`:
+
+```yaml
+---
+kind: canonical-model
+---
+```
+
+- **`remark`** is the kind this document describes: the base requirements and tiers above are what a `remark` must meet. A repository that declares no kind, or has no `REMARK.md`, is a `remark`, so an existing REMARK needs no change.
+- **Any other kind** is defined by the project whose repositories are of that kind, not by this document. That project names the kind and provides the reader that reports on such a repository.
+
+**What the field changes:** only how the catalog's status table reports on the repository. A `remark`'s row gives the highest tier it meets; a row of another kind gives what that kind's reader found. If no reader for a declared kind is installed, the row says so. See the [Status Table](CLI-GUIDE.md#status-table) section of the CLI guide for how a project provides a reader.
+
+**What it does not change:** the `kind` field belongs in the repository's `REMARK.md`, not in its catalog entry, and the `pull`, `lint`, `build` and `execute` commands treat an entry the same way whatever its kind.
+
+**Naming a kind:** the name is matched exactly, capital letters included. Use lowercase words joined by hyphens, as in `canonical-model`.
+
 ## Submitting a REMARK
 
 ### What you do
