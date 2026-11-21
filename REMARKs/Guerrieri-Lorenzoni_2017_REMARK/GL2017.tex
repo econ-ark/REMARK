@@ -1,0 +1,25 @@
+\input{./econtexRoot}\input{\econtexRoot/econtexPaths}\documentclass[titlepage]{\econtex}\providecommand{\texname}{GL2017}% Indicate the keyname for the bibtex entry corresponding to this paper
+
+\usepackage{\econtexRoot/GL2017}
+
+\begin{document}
+
+\renewcommand{\onlyinsubfile}[1]{}
+\renewcommand{\notinsubfile}[1]{#1}
+
+\subfile{GL2017-NoAppendix}
+
+\hypertarget{Appendices}{}
+\appendix \centerline{\LARGE Appendices}\vspace{0.2in}
+	\subfile{\ApndxDir/Apndx}
+
+
+\clearpage\vfill\eject
+
+\normalsize
+
+\bibliography{GL2017}
+
+\end{document}
+
+

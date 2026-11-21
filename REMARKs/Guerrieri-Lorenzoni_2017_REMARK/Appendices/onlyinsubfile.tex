@@ -1,0 +1,12 @@
+\onlyinsubfile{% https://tex.stackexchange.com/questions/463699/proper-reference-numbers-with-subfiles
+    \csname @ifpackageloaded\endcsname{xr-hyper}{%
+      \externaldocument{\econtexRoot/CGMPort}% xr-hyper in use; optional 
+      %argument for url of main.pdf for hyperlinks
+    }{%
+      \externaldocument{main}% xr in use
+    }%
+    \renewcommand\labelprefix{}%
+    % Initialize the counters via the labels belonging to the main document:
+    \setcounter{equation}{\numexpr\getrefnumber{\labelprefix eq:AAgg}\relax}% eq:AAgg is the last numbered equation in the main text; start counting up from there
+}
+
