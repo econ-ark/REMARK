@@ -274,6 +274,24 @@ The format is `remark/schemas/execution-record.schema.json`, and a record that d
 
 A second `execute` starts from a checkout the first one wrote into, so its record says `dirty`; for a run of record, start from a fresh clone (`clean repo`, then `pull`).
 
+## Catalog Remotes
+
+econ-ark.org's daily build clones the repository of every entry not marked private, without credentials, and fails if one cannot be read. One command checks that in advance:
+
+```bash
+python cli.py remotes --all
+python cli.py remotes REMARKs/BufferStockTheory.yml
+```
+
+**What it does:**
+
+- Reads each entry's remote with `git ls-remote`, as someone without credentials would: no global or system git configuration (so no credential helper and no url rewriting) and no prompt for a username. A repository this machine can read only because you are logged in fails, as it would for the site.
+- Checks that the remote holds the tag the entry pins, which `pull` needs.
+- Never reads an entry marked private, even when it is named; `--all` leaves those out and names them.
+- Exits non-zero, naming the entries, when a remote cannot be read or lacks its tag.
+
+The workflow `Catalog remotes` runs it on every pull request that touches `REMARKs/`, over every public entry, since the site's build fails on any of them.
+
 ## Status Table
 
 One command reads every entry and writes a table of what each repository holds. Nothing is run, and nothing in the table is kept by hand:

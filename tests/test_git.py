@@ -1,4 +1,5 @@
-"""pull checks out the catalogued tag, on a fresh clone and on an existing one (#188)."""
+"""pull checks out the catalogued tag, on a fresh clone and on an existing one (#188);
+read_remote reads a remote as someone without credentials would."""
 
 import subprocess
 
@@ -6,7 +7,7 @@ import pytest
 
 from conftest import commit_of, git
 from remark.catalog import load_catalog
-from remark.git import pull_entry
+from remark.git import pull_entry, read_remote
 
 
 def entries(catalog_root):
@@ -62,3 +63,44 @@ def test_a_missing_tag_raises(catalog_root):
     pinned.yaml['tag'] = 'v9.9.9'
     with pytest.raises(subprocess.CalledProcessError):
         pull_entry(pinned)
+
+
+# read_remote: what someone without credentials finds at an entry's remote
+
+def test_a_readable_remote_with_its_tag_passes(origin):
+    assert read_remote(origin.as_uri(), tag='v1.0.0') is None
+    assert read_remote(origin.as_uri()) is None
+
+
+def test_a_missing_tag_is_named(origin):
+    assert read_remote(origin.as_uri(), tag='v9.9.9') == f'{origin.as_uri()} has no tag v9.9.9'
+
+
+def test_an_unreadable_remote_is_named(tmp_path):
+    nowhere = (tmp_path / 'not-a-repository').as_uri()
+    problem = read_remote(nowhere)
+    assert problem.startswith(f'{nowhere} cannot be read without credentials: ')
+
+
+def test_an_option_is_not_taken_for_a_remote(tmp_path):
+    # from a pull request's catalog entry, this would have git run a command
+    marker = tmp_path / 'ran'
+    assert read_remote(f'--upload-pack=touch {marker}') == f"'--upload-pack=touch {marker}' is not a remote"
+    assert not marker.exists()
+
+
+def test_the_readers_own_git_configuration_is_ignored(origin, tmp_path, monkeypatch):
+    # A url rewrite in the global configuration makes an address that does not exist read
+    # as `origin`, just as a stored token makes a private repository read as public.
+    fake = (tmp_path / 'not-a-repository').as_uri()
+    config = tmp_path / 'gitconfig'
+    config.write_text(f'[url "{origin.as_uri()}"]\n\tinsteadOf = {fake}\n')
+    monkeypatch.setenv('GIT_CONFIG_GLOBAL', str(config))
+    assert subprocess.run(['git', 'ls-remote', fake], capture_output=True).returncode == 0
+    assert read_remote(fake) is not None
+
+
+def test_a_command_running_transport_is_refused(tmp_path):
+    marker = tmp_path / 'ran'
+    assert read_remote(f'ext::touch {marker}') is not None
+    assert not marker.exists()

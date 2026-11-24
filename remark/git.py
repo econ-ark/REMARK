@@ -1,7 +1,50 @@
-"""Cloning and updating a catalog entry's repository at its catalogued tag."""
+"""Cloning and updating a catalog entry's repository at its catalogued tag, and reading
+its remote as someone without credentials would."""
 
+import os
 from pathlib import Path
-from subprocess import run
+from subprocess import TimeoutExpired, run
+from tempfile import TemporaryDirectory
+
+
+# git as a stranger runs it: no global or system configuration (so no credential helper, no
+# stored token and no url rewriting), no prompt for a username, ssh without a passphrase
+# prompt, and none of the transports that run a command (`ext::`, `fd::`).
+ANONYMOUS_GIT = {
+    'GIT_CONFIG_GLOBAL': os.devnull,
+    'GIT_CONFIG_NOSYSTEM': '1',
+    'GIT_TERMINAL_PROMPT': '0',
+    'GIT_SSH_COMMAND': 'ssh -o BatchMode=yes',
+    'GIT_ALLOW_PROTOCOL': 'https:http:git:ssh:file',
+}
+
+
+def read_remote(remote, *, tag=None, timeout=60):
+    """What someone without credentials finds at `remote`: None when it can be read and holds
+    `tag` (if one is given), or else a line saying what is wrong.
+
+    econ-ark.org's build clones every catalog entry not marked private this way, at its
+    default branch, and fails if one cannot be read; `pull` also needs the tag. One
+    `git ls-remote` answers both, without downloading the repository.
+    """
+    if remote.startswith('-'):
+        return f'{remote!r} is not a remote'  # git would read it as an option
+    patterns = ['HEAD'] + ([f'refs/tags/{tag}'] if tag else [])
+    # run outside any repository, so that no repository's configuration applies either
+    with TemporaryDirectory() as nowhere:
+        try:
+            result = run(['git', 'ls-remote', remote, *patterns], cwd=nowhere,
+                         env={**os.environ, **ANONYMOUS_GIT}, capture_output=True, text=True, timeout=timeout)
+        except TimeoutExpired:
+            return f'no answer from {remote} in {timeout} s'
+    if result.returncode != 0:
+        lines = result.stderr.strip().splitlines()
+        return (f'{remote} cannot be read without credentials: '
+                + (lines[-1] if lines else f'git ls-remote exited {result.returncode}'))
+    refs = {line.split('\t', 1)[1] for line in result.stdout.splitlines() if '\t' in line}
+    if tag and f'refs/tags/{tag}' not in refs:
+        return f'{remote} has no tag {tag}'
+    return None
 
 
 def git_exists(local_repo_path):
