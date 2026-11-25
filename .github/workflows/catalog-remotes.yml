@@ -1,0 +1,28 @@
+name: Catalog remotes
+
+# econ-ark.org's daily build clones the repository of every catalog entry not marked private,
+# without credentials, and fails if one cannot be read. So on a pull request that touches the
+# catalog, read every such entry's remote the same way, and check that it holds the tag the
+# entry pins, which `pull` needs. All entries, not only the changed ones: the site's build
+# fails on any of them. Apart from Tests, so that a repository elsewhere going away does not
+# fail the package's own tests.
+on:
+  pull_request:
+    paths: ['REMARKs/**', 'remark/git.py', 'remark/cli.py', 'remark/catalog.py', '.github/workflows/catalog-remotes.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remotes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install .
+      - run: python cli.py remotes --all

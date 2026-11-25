@@ -1,4 +1,4 @@
-"""The command line: pull, lint, build, execute, logs and clean over the catalog.
+"""The command line: pull, lint, build, execute, logs, status, remotes and clean over the catalog.
 
 Run from a REMARK checkout as `python cli.py <action> ...`, or as `remark <action> ...`
 once the package is installed (from the checkout's root, or with --root).
@@ -16,7 +16,7 @@ from remark.actions import build, execute
 from remark.catalog import load_catalog, KNOWN_KEYS
 from remark.conda import clean_conda
 from remark.docker import clean_docker
-from remark.git import pull_entry
+from remark.git import pull_entry, read_remote
 from remark.lint import lint_repo
 from remark.records import now
 
@@ -81,6 +81,11 @@ def make_parser():
     status_parser = subparsers.add_parser('status', help='read every entry at its pin, running nothing, and write a table of what each repository holds')
     status_parser.add_argument('--output', type=Path, help='folder for status.md and status.json (default: _REMARK/status)')
     add_remark_arg_group(status_parser)
+
+    # remotes
+    remotes_parser = subparsers.add_parser('remotes', help="check, without credentials, that each entry's remote can be read and holds its tag, as econ-ark.org's build needs")
+    remotes_parser.add_argument('--jobs', '-J', default=8, type=int, help='number of remotes to read at once')
+    add_remark_arg_group(remotes_parser)
 
     # clean
     clean_parser = subparsers.add_parser('clean', help='remove build environments')
@@ -281,6 +286,25 @@ def main(argv=None, root=None):
         unread = [row['name'] for row in rows if not row['ok']]
         if unread:
             raise SystemExit('status could not read: ' + ', '.join(unread))
+
+    elif args.action == 'remotes':
+        # econ-ark.org reads no private entry, and its repository is not meant to be readable
+        skipped = [path for path in to_do if metadata[path].private]
+        for path in skipped:
+            print(f'➖ {path}: marked private, not checked')
+        items = [(path, metadata[path]) for path in to_do if path not in skipped]
+        problems = {}
+        if items:
+            with ThreadPoolExecutor(max(1, min(len(items), args.jobs))) as pool:
+                found = pool.map(lambda item: read_remote(item[1].remote, tag=item[1].tag), items)
+                for (path, mdata), problem in zip(items, found):  # in the catalog's order
+                    if problem:
+                        print(f'❌ {path}: {problem}')
+                        problems[path] = problem
+                    else:
+                        print(f'✅ {path}: readable without credentials' + (f', tag {mdata.tag}' if mdata.tag else ''))
+        if problems:
+            raise SystemExit('remotes failed for: ' + ', '.join(map(str, problems)))
 
     elif args.action == 'clean':
         for path in to_do:

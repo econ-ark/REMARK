@@ -76,6 +76,29 @@ def test_lint_names_a_misspelled_key(catalog_root, origin, monkeypatch, capsys):
     assert 'catalog entry has an unknown key `privat`' in capsys.readouterr().out
 
 
+def test_remotes_reads_every_public_entry_and_names_what_fails(catalog_root, origin, tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(catalog_root)
+    nowhere = (tmp_path / 'not-reachable').as_uri()
+    (catalog_root / 'REMARKs' / 'Hidden.yml').write_text(f'name: Hidden\nremote: {nowhere}\ntitle: Hidden\nprivate: true\n')
+    main(['remotes', '--all'])  # both public entries readable, Pinned's tag there; Hidden never read
+    out = capsys.readouterr().out
+    assert '✅ REMARKs/Pinned.yml: readable without credentials, tag v1.0.0' in out
+    assert '✅ REMARKs/Untagged.yml: readable without credentials' in out
+    assert 'Hidden' in out and 'not-reachable' not in out
+    # a private entry asked for by name is still not read: it is not meant to be readable
+    main(['remotes', 'REMARKs/Hidden.yml'])
+    assert '➖ REMARKs/Hidden.yml: marked private, not checked' in capsys.readouterr().out
+    entry = catalog_root / 'REMARKs' / 'Pinned.yml'
+    entry.write_text(entry.read_text().replace('v1.0.0', 'v9.9.9'))
+    (catalog_root / 'REMARKs' / 'Gone.yml').write_text(f'name: Gone\nremote: {nowhere}\ntitle: Gone\n')
+    with pytest.raises(SystemExit) as e:
+        main(['remotes', '--all'])
+    assert str(e.value.code) == 'remotes failed for: REMARKs/Gone.yml, REMARKs/Pinned.yml'
+    out = capsys.readouterr().out
+    assert f'❌ REMARKs/Gone.yml: {nowhere} cannot be read without credentials' in out
+    assert f'❌ REMARKs/Pinned.yml: {origin.as_uri()} has no tag v9.9.9' in out
+
+
 def test_the_catalog_in_this_repository():
     # every entry of the real catalog: only the keys the catalog defines, an https remote, a title
     entries = load_catalog(REPO, REPO / '_REMARK' / 'repos')
